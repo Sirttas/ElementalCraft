@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.rune.handler;
 
 import net.minecraft.core.Holder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class RuneHandler implements IRuneHandler {
 
 	private final int max;
-	private final List<Holder<Rune>> runes;
+	private final List<Holder<@NotNull Rune>> runes;
 	private final Map<BonusType, Float> bonuses;
 
 	private final Runnable onChange;
@@ -30,7 +31,7 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public void addRune(Holder<Rune> rune) {
+	public void addRune(Holder<@NotNull Rune> rune) {
 		if (runes.size() < max) {
 			runes.add(rune);
 			rune.value().getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) + value));
@@ -41,7 +42,7 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public void removeRune(Holder<Rune> rune) {
+	public void removeRune(Holder<@NotNull Rune> rune) {
 		if (runes.contains(rune)) {
 			runes.remove(rune);
 			rune.value().getBonuses().forEach((bonus, value) -> bonuses.put(bonus, getBonus(bonus) - value));
@@ -57,7 +58,7 @@ public class RuneHandler implements IRuneHandler {
 	}
 
 	@Override
-	public List<Holder<Rune>> getRunes() {
+	public List<Holder<@NotNull Rune>> getRunes() {
 		return runes.stream().filter(Objects::nonNull).toList();
 	}
 

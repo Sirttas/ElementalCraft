@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -385,6 +386,10 @@ public class ECRendererHelper {
 
     public static void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockEntity te, int light, int overlay) {
         renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
+    }
+
+    public static void submitModel(@NotNull BlockStateModel model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
+        nodeCollector.submitCustomGeometry(poseStack, RenderTypes.solidMovingBlock(), (pose, consumer) -> ModelBlockRenderer.renderModel(pose, consumer, model, 1, 1, 1, lightCoords, OverlayTexture.NO_OVERLAY));
     }
 
     public static ModelData getModelData(BakedModel model, BlockEntity te) {

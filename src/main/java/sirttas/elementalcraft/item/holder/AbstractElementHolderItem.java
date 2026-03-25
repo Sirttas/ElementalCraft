@@ -7,7 +7,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -56,8 +56,8 @@ public abstract class AbstractElementHolderItem extends Item {
 
 	@Nonnull
     @Override
-	public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
-		return UseAnim.BOW;
+	public ItemUseAnimation getUseAnimation(@Nonnull ItemStack stack) {
+		return ItemUseAnimation.BOW;
 	}
 
 	protected boolean isValidSource(BlockState state) {

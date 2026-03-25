@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<T> {
+public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<T, ShrineRenderState> {
 
 	@Override
 	public void render(T shrine, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {

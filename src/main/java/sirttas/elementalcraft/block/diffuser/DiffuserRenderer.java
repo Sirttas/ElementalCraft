@@ -3,13 +3,10 @@ package sirttas.elementalcraft.block.diffuser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Util;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -54,7 +51,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
         poseStack.mulPose(Axis.YP.rotationDegrees(angle));
         poseStack.mulPose(ROTATION);
         poseStack.translate(-3D / 16, -3D / 16, -3D / 16);
-        nodeCollector.submitCustomGeometry(poseStack, RenderTypes.solidMovingBlock(), (pose, consumer) -> ModelBlockRenderer.renderModel(pose, consumer, cubeModel, 1, 1, 1, renderState.lightCoords, OverlayTexture.NO_OVERLAY));
+        ECRendererHelper.submitModel(cubeModel, poseStack, nodeCollector, renderState.lightCoords);
         poseStack.popPose();
     }
 }

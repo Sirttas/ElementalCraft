@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.pureinfuser;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
@@ -20,10 +21,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfuserBlockEntity> {
+public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfuserBlockEntity, PureInfuserRenderState> {
 
-	public PureInfuserRenderer() {
-		super(new Vec3(0.5, 0.9, 0.5));
+	public PureInfuserRenderer(BlockEntityRendererProvider.Context context) {
+		super(context, new Vec3(0.5, 0.9, 0.5));
 	}
 
 	@Override
