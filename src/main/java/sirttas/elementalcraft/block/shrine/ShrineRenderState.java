@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.shrine;
 
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.core.Direction;
 import sirttas.elementalcraft.renderer.state.GhostBlockRenderState;
 import sirttas.elementalcraft.renderer.state.RangeRenderState;
@@ -9,15 +9,15 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class ShrineRenderState {
+public class ShrineRenderState extends BlockEntityRenderState {
 
-    private final RangeRenderState range;
-    private final Map<Direction, GhostBlockRenderState> ghostUpgrades;
+    public final RangeRenderState range;
+    public final Map<Direction, GhostBlockRenderState> ghostUpgrades;
 
-    protected ShrineRenderState(BlockRenderDispatcher blockRenderDispatcher) {
+    protected ShrineRenderState() {
         this.range = new RangeRenderState();
         ghostUpgrades = new EnumMap<>(Direction.class);
 
-        Arrays.stream(Direction.values()).forEach(direction -> ghostUpgrades.put(direction, new GhostBlockRenderState(blockRenderDispatcher)));
+        Arrays.stream(Direction.values()).forEach(direction -> ghostUpgrades.put(direction, new GhostBlockRenderState()));
     }
 }

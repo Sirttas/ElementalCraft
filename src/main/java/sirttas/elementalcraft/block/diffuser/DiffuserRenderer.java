@@ -3,24 +3,26 @@ package sirttas.elementalcraft.block.diffuser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Util;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
-import sirttas.elementalcraft.client.model.ECModelHelper;
+import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
 	
-	public static final StandaloneModelKey<@NotNull BlockModelPart> CUBE_LOCATION = ECModelHelper.createStandaloneKey("diffuser_cube");
-	
+	public static final SimpleStandaloneModelSupplier CUBE = new SimpleStandaloneModelSupplier("diffuser_cube");
+
 	private static final Quaternionf ROTATION = Util.make(() -> {
         var axis = Axis.XP.rotationDegrees(45);
 
@@ -31,12 +33,24 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
 	private final BlockStateModel cubeModel;
 
     public DiffuserRenderer() {
-        cubeModel = ECModelHelper.loadStandaloneModel(CUBE_LOCATION);
+        cubeModel = CUBE.loadModel();
     }
 
     @Override
     public DiffuserRenderState createRenderState() {
         return new DiffuserRenderState();
+    }
+
+    @Override
+    public void extractRenderState(DiffuserBlockEntity blockEntity, DiffuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.partialTick = partialTick;
+        renderState.runes.update(blockEntity.getRuneHandler(), partialTick);
+        if (blockEntity.showsRange()) {
+            renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
+        } else {
+            renderState.range.clear();
+        }
     }
 
     @Override

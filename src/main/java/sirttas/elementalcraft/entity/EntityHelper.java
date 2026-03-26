@@ -2,12 +2,12 @@ package sirttas.elementalcraft.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -53,7 +53,7 @@ public class EntityHelper {
 		Vec3 rayVector = eyePos.add(look.x * range, look.y * range, look.z * range);
 		BlockHitResult blockResult = entity.level().clip(new ClipContext(eyePos, rayVector, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
 		EntityHitResult entityResult = ProjectileUtil.getEntityHitResult(entity.level(), entity, eyePos, rayVector,
-				entity.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0D, 1.0D, 1.0D), e -> !e.isSpectator() && e.isPickable());
+				entity.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0D, 1.0D, 1.0D), e -> !e.isSpectator() && e.isPickable(), ProjectileUtil.computeMargin(entity));
 
 		return entityResult != null && entityResult.getLocation().subtract(eyePos).length() <= blockResult.getLocation().subtract(eyePos).length() ? entityResult : blockResult;
 	}
@@ -63,22 +63,22 @@ public class EntityHelper {
 	}
 
 	public static boolean spawnMob(ServerLevel level, BlockPos pos) {
-		return WeightedRandomList.create(level.getChunkSource().getGenerator().getMobsAt(level.getBiome(pos), level.structureManager(), MobCategory.MONSTER, pos)
+		return WeightedList.of(level.getChunkSource().getGenerator().getMobsAt(level.getBiome(pos), level.structureManager(), MobCategory.MONSTER, pos)
 						.unwrap().stream()
-						.filter(data -> canSpawn(level, pos, data))
+						.filter(data -> canSpawn(level, pos, data.value()))
 						.toList())
-				.getRandom(level.random)
+				.getRandom(level.getRandom())
 				.map(data -> doSpawn(level, pos, data))
 				.orElse(false);
 	}
 
 	private static boolean doSpawn(ServerLevel level, BlockPos pos, MobSpawnSettings.SpawnerData data) {
-		var entity = data.type.create(level);
+		var entity = data.type().create(level, EntitySpawnReason.SPAWNER);
 
 		if (entity instanceof Mob mob) {
-			mob.moveTo(pos.getX(), pos.getY(), pos.getZ(), level.random.nextFloat() * 360.0F, 0.0F);
+			mob.snapTo(pos.getX(), pos.getY(), pos.getZ(), level.getRandom().nextFloat() * 360.0F, 0.0F);
 
-			EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null);
+			EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.SPAWNER, null);
 			level.addFreshEntityWithPassengers(mob);
 			mob.spawnAnim();
 			return true;
@@ -87,14 +87,14 @@ public class EntityHelper {
 	}
 
 	private static boolean canSpawn(ServerLevel level, BlockPos pos, MobSpawnSettings.SpawnerData data) {
-		var entityType = data.type;
+		var entityType = data.type();
 
 		if (entityType.canSummon()) {
 			var placementType = SpawnPlacements.getPlacementType(entityType);
 
 			if (!placementType.isSpawnPositionOk(level, pos, entityType)) {
 				return false;
-			} else if (!SpawnPlacements.checkSpawnRules(entityType, level, MobSpawnType.SPAWNER, pos, level.random)) {
+			} else if (!SpawnPlacements.checkSpawnRules(entityType, level, EntitySpawnReason.SPAWNER, pos, level.getRandom())) {
 				return false;
 			} else {
 				return level.noCollision(entityType.getSpawnAABB(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D));

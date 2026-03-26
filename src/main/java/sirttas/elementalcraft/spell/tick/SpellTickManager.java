@@ -2,7 +2,7 @@ package sirttas.elementalcraft.spell.tick;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SpellTickManager implements ISpellTickManager, INBTSerializable<CompoundTag> {
+public class SpellTickManager implements ISpellTickManager, ValueIOSerializable {
 
     private long tick;
     private final List<AbstractSpellInstance> spellInstances;

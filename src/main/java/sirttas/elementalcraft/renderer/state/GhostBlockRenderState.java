@@ -1,48 +1,44 @@
 package sirttas.elementalcraft.renderer.state;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.renderer.ECRenderTypes;
 
-import java.util.List;
-
 public class GhostBlockRenderState {
+    public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
 
-    private final BlockRenderDispatcher blockRenderer;
-    private final List<BlockModelPart> parts;
+    private final BlockModelRenderState renderState;
     private BlockPos pos;
     private BlockState blockState;
-    private BlockAndTintGetter level;
+    private BlockGetter level;
 
-    public GhostBlockRenderState(BlockRenderDispatcher blockRenderer) {
-        this.blockRenderer = blockRenderer;
+    public GhostBlockRenderState() {
         this.pos = BlockPos.ZERO;
         this.blockState = Blocks.AIR.defaultBlockState();
         this.level = null;
-        this.parts  = new ObjectArrayList<>();
+        this.renderState = new BlockModelRenderState();
     }
 
-    public void update(BlockAndTintGetter level, BlockState blockState, BlockPos pos, RandomSource randomSource) {
+    public void update(BlockModelResolver resolver, BlockGetter level, BlockState blockState, BlockPos pos) {
         this.level = level;
         this.blockState = blockState;
         this.pos = pos;
-
-        this.parts.clear();
-        blockRenderer.getBlockModel(blockState).collectParts(level, pos, blockState, randomSource, parts);
+        resolver.update(renderState, blockState, BLOCK_DISPLAY_CONTEXT);
+        renderState.renderType = ECRenderTypes.GHOST;
     }
 
     public void clear() {
         this.blockState = Blocks.AIR.defaultBlockState();
-        this.parts.clear();
+        this.renderState.clear();
     }
 
     public boolean isOccupied() {
@@ -52,13 +48,13 @@ public class GhostBlockRenderState {
         return !level.getBlockState(pos).isAir();
     }
 
-    public void submit(@NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector) {
-        if (isOccupied() || blockState.isAir() || parts.isEmpty()) {
+    public void submit(@NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
+        if (isOccupied() || blockState.isAir() || renderState.isEmpty()) {
             return;
         }
 
         poseStack.pushPose();
-        nodeCollector.submitCustomGeometry(poseStack, ECRenderTypes.GHOST, (pose, consumer) -> blockRenderer.renderBatched(blockState, pos, level, poseStack, t -> consumer, false, parts));
+        renderState.submit(poseStack, nodeCollector, lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
     }
 }

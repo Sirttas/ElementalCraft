@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
-import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;

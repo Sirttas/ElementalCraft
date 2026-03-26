@@ -6,10 +6,11 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
@@ -96,23 +97,23 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 		return ItemStack.EMPTY;
 	}
 
-	@Override
-	public void clicked(int slotId, int dragType, @Nonnull ClickType clickType, @Nonnull Player player) {
-		Slot slot = slotId >= 0 ? this.slots.get(slotId) : null;
+    @Override
+    public void clicked(int slotIndex, int buttonNum, @NotNull ContainerInput containerInput, @NotNull Player player) {
+		Slot slot = slotIndex >= 0 ? this.slots.get(slotIndex) : null;
 
 		if (slot == null || !slot.getItem().is(ECItems.SPELL_BOOK.get())) {
-			if (slotId < 0 || slotId >= SLOT_COUNT || clickType == ClickType.THROW || clickType == ClickType.QUICK_MOVE || clickType == ClickType.PICKUP_ALL) {
-				super.clicked(slotId, dragType, clickType, player);
-			} else if (clickType == ClickType.CLONE && player.getAbilities().instabuild && getCarried().isEmpty()) {
-				if (slot != null && slot.hasItem()) {
+			if (slotIndex < 0 || slotIndex >= SLOT_COUNT || containerInput == ContainerInput.THROW || containerInput == ContainerInput.QUICK_MOVE || containerInput == ContainerInput.PICKUP_ALL) {
+				super.clicked(slotIndex, buttonNum, containerInput, player);
+			} else if (containerInput == ContainerInput.CLONE && player.getAbilities().instabuild && getCarried().isEmpty()) {
+				if (slot.hasItem()) {
 					ItemStack scroll = slot.getItem().copy();
 
 					scroll.setCount(1);
 					setCarried(scroll);
 				}
-			} else if (clickType == ClickType.PICKUP) {
+			} else if (containerInput == ContainerInput.PICKUP) {
 				if (getCarried().isEmpty()) {
-					if (slot != null && slot.hasItem()) {
+					if (slot.hasItem()) {
 						ItemStack stack = slot.getItem();
 						ItemStack scroll = stack.copy();
 

@@ -1,11 +1,12 @@
 package sirttas.elementalcraft.block.container;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.gui.GuiHelper;
@@ -70,7 +71,7 @@ public class ElementContainerBlockItem extends BlockItem {
         }
 
         @Override
-        public int getHeight() {
+        public int getHeight(@NotNull Font font) {
             return 18;
         }
 
@@ -80,8 +81,8 @@ public class ElementContainerBlockItem extends BlockItem {
         }
 
         @Override
-        public void renderImage(@Nonnull Font font, int x, int y, @Nonnull GuiGraphics guiGraphics) {
-            GuiHelper.renderElementGauge(guiGraphics, font, x, y, amount, capacity, elementType, false);
+        public void extractImage(@NotNull Font font, int x, int y, int w, int h, @NotNull GuiGraphicsExtractor graphics) {
+            GuiHelper.renderElementGauge(graphics, font, x, y, amount, capacity, elementType, false);
         }
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;

@@ -1,19 +1,19 @@
 package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@Deprecated
 public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEntity implements IContainerBlockEntity {
 
 	protected AbstractECContainerBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, BlockPos pos, BlockState state) {
@@ -21,22 +21,22 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 	}
 
 	@Override
-	protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
+	protected void loadAdditional(@Nonnull ValueInput valueInput) {
+		super.loadAdditional(valueInput);
 		Container inv = getInventory();
 
-		if (inv instanceof INBTSerializable nbtInv && compound.contains(ECNames.INVENTORY)) {
-			nbtInv.deserializeNBT(provider, compound.get(ECNames.INVENTORY));
+		if (inv instanceof ValueIOSerializable valueIOSerializable) {
+            valueInput.child(ECNames.INVENTORY).ifPresent(valueIOSerializable::deserialize);
 		}
 	}
 
 	@Override
-	protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
+	protected void saveAdditional(@Nonnull ValueOutput valueOutput) {
+		super.saveAdditional(valueOutput);
 		Container inv = getInventory();
 
-		if (inv instanceof INBTSerializable<?> nbtInv) {
-			compound.put(ECNames.INVENTORY, nbtInv.serializeNBT(provider));
+		if (inv instanceof ValueIOSerializable valueIOSerializable) {
+            valueIOSerializable.serialize(valueOutput.child(ECNames.INVENTORY));
 		}
 	}
 }

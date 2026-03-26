@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.client.model;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -9,7 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import org.apache.commons.lang3.StringUtils;
+import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
@@ -31,7 +30,7 @@ import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import java.util.function.Consumer;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECModelHandler {
 
     private ECModelHandler() { }
@@ -45,8 +44,7 @@ public class ECModelHandler {
 
 
     @SubscribeEvent
-    public static void registerModels(ModelEvent.RegisterAdditional event) {
-        var addModel = addModel(event::register);
+    public static void registerModels(ModelEvent.RegisterStandalone event) {
 
         registerRuneModels(addModel);
         registerBuddingShrinePlatesModels(addModel);
@@ -60,7 +58,7 @@ public class ECModelHandler {
         event.register(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION);
         event.register(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION);
         event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
-        event.register(DiffuserRenderer.CUBE_LOCATION);
+        register(event, DiffuserRenderer.CUBE);
         event.register(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
         event.register(VortexShrineUpgradeRenderer.RING_LOCATION);
         event.register(TranslocationShrineUpgradeRenderer.RING_LOCATION);
@@ -95,16 +93,9 @@ public class ECModelHandler {
         Minecraft.getInstance().getResourceManager().listResources("models/" + folder, fileName -> fileName.getPath().endsWith(".json")).keySet().forEach(addModel);
     }
 
-    private static Consumer<Identifier> addModel(Consumer<ModelIdentifier> consumer) {
-        return m -> {
-            var path = StringUtils.removeStart(StringUtils.removeEnd(m.getPath(), ".json"), "models/");
+    private static void register(ModelEvent.RegisterStandalone event, SimpleStandaloneModelSupplier supplier) {
+       event.register(supplier.key(), SimpleUnbakedStandaloneModel.blockStateModel(supplier.identifier()));
 
-            if (path.startsWith("item/")) {
-                consumer.accept(ModelIdentifier.inventory(Identifier.fromNamespaceAndPath(m.getNamespace(), StringUtils.removeStart(path, "item/"))));
-            } else {
-                consumer.accept(ModelIdentifier.standalone(Identifier.fromNamespaceAndPath(m.getNamespace(), path)));
-            }
-        };
     }
 
     @SubscribeEvent

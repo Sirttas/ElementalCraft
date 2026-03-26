@@ -9,7 +9,6 @@ import net.minecraft.client.resources.model.ModelManager;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
-import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;

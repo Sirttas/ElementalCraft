@@ -3,11 +3,11 @@ package sirttas.elementalcraft.block.container;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
@@ -21,15 +21,15 @@ import java.util.List;
 
 public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull ContainerRenderState> {
 
-    private final BlockRenderDispatcher blockRenderDispatcher;
+    private final BlockModelResolver blockModelResolver;
 
     public ContainerRenderer(BlockEntityRendererProvider.Context context) {
-        this.blockRenderDispatcher = context.blockRenderDispatcher();
+        this.blockModelResolver = context.blockModelResolver();
     }
 
     @Override
     public ContainerRenderState createRenderState() {
-        return new ContainerRenderState(blockRenderDispatcher);
+        return new ContainerRenderState();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
                     var state = block.getStateForPlacement(new DirectionalPlaceContext(level, instrumentPos, Direction.DOWN, stack, Direction.UP));
 
                     if (state != null && state.canSurvive(level, instrumentPos) && state.is(container.getCompatibleTools())) {
-                        renderState.ghostBlockRenderState.update(level, state, instrumentPos, level.getRandom());
+                        renderState.ghostBlockRenderState.update(blockModelResolver, level, state, instrumentPos);
                         return;
                     }
                 }
@@ -69,6 +69,6 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
 
     @Override
     public void submit(ContainerRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        renderState.ghostBlockRenderState.submit(poseStack, nodeCollector);
+        renderState.ghostBlockRenderState.submit(poseStack, nodeCollector, renderState.lightCoords);
     }
 }

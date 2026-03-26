@@ -6,10 +6,10 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -59,7 +59,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class GuiHandler {
 
 	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
@@ -86,7 +86,7 @@ public class GuiHandler {
 		event.registerBelow(TRANSLOCATION_ANCHOR_MARKER_LAYER, SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER, GuiHandler::drawAnchor);
 	}
 
-	public static void drawGauge(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+	public static void drawGauge(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 
 		if (player == null) {
@@ -119,7 +119,7 @@ public class GuiHandler {
 		return false;
 	}
 
-	public static void drawAnchors(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+	public static void drawAnchors(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -132,7 +132,7 @@ public class GuiHandler {
 		var range = Spells.TRANSLOCATION.get().getRange(player);
 		var rangeSq = range * range;
 		var falloffSq = (range / 2) * (range / 2);
-		var cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+		var cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
 		var playerPos = player.position();
 		var buffer = createBufferSource();
 
@@ -154,7 +154,7 @@ public class GuiHandler {
 		buffer.endBatch();
 	}
 
-	public static void drawAnchor(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+	public static void drawAnchor(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
 		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
@@ -177,7 +177,7 @@ public class GuiHandler {
 			return;
 		}
 
-		var v = getPositionInScreen(worldMatrix, Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), center);
+		var v = getPositionInScreen(worldMatrix, Minecraft.getInstance().gameRenderer.getMainCamera().position(), center);
 
 		if (v.z() <= 0F || v.z() >= 1F) {
 			return;
@@ -306,7 +306,7 @@ public class GuiHandler {
 				.orElseGet(Spells.NONE);
 	}
 
-	private static void renderElementGauge(GuiGraphics guiGraphics, Font font, int element, int max, ElementType type, int index) {
+	private static void renderElementGauge(GuiGraphicsExtractor guiGraphics, Font font, int element, int max, ElementType type, int index) {
 		GuiHelper.renderElementGauge(guiGraphics, font, getXOffset() - 32 - (20 * index), getYOffset() - 8, element, max, type);
 	}
 
@@ -318,7 +318,7 @@ public class GuiHandler {
 		return Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2 + ECConfig.CLIENT.gaugeOffsetY.get();
 	}
 
-	private static void renderShrineCheck(GuiGraphics guiGraphics, ISingleElementStorage storage, ShrineElementStorage shrineStorage) {
+	private static void renderShrineCheck(GuiGraphicsExtractor guiGraphics, ISingleElementStorage storage, ShrineElementStorage shrineStorage) {
 		var shrine = shrineStorage.getShrine();
 
 		if (shrine.isRunning()) {
@@ -330,7 +330,7 @@ public class GuiHandler {
 		}
 	}
 
-	private static void renderSpellCheck(GuiGraphics guiGraphics, LocalPlayer player, Spell spell) {
+	private static void renderSpellCheck(GuiGraphicsExtractor guiGraphics, LocalPlayer player, Spell spell) {
 		var canCast = spell.consume(player, true);
 		var isInCooldown = SpellTickHelper.hasCooldown(player, spell);
 
@@ -343,7 +343,7 @@ public class GuiHandler {
 		}
 	}
 
-	private static void renderCheck(GuiGraphics guiGraphics, GuiHelper.Check valid) {
+	private static void renderCheck(GuiGraphicsExtractor guiGraphics, GuiHelper.Check valid) {
 		GuiHelper.renderCheck(guiGraphics, valid, getXOffset() - 21, getYOffset() + 3);
 	}
 }

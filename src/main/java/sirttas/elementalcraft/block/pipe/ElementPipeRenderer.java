@@ -15,7 +15,6 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.pipe.upgrade.renderer.PipeUpgradeRenderers;
-import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import java.util.Objects;

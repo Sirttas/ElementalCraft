@@ -4,11 +4,10 @@ package sirttas.elementalcraft.block.instrument.io.mill;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -18,20 +17,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.airmill.AirMill;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
-import sirttas.elementalcraft.client.model.ECModelHelper;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> extends IOInstrumentRenderer<T, MillRenderState> {
 
-	public static final StandaloneModelKey<@NotNull BlockModelPart> WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_grindstone_shaft");
-	public static final StandaloneModelKey<@NotNull BlockModelPart> AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_grindstone_shaft");
-	public static final StandaloneModelKey<@NotNull BlockModelPart> WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_wood_saw_shaft");
-	public static final StandaloneModelKey<@NotNull BlockModelPart> AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_wood_saw_shaft");
+	public static final StandaloneModelKey<@NotNull BlockStateModel> WATER_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_grindstone_shaft");
+	public static final StandaloneModelKey<@NotNull BlockStateModel> AIR_MILL_GRINDSTONE_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_grindstone_shaft");
+	public static final StandaloneModelKey<@NotNull BlockStateModel> WATER_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("water_mill_wood_saw_shaft");
+	public static final StandaloneModelKey<@NotNull BlockStateModel> AIR_MILL_WOOD_SAW_SHAFT_LOCATION = ECModelHelper.createStandaloneKey("air_mill_wood_saw_shaft");
 
     private final BlockStateModel model;
 
-	public MillRenderer(BlockEntityRendererProvider.@NotNull Context context, StandaloneModelKey<@NotNull BlockModelPart> key) {
+	public MillRenderer(BlockEntityRendererProvider.@NotNull Context context, StandaloneModelKey<@NotNull BlockStateModel> key) {
         super(context);
         model = ECModelHelper.loadStandaloneModel(key);
 	}

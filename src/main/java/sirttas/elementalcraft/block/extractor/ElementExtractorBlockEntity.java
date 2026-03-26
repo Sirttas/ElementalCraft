@@ -2,20 +2,19 @@ package sirttas.elementalcraft.block.extractor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
-import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
@@ -34,9 +33,9 @@ import java.util.Optional;
 public class ElementExtractorBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 	private final int extractionAmount;
 	private final RuneHandler runeHandler;
-	private BlockCapabilityCache<IElementStorage, Direction> sourceCache;
+	private BlockCapabilityCache<@NotNull IElementStorage, Direction> sourceCache;
 
-	private ISingleElementStorage containerCache; // TODO use capability cache
+	private ISingleElementStorage containerCache;
 
 	public ElementExtractorBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.EXTRACTOR, pos, state);
@@ -53,17 +52,15 @@ public class ElementExtractorBlockEntity extends AbstractECBlockEntity implement
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-		}
+	public void loadAdditional(@Nonnull ValueInput valueInput) {
+		super.loadAdditional(valueInput);
+        getRuneHandler().load(valueInput);
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
+	public void saveAdditional(@Nonnull ValueOutput valueOutput) {
+		super.saveAdditional(valueOutput);
+        getRuneHandler().save(valueOutput);
 	}
 
 	protected Optional<BlockState> getSourceState() {

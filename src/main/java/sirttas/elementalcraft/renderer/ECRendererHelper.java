@@ -9,15 +9,15 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
@@ -98,12 +98,12 @@ public class ECRendererHelper {
                 .setNormal(pose, 0, 1, 0);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material renderMaterial, int width, int height, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.texture()), 0, 0, width, height, 1F, 1F, 1F, light);
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material.Baked renderMaterial, int width, int height, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().atlasLocation()), 0, 0, width, height, 1F, 1F, 1F, light);
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.texture()), x, y, width, height, r, g, b, light);
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), x, y, width, height, r, g, b, light);
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float r, float g, float b, int light) {;

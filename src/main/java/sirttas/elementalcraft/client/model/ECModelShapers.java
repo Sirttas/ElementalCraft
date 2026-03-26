@@ -14,8 +14,8 @@ import java.util.function.Function;
 @OnlyIn(Dist.CLIENT)
 public class ECModelShapers {
 
-    private static final Map<Identifier,  Function<ModelManager, AbstractECModelShaper<?>>> FACTORIES = new HashMap<>();
-    private static final Map<Identifier,  AbstractECModelShaper<?>> SHAPERS = new HashMap<>();
+    private static final Map<Identifier, Function<ModelManager, AbstractECModelShaper<?>>> FACTORIES = new HashMap<>();
+    private static final Map<Identifier, AbstractECModelShaper<?>> SHAPERS = new HashMap<>();
 
     private ECModelShapers() { }
 

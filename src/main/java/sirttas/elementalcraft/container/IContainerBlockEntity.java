@@ -11,6 +11,7 @@ import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Deprecated
 public interface IContainerBlockEntity extends Clearable {
 
 	@Nonnull

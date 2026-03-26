@@ -37,7 +37,6 @@ import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.source.breeder.SourceBreederRenderer;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalRenderer;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
-import sirttas.elementalcraft.block.synthesizer.draining.DrainingSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerRenderer;
@@ -56,7 +55,7 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.EXTRACTOR, RuneBlockEntityRenderer::create);
 		register(ECBlockEntityTypes.CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, context -> SingleItemBlockEntityRenderer.create(context, new Vec3(0.5, 0.5, 0.5), 0.7F));
-		register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, DrainingSynthesizerRenderer::new);
+		register(ECBlockEntityTypes.DRAINING_SYNTHESIZER, RuneBlockEntityRenderer::create);
 		register(ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.SOLAR_SYNTHESIZER, SolarSynthesizerRenderer::new);
 		register(ECBlockEntityTypes.SCULK_CRACKING_SYNTHESIZER, CrackingSynthesizerRenderer::new);

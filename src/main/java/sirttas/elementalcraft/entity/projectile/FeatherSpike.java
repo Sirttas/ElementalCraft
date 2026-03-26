@@ -2,9 +2,10 @@ package sirttas.elementalcraft.entity.projectile;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.entity.ECEntities;
 
 import javax.annotation.Nonnull;
@@ -17,7 +18,7 @@ public class FeatherSpike extends AbstractArrow {
         this(ECEntities.FEATHER_SPIKE.get(), level);
     }
 
-    public FeatherSpike(EntityType<? extends FeatherSpike> type, Level level) {
+    public FeatherSpike(EntityType<? extends @NotNull FeatherSpike> type, Level level) {
         super(type, level);
         pickup = AbstractArrow.Pickup.DISALLOWED;
     }

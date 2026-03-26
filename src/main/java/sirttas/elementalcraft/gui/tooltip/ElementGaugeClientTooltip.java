@@ -1,8 +1,9 @@
 package sirttas.elementalcraft.gui.tooltip;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
@@ -20,7 +21,7 @@ public record ElementGaugeClientTooltip(
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(@Nonnull Font font) {
         return isValid() ? 18 : 0;
     }
 
@@ -35,7 +36,7 @@ public record ElementGaugeClientTooltip(
     }
 
     @Override
-    public void renderImage(@Nonnull Font font, int x, int y, @Nonnull GuiGraphics guiGraphics) {
+    public void extractImage(@NotNull Font font, int x, int y, int w, int h, @NotNull GuiGraphicsExtractor graphics) {
         if (!isValid()) {
             return;
         }
@@ -47,7 +48,7 @@ public record ElementGaugeClientTooltip(
             var elementAmount = storage.getElementAmount(elementType);
 
             if (elementCapacity > 0) {
-                GuiHelper.renderElementGauge(guiGraphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType, false);
+                GuiHelper.renderElementGauge(graphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType, false);
             }
         }
     }

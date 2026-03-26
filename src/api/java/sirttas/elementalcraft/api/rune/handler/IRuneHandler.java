@@ -78,7 +78,12 @@ public interface IRuneHandler {
 	default int handleElementTransfer(ISingleElementStorage from, IElementStorage to, float amount) {
 		return handleElementTransfer(from, to, from.getElementType(), amount);
 	}
-	
+
+    default void load(@Nonnull ValueInput valueInput) {
+        this.clear();
+        valueInput.list(ECNames.RUNE_HANDLER, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
+    }
+
 	default void save(@Nonnull ValueOutput valueOutput) {
         var list = valueOutput.list(ECNames.RUNE_HANDLER, Identifier.CODEC);
 
@@ -87,8 +92,4 @@ public interface IRuneHandler {
         }
 	}
 
-    default void load(@Nonnull ValueInput valueInput) {
-        this.clear();
-        valueInput.list(ECNames.RUNE_HANDLER, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
-	}
 }

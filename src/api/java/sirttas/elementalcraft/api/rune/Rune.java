@@ -4,16 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.ClientHooks;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -28,19 +24,16 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	
 	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
 			Identifier.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
-			Identifier.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSpriteName)
+			Identifier.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSprite)
 	)).apply(builder, Rune::new));
 
 	private final Identifier modelName;
-	private final Identifier fxSpriteName;
-	
-	@OnlyIn(Dist.CLIENT)
-	private Material sprite;
+	private final Identifier sprite;
 
-	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, Identifier modelName, Identifier fxSpriteName) {
+	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, Identifier modelName, Identifier sprite) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
 		this.modelName = modelName;
-		this.fxSpriteName = fxSpriteName;
+		this.sprite = sprite;
 	}
 
 	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
@@ -63,15 +56,7 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 		return modelName;
 	}
 
-	public Identifier getSpriteName() {
-		return fxSpriteName;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public Material getSprite() {
-		if (sprite == null) {
-			sprite = ClientHooks.getBlockMaterial(fxSpriteName);
-		}
+	public Identifier getSprite() {
 		return sprite;
 	}
 

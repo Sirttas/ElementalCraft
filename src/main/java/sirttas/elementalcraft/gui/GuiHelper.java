@@ -2,7 +2,7 @@ package sirttas.elementalcraft.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -27,11 +27,11 @@ public class GuiHelper {
 		};
 	}
 
-	public static void renderElementGauge(GuiGraphics guiGraphics, Font font, int x, int y, int amount, int max, ElementType type) {
+	public static void renderElementGauge(GuiGraphicsExtractor guiGraphics, Font font, int x, int y, int amount, int max, ElementType type) {
 		renderElementGauge(guiGraphics, font, x, y, amount, max, type, true);
 	}
 
-	public static void renderElementGauge(GuiGraphics guiGraphics, Font font, int x, int y, int amount, int max, ElementType type, boolean showDebugInfo) {
+	public static void renderElementGauge(GuiGraphicsExtractor guiGraphics, Font font, int x, int y, int amount, int max, ElementType type, boolean showDebugInfo) {
 		guiGraphics.blit(GAUGE, x, y, 0, 0, 16, 16);
 
 		int progress = Math.max(0, (int) ((double) Math.min(amount, max) / (double) max * 16));
@@ -45,7 +45,7 @@ public class GuiHelper {
 		}
 	}
 
-	public static void renderCheck(GuiGraphics guiGraphics, Check check, int x, int y) {
+	public static void renderCheck(GuiGraphicsExtractor guiGraphics, Check check, int x, int y) {
 		guiGraphics.blit(GAUGE, x, y, 0, 16 + check.offset, 6, 6);
 	}
 
