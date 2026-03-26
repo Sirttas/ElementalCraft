@@ -13,7 +13,7 @@ public class CuriosInteractions implements ElementalCraftInteraction {
     @Override
     public List<ItemStack> getHolders(LivingEntity entity) {
         return CuriosApi.getCuriosInventory(entity)
-                .map(inv -> inv.findCurios(CuriosConstants.ELEMENT_HOLDER_SLOT))
+                .map(inv -> inv.findCurios("element_holder"))
                 .stream()
                 .<SlotResult>mapMulti(List::forEach)
                 .map(SlotResult::stack)

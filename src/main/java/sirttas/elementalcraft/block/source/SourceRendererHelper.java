@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.Material;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.renderer.ECRenderTypes;
 import sirttas.elementalcraft.renderer.ECRendererHelper;

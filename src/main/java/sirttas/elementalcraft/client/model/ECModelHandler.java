@@ -59,7 +59,7 @@ public class ECModelHandler {
         event.register(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION);
         event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
         register(event, DiffuserRenderer.CUBE);
-        event.register(AccelerationShrineUpgradeRenderer.CLOCK_LOCATION);
+        register(event, AccelerationShrineUpgradeRenderer.CLOCK);
         event.register(VortexShrineUpgradeRenderer.RING_LOCATION);
         event.register(TranslocationShrineUpgradeRenderer.RING_LOCATION);
         event.register(SourceRenderer.STABILIZER_LOCATION);

@@ -31,7 +31,7 @@ public class EntityHandler {
 		var entity = event.getEntity();
 		var world = entity.level();
 
-		if (!world.isClientSide && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
+		if (!world.isClientSide() && world.getRandom().nextDouble() >= ToolInfusionHelper.getDodge(entity)) {
 			event.setCanceled(true);
 		}
 	}
@@ -47,7 +47,7 @@ public class EntityHandler {
 	public static void onPlayerTick(PlayerTickEvent.Pre event) {
 		var player = event.getEntity();
 
-		if (!player.level().isClientSide) {
+		if (!player.level().isClientSide()) {
 			player.getData(ECDataAttachments.JEWEL_HANDLER).tick();
 		}
 	}

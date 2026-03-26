@@ -106,7 +106,7 @@ public class BreedingShrineBlock extends AbstractShrineBlock<BreedingShrineBlock
 
 	@Override
 	public @NotNull BlockState playerWillDestroy(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		if (!level.isClientSide && player.isCreative()) {
+		if (!level.isClientSide() && player.isCreative()) {
 			Part part = state.getValue(PART);
 			BlockPos blockpos = pos.relative(getNeighbourDirection(part, state.getValue(FACING)));
 			BlockState blockstate = level.getBlockState(blockpos);

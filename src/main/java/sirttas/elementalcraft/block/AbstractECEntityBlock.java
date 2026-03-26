@@ -52,7 +52,7 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return !level.isClientSide ? (l, p, s, be) -> sendUpdate(be) : null;
+		return !level.isClientSide() ? (l, p, s, be) -> sendUpdate(be) : null;
 	}
 	
 	@Nullable
@@ -61,12 +61,12 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	}
 
 	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECTicker(Level level, BlockEntityType<A> type, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
-		return createTickerHelper(type, expectedType, !level.isClientSide ? createUpdateTicker(ticker) : ticker);
+		return createTickerHelper(type, expectedType, !level.isClientSide() ? createUpdateTicker(ticker) : ticker);
 	}
 	
 	@Nullable
 	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECServerTicker(Level level, BlockEntityType<A> type, DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> expectedType, BlockEntityTicker<? super E> ticker) {
-		return level.isClientSide ? null : createTickerHelper(type, expectedType.get(), createUpdateTicker(ticker));
+		return level.isClientSide() ? null : createTickerHelper(type, expectedType.get(), createUpdateTicker(ticker));
 	}
 
 	private static <E extends BlockEntity> BlockEntityTicker<? super E> createUpdateTicker(BlockEntityTicker<? super E> ticker) {

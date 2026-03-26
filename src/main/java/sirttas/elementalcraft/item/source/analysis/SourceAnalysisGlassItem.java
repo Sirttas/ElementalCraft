@@ -5,13 +5,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +49,7 @@ public class SourceAnalysisGlassItem extends Item {
 	}
 
 	@Override
-	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+	public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
 		var hasBeenUsed = false;
 
 		for (var stack : player.getInventory().items) {
@@ -61,13 +59,13 @@ public class SourceAnalysisGlassItem extends Item {
 			}
 		}
 		if (hasBeenUsed) {
-			return InteractionResultHolder.success(player.getItemInHand(usedHand));
+			return InteractionResult.SUCCESS;
 		}
 		return super.use(level, player, usedHand);
 	}
 
 	public InteractionResult open(Level level, Player player, Map<Holder<SourceTrait>, ISourceTraitValue> traitMap) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(new Menu(traitMap));
@@ -90,7 +88,7 @@ public class SourceAnalysisGlassItem extends Item {
 		@Nonnull
         @Override
 		public Component getDisplayName() {
-			return SourceAnalysisGlassItem.this.getDescription();
+			return Component.translatable(SourceAnalysisGlassItem.this.descriptionId);
 		}
 	}
 }

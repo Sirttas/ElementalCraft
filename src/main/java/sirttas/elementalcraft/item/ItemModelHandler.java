@@ -24,7 +24,7 @@ import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ItemModelHandler {
 
     private ItemModelHandler() {}
@@ -48,12 +48,12 @@ public class ItemModelHandler {
     }
 
     @SubscribeEvent
-    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register((s, l) -> {
+    public static void registerItemColors(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(ECItems.PURE_ORE.get(), (s, l) -> {
             var colors = PureOreDisplayManager.getInstance().getColors(s);
 
             return colors != null && l < colors.length ? colors[l] : -1;
-        }, ECItems.PURE_ORE.get());
+        });
         event.register((s, l) -> l == 0 ? -1 : FastColor.ARGB32.opaque(SpellHelper.getSpell(s).value().getColor()), ECItems.SCROLL.get());
         event.register((s, l) -> l == 0 ? -1 : FastColor.ARGB32.opaque(((ElementHolderItem) s.getItem()).getElementType().getColor()), ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get()); // TODO create icon for each holder
     }

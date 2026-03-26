@@ -85,7 +85,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
-		return createECTicker(level, type, ECBlockEntityTypes.PIPE, level.isClientSide ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
+		return createECTicker(level, type, ECBlockEntityTypes.PIPE, level.isClientSide() ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
         if (blockEntity == null) {
             return Shapes.empty();
         }
-		return blockGetter instanceof Level level && level.isClientSide ? getShapeAndFace(pos, blockEntity, Minecraft.getInstance().hitResult, player).getFirst() : getCurrentShape(blockEntity, player);
+		return blockGetter instanceof Level level && level.isClientSide() ? getShapeAndFace(pos, blockEntity, Minecraft.getInstance().hitResult, player).getFirst() : getCurrentShape(blockEntity, player);
 	}
 
 	private Player getPlayer(CollisionContext context) {

@@ -58,7 +58,7 @@ public class InputHandler {
 
 	@SubscribeEvent
 	public static void onPlayerTick(PlayerTickEvent.Post event) {
-		if(event.getEntity() instanceof LocalPlayer player && player.level().isClientSide && player == Minecraft.getInstance().player) {
+		if(event.getEntity() instanceof LocalPlayer player && player.level().isClientSide() && player == Minecraft.getInstance().player) {
 			getFirstSpellCastTool(EntityHelper.handStream(player)).ifPresent(stack -> {
 				var index = 0;
 

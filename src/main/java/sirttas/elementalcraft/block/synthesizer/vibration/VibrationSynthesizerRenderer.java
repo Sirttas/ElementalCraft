@@ -1,25 +1,32 @@
 package sirttas.elementalcraft.block.synthesizer.vibration;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.core.BlockPos;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nonnull;
+public class VibrationSynthesizerRenderer implements BlockEntityRenderer<@NotNull VibrationSynthesizerBlockEntity, @NotNull VibrationSynthesizerRenderState> {
 
-public class VibrationSynthesizerRenderer implements BlockEntityRenderer<VibrationSynthesizerBlockEntity> {
+    @Override
+    public @NotNull VibrationSynthesizerRenderState createRenderState() {
+        return new VibrationSynthesizerRenderState();
+    }
 
-	@Override
-	public void render(VibrationSynthesizerBlockEntity vibrationSynthesizer, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int light, int overlay) {
-		ECRendererHelper.renderRunes(poseStack, bufferSource, vibrationSynthesizer.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
+    @Override
+    public void extractRenderState(@NotNull VibrationSynthesizerBlockEntity blockEntity, @NotNull VibrationSynthesizerRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
+        state.runes.update(blockEntity.getRuneHandler(), partialTicks);
+    }
 
-		if (vibrationSynthesizer.showsRange()) {
-			BlockPos pos = vibrationSynthesizer.getBlockPos();
-
-			LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), vibrationSynthesizer.getRange().move(-pos.getX(), -pos.getY(), -pos.getZ()), 1, 1, 0.6F, 1);
-		}
-	}
+    @Override
+    public void submit(@NotNull VibrationSynthesizerRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+        state.range.submit();
+        state.runes.submit(poseStack, submitNodeCollector, state.lightCoords);
+    }
 }

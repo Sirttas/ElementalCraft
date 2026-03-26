@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,13 +11,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class SpellBookItem extends Item {
 
@@ -29,35 +29,34 @@ public class SpellBookItem extends Item {
 	}
 
 	/**
-	 * Called when the equipped item is right clicked.
-	 */
+     * Called when the equipped item is right clicked.
+     */
 	@Nonnull
     @Override
-	public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
+	public InteractionResult use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
-		return new InteractionResultHolder<>(open(level, player, stack), stack);
+		return open(level, player, stack);
 	}
 	
 	public InteractionResult open(Level level, Player player, ItemStack stack) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(new ContainerProvider(stack));
 		return InteractionResult.CONSUME;
 	}
 
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		SpellHelper.getSpellList(stack).forEachSpell((spell, count) -> {
+    @Override
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		SpellHelper.getSpellList(itemStack).forEachSpell((spell, count) -> {
 			if (count == 1) {
-				tooltip.add(Component.empty().append(spell.value().getDisplayName()).withStyle(ChatFormatting.GRAY));
+                builder.accept(Component.empty().append(spell.value().getDisplayName()).withStyle(ChatFormatting.GRAY));
 			} else {
-				tooltip.add(Component.literal(count + " ").append(spell.value().getDisplayName()).withStyle(ChatFormatting.GRAY));
+                builder.accept(Component.literal(count + " ").append(spell.value().getDisplayName()).withStyle(ChatFormatting.GRAY));
 			}
 		});
 	}
-
 
 	@Override
 	public int getBarWidth(@Nonnull ItemStack stack) {

@@ -89,7 +89,7 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 	@Nonnull
     @Override
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		return blockGetter instanceof Level level && level.isClientSide ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
+		return blockGetter instanceof Level level && level.isClientSide() ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
 	@Nonnull
     @Override
@@ -101,7 +101,7 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
         if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
-            return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
 		VoxelShape shape = getShape(state, pos, hit);

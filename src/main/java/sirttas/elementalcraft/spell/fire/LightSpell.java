@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.spell.Spell;
 
@@ -15,7 +16,7 @@ public class LightSpell extends Spell {
 
     public static final String NAME = "light";
 
-    public LightSpell(ResourceKey<Spell> key) {
+    public LightSpell(ResourceKey<@NotNull Spell> key) {
         super(key);
     }
 
@@ -24,7 +25,7 @@ public class LightSpell extends Spell {
     public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
         var pos = target.relative(hitResult.getDirection());
 
-        if (level.isClientSide || !level.isEmptyBlock(pos)) {
+        if (level.isClientSide() || !level.isEmptyBlock(pos)) {
             return InteractionResult.PASS;
         }
 

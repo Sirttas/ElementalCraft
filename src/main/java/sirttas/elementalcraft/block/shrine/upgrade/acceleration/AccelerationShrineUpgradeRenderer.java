@@ -2,40 +2,54 @@ package sirttas.elementalcraft.block.shrine.upgrade.acceleration;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
-
-public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<AccelerationShrineUpgradeBlockEntity> {
+@Deprecated
+public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<@NotNull AccelerationShrineUpgradeBlockEntity, @NotNull AccelerationShrineUpgradeRenderState> {
 
 	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
-	public static final ModelIdentifier CLOCK_LOCATION = ECModelHelper.createStandaloneKey("block/shrine_upgrade_acceleration_clock");
+    public static final SimpleStandaloneModelSupplier CLOCK = new SimpleStandaloneModelSupplier("shrine_upgrade_acceleration_clock");
 
-	private BakedModel clockModel;
+	private final BlockStateModel clockModel;
 
-	@Override
-	public void render(AccelerationShrineUpgradeBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		var state = te.getBlockState();
-		var facing = state.getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
-		var rotation = facing.getRotation();
-		var newPos = new Vector3f(POSITION);
+    public AccelerationShrineUpgradeRenderer() {
+        clockModel = CLOCK.loadModel();
+    }
 
-		if (clockModel == null) {
-			clockModel = Minecraft.getInstance().getModelManager().getModel(CLOCK_LOCATION);
-		}
-		matrixStack.translate(0.5, 0.5, 0.5);
-		matrixStack.mulPose(Axis.of(facing.step()).rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(partialTicks))));
-		rotation.transform(newPos);
-		matrixStack.translate(newPos.x(), newPos.y(), newPos.z());
-		matrixStack.mulPose(rotation);
-		ECRendererHelper.renderModel(clockModel, matrixStack, buffer, te, light, overlay);
-	}
+    @Override
+    public AccelerationShrineUpgradeRenderState createRenderState() {
+        return new AccelerationShrineUpgradeRenderState();
+    }
+
+    @Override
+    public void extractRenderState(AccelerationShrineUpgradeBlockEntity blockEntity, AccelerationShrineUpgradeRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.partialTicks = partialTicks;
+        state.facing = blockEntity.getBlockState().getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
+    }
+
+    @Override
+    public void submit(AccelerationShrineUpgradeRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+        var rotation = state.facing.getRotation();
+        var newPos = new Vector3f(POSITION);
+
+        poseStack.translate(0.5, 0.5, 0.5);
+        poseStack.mulPose(Axis.of(state.facing.step()).rotation((float) Math.toRadians(ECRendererHelper.getClientTicks(state.partialTicks))));
+        rotation.transform(newPos);
+        poseStack.translate(newPos.x(), newPos.y(), newPos.z());
+        poseStack.mulPose(rotation);
+        ECRendererHelper.submitModel(clockModel, poseStack, submitNodeCollector, state.lightCoords);
+    }
 }
