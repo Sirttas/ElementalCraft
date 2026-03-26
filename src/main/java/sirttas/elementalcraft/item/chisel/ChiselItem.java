@@ -1,11 +1,9 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +26,7 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 	public static final String NAME_FIREITE = "fireite_chisel";
 
 
-	public ChiselItem(Tier tier, Properties properties) {
+	public ChiselItem(Tier tier, Item.Properties properties) {
 		super(tier, properties);
 	}
 

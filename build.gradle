@@ -71,6 +71,14 @@ sourceSets {
             srcDir 'src/generated/resources'
         }
     }
+    interaction {
+        java {
+            srcDir 'src/interaction/java'
+        }
+        resources {
+            srcDir 'src/interaction/resources'
+        }
+    }
     datagen {
         java {
             srcDir 'src/datagen/java'
@@ -83,6 +91,7 @@ neoForge {
     version = project.neo_version
 
     addModdingDependenciesTo(sourceSets.api)
+    addModdingDependenciesTo(sourceSets.interaction)
     addModdingDependenciesTo(sourceSets.datagen)
     addModdingDependenciesTo(sourceSets.test)
 
@@ -141,6 +150,7 @@ neoForge {
         elementalcraft {
             sourceSet(sourceSets.api)
             sourceSet(sourceSets.main)
+            sourceSet(sourceSets.interaction)
             sourceSet(sourceSets.datagen)
             sourceSet(sourceSets.test)
         }
@@ -169,9 +179,11 @@ dependencies {
     if (project.dpAnvil != null) {
         apiCompileOnly project.dpAnvil.sourceSets.api.output
         compileOnly project.dpAnvil.sourceSets.api.output
+        interactionCompileOnly project.dpAnvil.sourceSets.api.output
         testCompileOnly project.dpAnvil.sourceSets.api.output
         datagenCompileOnly project.dpAnvil.sourceSets.api.output
         runtimeOnly project.dpAnvil.sourceSets.main.output
+        interactionRuntimeOnly project.dpAnvil.sourceSets.main.output
         testRuntimeOnly project.dpAnvil.sourceSets.main.output
         datagenRuntimeOnly project.dpAnvil.sourceSets.main.output
         implementation(accessTransformers(interfaceInjectionData(project.dpAnvil)))
@@ -179,9 +191,11 @@ dependencies {
         logger.info("DPAnvil not found locally, looking in maven repo")
         apiCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         compileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
+        interactionCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         testCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         datagenCompileOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}:api"
         runtimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
+        interactionRuntimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
         testRuntimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
         datagenRuntimeOnly "sirttas.dpanvil:DPAnvil:${dpanvil_version}"
     }
@@ -190,20 +204,24 @@ dependencies {
     runtimeOnly "vazkii.patchouli:Patchouli:${patchouli_version}"
     
     // mod interactions
-    implementation "mezz.jei:jei-${jei_suffix}:${jei_version}"
+    interactionImplementation sourceSets.api.output
+    interactionImplementation sourceSets.main.output
 
-    compileOnly "mekanism:Mekanism:${mekanism_version}"
-    compileOnly "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
-    implementation "org.appliedenergistics:appliedenergistics2:${ae2_version}"
+    interactionImplementation "mezz.jei:jei-${jei_suffix}:${jei_version}"
 
-    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    interactionCompileOnly "mekanism:Mekanism:${mekanism_version}"
+    interactionCompileOnly "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
+    interactionImplementation "org.appliedenergistics:appliedenergistics2:${ae2_version}"
 
-    compileOnly "vazkii.botania:Botania:${botania_version}:api"
+    interactionImplementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    interactionCompileOnly "vazkii.botania:Botania:${botania_version}:api"
     // runtimeOnly "vazkii.botania:Botania:${botania_version}"
 
     // test
     testImplementation sourceSets.api.output
     testImplementation sourceSets.main.output
+    testImplementation sourceSets.interaction.output
     testImplementation "net.neoforged:testframework:${neo_version}"
     testImplementation(platform("org.junit:junit-bom:${junit_version}"))
     testImplementation "org.junit.jupiter:junit-jupiter-api"
@@ -216,6 +234,7 @@ dependencies {
     // datagen
     datagenImplementation sourceSets.api.output
     datagenImplementation sourceSets.main.output
+    datagenImplementation sourceSets.interaction.output
     datagenImplementation "vazkii.patchouli:Patchouli:${patchouli_version}"
     datagenImplementation "mekanism:Mekanism:${mekanism_version}"
     datagenImplementation "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
@@ -257,7 +276,8 @@ neoForge.ideSyncTask generateModMetadata
 jar {
 	from sourceSets.api.output
     from sourceSets.main.output
-    
+    from sourceSets.interaction.output
+
     manifest {
         attributes([
             "Specification-Title": "ElementalCraft",
@@ -285,6 +305,7 @@ task sourcesJar(type: Jar) {
     archiveClassifier = "sources"
     from sourceSets.api.allSource
     from sourceSets.main.allSource
+    from sourceSets.interaction.allSource
     from sourceSets.datagen.allSource
     from sourceSets.test.allSource
     duplicatesStrategy = DuplicatesStrategy.INCLUDE

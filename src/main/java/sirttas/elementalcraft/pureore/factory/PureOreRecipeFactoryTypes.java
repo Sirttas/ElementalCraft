@@ -2,8 +2,8 @@ package sirttas.elementalcraft.pureore.factory;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.BlastingRecipe;
 import net.minecraft.world.item.crafting.CampfireCookingRecipe;
@@ -23,9 +23,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
-import sirttas.elementalcraft.interaction.ECInteractions;
-import sirttas.elementalcraft.interaction.ie.IEInteraction;
-import sirttas.elementalcraft.interaction.mekanism.MekanismInteraction;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
@@ -48,12 +45,7 @@ public class PureOreRecipeFactoryTypes {
 			registerCooking(helper, RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new);
 			register(helper, IGrindingRecipe.NAME, PureOreGrindingRecipeFactory::new);
 
-			if (ECInteractions.isMekanismActive()) {
-				MekanismInteraction.registerPureOreRecipeInjectors(helper);
-			}
-			if (ECInteractions.isImmersiveEngineeringActive()) {
-				IEInteraction.registerPureOreRecipeInjectors(helper);
-			}
+            ElementalCraft.interactions().registerPureOreRecipeInjectors(helper);
 		});
 	}
 

@@ -34,7 +34,6 @@ import sirttas.elementalcraft.data.predicate.block.ECBlockPosPredicateTypes;
 import sirttas.elementalcraft.entity.ECEntities;
 import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.infusion.tool.effect.ToolInfusionEffectTypes;
-import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewels;
@@ -54,7 +53,6 @@ import sirttas.elementalcraft.world.feature.ECFeatures;
 import sirttas.elementalcraft.world.feature.placement.ECPlacements;
 import sirttas.elementalcraft.world.feature.structure.ECStructureTypes;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @Mod(ElementalCraftApi.MODID)
@@ -72,6 +70,8 @@ public class ElementalCraft {
 	public static final ResourceKey<IDataManager<IConfigurableBlockEntityProperties>> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL("configurable_block_entity_properties"));
 	public static final IDataManager<IConfigurableBlockEntityProperties> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER = IDataManager.builder(IConfigurableBlockEntityProperties.class, CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY)
 			.build();
+
+    private static final ElementalCraftInteraction INTERACTIONS = new ElementalCraftInteraction.Wrapper();
 
 	public ElementalCraft(IEventBus modBus, ModContainer container) {
 		container.registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
@@ -110,23 +110,12 @@ public class ElementalCraft {
 		modBus.addListener(this::setup);
 		modBus.addListener(this::enqueueIMC);
 
-		tryRegisterTestFramework(modBus, container);
+        interactions().registerTestFramework(modBus, container);
 	}
 
-	private void tryRegisterTestFramework(IEventBus modBus, ModContainer container) {
-		if (!ECInteractions.isTestFrameworkActive()) {
-			return;
-		}
-		try {
-			Class.forName("sirttas.elementalcraft.ElementalCraftTests")
-					.getMethod("registerTestFramework", IEventBus.class, ModContainer.class)
-					.invoke(null, modBus, container);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch (Exception e) {
-			ElementalCraftApi.LOGGER.error("The test Framework is present but the tests sourceset was not found.", e);
-		}
-	}
+    public static synchronized ElementalCraftInteraction interactions() {
+        return INTERACTIONS;
+    }
 
 	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
 		return ResourceKey.createRegistryKey(ElementalCraftApi.createRL(name));

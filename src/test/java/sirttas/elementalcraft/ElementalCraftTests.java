@@ -45,13 +45,13 @@ import sirttas.elementalcraft.rune.RuneGameTests;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-public class ElementalCraftTests {
+public class ElementalCraftTests implements ElementalCraftInteraction {
 
-    private ElementalCraftTests() { }
 
     static MinecraftServer server;
 
-    public static void registerTestFramework(IEventBus modBus, ModContainer container) {
+    @Override
+    public void registerTestFramework(IEventBus modBus, ModContainer container) {
         try {
             final MutableTestFramework framework = FrameworkConfiguration.builder(ElementalCraftApi.createRL("tests"))
                     .clientConfiguration(() -> ClientConfiguration.builder()

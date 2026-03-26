@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public record BuddingShrineBudType(
         List<Block> sequence,
-        Holder<ShrineUpgrade> requiredUpgrade,
+        Holder<@NotNull ShrineUpgrade> requiredUpgrade,
         Identifier plateModel
 ) {
 

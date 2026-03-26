@@ -2,11 +2,10 @@ package sirttas.elementalcraft.entity.player;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
-import sirttas.elementalcraft.interaction.ECInteractions;
-import sirttas.elementalcraft.interaction.curios.CuriosInteractions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,15 +89,13 @@ public class PlayerElementStorage implements IElementStorage {
 					storages.add(storage);
 				}
 			}
-			if (ECInteractions.isCuriosActive()) {
-				CuriosInteractions.getHolders(player).forEach(i -> {
-					var storage = i.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
+            ElementalCraft.interactions().getHolders(player).forEach(i -> {
+                var storage = i.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM);
 
-					if (storage != null && storage.usableInInventory()) {
-						storages.add(storage);
-					}
-				});
-			}
+                if (storage != null && storage.usableInInventory()) {
+                    storages.add(storage);
+                }
+            });
 			tickCount = player.tickCount;
 		}
 		return storages;

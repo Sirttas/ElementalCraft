@@ -8,6 +8,7 @@ import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
@@ -41,7 +42,6 @@ import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECDamageTypeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECGameEventTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
-import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.jewel.Jewels;
 
 import java.util.List;
@@ -104,7 +104,7 @@ public class ECDataGenerators {
 		generator.addProvider(includeServer, new BudTypeProvider(output, registries));
 		generator.addProvider(includeServer, new ECRemapKeysProvider(output, registries));
 		generator.addProvider(includeServer && includeClient, new BookDataProvider(output, registries, fileHelper, translationKeyValidator));
-		if (ECInteractions.isSilentGearActive()) {
+		if (ElementalCraftInteraction.isSilentGearActive()) {
 			generator.addProvider(includeServer, new ECSilentGearMaterialProvider(generator));
 		}
 	}

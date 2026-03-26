@@ -7,13 +7,13 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.AbstractElementContainerBlock;
 import sirttas.elementalcraft.component.ECDataComponents;
-import sirttas.elementalcraft.interaction.ECInteractions;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.spell.SpellHelper;
@@ -111,14 +111,14 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.PICKUP_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.VORTEX_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.NECTAR_SHRINE_UPGRADE.get());
-                if (ECInteractions.isBotaniaActive()) {
+                if (ElementalCraftInteraction.isBotaniaActive()) {
                     o.accept(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE.get());
                 }
                 o.accept(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.PROTECTION_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.FILLING_SHRINE_UPGRADE.get());
                 o.accept(ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get());
-                if (ECInteractions.isAppliedEnergistics2Active()) {
+                if (ElementalCraftInteraction.isAppliedEnergistics2Active()) {
                     o.accept(ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE.get());
                 }
                 o.accept(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get());

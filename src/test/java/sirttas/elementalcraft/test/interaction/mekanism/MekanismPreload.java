@@ -2,14 +2,14 @@ package sirttas.elementalcraft.test.interaction.mekanism;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.interaction.ECInteractions;
 
 public class MekanismPreload implements BeforeAllCallback {
 
     @Override
     public void beforeAll(ExtensionContext context) {
-        if (!ECInteractions.isMekanismActive()) {
+        if (!ElementalCraftInteraction.isMekanismActive()) {
             ElementalCraftApi.LOGGER.debug("Mekanism is not active, we don't need to preload frequencies");
             return;
         }
