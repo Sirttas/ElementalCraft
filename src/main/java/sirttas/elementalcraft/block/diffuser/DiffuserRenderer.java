@@ -15,8 +15,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
@@ -29,11 +31,13 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
         axis.mul(Axis.ZP.rotationDegrees(45));
         return axis;
     });
-	
+
+    private final RuneModelResolver runeModelResolver;
 	private final BlockStateModelPart cubeModel;
 
     public DiffuserRenderer() {
         cubeModel = CUBE.loadModel();
+        runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
     public void extractRenderState(DiffuserBlockEntity blockEntity, DiffuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         renderState.partialTicks = partialTick;
-        renderState.runes.update(blockEntity.getRuneHandler(), partialTick);
+        renderState.runes.update(blockEntity.getRuneHandler(), runeModelResolver, partialTick);
         if (blockEntity.showsRange()) {
             renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
         } else {

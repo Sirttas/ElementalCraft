@@ -17,15 +17,19 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 @OnlyIn(Dist.CLIENT)
 public class InscriberRenderer implements BlockEntityRenderer<@NotNull InscriberBlockEntity, @NotNull InscriberRenderState> {
 
     private final ItemModelResolver itemModelResolver;
+    private final RuneModelResolver runeModelResolver;
 
     public InscriberRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class InscriberRenderer implements BlockEntityRenderer<@NotNull Inscriber
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
         renderState.partialTicks = partialTicks;
         renderState.facing = blockEntity.getBlockState().getValue(InscriberBlock.FACING);
-        renderState.runes.update(blockEntity, partialTicks);
+        renderState.runes.update(blockEntity, runeModelResolver, partialTicks);
         renderState.items.clear();
 
         Container inv = blockEntity.getInventory();

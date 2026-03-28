@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.LevelReader;
 import net.neoforged.neoforge.common.util.Lazy;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.json.merger.BlockPredicateJsonMerger;
 import sirttas.dpanvil.api.json.merger.ForeachJsonMerger;
 import sirttas.dpanvil.api.json.merger.JsonMerger;
@@ -30,10 +31,11 @@ public abstract class AbstractUpgrade<T> {
 			.with(ECNames.BONUSES, new ForeachJsonMerger((j1, j2) -> new JsonPrimitive(j1.getAsFloat() * j2.getAsFloat())))
 			.build();
 
-	private IBlockPosPredicate predicate;
-	protected int maxAmount;
-	protected final Map<T, Float> bonuses;
-	private Lazy<List<Component>> predicateTooltip;
+    private IBlockPosPredicate predicate;
+    @Deprecated
+    protected int maxAmount;
+    private final Map<T, Float> bonuses;
+	private Lazy<@NotNull List<Component>> predicateTooltip;
 	
 	protected AbstractUpgrade(IBlockPosPredicate predicate, Map<T, Float> map, int maxAmount) {
 		this.setPredicate(predicate);
@@ -63,7 +65,7 @@ public abstract class AbstractUpgrade<T> {
 
 	public void setPredicate(IBlockPosPredicate predicate) {
 		this.predicate = predicate.simplify();
-		this.predicateTooltip = Lazy.of(predicate::getTooltip);
+		this.predicateTooltip = Lazy.of(this.predicate::getTooltip);
 	}
 
 	public List<Component> getPredicateTooltip() {

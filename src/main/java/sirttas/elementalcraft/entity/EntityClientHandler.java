@@ -38,7 +38,7 @@ public class EntityClientHandler {
 	private EntityClientHandler() {}
 
 	@SubscribeEvent
-	public static void renderSpellEffects(final RenderLivingEvent.Post<?, ?> event) {
+	public static void renderSpellEffects(final RenderLivingEvent.Post<?, ?, ?> event) {
 		var poseStack = event.getPoseStack();
 		var entity = event.getEntity();
 		var spell = SpellHelper.getSpellInUse(entity);

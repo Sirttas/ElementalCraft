@@ -12,14 +12,18 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public abstract class IOInstrumentRenderer<T extends BlockEntity & IContainerBlockEntity, S extends IOInstrumentRenderState> implements BlockEntityRenderer<@NotNull T, @NotNull S> {
 
     private final ItemModelResolver itemModelResolver;
+    private final RuneModelResolver runeModelResolver;
 
     protected IOInstrumentRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
     }
 
     @Override
@@ -27,7 +31,7 @@ public abstract class IOInstrumentRenderer<T extends BlockEntity & IContainerBlo
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
         renderState.partialTicks = partialTicks;
         renderState.facing = blockEntity.getBlockState().getOptionalValue(BlockStateProperties.HORIZONTAL_FACING).orElse(Direction.NORTH);
-        renderState.runes.update(blockEntity, partialTicks);
+        renderState.runes.update(blockEntity, runeModelResolver, partialTicks);
 
         Container inv = blockEntity.getInventory();
         itemModelResolver.updateForTopItem(renderState.material, inv.getItem(0), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

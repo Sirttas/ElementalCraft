@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.rune;
 
+import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -24,11 +25,11 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).apply(builder, Rune::new));
 
 	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
-		super(predicate, new EnumMap<>(bonuses), maxAmount);
+		super(predicate, Maps.immutableEnumMap(bonuses), maxAmount);
 	}
 
 	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		bonuses.forEach((type, multiplier) -> tooltip.add(
+		getBonuses().forEach((type, multiplier) -> tooltip.add(
 				Component.translatable("rune_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier)).withStyle(multiplier > 0 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(Component.empty());

@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.api.block.shrine.upgrade;
 
+import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
@@ -12,7 +13,6 @@ import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +21,11 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 	public static final Codec<ShrineUpgrade> CODEC = RecordCodecBuilder.create(builder -> AbstractUpgrade.codec(builder, BonusType.CODEC).apply(builder, ShrineUpgrade::new));
 
 	public ShrineUpgrade(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
-		super(predicate, new EnumMap<>(bonuses), maxAmount);
+		super(predicate, Maps.immutableEnumMap(bonuses), maxAmount);
 	}
 
 	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		bonuses.forEach((type, multiplier) -> tooltip.add(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
+		getBonuses().forEach((type, multiplier) -> tooltip.add(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
 				.withStyle(type.isPositive() ^ multiplier < 1 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
 			tooltip.add(Component.empty());

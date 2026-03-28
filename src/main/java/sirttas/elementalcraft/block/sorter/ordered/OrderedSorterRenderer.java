@@ -3,84 +3,133 @@ package sirttas.elementalcraft.block.sorter.ordered;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.model.ECModelResolver;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
-import javax.annotation.Nonnull;
+public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull OrderedSorterBlockEntity, @NotNull OrderedSorterRenderState> {
 
-public class OrderedSorterRenderer implements BlockEntityRenderer<OrderedSorterBlockEntity> {
+    private final ItemModelResolver itemModelResolver;
+    private final RuneModelResolver runeModelResolver;
 
+    public OrderedSorterRenderer(BlockEntityRendererProvider.Context context) {
+        this.itemModelResolver = context.itemModelResolver();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+    }
 
-	@Override
-	public void render(@Nonnull OrderedSorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		var mouseOver = Minecraft.getInstance().hitResult;
-		var shiftKeyDown =  Minecraft.getInstance().player.isShiftKeyDown();
-		var stacks = sorter.getStacks();
+    @Override
+    public OrderedSorterRenderState createRenderState() {
+        return new OrderedSorterRenderState();
+    }
 
-		if (mouseOver != null && mouseOver.getType() == HitResult.Type.BLOCK && !stacks.isEmpty()) {
+    @Override
+    public void extractRenderState(@NotNull OrderedSorterBlockEntity blockEntity, @NotNull OrderedSorterRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.runes.update(blockEntity, runeModelResolver, partialTicks);
+
+        var blockState = blockEntity.getBlockState();
+        var sourceRotation = blockState.getValue(ISorterBlock.SOURCE).getOpposite().getRotation();
+        var targetRotation = blockState.getValue(ISorterBlock.TARGET).getRotation();
+        state.runeRotation = new Quaternionf(sourceRotation.x() + targetRotation.x(), sourceRotation.y() + targetRotation.y(), sourceRotation.z() + targetRotation.z(), sourceRotation.w() + targetRotation.w());
+        state.runeRotation.normalize();
+
+        state.items.clear();
+
+        var stacks = blockEntity.getStacks();
+        if (stacks.isEmpty()) {
+            return;
+        }
+
+        var mouseOver = Minecraft.getInstance().hitResult;
+        if (mouseOver == null || mouseOver.getType() != HitResult.Type.BLOCK) {
+            return;
+        }
+
+        var result = (BlockHitResult) mouseOver;
+        if (!blockEntity.getBlockPos().equals(result.getBlockPos())) {
+            return;
+        }
+
+        var rotation = result.getDirection().getRotation();
+        var newPos = new Vector3f(0, 2F / 16, 1F / 16);
+
+        rotation.transform(newPos);
+
+        state.rotation = rotation;
+        state.facePosition = newPos;
+        state.useAlternativeDirection = Minecraft.getInstance().player.isShiftKeyDown();
+        state.index = blockEntity.getIndex();
+
+        for ( var stack : stacks) {
+            if (stack.isEmpty()) {
+                var itemState = new ItemStackRenderState();
+
+                itemModelResolver.updateForTopItem(itemState, stack, ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);
+                state.items.add(itemState);
+            }
+        }
+    }
+
+    @Override
+    public void submit(OrderedSorterRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
+		if (!state.items.isEmpty()) {
 			poseStack.pushPose();
 
-			BlockHitResult result = (BlockHitResult) mouseOver;
-			
-			if (sorter.getBlockPos().equals(result.getBlockPos())) {
-				var index = sorter.getIndex();
-				var rotation = result.getDirection().getRotation();
-				var newPos = new Vector3f(0, 2F / 16, 1F / 16);
 
-				poseStack.translate(0.5, 0.5, 0.5);
-				rotation.transform(newPos);
-				poseStack.translate(newPos.x(), newPos.y(), newPos.z());
-				poseStack.mulPose(rotation);
-				poseStack.mulPose(Axis.XP.rotationDegrees(-90F));
-				poseStack.scale(0.5F, 0.5F, 0.5F);
-				ECRendererHelper.renderItem(stacks.get(index), poseStack, buffer, light, overlay);
-				poseStack.scale(0.5F, 0.5F, 0.5F);
-				poseStack.pushPose();
-				translate(poseStack, 0.5, shiftKeyDown);
-				for (int i = index - 1; i >= 0; i--) {
-					translate(poseStack, 0.5, shiftKeyDown);
-					ECRendererHelper.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
-				}
-				poseStack.popPose();
-				poseStack.pushPose();
-				translate(poseStack, -0.5, shiftKeyDown);
-				for (int i = index + 1; i < stacks.size(); i++) {
-					translate(poseStack, -0.5, shiftKeyDown);
-					ECRendererHelper.renderItem(stacks.get(i), poseStack, buffer, light, overlay);
-				}
-				poseStack.popPose();
-			}
+            poseStack.translate(0.5, 0.5, 0.5);
+            poseStack.translate(state.facePosition.x(), state.facePosition.y(), state.facePosition.z());
+            poseStack.mulPose(state.rotation);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-90F));
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            state.items.get(state.index).submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            poseStack.pushPose();
+            translate(state, poseStack, 0.5F);
+            for (int i = state.index - 1; i >= 0; i--) {
+                translate(state, poseStack, 0.5F);
+                state.items.get(i).submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            }
+            poseStack.popPose();
+            poseStack.pushPose();
+            translate(state, poseStack, -0.5F);
+            for (int i = state.index + 1; i < state.items.size(); i++) {
+                translate(state, poseStack, -0.5F);
+                state.items.get(i).submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            }
+            poseStack.popPose();
 			poseStack.popPose();
 		}
-		renderRunes(sorter, partialTicks, poseStack, buffer, light, overlay);
+		submitRunes(state, poseStack, submitNodeCollector);
 	}
 
-	private void renderRunes(OrderedSorterBlockEntity sorter, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
+	private void submitRunes(OrderedSorterRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector) {
 		poseStack.translate(0.5F, 0.5F, 0.5F);
-
-		var state = sorter.getBlockState();
-		var rotation1 = state.getValue(ISorterBlock.SOURCE).getOpposite().getRotation();
-		var rotation2 = state.getValue(ISorterBlock.TARGET).getRotation();
-		var rotation = new Quaternionf(rotation1.x() + rotation2.x(), rotation1.y() + rotation2.y(), rotation1.z() + rotation2.z(), rotation1.w() + rotation2.w());
-
-		rotation.normalize();
-		poseStack.mulPose(rotation);
-
+		poseStack.mulPose(state.runeRotation);
 		poseStack.translate(-0.5F, -0.75F, -0.5F);
-		ECRendererHelper.renderRunes(poseStack, buffer, sorter.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
+        state.runes.submit(poseStack, submitNodeCollector, state.lightCoords);
 	}
 
-	private void translate(PoseStack matrixStack, double value, boolean sneeking) {
-		if (sneeking) {
-			matrixStack.translate(-value, 0, 0);
+	private void translate(OrderedSorterRenderState state, PoseStack matrixStack, float amount) {
+		if (state.useAlternativeDirection) {
+			matrixStack.translate(-amount, 0, 0);
 		} else {
-			matrixStack.translate(0, value, 0);
+			matrixStack.translate(0, amount, 0);
 		}
 	}
 }

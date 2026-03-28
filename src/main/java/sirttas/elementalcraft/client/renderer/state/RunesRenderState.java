@@ -10,6 +10,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
@@ -20,23 +21,23 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class RunesRenderState {
 
-    private float partialTick;
+    private Quaternionf rotation;
     private List<Material.Baked> runes;
 
     public RunesRenderState() {
-        partialTick = 0;
+        rotation = Axis.YP.rotationDegrees(0);
         runes = List.of();
     }
 
-    public void update(@Nullable IRuneHandler runeHandler, RuneModelResolver runeModelResolver, float partialTick) {
-        this.partialTick = partialTick;
+    public void update(@Nullable IRuneHandler runeHandler, RuneModelResolver runeModelResolver, float partialTicks) {
+        this.rotation = Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks) / 2);
         this.runes = runeHandler == null ? List.of() : runeHandler.getRunes().stream()
                 .map(runeModelResolver::getSprite)
                 .toList();
     }
 
-    public void update(BlockEntity blockEntity, float partialTicks) {
-        this.update(blockEntity.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, null), partialTicks);
+    public void update(BlockEntity blockEntity, RuneModelResolver runeModelResolver, float partialTicks) {
+        this.update(blockEntity.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, null), runeModelResolver, partialTicks);
     }
 
     public void clear() {
@@ -52,7 +53,7 @@ public class RunesRenderState {
 
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.75F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(partialTick / 2));
+        poseStack.mulPose(rotation);
         for (var rune : runes) {
             poseStack.mulPose(Axis.YP.rotationDegrees(90F / runeCount));
             poseStack.pushPose();

@@ -4,11 +4,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -35,7 +35,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 	@Nonnull
 	@Override
 	public InteractionResult useOn(@Nonnull UseOnContext context) {
-		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context).result();
+		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos()), context);
 	}
 
 	@Nonnull
@@ -47,7 +47,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 	@Nonnull
 	public InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
 		if (handler == null) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 
 		var level = context.getLevel();
@@ -63,10 +63,10 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 			}
 			return InteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
-	public static Holder<Rune> getRune(ItemStack stack) {
+	public static Holder<@NotNull Rune> getRune(ItemStack stack) {
 		return stack.get(ECDataComponents.RUNE);
 	}
 
@@ -74,7 +74,7 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 		return getRuneStack(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
 	}
 
-	public ItemStack getRuneStack(Holder<Rune> rune) {
+	public ItemStack getRuneStack(Holder<@NotNull Rune> rune) {
 		ItemStack stack = new ItemStack(this);
 
 		stack.set(ECDataComponents.RUNE, rune);

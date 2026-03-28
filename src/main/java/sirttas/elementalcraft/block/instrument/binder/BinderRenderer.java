@@ -17,15 +17,19 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 @OnlyIn(Dist.CLIENT)
 public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull BinderRenderState> {
 
     private final ItemModelResolver itemModelResolver;
+    private final RuneModelResolver runeModelResolver;
 
     public BinderRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
     }
 
     @Override
@@ -37,7 +41,7 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
     public void extractRenderState(T blockEntity, BinderRenderState renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
         renderState.partialTicks = partialTicks;
-        renderState.runes.update(blockEntity, partialTicks);
+        renderState.runes.update(blockEntity, runeModelResolver, partialTicks);
         renderState.items.clear();
 
         Container inv = blockEntity.getInventory();

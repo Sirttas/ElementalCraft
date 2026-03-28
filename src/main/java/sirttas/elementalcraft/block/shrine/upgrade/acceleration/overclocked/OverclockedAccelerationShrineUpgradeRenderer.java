@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -18,7 +18,7 @@ import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 @Deprecated
 public class OverclockedAccelerationShrineUpgradeRenderer implements BlockEntityRenderer<OverclockedAccelerationShrineUpgradeBlockEntity, AccelerationShrineUpgradeRenderState> {
 
-    private final BlockStateModel clockModel;
+    private final BlockStateModelPart clockModel;
 
     public OverclockedAccelerationShrineUpgradeRenderer() {
         clockModel = AccelerationShrineUpgradeRenderer.CLOCK.loadModel();

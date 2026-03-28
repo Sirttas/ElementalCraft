@@ -16,15 +16,19 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 @OnlyIn(Dist.CLIENT)
 public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull CrystallizerBlockEntity, @NotNull CrystallizerRenderState> {
 
     private final ItemModelResolver itemModelResolver;
+    private final RuneModelResolver runeModelResolver;
 
     public CrystallizerRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
     }
 
     @Override
@@ -36,7 +40,7 @@ public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull Crysta
     public void extractRenderState(CrystallizerBlockEntity blockEntity, CrystallizerRenderState renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
         renderState.partialTicks = partialTicks;
-        renderState.runes.update(blockEntity, partialTicks);
+        renderState.runes.update(blockEntity, runeModelResolver, partialTicks);
 
         Container inv = blockEntity.getInventory();
         itemModelResolver.updateForTopItem(renderState.gem, inv.getItem(0), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

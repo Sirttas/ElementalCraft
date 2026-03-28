@@ -4,6 +4,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
@@ -19,15 +20,14 @@ import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 
 import javax.annotation.Nonnull;
 
-public class ChiselItem extends TieredItem implements IPipeInteractingItem {
+public class ChiselItem extends Item implements IPipeInteractingItem {
 	
 	public static final String NAME_DRENCHED_IRON = "drenched_iron_chisel";
 	public static final String NAME_SWIFT_ALLOY = "swift_alloy_chisel";
 	public static final String NAME_FIREITE = "fireite_chisel";
 
-
-	public ChiselItem(Tier tier, Item.Properties properties) {
-		super(tier, properties);
+	public ChiselItem(ToolMaterial toolMaterial, Item.Properties properties) {
+		super(properties);
 	}
 
 	@Nonnull
@@ -45,7 +45,7 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 	@Nonnull
 	private InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
 		if (handler == null) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 
 		var level = context.getLevel();
@@ -54,7 +54,7 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 		var runes = handler.getRunes();
 
 		if (!runes.isEmpty() && player != null && player.isShiftKeyDown()) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				for (var rune : runes) {
 					if (!stack.isEmpty()) {
 						stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
@@ -65,7 +65,7 @@ public class ChiselItem extends TieredItem implements IPipeInteractingItem {
 			}
 			return InteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
     @Override

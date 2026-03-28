@@ -32,7 +32,7 @@ import sirttas.elementalcraft.block.source.trait.holder.ItemSourceTraitHolder;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.element.ElementAmounts;
 import sirttas.elementalcraft.item.chisel.ChiselItem;
-import sirttas.elementalcraft.item.chisel.ChiselTiers;
+import sirttas.elementalcraft.item.chisel.ChiselToolMaterials;
 import sirttas.elementalcraft.item.elemental.DamageableCraftingElementalItem;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
@@ -92,9 +92,9 @@ public class ECItems {
 			.component(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY)));
 	public static final DeferredHolder<Item, PureOreItem> PURE_ORE = register(PureOreItem.NAME, () -> new PureOreItem(new Item.Properties()));
 	public static final DeferredHolder<Item, RuneItem> RUNE = register(RuneItem.NAME, () -> new RuneItem(ECProperties.Items.ITEM_UNSTACKABLE));
-	public static final DeferredHolder<Item, ChiselItem> DRENCHED_IRON_CHISEL = register(ChiselItem.NAME_DRENCHED_IRON, () -> new ChiselItem(ChiselTiers.DRENCHED_IRON, new Item.Properties()));
-	public static final DeferredHolder<Item, ChiselItem> SWIFT_ALLOY_CHISEL = register(ChiselItem.NAME_SWIFT_ALLOY, () -> new ChiselItem(ChiselTiers.SWIFT_ALLOY, new Item.Properties()));
-	public static final DeferredHolder<Item, ChiselItem> FIREITE_CHISEL = register(ChiselItem.NAME_FIREITE, () -> new ChiselItem(ChiselTiers.FIREITE, new Item.Properties()
+	public static final DeferredHolder<Item, ChiselItem> DRENCHED_IRON_CHISEL = register(ChiselItem.NAME_DRENCHED_IRON, () -> new ChiselItem(ChiselToolMaterials.DRENCHED_IRON, new Item.Properties()));
+	public static final DeferredHolder<Item, ChiselItem> SWIFT_ALLOY_CHISEL = register(ChiselItem.NAME_SWIFT_ALLOY, () -> new ChiselItem(ChiselToolMaterials.SWIFT_ALLOY, new Item.Properties()));
+	public static final DeferredHolder<Item, ChiselItem> FIREITE_CHISEL = register(ChiselItem.NAME_FIREITE, () -> new ChiselItem(ChiselToolMaterials.FIREITE, new Item.Properties()
 			.fireResistant()));
 	public static final DeferredHolder<Item, DamageableCraftingElementalItem> ELEMENTAL_FIREFUEL = register("elemental_firefuel", () -> new DamageableCraftingElementalItem(ElementType.FIRE, new Item.Properties()
 			.stacksTo(1)
