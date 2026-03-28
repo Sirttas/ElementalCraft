@@ -6,8 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.sprite.Material;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.renderer.ECRenderTypes;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRenderTypes;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 

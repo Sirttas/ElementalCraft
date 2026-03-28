@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.diffuser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
@@ -30,7 +30,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
         return axis;
     });
 	
-	private final BlockStateModel cubeModel;
+	private final BlockStateModelPart cubeModel;
 
     public DiffuserRenderer() {
         cubeModel = CUBE.loadModel();
@@ -44,7 +44,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
     @Override
     public void extractRenderState(DiffuserBlockEntity blockEntity, DiffuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
+        renderState.partialTicks = partialTick;
         renderState.runes.update(blockEntity.getRuneHandler(), partialTick);
         if (blockEntity.showsRange()) {
             renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
@@ -57,7 +57,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
     public void submit(DiffuserRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         renderState.range.submit();
 
-        float angle = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float angle = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         renderState.runes.submit(renderState, poseStack, nodeCollector);
         poseStack.pushPose();

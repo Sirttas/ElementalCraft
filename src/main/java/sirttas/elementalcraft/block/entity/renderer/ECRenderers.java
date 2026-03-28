@@ -83,21 +83,21 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.SORTER, OrderedSorterRenderer::new);
 		register(ECBlockEntityTypes.SOURCE, SourceRenderer::new);
 
-		register(ECBlockEntityTypes.FIRE_PYLON, ShrineRenderer::new);
-		register(ECBlockEntityTypes.GROVE_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.FIRE_PYLON, ShrineRenderer::create);
+		register(ECBlockEntityTypes.GROVE_SHRINE, ShrineRenderer::create);
 		register(ECBlockEntityTypes.BUDDING_SHRINE, BuddingShrineRenderer::new);
-		register(ECBlockEntityTypes.BREEDING_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.SPAWNING_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.LAVA_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.ORE_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.OVERLOAD_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.SWEET_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.GROWTH_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.HARVEST_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.LUMBER_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.ENDER_LOCK_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.SPRING_SHRINE, ShrineRenderer::new);
-		register(ECBlockEntityTypes.VACUUM_SHRINE, ShrineRenderer::new);
+		register(ECBlockEntityTypes.BREEDING_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.SPAWNING_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.LAVA_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.ORE_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.OVERLOAD_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.SWEET_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.GROWTH_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.HARVEST_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.LUMBER_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.ENDER_LOCK_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.SPRING_SHRINE, ShrineRenderer::create);
+		register(ECBlockEntityTypes.VACUUM_SHRINE, ShrineRenderer::create);
 
 		register(ECBlockEntityTypes.CONTAINER, ContainerRenderer::new);
 		register(ECBlockEntityTypes.CREATIVE_CONTAINER, ContainerRenderer::new);

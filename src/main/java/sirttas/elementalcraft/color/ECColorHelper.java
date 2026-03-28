@@ -11,7 +11,6 @@ import java.util.Comparator;
 @OnlyIn(Dist.CLIENT)
 public class ECColorHelper {
 
-
     private static final Comparator<Integer> COLOR_BRIGHTNESS_COMPARATOR = Comparator.comparingInt(ECColorHelper::getBrightness);
 
     private static boolean noJeiLogged = false;

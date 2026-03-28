@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer.state;
+package sirttas.elementalcraft.client.renderer.state;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.renderer.ECRenderTypes;
+import sirttas.elementalcraft.client.renderer.ECRenderTypes;
 
 public class GhostBlockRenderState {
     public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();

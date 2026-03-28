@@ -13,7 +13,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class PurifierRenderer extends IOInstrumentRenderer<PurifierBlockEntity, IOInstrumentRenderState> {

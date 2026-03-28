@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderState;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @Deprecated
 public class OverclockedAccelerationShrineUpgradeRenderer implements BlockEntityRenderer<OverclockedAccelerationShrineUpgradeBlockEntity, AccelerationShrineUpgradeRenderState> {

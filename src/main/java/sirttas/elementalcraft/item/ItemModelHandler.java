@@ -15,8 +15,8 @@ import sirttas.elementalcraft.block.instrument.io.mill.woodsaw.air.AirMillWoodSa
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
 import sirttas.elementalcraft.item.holder.ElementHolderItem;
 import sirttas.elementalcraft.item.rune.RuneItem;
-import sirttas.elementalcraft.item.rune.RuneModel;
 import sirttas.elementalcraft.pureore.display.PureOreDisplayManager;
+import sirttas.elementalcraft.rune.RuneModel;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 import java.util.Map;

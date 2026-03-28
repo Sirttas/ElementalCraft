@@ -17,29 +17,27 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
+import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.renderer.state.GhostBlockRenderState;
 import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull ShrineRenderState> {
+public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S extends ShrineRenderState> implements BlockEntityRenderer<@NotNull T, @NotNull S> {
 
     private final BlockModelResolver blockModelResolver;
 
-    public ShrineRenderer(BlockEntityRendererProvider.Context context) {
+    protected ShrineRenderer(BlockEntityRendererProvider.Context context) {
         this.blockModelResolver = context.blockModelResolver();
     }
 
-    @Override
-    public ShrineRenderState createRenderState() {
-        return new ShrineRenderState();
+    public static <T extends AbstractShrineBlockEntity> ShrineRenderer<T, ShrineRenderState> create(BlockEntityRendererProvider.Context context) {
+        return new Default<>(context);
     }
 
-
     @Override
-    public void extractRenderState(T blockEntity, ShrineRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(T blockEntity, S renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         if (blockEntity.showsRange()) {
             renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
@@ -88,7 +86,7 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements Bloc
     }
 
     @Override
-    public void submit(ShrineRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+    public void submit(S renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         renderState.range.submit();
 
         poseStack.pushPose();
@@ -98,4 +96,16 @@ public class ShrineRenderer<T extends AbstractShrineBlockEntity> implements Bloc
         });
         poseStack.popPose();
 	}
+
+    private static class Default<T extends AbstractShrineBlockEntity> extends ShrineRenderer<T , ShrineRenderState> {
+
+        protected Default(BlockEntityRendererProvider.Context context) {
+            super(context);
+        }
+
+        @Override
+        public @NotNull ShrineRenderState createRenderState() {
+            return new ShrineRenderState();
+        }
+    }
 }

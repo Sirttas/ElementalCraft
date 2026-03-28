@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer.state;
+package sirttas.elementalcraft.client.renderer.state;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gizmos.GizmoStyle;

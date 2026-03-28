@@ -10,9 +10,9 @@ import org.apache.commons.lang3.BooleanUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 import java.util.EnumMap;

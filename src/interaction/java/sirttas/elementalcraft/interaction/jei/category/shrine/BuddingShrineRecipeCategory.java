@@ -28,9 +28,9 @@ import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrineRenderer;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

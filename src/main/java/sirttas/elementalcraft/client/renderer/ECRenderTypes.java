@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer;
+package sirttas.elementalcraft.client.renderer;
 
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;

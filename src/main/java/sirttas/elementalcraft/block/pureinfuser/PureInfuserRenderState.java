@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderState;
-import sirttas.elementalcraft.renderer.state.GhostBlockRenderState;
+import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
 
 public class PureInfuserRenderState extends SingleItemBlockEntityRenderState {
     public final GhostBlockRenderState ghostBlockRenderState;

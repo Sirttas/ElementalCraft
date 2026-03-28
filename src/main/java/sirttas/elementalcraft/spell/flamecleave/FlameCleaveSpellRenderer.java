@@ -6,7 +6,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 

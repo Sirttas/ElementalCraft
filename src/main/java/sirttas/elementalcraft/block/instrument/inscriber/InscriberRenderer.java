@@ -17,7 +17,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class InscriberRenderer implements BlockEntityRenderer<@NotNull InscriberBlockEntity, @NotNull InscriberRenderState> {
@@ -34,11 +34,11 @@ public class InscriberRenderer implements BlockEntityRenderer<@NotNull Inscriber
     }
 
     @Override
-    public void extractRenderState(InscriberBlockEntity blockEntity, InscriberRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
+    public void extractRenderState(InscriberBlockEntity blockEntity, InscriberRenderState renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
+        renderState.partialTicks = partialTicks;
         renderState.facing = blockEntity.getBlockState().getValue(InscriberBlock.FACING);
-        renderState.runes.update(blockEntity, partialTick);
+        renderState.runes.update(blockEntity, partialTicks);
         renderState.items.clear();
 
         Container inv = blockEntity.getInventory();
@@ -77,7 +77,7 @@ public class InscriberRenderer implements BlockEntityRenderer<@NotNull Inscriber
     }
 
     private void submitItems(InscriberRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector) {
-        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         poseStack.translate(-0.4F, -0.2F, -0.2F);
         for (var state : renderState.items) {

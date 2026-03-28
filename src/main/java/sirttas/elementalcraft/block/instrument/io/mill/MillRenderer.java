@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.airmill.AirMill;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> extends IOInstrumentRenderer<T, MillRenderState> {

@@ -1,9 +1,8 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration;
 
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.core.Direction;
+import sirttas.elementalcraft.block.entity.renderer.ECBlockEntityRenderState;
 
-public class AccelerationShrineUpgradeRenderState extends BlockEntityRenderState {
-    public float partialTicks;
+public class AccelerationShrineUpgradeRenderState extends ECBlockEntityRenderState {
     public Direction facing;
 }

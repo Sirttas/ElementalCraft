@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer;
+package sirttas.elementalcraft.client.renderer;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;

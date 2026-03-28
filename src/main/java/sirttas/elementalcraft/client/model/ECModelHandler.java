@@ -7,15 +7,14 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
-import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.MillRenderer;
 import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelShaper;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelResolver;
 import sirttas.elementalcraft.block.pipe.upgrade.beam.ElementBeamPipeUpgradeRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpPipeUpgradeRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.valve.ElementValvePipeUpgradeRenderer;
@@ -26,6 +25,8 @@ import sirttas.elementalcraft.block.source.SourceRenderer;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerRenderer;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.rune.RuneModelResolver;
+import sirttas.elementalcraft.rune.RuneSpecialRenderer;
 
 import java.util.function.Consumer;
 
@@ -36,19 +37,20 @@ public class ECModelHandler {
     private ECModelHandler() { }
 
     @SubscribeEvent
-    public static void initShapers(RenderLevelStageEvent.RegisterStageEvent event) { // We use this event because it is the first one fired after the ModelManager get initialized
-        ECModelShapers.register(PipeUpgradeModelShaper.NAME, PipeUpgradeModelShaper::new);
-
-        ECModelShapers.init(Minecraft.getInstance().getModelManager());
+    public static void registerSpecialModelRenderer(RegisterSpecialModelRendererEvent event) {
+        event.register(RuneSpecialRenderer.IDENTIFIER, RuneSpecialRenderer.Unbaked.MAP_CODEC);
     }
-
 
     @SubscribeEvent
     public static void registerModels(ModelEvent.RegisterStandalone event) {
+        var modelManager = Minecraft.getInstance().getModelManager();
 
-        registerRuneModels(addModel);
+        ECModelResolver.register(RuneModelResolver.IDENTIFIER, new RuneModelResolver(modelManager));
+        ECModelResolver.register(PipeUpgradeModelResolver.IDENTIFIER, new PipeUpgradeModelResolver(modelManager));
+        ECModelResolver.getAll().forEach(resolver -> resolver.registerModels(event::register));
+
         registerBuddingShrinePlatesModels(addModel);
-        ECModelShapers.getAll().forEach(shaper -> shaper.registerModels(event::register));
+
         event.register(ElementPipeRenderer.SIDE_LOCATION);
         event.register(ElementPipeRenderer.EXTRACT_LOCATION);
         event.register(CrackingSynthesizerRenderer.HEAD_LOCATION);
@@ -60,8 +62,8 @@ public class ECModelHandler {
         event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
         register(event, DiffuserRenderer.CUBE);
         register(event, AccelerationShrineUpgradeRenderer.CLOCK);
-        event.register(VortexShrineUpgradeRenderer.RING_LOCATION);
-        event.register(TranslocationShrineUpgradeRenderer.RING_LOCATION);
+        register(event, VortexShrineUpgradeRenderer.RING);
+        register(event, TranslocationShrineUpgradeRenderer.RING);
         event.register(SourceRenderer.STABILIZER_LOCATION);
         event.register(ElementValvePipeUpgradeRenderer.OPEN_LOCATION);
         event.register(ElementValvePipeUpgradeRenderer.CLOSE_LOCATION);
@@ -74,19 +76,10 @@ public class ECModelHandler {
         event.register(ECModelHelper.createStandaloneKey("item/air_mill_wood_saw_broken"));
     }
 
-    private static void registerRuneModels(Consumer<Identifier> addModel) {
-        ElementalCraftApi.RUNE_MANAGER.getData().values().forEach(rune -> addModel.accept(rune.getModelName()));
-        addAllModelsInManagerFolder(ElementalCraftApi.RUNE_MANAGER, addModel);
-    }
-
     private static void registerBuddingShrinePlatesModels(Consumer<Identifier> addModel) {
         ElementalCraftApi.BUD_TYPE_MANAGER.getData().values().forEach(budType -> addModel.accept(budType.plateModel()));
         addModel.accept(BuddingShrineBudType.AMETHYST.plateModel());
         addAllModelsFolder(BuddingShrineBudType.PLATE_MODEL_FOLDER, addModel);
-    }
-
-    private static void addAllModelsInManagerFolder(IDataManager<?> manager, Consumer<Identifier> addModel) {
-        addAllModelsFolder(manager.getFolder(), addModel);
     }
 
     private static void addAllModelsFolder(String folder, Consumer<Identifier> addModel) {
@@ -94,8 +87,7 @@ public class ECModelHandler {
     }
 
     private static void register(ModelEvent.RegisterStandalone event, SimpleStandaloneModelSupplier supplier) {
-       event.register(supplier.key(), SimpleUnbakedStandaloneModel.blockStateModel(supplier.identifier()));
-
+       event.register(supplier.key(), SimpleUnbakedStandaloneModel.simpleModelWrapper(supplier.identifier()));
     }
 
     @SubscribeEvent

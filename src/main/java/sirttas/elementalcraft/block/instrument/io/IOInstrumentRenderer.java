@@ -23,11 +23,11 @@ public abstract class IOInstrumentRenderer<T extends BlockEntity & IContainerBlo
     }
 
     @Override
-    public void extractRenderState(T blockEntity, S renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
+    public void extractRenderState(T blockEntity, S renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
+        renderState.partialTicks = partialTicks;
         renderState.facing = blockEntity.getBlockState().getOptionalValue(BlockStateProperties.HORIZONTAL_FACING).orElse(Direction.NORTH);
-        renderState.runes.update(blockEntity, partialTick);
+        renderState.runes.update(blockEntity, partialTicks);
 
         Container inv = blockEntity.getInventory();
         itemModelResolver.updateForTopItem(renderState.material, inv.getItem(0), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

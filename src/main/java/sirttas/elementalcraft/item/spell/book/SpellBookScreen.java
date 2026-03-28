@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item.spell.book;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
@@ -22,14 +22,14 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 	}
 
 	@Override
-	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int x, int y) {
+	protected void renderLabels(@Nonnull GuiGraphicsExtractor guiGraphics, int x, int y) {
 		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
 
 		super.renderLabels(guiGraphics, x, y);
@@ -38,7 +38,7 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 	}
 
 	@Override
-	protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int x, int y) {
+	protected void renderBg(@Nonnull GuiGraphicsExtractor guiGraphics, float partialTicks, int x, int y) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;

@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer.state;
+package sirttas.elementalcraft.client.renderer.state;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -12,7 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 import java.util.List;
 
@@ -22,15 +23,15 @@ public class RunesRenderState {
     private float partialTick;
     private List<Material.Baked> runes;
 
-    public  RunesRenderState() {
+    public RunesRenderState() {
         partialTick = 0;
         runes = List.of();
     }
 
-    public void update(@Nullable IRuneHandler runeHandler, float partialTick) {
+    public void update(@Nullable IRuneHandler runeHandler, RuneModelResolver runeModelResolver, float partialTick) {
         this.partialTick = partialTick;
         this.runes = runeHandler == null ? List.of() : runeHandler.getRunes().stream()
-                .map(r -> r.value().getSprite())
+                .map(runeModelResolver::getSprite)
                 .toList();
     }
 

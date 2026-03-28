@@ -3,7 +3,7 @@ package sirttas.elementalcraft.item.source.analysis;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -36,14 +36,14 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 	}
 
 	@Override
-	public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(@Nonnull GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+	protected void renderBg(@Nonnull GuiGraphicsExtractor guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
@@ -80,7 +80,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		}
 
 		@Override
-		protected void renderDecorations(@Nonnull GuiGraphics guiGraphics, int x, int y) {
+		protected void renderDecorations(@Nonnull GuiGraphicsExtractor guiGraphics, int x, int y) {
 			var poseStack = guiGraphics.pose();
 
 			poseStack.pushPose();
@@ -112,7 +112,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 			}
 
 			@Override
-			public void render(@Nonnull GuiGraphics guiGraphics, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float partialTick) {
+			public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float partialTick) {
 				guiGraphics.drawString(font, getNarration(), left, top, -1);
 			}
 		}

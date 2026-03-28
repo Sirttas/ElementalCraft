@@ -17,7 +17,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityRenderer<@NotNull T, @NotNull BinderRenderState> {
@@ -34,10 +34,10 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
     }
 
     @Override
-    public void extractRenderState(T blockEntity, BinderRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
-        renderState.runes.update(blockEntity, partialTick);
+    public void extractRenderState(T blockEntity, BinderRenderState renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
+        renderState.partialTicks = partialTicks;
+        renderState.runes.update(blockEntity, partialTicks);
         renderState.items.clear();
 
         Container inv = blockEntity.getInventory();
@@ -55,7 +55,7 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
 
     @Override
     public void submit(BinderRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        var tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        var tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
         var size = renderState.items.size();
 
         renderState.runes.submit(renderState, poseStack, nodeCollector);

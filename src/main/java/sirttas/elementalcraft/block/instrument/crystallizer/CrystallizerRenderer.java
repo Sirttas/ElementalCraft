@@ -16,7 +16,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull CrystallizerBlockEntity, @NotNull CrystallizerRenderState> {
@@ -33,10 +33,10 @@ public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull Crysta
     }
 
     @Override
-    public void extractRenderState(CrystallizerBlockEntity blockEntity, CrystallizerRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
-        renderState.runes.update(blockEntity, partialTick);
+    public void extractRenderState(CrystallizerBlockEntity blockEntity, CrystallizerRenderState renderState, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
+        renderState.partialTicks = partialTicks;
+        renderState.runes.update(blockEntity, partialTicks);
 
         Container inv = blockEntity.getInventory();
         itemModelResolver.updateForTopItem(renderState.gem, inv.getItem(0), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);
@@ -45,7 +45,7 @@ public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull Crysta
 
     @Override
     public void submit(CrystallizerRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         poseStack.translate(0F, 0.25F, 0F);
         renderState.runes.submit(renderState, poseStack, nodeCollector);

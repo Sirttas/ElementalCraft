@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.BlockPos;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 

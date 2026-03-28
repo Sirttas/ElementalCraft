@@ -17,7 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class SingleItemBlockEntityRenderer<T extends BlockEntity, S extends SingleItemBlockEntityRenderState> extends RuneBlockEntityRenderer<@NotNull T, @NotNull S> {

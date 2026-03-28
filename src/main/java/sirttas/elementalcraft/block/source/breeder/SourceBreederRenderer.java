@@ -10,9 +10,9 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
 import sirttas.elementalcraft.block.source.SourceRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;

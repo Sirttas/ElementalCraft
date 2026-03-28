@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.acceleration;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 @Deprecated
 public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<@NotNull AccelerationShrineUpgradeBlockEntity, @NotNull AccelerationShrineUpgradeRenderState> {
@@ -22,7 +22,7 @@ public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<@N
 
     public static final SimpleStandaloneModelSupplier CLOCK = new SimpleStandaloneModelSupplier("shrine_upgrade_acceleration_clock");
 
-	private final BlockStateModel clockModel;
+	private final BlockStateModelPart clockModel;
 
     public AccelerationShrineUpgradeRenderer() {
         clockModel = CLOCK.loadModel();

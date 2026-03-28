@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.ISpellRenderer;
 

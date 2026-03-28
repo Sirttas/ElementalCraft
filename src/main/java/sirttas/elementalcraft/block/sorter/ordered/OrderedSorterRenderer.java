@@ -10,7 +10,7 @@ import net.minecraft.world.phys.HitResult;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 

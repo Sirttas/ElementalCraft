@@ -5,7 +5,6 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,18 +21,10 @@ import java.util.Map;
 
 public class Rune extends AbstractUpgrade<Rune.BonusType> {
 	
-	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).and(builder.group(
-			Identifier.CODEC.fieldOf(ECNames.MODEL).forGetter(Rune::getModelName),
-			Identifier.CODEC.fieldOf(ECNames.EFFECT_SPRITE).forGetter(Rune::getSprite)
-	)).apply(builder, Rune::new));
+	public static final Codec<Rune> CODEC = RecordCodecBuilder.create(builder -> codec(builder, BonusType.CODEC).apply(builder, Rune::new));
 
-	private final Identifier modelName;
-	private final Identifier sprite;
-
-	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount, Identifier modelName, Identifier sprite) {
+	private Rune(IBlockPosPredicate predicate, Map<BonusType, Float> bonuses, int maxAmount) {
 		super(predicate, new EnumMap<>(bonuses), maxAmount);
-		this.modelName = modelName;
-		this.sprite = sprite;
 	}
 
 	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
@@ -50,14 +41,6 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 	private String formatMultiplier(Float multiplier) {
 		return String.format("%+d%%", Math.round(multiplier * 100));
-	}
-
-	public Identifier getModelName() {
-		return modelName;
-	}
-
-	public Identifier getSprite() {
-		return sprite;
 	}
 
 	public enum BonusType implements StringRepresentable {
@@ -90,22 +73,18 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 			return NONE;
 		}
 	}
-	
+
 	public static class Builder {
-		public static final Encoder<Builder> ENCODER = Rune.CODEC.comap(builder -> new Rune(builder.predicate, builder.bonuses, builder.maxAmount, builder.model, builder.sprite));
+		public static final Encoder<Builder> ENCODER = Rune.CODEC.comap(builder -> new Rune(builder.predicate, builder.bonuses, builder.maxAmount));
 
 		private IBlockPosPredicate predicate;
 		private final Map<BonusType, Float> bonuses;
 		private int maxAmount;
-		private Identifier model;
-		private Identifier sprite;
 
 		private Builder() {
 			this.bonuses = new EnumMap<>(BonusType.class);
 			this.predicate = null;
 			this.maxAmount = 0;
-			this.model = null;
-			this.sprite = null;
 		}
 
 		public static Builder create() {
@@ -127,16 +106,6 @@ public class Rune extends AbstractUpgrade<Rune.BonusType> {
 
 		public Builder max(int max) {
 			maxAmount = max;
-			return this;
-		}
-
-		public Builder model(Identifier model) {
-			this.model = model;
-			return this;
-		}
-
-		public Builder sprite(Identifier sprite) {
-			this.sprite = sprite;
 			return this;
 		}
 

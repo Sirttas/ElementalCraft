@@ -18,9 +18,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.ISpellRenderer;
 

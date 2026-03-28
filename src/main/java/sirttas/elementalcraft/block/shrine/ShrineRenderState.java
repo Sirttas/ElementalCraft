@@ -2,8 +2,8 @@ package sirttas.elementalcraft.block.shrine;
 
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.core.Direction;
-import sirttas.elementalcraft.renderer.state.GhostBlockRenderState;
-import sirttas.elementalcraft.renderer.state.RangeRenderState;
+import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
+import sirttas.elementalcraft.client.renderer.state.RangeRenderState;
 
 import java.util.Arrays;
 import java.util.EnumMap;

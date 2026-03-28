@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.renderer;
+package sirttas.elementalcraft.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -41,6 +42,8 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.event.TickHandler;
+
+import java.util.List;
 
 public class ECRendererHelper {
 
@@ -388,9 +391,9 @@ public class ECRendererHelper {
         renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
     }
 
-    public static void submitModel(@NotNull BlockStateModel model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
-        nodeCollector.submitCustomGeometry(poseStack, RenderTypes.solidMovingBlock(), (pose, consumer) -> ModelBlockRenderer.renderModel(pose, consumer, model, 1, 1, 1, lightCoords, OverlayTexture.NO_OVERLAY));
-    }
+    public static void submitModel(@NotNull BlockStateModelPart model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
+        nodeCollector.submitBlockModel(poseStack, RenderTypes.solidMovingBlock(), List.of(model), new int[0], lightCoords, OverlayTexture.NO_OVERLAY, 0);
+   }
 
     public static ModelData getModelData(BakedModel model, BlockEntity te) {
         Level level = te.getLevel();

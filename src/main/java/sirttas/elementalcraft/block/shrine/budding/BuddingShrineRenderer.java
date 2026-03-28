@@ -9,13 +9,13 @@ import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
-import sirttas.elementalcraft.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BuddingShrineRenderer extends ShrineRenderer<BuddingShrineBlockEntity> {
+public class BuddingShrineRenderer extends ShrineRenderer<BuddingShrineBlockEntity, BuddingShrineRenderState> {
 
     private static final Map<Identifier, BakedModel> PLATE_MODELS = new HashMap<>();
 
