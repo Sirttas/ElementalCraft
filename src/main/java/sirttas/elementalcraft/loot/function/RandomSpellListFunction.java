@@ -7,8 +7,8 @@ import net.minecraft.core.RegistryCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
@@ -22,27 +22,26 @@ public class RandomSpellListFunction extends LootItemConditionalFunction {
 			RegistryCodecs.homogeneousList(Spells.REGISTRY_KEY).fieldOf("spells").forGetter(r -> r.spellList)
 	).apply(builder, RandomSpellListFunction::new));
 
-	private final HolderSet<Spell> spellList;
+	private final HolderSet<@NotNull Spell> spellList;
 
-	private RandomSpellListFunction(List<LootItemCondition> condition, HolderSet<Spell> spellList) {
+	private RandomSpellListFunction(List<LootItemCondition> condition, HolderSet<@NotNull Spell> spellList) {
 		super(condition);
 		this.spellList = spellList;
 	}
 
-	@Nonnull
+    @Override
+    public @NotNull MapCodec<RandomSpellListFunction> codec() {
+        return CODEC;
+    }
+
+    @Nonnull
     @Override
 	public ItemStack run(@Nonnull ItemStack stack, LootContext context) {
 		SpellHelper.setSpell(stack, SpellHelper.randomSpell(spellList, context.getRandom()));
 		return stack;
 	}
 
-	public static Builder<?> builder(HolderSet<Spell> spellList) {
+	public static Builder<?> builder(HolderSet<@NotNull Spell> spellList) {
 		return simpleBuilder(l -> new RandomSpellListFunction(l, spellList));
-	}
-
-	@Nonnull
-    @Override
-	public LootItemFunctionType<RandomSpellListFunction> getType() {
-		return ECLootFunctions.RANDOM_SPELL_LIST.get();
 	}
 }

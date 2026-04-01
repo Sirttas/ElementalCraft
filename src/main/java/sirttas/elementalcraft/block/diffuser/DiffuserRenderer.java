@@ -36,8 +36,8 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
 	private final BlockStateModelPart cubeModel;
 
     public DiffuserRenderer() {
-        cubeModel = CUBE.loadModel();
         runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+        cubeModel = CUBE.loadModel();
     }
 
     @Override

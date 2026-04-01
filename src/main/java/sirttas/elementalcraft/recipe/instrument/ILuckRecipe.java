@@ -1,10 +1,10 @@
 package sirttas.elementalcraft.recipe.instrument;
 
 import net.minecraft.util.RandomSource;
-import sirttas.elementalcraft.recipe.IECRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import sirttas.elementalcraft.recipe.input.RandomSourceRecipeInput;
 
-public interface ILuckRecipe<I extends RandomSourceRecipeInput> extends IECRecipe<I> {
+public interface ILuckRecipe<I extends RandomSourceRecipeInput> extends Recipe<I> {
 
     default RandomSource getRandomSource(I input) {
         return input.getRandomSource();

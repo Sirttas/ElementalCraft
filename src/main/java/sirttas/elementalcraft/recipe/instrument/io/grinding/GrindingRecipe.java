@@ -26,7 +26,16 @@ public record GrindingRecipe(
 		ItemStack output
 ) implements IGrindingRecipe {
 
-	public GrindingRecipe {
+    public static final MapCodec<GrindingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(GrindingRecipe::elementAmount),
+            Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(GrindingRecipe::luckRatio),
+            Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(GrindingRecipe::ingredient),
+            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(GrindingRecipe::output)
+    ).apply(builder, GrindingRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull GrindingRecipe> STREAM_CODEC = StreamCodec.of(GrindingRecipe::toNetwork, GrindingRecipe::fromNetwork); // TODO rework recipe stream codecs
+
+
+    public GrindingRecipe {
 		if (output.isEmpty()) {
 			throw new IllegalArgumentException("Grinding recipe output must not be empty");
 		}
@@ -64,42 +73,19 @@ public record GrindingRecipe(
 		return (int) Math.round(input.getRuneBonus(Rune.BonusType.LUCK) * luckRatio);
 	}
 
-	public static class Serializer implements RecipeSerializer<GrindingRecipe> {
+    public static GrindingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var elementAmount = buffer.readInt();
+        var luckRatio = buffer.readDouble();
+        var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+        var output = ItemStack.STREAM_CODEC.decode(buffer);
 
-		public static final MapCodec<GrindingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(GrindingRecipe::elementAmount),
-				Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(GrindingRecipe::luckRatio),
-				Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(GrindingRecipe::ingredient),
-				ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(GrindingRecipe::output)
-		).apply(builder, GrindingRecipe::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, GrindingRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+        return new GrindingRecipe(elementAmount, luckRatio, ingredient, output);
+    }
 
-		@Override
-		@Nonnull
-		public MapCodec<GrindingRecipe> codec() {
-			return CODEC;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, GrindingRecipe> streamCodec() {
-			return STREAM_CODEC;
-		}
-
-		public static GrindingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			var elementAmount = buffer.readInt();
-			var luckRatio = buffer.readDouble();
-			var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			var output = ItemStack.STREAM_CODEC.decode(buffer);
-
-			return new GrindingRecipe(elementAmount, luckRatio, ingredient, output);
-		}
-
-		public static void toNetwork(RegistryFriendlyByteBuf buffer, GrindingRecipe recipe) {
-			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeDouble(recipe.luckRatio());
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
-			ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-		}
-
-	}
+    public static void toNetwork(RegistryFriendlyByteBuf buffer, GrindingRecipe recipe) {
+        buffer.writeInt(recipe.getElementAmount());
+        buffer.writeDouble(recipe.luckRatio());
+        Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+    }
 }

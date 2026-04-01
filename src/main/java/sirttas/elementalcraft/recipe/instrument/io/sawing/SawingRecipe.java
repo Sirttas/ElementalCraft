@@ -32,6 +32,13 @@ public record SawingRecipe(
 ) implements IOInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
 	public static final String NAME = "sawing";
+    public static final MapCodec<SawingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(SawingRecipe::elementAmount),
+            Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(SawingRecipe::luckRatio),
+            Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(SawingRecipe::ingredient),
+            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(SawingRecipe::output)
+    ).apply(builder, SawingRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SawingRecipe> STREAM_CODEC = StreamCodec.of(SawingRecipe::toNetwork, SawingRecipe::fromNetwork); // TODO rework recipe stream codecs
 
 	public SawingRecipe {
 		if (output.isEmpty()) {
@@ -83,43 +90,19 @@ public record SawingRecipe(
 		return ECRecipeTypes.SAWING.get();
 	}
 
-	public static class Serializer implements RecipeSerializer<SawingRecipe> {
+    private static SawingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var elementAmount = buffer.readInt();
+        var luckRation = buffer.readDouble();
+        var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+        var output = ItemStack.STREAM_CODEC.decode(buffer);
 
-		public static final MapCodec<SawingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(SawingRecipe::elementAmount),
-				Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(SawingRecipe::luckRatio),
-				Ingredient.CODEC.fieldOf(ECNames.INGREDIENT).forGetter(SawingRecipe::ingredient),
-				ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(SawingRecipe::output)
-		).apply(builder, SawingRecipe::new));
+        return new SawingRecipe(elementAmount, luckRation, ingredient, output);
+    }
 
-		public static final StreamCodec<RegistryFriendlyByteBuf, SawingRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
-
-		@Override
-		@Nonnull
-		public MapCodec<SawingRecipe> codec() {
-			return CODEC;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, SawingRecipe> streamCodec() {
-			return STREAM_CODEC;
-		}
-
-		private static SawingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			var elementAmount = buffer.readInt();
-			var luckRation = buffer.readDouble();
-			var ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			var output = ItemStack.STREAM_CODEC.decode(buffer);
-
-			return new SawingRecipe(elementAmount, luckRation, ingredient, output);
-		}
-
-		private static void toNetwork(RegistryFriendlyByteBuf buffer, SawingRecipe recipe) {
-			buffer.writeInt(recipe.getElementAmount());
-			buffer.writeDouble(recipe.luckRatio());
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
-			ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-		}
-
-	}
+    private static void toNetwork(RegistryFriendlyByteBuf buffer, SawingRecipe recipe) {
+        buffer.writeInt(recipe.getElementAmount());
+        buffer.writeDouble(recipe.luckRatio());
+        Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+    }
 }

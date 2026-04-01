@@ -2,7 +2,7 @@ package sirttas.elementalcraft.spell.tick;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -12,7 +12,7 @@ import sirttas.elementalcraft.spell.SpellHelper;
 
 public class SpellCooldownItemDecorator implements IItemDecorator {
     @Override
-    public boolean render(@NotNull GuiGraphics guiGraphics, @NotNull Font font, @NotNull ItemStack stack, int x, int y) {
+    public boolean render(@NotNull GuiGraphicsExtractor guiGraphics, @NotNull Font font, @NotNull ItemStack stack, int x, int y) {
         var minecraft = Minecraft.getInstance();
         var localplayer = minecraft.player;
         var f = localplayer == null ? 0.0F : SpellTickHelper.getCooldown(localplayer, SpellHelper.getSpell(stack).value(), minecraft.getTimer().getGameTimeDeltaPartialTick(true));

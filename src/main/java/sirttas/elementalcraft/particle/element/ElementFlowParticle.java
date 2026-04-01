@@ -1,17 +1,18 @@
 package sirttas.elementalcraft.particle.element;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 
 @OnlyIn(Dist.CLIENT)
 public class ElementFlowParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementFlowParticle(level, new Vec3(x, y, z), new Vec3(xSpeed, ySpeed, zSpeed), s, data.getElementType());
+	public static final ParticleResources.SpriteParticleRegistration<@NotNull ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementFlowParticle(level, new Vec3(x, y, z), new Vec3(xSpeed, ySpeed, zSpeed), s, data.getElementType());
 	
 	private ElementFlowParticle(ClientLevel level, Vec3 coord, Vec3 speed, SpriteSet sprite, ElementType type) {
 		super(level, coord, type);

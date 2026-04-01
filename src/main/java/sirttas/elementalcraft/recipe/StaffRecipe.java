@@ -7,7 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +18,10 @@ import sirttas.elementalcraft.spell.SpellHelper;
 import javax.annotation.Nonnull;
 import java.util.function.Function;
 
-public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInput> {
+public class StaffRecipe extends ShapedRecipe implements Recipe<CraftingInput> {
 
+    public static final MapCodec<StaffRecipe> CODEC = ShapedRecipe.MAP_CODEC.xmap(StaffRecipe::new, Function.identity());
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull StaffRecipe> STREAM_CODEC = ShapedRecipe.STREAM_CODEC.map(StaffRecipe::new, Function.identity());
 
 	public StaffRecipe(ShapedRecipe parent) {
 		super(parent.getGroup(), parent.category(), parent.pattern, new ItemStack(ECItems.STAFF), parent.showNotification());
@@ -42,27 +44,5 @@ public class StaffRecipe extends ShapedRecipe implements IECRecipe<CraftingInput
 		}
 		return staff;
 	}
-	
-	@Nonnull
-    @Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializers.STAFF.get();
-	}
-	
-	public static class Serializer implements RecipeSerializer<StaffRecipe> {
 
-		public static final MapCodec<StaffRecipe> CODEC = RecipeSerializer.SHAPED_RECIPE.codec().xmap(StaffRecipe::new, Function.identity());
-		public static final StreamCodec<RegistryFriendlyByteBuf, StaffRecipe> STREAM_CODEC = RecipeSerializer.SHAPED_RECIPE.streamCodec().map(StaffRecipe::new, Function.identity());
-
-		@Override
-		@Nonnull
-		public MapCodec<StaffRecipe> codec() {
-			return CODEC;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, StaffRecipe> streamCodec() {
-			return STREAM_CODEC;
-		}
-	}
 }

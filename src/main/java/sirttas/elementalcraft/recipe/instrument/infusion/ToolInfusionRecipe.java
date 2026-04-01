@@ -9,7 +9,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -17,7 +16,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
-import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
 
 import javax.annotation.Nonnull;
@@ -25,6 +23,12 @@ import javax.annotation.Nonnull;
 public class ToolInfusionRecipe implements IInfusionRecipe {
 
 	public static final String NAME = "tool_" + IInfusionRecipe.NAME;
+    public static final MapCodec<ToolInfusionRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            ToolInfusion.HOLDER_CODEC.fieldOf(ECNames.TOOL_INFUSION).forGetter(r -> r.toolInfusion),
+            Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(ToolInfusionRecipe::getInput),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(ToolInfusionRecipe::getElementAmount)
+    ).apply(builder, ToolInfusionRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ToolInfusionRecipe> STREAM_CODEC = StreamCodec.of(ToolInfusionRecipe::toNetwork, ToolInfusionRecipe::fromNetwork); // TODO rework recipe stream codecs
 
 	private final Ingredient input;
 	private final int elementAmount;
@@ -52,7 +56,7 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	}
 	
 	@Override
-	public @NotNull ItemStack assemble(@NotNull SingleItemSingleElementRecipeInput input, @Nonnull HolderLookup.Provider provider) {
+	public @NotNull ItemStack assemble(@NotNull SingleItemSingleElementRecipeInput input) {
 		var stack = input.getItem(0).copy();
 
 		ToolInfusionHelper.setInfusion(stack, toolInfusion);
@@ -78,45 +82,18 @@ public class ToolInfusionRecipe implements IInfusionRecipe {
 	public Holder<ToolInfusion> getToolInfusion() {
 		return toolInfusion;
 	}
-	
-	@Nonnull
-    @Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializers.TOOL_INFUSION.get();
-	}
 
-	public static class Serializer implements RecipeSerializer<ToolInfusionRecipe> {
+    public static ToolInfusionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var elementAmount = buffer.readInt();
+        var input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+        var toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(buffer.readIdentifier());
 
-		public static final MapCodec<ToolInfusionRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-				ToolInfusion.HOLDER_CODEC.fieldOf(ECNames.TOOL_INFUSION).forGetter(r -> r.toolInfusion),
-				Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(ToolInfusionRecipe::getInput),
-				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(ToolInfusionRecipe::getElementAmount)
-		).apply(builder, ToolInfusionRecipe::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, ToolInfusionRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+        return new ToolInfusionRecipe(toolInfusion, input, elementAmount);
+    }
 
-		@Override
-	 	@Nonnull
-		public MapCodec<ToolInfusionRecipe> codec() {
-			return CODEC;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, ToolInfusionRecipe> streamCodec() {
-			return STREAM_CODEC;
-		}
-
-		public static ToolInfusionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			var elementAmount = buffer.readInt();
-			var input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			var toolInfusion = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(buffer.readIdentifier());
-
-			return new ToolInfusionRecipe(toolInfusion, input, elementAmount);
-		}
-
-		public static void toNetwork(RegistryFriendlyByteBuf buffer, ToolInfusionRecipe recipe) {
-			buffer.writeInt(recipe.getElementAmount());
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
-			buffer.writeIdentifier(ElementalCraftApi.TOOL_INFUSION_MANAGER.getId(recipe.getToolInfusion()));
-		}
-	}
+    public static void toNetwork(RegistryFriendlyByteBuf buffer, ToolInfusionRecipe recipe) {
+        buffer.writeInt(recipe.getElementAmount());
+        Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
+        buffer.writeIdentifier(ElementalCraftApi.TOOL_INFUSION_MANAGER.getId(recipe.getToolInfusion()));
+    }
 }

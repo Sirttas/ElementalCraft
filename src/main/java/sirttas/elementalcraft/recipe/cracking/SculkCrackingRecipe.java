@@ -1,6 +1,9 @@
 package sirttas.elementalcraft.recipe.cracking;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.HolderSet;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -11,6 +14,8 @@ import sirttas.elementalcraft.recipe.ECRecipeTypes;
 public class SculkCrackingRecipe extends AbstractCrackingRecipe {
 
     public static final String NAME = "sculk_cracking";
+    public static final MapCodec<SculkCrackingRecipe> CODEC = codec(SculkCrackingRecipe::new);
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SculkCrackingRecipe> STREAM_CODEC = streamCodec(SculkCrackingRecipe::new);
 
     public SculkCrackingRecipe(HolderSet<Block> input, Block result, int elementAmount) {
         super(input, result, elementAmount);

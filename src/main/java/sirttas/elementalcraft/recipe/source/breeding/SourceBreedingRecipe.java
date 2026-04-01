@@ -2,15 +2,15 @@ package sirttas.elementalcraft.recipe.source.breeding;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.recipe.IECRecipe;
 import sirttas.elementalcraft.recipe.IRuntimeRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 
-public class SourceBreedingRecipe implements IECRecipe<SourceBreedingRecipeInput>, IRuntimeRecipe<SourceBreedingRecipeInput> {
+public class SourceBreedingRecipe implements Recipe<SourceBreedingRecipeInput>, IRuntimeRecipe<SourceBreedingRecipeInput> {
 
     @Override
     public boolean matches(@NotNull SourceBreedingRecipeInput input, @NotNull Level level) {

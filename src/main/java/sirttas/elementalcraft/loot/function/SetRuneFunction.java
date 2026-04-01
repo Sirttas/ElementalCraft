@@ -6,7 +6,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
@@ -23,11 +22,16 @@ public class SetRuneFunction extends LootItemConditionalFunction {
             DataManagerCodecs.holderCodec(ElementalCraftApi.RUNE_MANAGER_KEY, Rune.CODEC, false).fieldOf("rune").forGetter(r -> r.rune)
     ).apply(builder, SetRuneFunction::new));
 
-    private final Holder<Rune> rune;
+    private final Holder<@NotNull Rune> rune;
 
-    private SetRuneFunction(List<LootItemCondition> condition, Holder<Rune> rune) {
+    private SetRuneFunction(List<LootItemCondition> condition, Holder<@NotNull Rune> rune) {
         super(condition);
         this.rune = rune;
+    }
+
+    @Override
+    public @NotNull MapCodec<SetRuneFunction> codec() {
+        return CODEC;
     }
 
     @Nonnull
@@ -37,13 +41,7 @@ public class SetRuneFunction extends LootItemConditionalFunction {
         return stack;
     }
 
-    public static Builder<?> builder(Holder<Rune> rune) {
+    public static Builder<?> builder(Holder<@NotNull Rune> rune) {
         return simpleBuilder(l -> new SetRuneFunction(l, rune));
-    }
-
-    @Nonnull
-    @Override
-    public LootItemFunctionType<SetRuneFunction> getType() {
-        return ECLootFunctions.SET_RUNE.get();
     }
 }

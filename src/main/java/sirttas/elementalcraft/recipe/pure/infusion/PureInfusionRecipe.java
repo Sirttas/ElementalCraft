@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -17,12 +18,11 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.IECRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class PureInfusionRecipe implements IECRecipe<PureInfusionRecipeInput> {
+public class PureInfusionRecipe implements Recipe<PureInfusionRecipeInput> {
 
 	public static final String NAME = "pureinfusion";
 

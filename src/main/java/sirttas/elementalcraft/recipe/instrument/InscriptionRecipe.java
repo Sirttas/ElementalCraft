@@ -9,14 +9,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.recipe.ECRecipeSerializers;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 
@@ -26,6 +22,13 @@ import java.util.List;
 public class InscriptionRecipe extends AbstractInstrumentRecipe<MultipleItemsSingleElementRecipeInput> {
 
 	public static final String NAME = "inscription";
+    public static final MapCodec<InscriptionRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            ElementType.forGetter(InscriptionRecipe::getElementType),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InscriptionRecipe::getElementAmount),
+            Ingredient.LIST_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(InscriptionRecipe::getIngredients),
+            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+    ).apply(builder, InscriptionRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull InscriptionRecipe> STREAM_CODEC = StreamCodec.of(InscriptionRecipe::toNetwork, InscriptionRecipe::fromNetwork); // TODO rework recipe stream codecs
 
 	private final NonNullList<Ingredient> ingredients;
 	private final int elementAmount;
@@ -63,60 +66,25 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<MultipleItemsSin
 		return output;
 	}
 
-	@Nonnull
-	@Override
-	public RecipeType<?> getType() {
-		return ECRecipeTypes.INSCRIPTION.get();
-	}
+    private static InscriptionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var type = ElementType.byName(buffer.readUtf());
+        var elementAmount = buffer.readInt();
+        var output = ItemStack.STREAM_CODEC.decode(buffer);
+        var i = buffer.readInt();
+        var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
 
-	@Nonnull
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return ECRecipeSerializers.INSCRIPTION.get();
-	}
+        for (int j = 0; j < i; ++j) {
+            ingredients.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+        }
 
-	public static class Serializer implements RecipeSerializer<InscriptionRecipe> {
+        return new InscriptionRecipe(type, elementAmount, ingredients, output);
+    }
 
-		public static final MapCodec<InscriptionRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-				ElementType.forGetter(InscriptionRecipe::getElementType),
-				Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InscriptionRecipe::getElementAmount),
-				Ingredient.LIST_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(InscriptionRecipe::getIngredients),
-				ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
-		).apply(builder, InscriptionRecipe::new));
-
-		public static final StreamCodec<RegistryFriendlyByteBuf, InscriptionRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
-
-		@Override
-		@NotNull
-		public MapCodec<InscriptionRecipe> codec() {
-			return CODEC;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, InscriptionRecipe> streamCodec() {
-			return STREAM_CODEC;
-		}
-
-		private static InscriptionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			var type = ElementType.byName(buffer.readUtf());
-			var elementAmount = buffer.readInt();
-			var output = ItemStack.STREAM_CODEC.decode(buffer);
-			var i = buffer.readInt();
-			var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
-
-			for (int j = 0; j < i; ++j) {
-				ingredients.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-			}
-
-			return new InscriptionRecipe(type, elementAmount, ingredients, output);
-		}
-
-		private static void toNetwork(RegistryFriendlyByteBuf buffer, InscriptionRecipe recipe) {
-			buffer.writeUtf(recipe.getElementType().getSerializedName());
-			buffer.writeInt(recipe.getElementAmount());
-			ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-			buffer.writeInt(recipe.getIngredients().size());
-			recipe.getIngredients().forEach(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient));
-		}
-	}
+    private static void toNetwork(RegistryFriendlyByteBuf buffer, InscriptionRecipe recipe) {
+        buffer.writeUtf(recipe.getElementType().getSerializedName());
+        buffer.writeInt(recipe.getElementAmount());
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+        buffer.writeInt(recipe.getIngredients().size());
+        recipe.getIngredients().forEach(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient));
+    }
 }

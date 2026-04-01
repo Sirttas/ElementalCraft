@@ -1,16 +1,19 @@
 package sirttas.elementalcraft.recipe;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.recipe.CodecRecipeSerializer;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.item.spell.StaffItem;
 import sirttas.elementalcraft.recipe.cracking.CrackingRecipe;
-import sirttas.elementalcraft.recipe.cracking.CrackingRecipeSerializer;
 import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
@@ -26,32 +29,29 @@ import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
 
-import java.util.function.Supplier;
-
 public class ECRecipeSerializers {
 
-	private static final DeferredRegister<RecipeSerializer<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.RECIPE_SERIALIZER, ElementalCraftApi.MODID);
+	private static final DeferredRegister<@NotNull RecipeSerializer<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.RECIPE_SERIALIZER, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<RecipeSerializer<?>, InfusionRecipe.Serializer> INFUSION = register(IInfusionRecipe.NAME, InfusionRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, ToolInfusionRecipe.Serializer> TOOL_INFUSION = register(ToolInfusionRecipe.NAME, ToolInfusionRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, BindingRecipe.Serializer> BINDING = register(AbstractBindingRecipe.NAME, BindingRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, CrystallizationRecipe.Serializer> CRYSTALLIZATION = register(CrystallizationRecipe.NAME, CrystallizationRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, InscriptionRecipe.Serializer> INSCRIPTION = register(InscriptionRecipe.NAME, InscriptionRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, OrePurificationRecipe.Serializer> ORE_PURIFICATION = register(OrePurificationRecipe.NAME, OrePurificationRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, GrindingRecipe.Serializer> GRINDING = register(IGrindingRecipe.NAME, GrindingRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, SawingRecipe.Serializer> SAWING = register(SawingRecipe.NAME, SawingRecipe.Serializer::new);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull InfusionRecipe>> INFUSION = register(IInfusionRecipe.NAME, InfusionRecipe.CODEC, InfusionRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull ToolInfusionRecipe>> TOOL_INFUSION = register(ToolInfusionRecipe.NAME, ToolInfusionRecipe.CODEC, ToolInfusionRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull BindingRecipe>> BINDING = register(AbstractBindingRecipe.NAME, BindingRecipe.CODEC, BindingRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull CrystallizationRecipe>> CRYSTALLIZATION = register(CrystallizationRecipe.NAME, CrystallizationRecipe.CODEC, CrystallizationRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull InscriptionRecipe>> INSCRIPTION = register(InscriptionRecipe.NAME, InscriptionRecipe.CODEC, InscriptionRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull OrePurificationRecipe>> ORE_PURIFICATION = register(OrePurificationRecipe.NAME, OrePurificationRecipe.CODEC, OrePurificationRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull GrindingRecipe>> GRINDING = register(IGrindingRecipe.NAME, GrindingRecipe.CODEC, GrindingRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SawingRecipe>> SAWING = register(SawingRecipe.NAME, SawingRecipe.CODEC, SawingRecipe.STREAM_CODEC);
 	public static final DeferredHolder<RecipeSerializer<?>, CodecRecipeSerializer<PureInfusionRecipe>> PURE_INFUSION = register(PureInfusionRecipe.NAME, () -> new CodecRecipeSerializer<>(PureInfusionRecipe.CODEC));
-	public static final DeferredHolder<RecipeSerializer<?>, SpellCraftRecipe.Serializer> SPELL_CRAFT = register(SpellCraftRecipe.NAME, SpellCraftRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, StaffRecipe.Serializer> STAFF = register(StaffItem.NAME, StaffRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, CrackingRecipeSerializer<CrackingRecipe>> CRACKING = register(CrackingRecipe.NAME, () -> new CrackingRecipeSerializer<>(CrackingRecipe::new));
-	public static final DeferredHolder<RecipeSerializer<?>, CrackingRecipeSerializer<SculkCrackingRecipe>> SCULK_CRACKING = register(SculkCrackingRecipe.NAME, () -> new CrackingRecipeSerializer<>(SculkCrackingRecipe::new));
-	public static final DeferredHolder<RecipeSerializer<?>, MeltingRecipe.Serializer> MELTING = register(MeltingRecipe.NAME, MeltingRecipe.Serializer::new);
-
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME, SpellCraftRecipe.CODEC, SpellCraftRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull StaffRecipe>> STAFF = register(StaffItem.NAME, StaffRecipe.CODEC, StaffRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull CrackingRecipe>> CRACKING = register(CrackingRecipe.NAME, CrackingRecipe.CODEC, CrackingRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SculkCrackingRecipe>> SCULK_CRACKING = register(SculkCrackingRecipe.NAME, SculkCrackingRecipe.CODEC, SculkCrackingRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SculkCrackingRecipe>> MELTING = register(MeltingRecipe.NAME, MeltingRecipe.CODEC, MeltingRecipe.STREAM_CODEC);
 
 	private ECRecipeSerializers() {}
 
-	private static <R extends Recipe<?>, T extends RecipeSerializer<R>> DeferredHolder<RecipeSerializer<?>, T> register(String name, Supplier<T> serializer) {
-		return DEFERRED_REGISTER.register(name, serializer);
+	private static <T extends Recipe<?>> DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull T>> register(String name, MapCodec<T> codec, StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull T> streamCodec) {
+		return DEFERRED_REGISTER.register(name, () -> new RecipeSerializer<>(codec, streamCodec));
 	}
 
 	public static void register(IEventBus bus) {

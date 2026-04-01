@@ -1,16 +1,17 @@
 package sirttas.elementalcraft.loot.parameter;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.util.context.ContextKey;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootContextParams {
 
-    public static final LootContextParam<Direction> DIRECTION = create("direction");
+    public static final ContextKey<@NotNull Direction> DIRECTION = create("direction");
 
     private ECLootContextParams() {}
 
-    private static <T> LootContextParam<T> create(String name) {
-        return new LootContextParam<>(ElementalCraftApi.createRL(name));
+    private static <T> ContextKey<@NotNull T> create(String name) {
+        return new ContextKey<>(ElementalCraftApi.createRL(name));
     }
 }

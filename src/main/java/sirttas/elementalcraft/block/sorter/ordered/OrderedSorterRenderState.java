@@ -12,10 +12,10 @@ import java.util.List;
 public class OrderedSorterRenderState extends BlockEntityRenderState {
     public final RunesRenderState runes = new RunesRenderState();
     public Quaternionf runeRotation;
+
     public final List<ItemStackRenderState> items = new ArrayList<>();
+    public int index;
+    public boolean useAlternativeDirection;
     public Quaternionf rotation;
     public Vector3f facePosition;
-    public boolean useAlternativeDirection;
-    public int index;
-    public Quaternionf runeRotation;
 }

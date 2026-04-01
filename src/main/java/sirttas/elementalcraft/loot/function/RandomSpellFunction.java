@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -29,7 +28,12 @@ public class RandomSpellFunction extends LootItemConditionalFunction implements 
 		this.elementType = elementType;
 	}
 
-	@Nonnull
+    @Override
+    public @NotNull MapCodec<RandomSpellFunction> codec() {
+        return CODEC;
+    }
+
+    @Nonnull
     @Override
 	public ItemStack run(@Nonnull ItemStack stack, LootContext context) {
 		var random = context.getRandom();
@@ -46,12 +50,6 @@ public class RandomSpellFunction extends LootItemConditionalFunction implements 
 
 	public static LootItemConditionalFunction.Builder<?> builder(ElementType elementType) {
 		return simpleBuilder(l -> new RandomSpellFunction(l, elementType));
-	}
-
-	@Nonnull
-    @Override
-	public LootItemFunctionType<RandomSpellFunction> getType() {
-		return ECLootFunctions.RANDOM_SPELL.get();
 	}
 
 	@Override

@@ -33,6 +33,14 @@ public record OrePurificationRecipe(
 ) implements IOInstrumentRecipe<SimpleIOInstrumentRecipeInput>, ISingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
     public static final String NAME = "ore_purification";
+    public static final MapCodec<OrePurificationRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(OrePurificationRecipe::input),
+            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(OrePurificationRecipe::output),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(OrePurificationRecipe::elementAmount),
+            Codec.INT.optionalFieldOf("input_size", 1).forGetter(OrePurificationRecipe::inputSize),
+            Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(OrePurificationRecipe::luckRatio)
+    ).apply(builder, OrePurificationRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull OrePurificationRecipe> STREAM_CODEC = StreamCodec.of(OrePurificationRecipe::toNetwork, OrePurificationRecipe::fromNetwork);
 
     @Override
     public boolean matches(@NotNull ItemStack stack, @Nonnull Level level) {
@@ -62,7 +70,7 @@ public record OrePurificationRecipe(
     }
 
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<@NotNull OrePurificationRecipe> getSerializer() {
         return ECRecipeSerializers.ORE_PURIFICATION.get();
     }
 
@@ -82,46 +90,21 @@ public record OrePurificationRecipe(
         return inputSize;
     }
 
-    public static class Serializer implements RecipeSerializer<OrePurificationRecipe> {
+    private static OrePurificationRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+        var output = ItemStack.STREAM_CODEC.decode(buffer);
+        var elementAmount = buffer.readInt();
+        var inputSize = buffer.readInt();
+        var luckRatio = buffer.readDouble();
 
-        public static final MapCodec<OrePurificationRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-                Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(OrePurificationRecipe::input),
-                ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(OrePurificationRecipe::output),
-                Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(OrePurificationRecipe::elementAmount),
-                Codec.INT.optionalFieldOf("input_size", 1).forGetter(OrePurificationRecipe::inputSize),
-                Codec.DOUBLE.optionalFieldOf(ECNames.LUCK_RATIO, 0D).forGetter(OrePurificationRecipe::luckRatio)
-        ).apply(builder, OrePurificationRecipe::new));
+        return new OrePurificationRecipe(input, output, elementAmount, inputSize, luckRatio);
+    }
 
-        public static final StreamCodec<RegistryFriendlyByteBuf, OrePurificationRecipe> STREAM_CODEC = StreamCodec.of(OrePurificationRecipe.Serializer::toNetwork, OrePurificationRecipe.Serializer::fromNetwork);
-
-        @Override
-        @Nonnull
-        public MapCodec<OrePurificationRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, OrePurificationRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        private static OrePurificationRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-            var input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-            var output = ItemStack.STREAM_CODEC.decode(buffer);
-            var elementAmount = buffer.readInt();
-            var inputSize = buffer.readInt();
-            var luckRatio = buffer.readDouble();
-
-            return new OrePurificationRecipe(input, output, elementAmount, inputSize, luckRatio);
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf buffer, OrePurificationRecipe recipe) {
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input());
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-            buffer.writeInt(recipe.elementAmount());
-            buffer.writeInt(recipe.inputSize());
-            buffer.writeDouble(recipe.luckRatio());
-        }
-
+    private static void toNetwork(RegistryFriendlyByteBuf buffer, OrePurificationRecipe recipe) {
+        Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input());
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+        buffer.writeInt(recipe.elementAmount());
+        buffer.writeInt(recipe.inputSize());
+        buffer.writeDouble(recipe.luckRatio());
     }
 }

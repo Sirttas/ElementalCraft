@@ -12,6 +12,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.IECRecipe;
 
 public record MeltingRecipe(
         HolderSet<Block> input,
@@ -30,9 +30,23 @@ public record MeltingRecipe(
         int cooldown,
         int elementAmount,
         float fillingAmount
-) implements IECRecipe<MeltingRecipeInput> {
+) implements Recipe<MeltingRecipeInput> {
 
     public static final String NAME = "melting";
+    public static final MapCodec<MeltingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+            RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf(ECNames.INPUT).forGetter(MeltingRecipe::input),
+            BuiltInRegistries.FLUID.byNameCodec().optionalFieldOf(ECNames.RESULT, Fluids.EMPTY).forGetter(MeltingRecipe::result),
+            Codec.INT.fieldOf("cooldown").forGetter(MeltingRecipe::cooldown),
+            Codec.INT.fieldOf("element_amount").forGetter(MeltingRecipe::elementAmount),
+            Codec.FLOAT.optionalFieldOf("filling_amount", 1000F).forGetter(MeltingRecipe::fillingAmount)
+    ).apply(builder, MeltingRecipe::new));
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull MeltingRecipe> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.holderSet(Registries.BLOCK), MeltingRecipe::input,
+            ByteBufCodecs.registry(Registries.FLUID), MeltingRecipe::result,
+            ByteBufCodecs.INT, MeltingRecipe::cooldown,
+            ByteBufCodecs.INT, MeltingRecipe::elementAmount,
+            ByteBufCodecs.FLOAT, MeltingRecipe::fillingAmount,
+            MeltingRecipe::new);
 
     @Override
     public boolean matches(@NotNull MeltingRecipeInput recipeInput, @NotNull Level level) {
@@ -52,35 +66,6 @@ public record MeltingRecipe(
     @Override
     public @NotNull RecipeType<?> getType() {
         return ECRecipeTypes.MELTING.get();
-    }
-
-    public static class Serializer implements RecipeSerializer<MeltingRecipe> {
-
-        public static final MapCodec<MeltingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-                RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf(ECNames.INPUT).forGetter(MeltingRecipe::input),
-                BuiltInRegistries.FLUID.byNameCodec().optionalFieldOf(ECNames.RESULT, Fluids.EMPTY).forGetter(MeltingRecipe::result),
-                Codec.INT.fieldOf("cooldown").forGetter(MeltingRecipe::cooldown),
-                Codec.INT.fieldOf("element_amount").forGetter(MeltingRecipe::elementAmount),
-                Codec.FLOAT.optionalFieldOf("filling_amount", 1000F).forGetter(MeltingRecipe::fillingAmount)
-        ).apply(builder, MeltingRecipe::new));
-        public static final StreamCodec<RegistryFriendlyByteBuf, MeltingRecipe> STREAM_CODEC = StreamCodec.composite(
-                ByteBufCodecs.holderSet(Registries.BLOCK), MeltingRecipe::input,
-                ByteBufCodecs.registry(Registries.FLUID), MeltingRecipe::result,
-                ByteBufCodecs.INT, MeltingRecipe::cooldown,
-                ByteBufCodecs.INT, MeltingRecipe::elementAmount,
-                ByteBufCodecs.FLOAT, MeltingRecipe::fillingAmount,
-                MeltingRecipe::new);
-
-
-        @Override
-        public @NotNull MapCodec<MeltingRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, MeltingRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
     }
 
 }
