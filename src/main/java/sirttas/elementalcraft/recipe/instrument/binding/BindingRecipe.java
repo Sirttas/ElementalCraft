@@ -3,47 +3,54 @@ package sirttas.elementalcraft.recipe.instrument.binding;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.config.ECConfig;
+import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BindingRecipe extends AbstractBindingRecipe {
 
-    public static final MapCodec<BindingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(BindingRecipe::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(BindingRecipe::getElementAmount),
-            Ingredient.LIST_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(BindingRecipe::getIngredients),
-            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+    public static final MapCodec<BindingRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
+            CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
+            ElementType.forGetter(IElementTypeProvider::getElementType),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
+            Codec.lazyInitialized(() -> Ingredient.CODEC.listOf(4, 4)).fieldOf("ingredients").forGetter(o -> o.ingredients),
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
     ).apply(builder, BindingRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull BindingRecipe> STREAM_CODEC = StreamCodec.of(BindingRecipe::toNetwork, BindingRecipe::fromNetwork); // TODO rework recipe stream codecs
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull BindingRecipe> STREAM_CODEC = StreamCodec.composite(
+            CommonInfo.STREAM_CODEC, r -> r.commonInfo,
+            ElementType.STREAM_CODEC, r -> r.elementType,
+            ByteBufCodecs.INT, r -> r.elementAmount,
+            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), r -> r.ingredients,
+            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            BindingRecipe::new);
 
-	private final NonNullList<Ingredient> ingredients;
-	private final ItemStack output;
-	private final int elementAmount;
+	private final List<Ingredient> ingredients;
+	private final ItemStackTemplate output;
 
-	public BindingRecipe(ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStack output) {
-		super(type);
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
+	public BindingRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate output) {
+        super(commonInfo, type, elementAmount);
+		this.ingredients = List.copyOf(ingredients);
 		this.output = output;
-		this.elementAmount = elementAmount;
-	}
-
-	@Override
-	public int getElementAmount() {
-		return elementAmount;
 	}
 
 	@Override
@@ -51,10 +58,35 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		if (input.getElementType() != getElementType() || input.size() != ingredients.size()) {
 			return false;
 		}
-		return Boolean.TRUE.equals(ECConfig.SERVER.binderRecipeMatchOrder.get()) ? matchesOrdered(input) : RecipeHelper.matchesUnordered(input.stacks(), ingredients);
+		return ECConfig.SERVER.binderRecipeMatchOrder.get() ? matchesOrdered(input) : RecipeHelper.matchesUnordered(input.stacks(), ingredients);
 	}
 
-	private boolean matchesOrdered(MultipleItemsSingleElementRecipeInput input) {
+    @Override
+    public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
+        return output.create();
+    }
+
+    @Override
+    public @NotNull String group() {
+        return AbstractBindingRecipe.NAME;
+    }
+
+    @Override
+    public @NotNull RecipeSerializer<@NotNull BindingRecipe> getSerializer() {
+        return ECRecipeSerializers.BINDING.get();
+    }
+
+    @Override
+    public @NotNull PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredients);
+    }
+
+    @Override
+    public @NotNull RecipeBookCategory recipeBookCategory() {
+        return ECRecipeBookCategories.BINDING.get();
+    }
+
+    private boolean matchesOrdered(MultipleItemsSingleElementRecipeInput input) {
 		int ingredientIndex = 0;
 
 		for (int i = 0; i < input.size(); i++) {
@@ -69,39 +101,4 @@ public class BindingRecipe extends AbstractBindingRecipe {
 		}
 		return true;
 	}
-
-	@Nonnull
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return ingredients;
-	}
-
-	@Nonnull
-	@Override
-	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-		return output;
-	}
-
-
-    public static BindingRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-        var type = ElementType.byName(buffer.readUtf());
-        var elementAmount = buffer.readInt();
-        var output = ItemStack.STREAM_CODEC.decode(buffer);
-        var i = buffer.readVarInt();
-        var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
-
-        ingredients.replaceAll(ignored -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-        return new BindingRecipe(type, elementAmount, ingredients, output);
-    }
-
-    public static void toNetwork(RegistryFriendlyByteBuf buffer, BindingRecipe recipe) {
-        buffer.writeUtf(recipe.getElementType().getSerializedName());
-        buffer.writeInt(recipe.getElementAmount());
-        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-        buffer.writeVarInt(recipe.getIngredients().size());
-
-        for (Ingredient ingredient : recipe.getIngredients()) {
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
-        }
-    }
 }

@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.interaction.curios.CuriosConstants;
 
 import java.util.function.Predicate;
 
@@ -104,7 +103,7 @@ public class ECTags {
 		public static final TagKey<Item> TOOLS_PAXELS = createCommonTag("tools/paxels");
 		public static final TagKey<Item> TOOLS_AIOTS = createCommonTag("tools/aiots");
 
-		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", CuriosConstants.ELEMENT_HOLDER_SLOT);
+		public static final TagKey<Item> CURIOS_ELEMENT_HOLDER = createTag("curios", "element_holder");
 
 		public static final TagKey<Item> STRIPPED_OAK = createTag("stripped_oak");
 		public static final TagKey<Item> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");

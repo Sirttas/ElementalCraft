@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
 import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
@@ -12,13 +13,13 @@ public abstract class AbstractBindingRecipe extends AbstractInstrumentRecipe<Mul
 
 	public static final String NAME = "binding";
 	
-	protected AbstractBindingRecipe(ElementType type) {
-		super(type);
+	protected AbstractBindingRecipe(CommonInfo commonInfo, ElementType type, int elementAmount) {
+		super(commonInfo, type, elementAmount);
 	}
 
 	@Nonnull
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<? extends @NotNull AbstractBindingRecipe> getType() {
 		return ECRecipeTypes.BINDING.get();
 	}
 }

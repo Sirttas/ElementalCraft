@@ -38,7 +38,7 @@ public class ECRecipeTypes {
 
 	private ECRecipeTypes() {}
 
-	private static <T extends Recipe<?>> DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<T>> register(String name) {
+	private static <T extends Recipe<?>> DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull T>> register(String name) {
 		return DEFERRED_REGISTER.register(name, () -> new RecipeType<>() {
 			@Override
 			public String toString() {

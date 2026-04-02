@@ -3,12 +3,10 @@ package sirttas.elementalcraft.recipe.instrument.infusion;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,8 +15,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
-
-import javax.annotation.Nonnull;
 
 public class InfusionRecipe extends AbstractInstrumentRecipe<SingleItemSingleElementRecipeInput> implements IInfusionRecipe {
 
@@ -49,12 +45,6 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<SingleItemSingleEle
 	@Override
 	public Ingredient getInput() {
 		return input;
-	}
-
-	@Nonnull
-    @Override
-	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-		return output;
 	}
 
     public static InfusionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
@@ -90,11 +80,6 @@ public class InfusionRecipe extends AbstractInstrumentRecipe<SingleItemSingleEle
 
     @Override
     public RecipeSerializer<? extends Recipe<SingleItemSingleElementRecipeInput>> getSerializer() {
-        return null;
-    }
-
-    @Override
-    public PlacementInfo placementInfo() {
         return null;
     }
 

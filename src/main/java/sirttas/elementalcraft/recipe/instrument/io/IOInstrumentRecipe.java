@@ -3,8 +3,8 @@ package sirttas.elementalcraft.recipe.instrument.io;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.recipe.ILuckRecipe;
 import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
-import sirttas.elementalcraft.recipe.instrument.ILuckRecipe;
 
 import javax.annotation.Nonnull;
 

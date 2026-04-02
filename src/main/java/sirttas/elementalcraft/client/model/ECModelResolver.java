@@ -25,21 +25,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
-public class ECModelResolver<T, U extends UnbakedStandaloneModel<@NotNull T>> {
+public class ECModelResolver<T> {
 
-    private static final Map<Identifier, ECModelResolver<?, ?>> RESOLVERS = new HashMap<>();
+    private static final Map<Identifier, ECModelResolver<?>> RESOLVERS = new HashMap<>();
 
     private final ModelManager modelManager;
     private final HashMap<Identifier, T> modelCache;
     private final HashMap<Identifier, StandaloneModelKey<@NotNull T>> keys;
     private final FileToIdConverter lister;
-    private final Codec<Function<StandaloneModelKey<@NotNull T>, U>> codec;
+    private final Codec<? extends UnbakedStandaloneModel<@NotNull T>> codec;
 
 
-    protected ECModelResolver(ModelManager modelManager, FileToIdConverter lister, Codec<Function<StandaloneModelKey<@NotNull T>, U>> codec) {
+    protected ECModelResolver(ModelManager modelManager, FileToIdConverter lister, Codec<? extends UnbakedStandaloneModel<@NotNull T>> codec) {
         this.modelManager = modelManager;
         this.modelCache = new HashMap<>();
         this.keys = new HashMap<>();
@@ -47,16 +46,16 @@ public class ECModelResolver<T, U extends UnbakedStandaloneModel<@NotNull T>> {
         this.codec = codec;
     }
 
-    public static List<ECModelResolver<?, ?>> getAll() {
+    public static List<ECModelResolver<?>> getAll() {
         return List.copyOf(RESOLVERS.values());
     }
 
     @SuppressWarnings("unchecked")
-    public static <T, U extends UnbakedStandaloneModel<@NotNull T>, R extends ECModelResolver<T, U>> R get(Identifier identifier) {
+    public static <T, R extends ECModelResolver<T>> R get(Identifier identifier) {
         return (R) RESOLVERS.get(identifier);
     }
 
-    public static void register(Identifier identifier, ECModelResolver<?, ?> resolver) {
+    public static void register(Identifier identifier, ECModelResolver<?> resolver) {
         RESOLVERS.put(identifier, resolver);
     }
 
@@ -64,8 +63,8 @@ public class ECModelResolver<T, U extends UnbakedStandaloneModel<@NotNull T>> {
         return modelCache.computeIfAbsent(identifier, i -> modelManager.getStandaloneModel(keys.get(i)));
     }
 
-    private Map<Identifier, Function<StandaloneModelKey<@NotNull T>, U>> resolveModels(ResourceManager resourceManager, DynamicOps<JsonElement> ops) {
-        Map<Identifier, Function<StandaloneModelKey<@NotNull T>, U>> models = new HashMap<>();
+    private Map<Identifier, UnbakedStandaloneModel<@NotNull T>> resolveModels(ResourceManager resourceManager, DynamicOps<JsonElement> ops) {
+        Map<Identifier, UnbakedStandaloneModel<@NotNull T>> models = new HashMap<>();
 
         lister.listMatchingResources(resourceManager).forEach((resourceId, resource) -> {
             Identifier modelId = lister.fileToId(resourceId);
@@ -93,7 +92,7 @@ public class ECModelResolver<T, U extends UnbakedStandaloneModel<@NotNull T>> {
             StandaloneModelKey<@NotNull T> key = new StandaloneModelKey<>(id::toString);
 
             keys.put(id, key);
-            consumer.accept(key, model.apply(key));
+            consumer.accept(key, model);
         });
     }
 

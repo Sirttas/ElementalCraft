@@ -7,7 +7,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
-public interface IRuntimeRecipe<I extends RecipeInput> extends Recipe<@NotNull I> {
+@SuppressWarnings("DataFlowIssue")
+public interface RuntimeRecipe<I extends RecipeInput> extends Recipe<@NotNull I> {
 
     @Override
     default boolean showNotification() {
@@ -15,22 +16,22 @@ public interface IRuntimeRecipe<I extends RecipeInput> extends Recipe<@NotNull I
     }
 
     @Override
-    default String group() {
+    default @NotNull String group() {
         return "";
     }
 
     @Override
-    default RecipeSerializer<? extends Recipe<I>> getSerializer() {
+    default @NotNull RecipeSerializer<? extends @NotNull Recipe<@NotNull I>> getSerializer() {
         return null;
     }
 
     @Override
-    default RecipeType<? extends Recipe<I>> getType() {
+    default @NotNull RecipeType<? extends @NotNull Recipe<@NotNull I>> getType() {
         return null;
     }
 
     @Override
-    default RecipeBookCategory recipeBookCategory() {
+    default @NotNull RecipeBookCategory recipeBookCategory() {
         return null;
     }
 

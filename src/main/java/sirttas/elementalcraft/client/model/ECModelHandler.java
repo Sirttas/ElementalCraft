@@ -89,9 +89,4 @@ public class ECModelHandler {
     private static void register(ModelEvent.RegisterStandalone event, SimpleStandaloneModelSupplier supplier) {
        event.register(supplier.key(), SimpleUnbakedStandaloneModel.simpleModelWrapper(supplier.identifier()));
     }
-
-    @SubscribeEvent
-    public static void onBakingComplete(ModelEvent.BakingCompleted event) {
-        ECModelShapers.getAll().forEach(AbstractECModelShaper::rebuildCache);
-    }
 }

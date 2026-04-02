@@ -1,16 +1,17 @@
 package sirttas.elementalcraft.recipe.instrument.infusion;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public interface IInfusionRecipe extends ISingleElementInstrumentRecipe<SingleItemSingleElementRecipeInput> {
+public interface IInfusionRecipe extends SingleElementInstrumentRecipe<SingleItemSingleElementRecipeInput> {
 
 	String NAME = "infusion";
 
@@ -23,15 +24,14 @@ public interface IInfusionRecipe extends ISingleElementInstrumentRecipe<SingleIt
 
 	@Nonnull
 	@Override
-	default RecipeType<?> getType() {
+	default RecipeType<@NotNull IInfusionRecipe> getType() {
 		return ECRecipeTypes.INFUSION.get();
 	}
 	
 	Ingredient getInput();
-	
-	@Nonnull
-	@Override
-	default NonNullList<Ingredient> getIngredients() {
-		return NonNullList.of(Ingredient.EMPTY, getInput());
-	}
+
+    @Override
+    default @NotNull PlacementInfo placementInfo() {
+        return PlacementInfo.create(getInput());
+    }
 }

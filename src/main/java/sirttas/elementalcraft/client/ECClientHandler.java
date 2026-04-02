@@ -9,7 +9,7 @@ import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
 import sirttas.elementalcraft.gui.tooltip.ElementGaugeClientTooltip;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECClientHandler {
 
 	private ECClientHandler() {}

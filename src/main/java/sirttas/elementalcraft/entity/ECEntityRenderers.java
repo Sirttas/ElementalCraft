@@ -8,7 +8,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.projectile.FeatherSpikeRenderer;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECEntityRenderers {
 
     private ECEntityRenderers() {}

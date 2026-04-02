@@ -2,10 +2,11 @@ package sirttas.elementalcraft.jewel.defence;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -29,11 +30,11 @@ public class TortoiseJewel extends DefenceJewel {
 
         level.getEntitiesOfClass(FallingBlockEntity.class, entity.getBoundingBox()).forEach(e -> {
             e.discard();
-            if (e.dropItem && level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+            if (e.dropItem && level instanceof ServerLevel serverLevel && serverLevel.getGameRules().get(GameRules.ENTITY_DROPS)) {
                 var block = e.getBlockState().getBlock();
 
                 e.callOnBrokenAfterFall(block, e.blockPosition());
-                e.spawnAtLocation(block);
+                e.spawnAtLocation(serverLevel, block);
             }
         });
         return 0;

@@ -10,11 +10,11 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
 
-public class FurnaceRecipeWrapper implements IOInstrumentRecipe<IOInstrumentRecipeInput>, ISingleElementInstrumentRecipe<IOInstrumentRecipeInput> {
+public class FurnaceRecipeWrapper implements IOInstrumentRecipe<IOInstrumentRecipeInput>, SingleElementInstrumentRecipe<IOInstrumentRecipeInput> {
 
 	private final AbstractCookingRecipe recipe;
 

@@ -50,11 +50,6 @@ public class PureInfusionRecipe implements Recipe<PureInfusionRecipeInput> {
 		this.elementAmount = elementAmount;
 	}
 
-	@Nonnull
-	@Override
-	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-		return output;
-	}
 
 	@Override
 	public boolean matches(@Nonnull PureInfusionRecipeInput input, @Nonnull Level level) {
@@ -78,13 +73,13 @@ public class PureInfusionRecipe implements Recipe<PureInfusionRecipeInput> {
 
 	@Nonnull
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<@NotNull PureInfusionRecipe> getSerializer() {
 		return ECRecipeSerializers.PURE_INFUSION.get();
 	}
 
 	@Nonnull
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<@NotNull PureInfusionRecipe> getType() {
 		return ECRecipeTypes.PURE_INFUSION.get();
 	}
 

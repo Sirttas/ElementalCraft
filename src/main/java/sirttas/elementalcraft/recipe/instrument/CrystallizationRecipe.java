@@ -3,17 +3,23 @@ package sirttas.elementalcraft.recipe.instrument;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 
@@ -23,88 +29,70 @@ import java.util.List;
 public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItemsSingleElementRecipeInput> {
 
 	public static final String NAME = "crystallization";
-    private static final Codec<List<Ingredient>> INGREDIENTS_CODEC = RecordCodecBuilder.create(builder -> builder.group(
-            Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(List::getFirst),
-            Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(i -> i.get(1))
-    ).apply(builder, List::of));
-    public static final MapCodec<CrystallizationRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(CrystallizationRecipe::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(CrystallizationRecipe::getElementAmount),
-            INGREDIENTS_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(CrystallizationRecipe::getIngredients),
-            ItemStack.CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
+    public static final MapCodec<CrystallizationRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
+            CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
+            ElementType.forGetter(IElementTypeProvider::getElementType),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
+            Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
+            Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
     ).apply(builder, CrystallizationRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull CrystallizationRecipe> STREAM_CODEC = StreamCodec.of(CrystallizationRecipe::toNetwork, CrystallizationRecipe::fromNetwork); // TODO rework recipe stream codecs
-	
-	private final NonNullList<Ingredient> ingredients;
-	private final ItemStack result;
-	private final int elementAmount;
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull CrystallizationRecipe> STREAM_CODEC = StreamCodec.composite(
+            CommonInfo.STREAM_CODEC, r -> r.commonInfo,
+            ElementType.STREAM_CODEC, r -> r.elementType,
+            ByteBufCodecs.INT, r -> r.elementAmount,
+            Ingredient.CONTENTS_STREAM_CODEC, r -> r.gem,
+            Ingredient.CONTENTS_STREAM_CODEC, r -> r.crystal,
+            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            CrystallizationRecipe::new);
 
-	public CrystallizationRecipe(ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStack result) {
-		super(type);
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
-		this.result = result;
-		this.elementAmount = elementAmount;
-	}
+    private final Ingredient gem;
+    private final Ingredient crystal;
+    private final ItemStackTemplate output;
 
-	@Override
-	public int getElementAmount() {
-		return elementAmount;
-	}
+	public CrystallizationRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, Ingredient gem, Ingredient crystal, ItemStackTemplate output) {
+        super(commonInfo, type, elementAmount);
+        this.gem = gem;
+        this.crystal = crystal;
+        this.output = output;
+    }
 
 	@Override
 	public boolean matches(@Nonnull MultipleItemsSingleElementRecipeInput input, @Nonnull Level level) {
-		if (input.getElementType() == getElementType() && input.size() >= 2) {
-			for (int i = 0; i < 2; i++) {
-				if (!ingredients.get(i).test(input.getItem(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+        if (input.getElementType() != getElementType() || input.size() < 2) {
+            return false;
+        }
+        return gem.test(input.getItem(0)) && crystal.test(input.getItem(1));
+    }
 
-	@Nonnull
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return ingredients;
-	}
+    @Override
+    public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
+        return output.create();
+    }
 
-	@Nonnull
-	@Override
-	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-		return result;
-	}
+    @Override
+    public @NotNull String group() {
+        return NAME;
+    }
 
-	@Override
-	public boolean isSpecial() {
-		return true;
-	}
+    @Override
+    public @NotNull RecipeSerializer<@NotNull CrystallizationRecipe> getSerializer() {
+        return ECRecipeSerializers.CRYSTALLIZATION.get();
+    }
 
-	@Nonnull
+    @Nonnull
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<@NotNull CrystallizationRecipe> getType() {
 		return ECRecipeTypes.CRYSTALLIZATION.get();
 	}
 
-    private static CrystallizationRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-        var type = ElementType.byName(buffer.readUtf());
-        var elementAmount = buffer.readInt();
-        var output = ItemStack.STREAM_CODEC.decode(buffer);
-        var i = buffer.readInt();
-        var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
-
-        for (int j = 0; j < i; ++j) {
-            ingredients.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-        }
-        return new CrystallizationRecipe(type, elementAmount, ingredients, output);
+    @Override
+    public @NotNull PlacementInfo placementInfo() {
+        return PlacementInfo.create(List.of(gem, crystal));
     }
 
-    private static void toNetwork(RegistryFriendlyByteBuf buffer, CrystallizationRecipe recipe) {
-        buffer.writeUtf(recipe.getElementType().getSerializedName());
-        buffer.writeInt(recipe.getElementAmount());
-        ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-        buffer.writeInt(recipe.getIngredients().size());
-        recipe.getIngredients().forEach(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient));
+    @Override
+    public @NotNull RecipeBookCategory recipeBookCategory() {
+        return ECRecipeBookCategories.CRYSTALLIZATION.get();
     }
 }

@@ -18,7 +18,7 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.ISingleElementInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
@@ -30,7 +30,7 @@ public record OrePurificationRecipe(
         int elementAmount,
         int inputSize,
         double luckRatio
-) implements IOInstrumentRecipe<SimpleIOInstrumentRecipeInput>, ISingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
+) implements IOInstrumentRecipe<SimpleIOInstrumentRecipeInput>, SingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
     public static final String NAME = "ore_purification";
     public static final MapCodec<OrePurificationRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(

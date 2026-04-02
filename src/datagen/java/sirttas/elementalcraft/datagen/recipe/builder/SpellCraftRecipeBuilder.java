@@ -4,7 +4,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -65,9 +65,9 @@ public class SpellCraftRecipeBuilder {
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
 		var spell = Spells.REGISTRY.getHolder(output).orElseThrow();
-		var stack = new ItemStack(ECItems.SCROLL);
+		var stack = new ItemStackTemplate(ECItems.SCROLL);
 
 		SpellHelper.setSpell(stack, spell);
-		recipeOutput.accept(id, new SpellCraftRecipe(this.gem, this.crystal, stack), null);
+		recipeOutput.accept(id, new SpellCraftRecipe(this.gem, this.crystal, this.stack), null);
 	}
 }

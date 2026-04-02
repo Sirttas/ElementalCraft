@@ -10,7 +10,7 @@ import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.source.analysis.SourceAnalysisGlassScreen;
 import sirttas.elementalcraft.item.spell.book.SpellBookScreen;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECScreens {
 
 	private ECScreens() {}

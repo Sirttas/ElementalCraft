@@ -2,11 +2,12 @@ package sirttas.elementalcraft.recipe.instrument;
 
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import java.util.List;
 
-public interface IInstrumentRecipe<I extends RecipeInput> extends Recipe<I> {
+public interface IInstrumentRecipe<I extends RecipeInput> extends Recipe<@NotNull I> {
 
     List<ElementType> getValidElementTypes();
 

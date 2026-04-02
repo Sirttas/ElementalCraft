@@ -14,7 +14,7 @@ import sirttas.elementalcraft.pureore.PureOreSyncPayload;
 import sirttas.elementalcraft.spell.ChangeSpellPayload;
 import sirttas.elementalcraft.spell.tick.SpellTickCooldownPayload;
 
-@EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class PayloadHandler {
 
 	private static final String PROTOCOL_VERSION = "3";

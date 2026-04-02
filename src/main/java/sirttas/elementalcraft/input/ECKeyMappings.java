@@ -14,7 +14,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.List;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECKeyMappings {
 
     public static final List<KeyMapping> CHANGE_TO_SPELL = List.of(

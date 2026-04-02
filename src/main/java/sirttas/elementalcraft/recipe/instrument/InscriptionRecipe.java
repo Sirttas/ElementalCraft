@@ -3,16 +3,24 @@ package sirttas.elementalcraft.recipe.instrument;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
+import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 
@@ -22,69 +30,65 @@ import java.util.List;
 public class InscriptionRecipe extends AbstractInstrumentRecipe<MultipleItemsSingleElementRecipeInput> {
 
 	public static final String NAME = "inscription";
-    public static final MapCodec<InscriptionRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(InscriptionRecipe::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InscriptionRecipe::getElementAmount),
-            Ingredient.LIST_CODEC.fieldOf(ECNames.INGREDIENTS).forGetter(InscriptionRecipe::getIngredients),
-            ItemStack.CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+    public static final MapCodec<InscriptionRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
+            CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
+            ElementType.forGetter(IElementTypeProvider::getElementType),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
+            Codec.lazyInitialized(() -> Ingredient.CODEC.listOf(4, 4)).fieldOf("ingredients").forGetter(o -> o.ingredients),
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
     ).apply(builder, InscriptionRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull InscriptionRecipe> STREAM_CODEC = StreamCodec.of(InscriptionRecipe::toNetwork, InscriptionRecipe::fromNetwork); // TODO rework recipe stream codecs
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull InscriptionRecipe> STREAM_CODEC = StreamCodec.composite(
+            CommonInfo.STREAM_CODEC, r -> r.commonInfo,
+            ElementType.STREAM_CODEC, r -> r.elementType,
+            ByteBufCodecs.INT, r -> r.elementAmount,
+            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), r -> r.ingredients,
+            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            InscriptionRecipe::new);
 
-	private final NonNullList<Ingredient> ingredients;
-	private final int elementAmount;
-	private final ItemStack output;
+	private final List<Ingredient> ingredients;
+	private final ItemStackTemplate output;
 
-	public InscriptionRecipe(ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStack output) {
-		super(type);
-		this.ingredients = NonNullList.of(Ingredient.EMPTY, ingredients.toArray(Ingredient[]::new));
-		this.elementAmount = elementAmount;
+	public InscriptionRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate output) {
+        super(commonInfo, type, elementAmount);
+		this.ingredients = List.copyOf(ingredients);
 		this.output = output;
 	}
 
 	@Override
-	public int getElementAmount() {
-		return elementAmount;
-	}
-
-	@Override
 	public boolean matches(@Nonnull MultipleItemsSingleElementRecipeInput input, @Nonnull Level level) {
-		if (input.getElementType() == getElementType()) {
-			return RecipeHelper.matchesUnordered(input.stacks(), ingredients);
-		}
-		return false;
-	}
-
-	@Nonnull
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return ingredients;
-	}
-
-	@Nonnull
-	@Override
-	public ItemStack getResultItem(@NotNull HolderLookup.Provider provider) {
-		return output;
-	}
-
-    private static InscriptionRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-        var type = ElementType.byName(buffer.readUtf());
-        var elementAmount = buffer.readInt();
-        var output = ItemStack.STREAM_CODEC.decode(buffer);
-        var i = buffer.readInt();
-        var ingredients = NonNullList.withSize(i, Ingredient.EMPTY);
-
-        for (int j = 0; j < i; ++j) {
-            ingredients.set(j, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+        if (input.getElementType() != getElementType() || input.size() < 4) {
+            return false;
         }
-
-        return new InscriptionRecipe(type, elementAmount, ingredients, output);
+        return RecipeHelper.matchesUnordered(input.stacks(), ingredients);
     }
 
-    private static void toNetwork(RegistryFriendlyByteBuf buffer, InscriptionRecipe recipe) {
-        buffer.writeUtf(recipe.getElementType().getSerializedName());
-        buffer.writeInt(recipe.getElementAmount());
-        ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
-        buffer.writeInt(recipe.getIngredients().size());
-        recipe.getIngredients().forEach(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient));
+    @Override
+    public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
+        return output.create();
+    }
+
+    @Override
+    public @NotNull String group() {
+        return NAME;
+    }
+
+    @Override
+    public @NotNull RecipeSerializer<@NotNull InscriptionRecipe> getSerializer() {
+        return ECRecipeSerializers.INSCRIPTION.get();
+    }
+
+    @Override
+    public @NotNull RecipeType<@NotNull InscriptionRecipe> getType() {
+        return ECRecipeTypes.INSCRIPTION.get();
+    }
+
+    @Override
+    public @NotNull PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredients);
+    }
+
+    @Override
+    public @NotNull RecipeBookCategory recipeBookCategory() {
+        return ECRecipeBookCategories.INSCRIPTION.get();
     }
 }

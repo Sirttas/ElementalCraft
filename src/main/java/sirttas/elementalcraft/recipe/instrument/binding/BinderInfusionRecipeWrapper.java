@@ -1,27 +1,20 @@
 package sirttas.elementalcraft.recipe.instrument.binding;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.recipe.RuntimeRecipe;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
 
-import javax.annotation.Nonnull;
-
-public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
+public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe implements RuntimeRecipe<MultipleItemsSingleElementRecipeInput> {
 
 	private final IInfusionRecipe recipe;
 	
 	public BinderInfusionRecipeWrapper(IInfusionRecipe infusionRecipe) {
-		super(infusionRecipe.getElementType());
+		super(null, infusionRecipe.getElementType(), infusionRecipe.getElementAmount());
 		this.recipe = infusionRecipe;
-	}
-
-	@Override
-	public int getElementAmount() {
-		return recipe.getElementAmount();
 	}
 
 	@Override
@@ -30,22 +23,15 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe {
 	}
 	
 	@Override
-	public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input, @Nonnull HolderLookup.Provider provider) {
+	public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
 		if (input.size() == 1) {
-			return recipe.assemble(input.singleItem(), provider);
+			return recipe.assemble(input.singleItem());
 		}
-		return super.assemble(input, provider);
+		return ItemStack.EMPTY;
 	}
 
-	@Nonnull
-	@Override
-	public ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-		return recipe.getResultItem(provider);
-	}
-
-	@Nonnull
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return recipe.getSerializer();
-	}
+    @Override
+    public @NotNull PlacementInfo placementInfo() {
+        return recipe.placementInfo();
+    }
 }

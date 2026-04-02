@@ -58,7 +58,7 @@ public abstract class AbstractECBlockEntity extends BlockEntity {
 		if (level instanceof ServerLevel serverLevel) {
 			var packet = getUpdatePacket();
 
-			serverLevel.getChunkSource().chunkMap.getPlayers(new ChunkPos(worldPosition), false).forEach(e -> e.connection.send(packet));
+			serverLevel.getChunkSource().chunkMap.getPlayers(ChunkPos.containing(worldPosition), false).forEach(e -> e.connection.send(packet));
 		}
 	}
 }

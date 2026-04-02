@@ -46,7 +46,7 @@ public class ECRecipeSerializers {
 	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull StaffRecipe>> STAFF = register(StaffItem.NAME, StaffRecipe.CODEC, StaffRecipe.STREAM_CODEC);
 	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull CrackingRecipe>> CRACKING = register(CrackingRecipe.NAME, CrackingRecipe.CODEC, CrackingRecipe.STREAM_CODEC);
 	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SculkCrackingRecipe>> SCULK_CRACKING = register(SculkCrackingRecipe.NAME, SculkCrackingRecipe.CODEC, SculkCrackingRecipe.STREAM_CODEC);
-	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull SculkCrackingRecipe>> MELTING = register(MeltingRecipe.NAME, MeltingRecipe.CODEC, MeltingRecipe.STREAM_CODEC);
+	public static final DeferredHolder<@NotNull RecipeSerializer<?>, @NotNull RecipeSerializer<@NotNull MeltingRecipe>> MELTING = register(MeltingRecipe.NAME, MeltingRecipe.CODEC, MeltingRecipe.STREAM_CODEC);
 
 	private ECRecipeSerializers() {}
 

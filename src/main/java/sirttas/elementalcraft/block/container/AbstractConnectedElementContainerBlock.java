@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 
@@ -24,7 +25,7 @@ public abstract class AbstractConnectedElementContainerBlock extends AbstractEle
 	private static final VoxelShape CONNECTOR_WEST = Shapes.or(Block.box(1D, 5D, 5D, 2D, 11D, 11D), Block.box(0D, 6D, 6D, 1D, 10D, 10D));
 	private static final VoxelShape CONNECTOR_EAST = Shapes.or(Block.box(14D, 5D, 5D, 15D, 11D, 11D), Block.box(15D, 6D, 6D, 16D, 10D, 10D));
 
-	protected AbstractConnectedElementContainerBlock(BlockBehaviour.Properties properties, Holder<IConfigurableBlockEntityProperties> entityProperties) {
+	protected AbstractConnectedElementContainerBlock(BlockBehaviour.Properties properties, Holder<@NotNull IConfigurableBlockEntityProperties> entityProperties) {
 		super(properties, entityProperties);
 	}
 

@@ -13,7 +13,7 @@ import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 
 @OnlyIn(Dist.CLIENT)
-public class RuneModelResolver extends ECModelResolver<RuneModel, RuneModel.Unbaked> {
+public class RuneModelResolver extends ECModelResolver<RuneModel> {
 
     public static final Identifier IDENTIFIER = ElementalCraftApi.RUNE_MANAGER_KEY.identifier();
     private static final FileToIdConverter LISTER = FileToIdConverter.json(ElementalCraftApi.RUNE_MANAGER.getFolder());

@@ -11,6 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -59,123 +60,123 @@ import sirttas.elementalcraft.spell.Spells;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ECItems {
-	private static final DeferredRegister<Item> DEFERRED_REGISTER = DeferredRegister.create(Registries.ITEM, ElementalCraftApi.MODID);
+	private static final DeferredRegister<@NotNull Item> DEFERRED_REGISTER = DeferredRegister.create(Registries.ITEM, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<Item, FocusItem> FOCUS = register(FocusItem.NAME, () -> new FocusItem(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull FocusItem> FOCUS = register(FocusItem.NAME, () -> new FocusItem(new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL, Spells.NONE)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY)));
-	public static final DeferredHolder<Item, StaffItem> STAFF = register(StaffItem.NAME, () -> new StaffItem(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull StaffItem> STAFF = register(StaffItem.NAME, () -> new StaffItem(new Item.Properties()
 			.durability(2252)
 			.fireResistant()
 			.component(ECDataComponents.SPELL, Spells.NONE)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY)
 			.attributes(StaffItem.ATTRIBUTE_MODIFIERS)));
-	public static final DeferredHolder<Item, ScrollItem> SCROLL = register(ScrollItem.NAME, () -> new ScrollItem(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ScrollItem> SCROLL = register(ScrollItem.NAME, () -> new ScrollItem(new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL, Spells.NONE)));
-	public static final DeferredHolder<Item, SpellBookItem> SPELL_BOOK = register(SpellBookItem.NAME, () -> new SpellBookItem(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull SpellBookItem> SPELL_BOOK = register(SpellBookItem.NAME, () -> new SpellBookItem(new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY)));
-	public static final DeferredHolder<Item, EmptyReceptacleItem> EMPTY_RECEPTACLE = register(EmptyReceptacleItem.NAME, () -> new EmptyReceptacleItem(new Item.Properties()));
-	public static final DeferredHolder<Item, SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem.NAME, () -> new SourceStabilizerItem(new Item.Properties()));
-	public static final DeferredHolder<Item, SourceAnalysisGlassItem> SOURCE_ANALYSIS_GLASS = register(SourceAnalysisGlassItem.NAME, SourceAnalysisGlassItem::new);
-	public static final DeferredHolder<Item, ElementHolderItem> FIRE_HOLDER = register(ElementHolderItem.NAME_FIRE, () -> new ElementHolderItem(ElementType.FIRE, ECProperties.Items.HOLDER));
-	public static final DeferredHolder<Item, ElementHolderItem> WATER_HOLDER = register(ElementHolderItem.NAME_WATER, () -> new ElementHolderItem(ElementType.WATER, ECProperties.Items.HOLDER));
-	public static final DeferredHolder<Item, ElementHolderItem> EARTH_HOLDER = register(ElementHolderItem.NAME_EARTH, () -> new ElementHolderItem(ElementType.EARTH, ECProperties.Items.HOLDER));
-	public static final DeferredHolder<Item, ElementHolderItem> AIR_HOLDER = register(ElementHolderItem.NAME_AIR, () -> new ElementHolderItem(ElementType.AIR, ECProperties.Items.HOLDER));
-	public static final DeferredHolder<Item, Item> PURE_HOLDER_CORE = register(PureElementHolderItem.NAME + "_core", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem.NAME, () -> new PureElementHolderItem(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull EmptyReceptacleItem> EMPTY_RECEPTACLE = register(EmptyReceptacleItem.NAME, () -> new EmptyReceptacleItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem.NAME, () -> new SourceStabilizerItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull SourceAnalysisGlassItem> SOURCE_ANALYSIS_GLASS = register(SourceAnalysisGlassItem.NAME, SourceAnalysisGlassItem::new);
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> FIRE_HOLDER = register(ElementHolderItem.NAME_FIRE, () -> new ElementHolderItem(ElementType.FIRE, ECProperties.Items.HOLDER));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> WATER_HOLDER = register(ElementHolderItem.NAME_WATER, () -> new ElementHolderItem(ElementType.WATER, ECProperties.Items.HOLDER));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> EARTH_HOLDER = register(ElementHolderItem.NAME_EARTH, () -> new ElementHolderItem(ElementType.EARTH, ECProperties.Items.HOLDER));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> AIR_HOLDER = register(ElementHolderItem.NAME_AIR, () -> new ElementHolderItem(ElementType.AIR, ECProperties.Items.HOLDER));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> PURE_HOLDER_CORE = register(PureElementHolderItem.NAME + "_core", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem.NAME, () -> new PureElementHolderItem(new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY)));
-	public static final DeferredHolder<Item, PureOreItem> PURE_ORE = register(PureOreItem.NAME, () -> new PureOreItem(new Item.Properties()));
-	public static final DeferredHolder<Item, RuneItem> RUNE = register(RuneItem.NAME, () -> new RuneItem(ECProperties.Items.ITEM_UNSTACKABLE));
-	public static final DeferredHolder<Item, ChiselItem> DRENCHED_IRON_CHISEL = register(ChiselItem.NAME_DRENCHED_IRON, () -> new ChiselItem(ChiselToolMaterials.DRENCHED_IRON, new Item.Properties()));
-	public static final DeferredHolder<Item, ChiselItem> SWIFT_ALLOY_CHISEL = register(ChiselItem.NAME_SWIFT_ALLOY, () -> new ChiselItem(ChiselToolMaterials.SWIFT_ALLOY, new Item.Properties()));
-	public static final DeferredHolder<Item, ChiselItem> FIREITE_CHISEL = register(ChiselItem.NAME_FIREITE, () -> new ChiselItem(ChiselToolMaterials.FIREITE, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull PureOreItem> PURE_ORE = register(PureOreItem.NAME, () -> new PureOreItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull RuneItem> RUNE = register(RuneItem.NAME, () -> new RuneItem(ECProperties.Items.ITEM_UNSTACKABLE));
+	public static final DeferredHolder<@NotNull Item, @NotNull ChiselItem> DRENCHED_IRON_CHISEL = register(ChiselItem.NAME_DRENCHED_IRON, () -> new ChiselItem(ChiselToolMaterials.DRENCHED_IRON, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ChiselItem> SWIFT_ALLOY_CHISEL = register(ChiselItem.NAME_SWIFT_ALLOY, () -> new ChiselItem(ChiselToolMaterials.SWIFT_ALLOY, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ChiselItem> FIREITE_CHISEL = register(ChiselItem.NAME_FIREITE, () -> new ChiselItem(ChiselToolMaterials.FIREITE, new Item.Properties()
 			.fireResistant()));
-	public static final DeferredHolder<Item, DamageableCraftingElementalItem> ELEMENTAL_FIREFUEL = register("elemental_firefuel", () -> new DamageableCraftingElementalItem(ElementType.FIRE, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull DamageableCraftingElementalItem> ELEMENTAL_FIREFUEL = register("elemental_firefuel", () -> new DamageableCraftingElementalItem(ElementType.FIRE, new Item.Properties()
 			.stacksTo(1)
 			.durability(500)));
-	public static final DeferredHolder<Item, CoverFrameItem> COVER_FRAME = register(CoverFrameItem.NAME, () -> new CoverFrameItem(new Item.Properties()));
-	public static final DeferredHolder<Item, PipeUpgradeItem> ELEMENT_PUMP = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_PUMP);
-	public static final DeferredHolder<Item, PipeUpgradeItem> PIPE_PRIORITY_RINGS = registerPipeUpgrade(PipeUpgradeTypes.PIPE_PRIORITY_RINGS);
-	public static final DeferredHolder<Item, PipeUpgradeItem> ELEMENT_VALVE = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_VALVE);
-	public static final DeferredHolder<Item, PipeUpgradeItem> ELEMENT_BEAM = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_BEAM);
+	public static final DeferredHolder<@NotNull Item, @NotNull CoverFrameItem> COVER_FRAME = register(CoverFrameItem.NAME, () -> new CoverFrameItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> ELEMENT_PUMP = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_PUMP);
+	public static final DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> PIPE_PRIORITY_RINGS = registerPipeUpgrade(PipeUpgradeTypes.PIPE_PRIORITY_RINGS);
+	public static final DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> ELEMENT_VALVE = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_VALVE);
+	public static final DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> ELEMENT_BEAM = registerPipeUpgrade(PipeUpgradeTypes.ELEMENT_BEAM);
 
-	public static final DeferredHolder<Item, Item> INERT_CRYSTAL = register("inert_crystal", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> CONTAINED_CRYSTAL = register("contained_crystal", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> STRONGLY_CONTAINED_CRYSTAL = register("strongly_contained_crystal", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> PURE_CRYSTAL = register("purecrystal", () -> new Item(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> INERT_CRYSTAL = register("inert_crystal", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> CONTAINED_CRYSTAL = register("contained_crystal", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> STRONGLY_CONTAINED_CRYSTAL = register("strongly_contained_crystal", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> PURE_CRYSTAL = register("purecrystal", () -> new Item(new Item.Properties()
 			.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)));
-	public static final DeferredHolder<Item, Item> DRENCHED_IRON_INGOT = register("drenched_iron_ingot", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> DRENCHED_IRON_NUGGET = register("drenched_iron_nugget", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SWIFT_ALLOY_INGOT = register("swift_alloy_ingot", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SWIFT_ALLOY_NUGGET = register("swift_alloy_nugget", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> HARDENED_HANDLE = register("hardened_handle", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> DRENCHED_SAW_BLADE = register("drenched_saw_blade", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SHRINE_BASE = register("shrinebase", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> FIREITE_INGOT = register("fireite_ingot", () -> new Item(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> DRENCHED_IRON_INGOT = register("drenched_iron_ingot", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> DRENCHED_IRON_NUGGET = register("drenched_iron_nugget", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SWIFT_ALLOY_INGOT = register("swift_alloy_ingot", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SWIFT_ALLOY_NUGGET = register("swift_alloy_nugget", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> HARDENED_HANDLE = register("hardened_handle", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> DRENCHED_SAW_BLADE = register("drenched_saw_blade", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SHRINE_BASE = register("shrinebase", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> FIREITE_INGOT = register("fireite_ingot", () -> new Item(new Item.Properties()
 			.fireResistant()));
-	public static final DeferredHolder<Item, Item> FIREITE_NUGGET = register("fireite_nugget", () -> new Item(new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> FIREITE_NUGGET = register("fireite_nugget", () -> new Item(new Item.Properties()
 			.fireResistant()));
-	public static final DeferredHolder<Item, Item> AIR_SILK = register("air_silk", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SHRINE_UPGRADE_CORE = register("shrine_upgrade_core", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> ADVANCED_SHRINE_UPGRADE_CORE = register("advanced_shrine_upgrade_core", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SCROLL_PAPER = register("scroll_paper", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SPRINGALINE_SHARD = register("springaline_shard", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> SOLAR_PRISM = register("solar_prism", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> FIRE_CRYSTAL = register("firecrystal", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> WATER_CRYSTAL = register("watercrystal", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> EARTH_CRYSTAL = register("earthcrystal", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> AIR_CRYSTAL = register("aircrystal", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> CRUDE_FIRE_GEM = register("crude_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> CRUDE_WATER_GEM = register("crude_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> CRUDE_EARTH_GEM = register("crude_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> CRUDE_AIR_GEM = register("crude_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> FINE_FIRE_GEM = register("fine_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> FINE_WATER_GEM = register("fine_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> FINE_EARTH_GEM = register("fine_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> FINE_AIR_GEM = register("fine_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> PRISTINE_FIRE_GEM = register("pristine_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> PRISTINE_WATER_GEM = register("pristine_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> PRISTINE_EARTH_GEM = register("pristine_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> PRISTINE_AIR_GEM = register("pristine_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
-	public static final DeferredHolder<Item, Item> PRISTINE_SHARD = register("pristine_shard", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, DamageableCraftingElementalItem> FIRE_LENS = register("fire_lens", () -> new DamageableCraftingElementalItem(ElementType.FIRE, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> AIR_SILK = register("air_silk", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SHRINE_UPGRADE_CORE = register("shrine_upgrade_core", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> ADVANCED_SHRINE_UPGRADE_CORE = register("advanced_shrine_upgrade_core", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SCROLL_PAPER = register("scroll_paper", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SPRINGALINE_SHARD = register("springaline_shard", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> SOLAR_PRISM = register("solar_prism", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FIRE_CRYSTAL = register("firecrystal", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> WATER_CRYSTAL = register("watercrystal", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> EARTH_CRYSTAL = register("earthcrystal", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> AIR_CRYSTAL = register("aircrystal", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> CRUDE_FIRE_GEM = register("crude_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> CRUDE_WATER_GEM = register("crude_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> CRUDE_EARTH_GEM = register("crude_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> CRUDE_AIR_GEM = register("crude_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FINE_FIRE_GEM = register("fine_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FINE_WATER_GEM = register("fine_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FINE_EARTH_GEM = register("fine_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FINE_AIR_GEM = register("fine_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> PRISTINE_FIRE_GEM = register("pristine_fire_gem", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> PRISTINE_WATER_GEM = register("pristine_water_gem", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> PRISTINE_EARTH_GEM = register("pristine_earth_gem", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> PRISTINE_AIR_GEM = register("pristine_air_gem", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> PRISTINE_SHARD = register("pristine_shard", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull DamageableCraftingElementalItem> FIRE_LENS = register("fire_lens", () -> new DamageableCraftingElementalItem(ElementType.FIRE, new Item.Properties()
 			.stacksTo(1)
 			.durability(1500)));
-	public static final DeferredHolder<Item, DamageableCraftingElementalItem> AIR_MILL = register("air_mill", () -> new DamageableCraftingElementalItem(ElementType.AIR, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull DamageableCraftingElementalItem> AIR_MILL = register("air_mill", () -> new DamageableCraftingElementalItem(ElementType.AIR, new Item.Properties()
 			.stacksTo(1)
 			.durability(3000)));
-	public static final DeferredHolder<Item, Item> MINOR_RUNE_SLATE = register("minor_rune_slate", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> RUNE_SLATE = register("rune_slate", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> MAJOR_RUNE_SLATE = register("major_rune_slate", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, Item> UNSET_JEWEL = register("unset_jewel", () -> new Item(new Item.Properties()));
-	public static final DeferredHolder<Item, JewelItem> SALMON_JEWEL = registerJewel(Jewels.SALMON);
-	public static final DeferredHolder<Item, JewelItem> PHOENIX_JEWEL = registerJewel(Jewels.PHOENIX);
-	public static final DeferredHolder<Item, JewelItem> BASILISK_JEWEL = registerJewel(Jewels.BASILISK);
-	public static final DeferredHolder<Item, JewelItem> BEAR_JEWEL = registerJewel(Jewels.BEAR);
-	public static final DeferredHolder<Item, JewelItem> TIGER_JEWEL = registerJewel(Jewels.TIGER);
-	public static final DeferredHolder<Item, JewelItem> LEOPARD_JEWEL = registerJewel(Jewels.LEOPARD);
-	public static final DeferredHolder<Item, JewelItem> DOLPHIN_JEWEL = registerJewel(Jewels.DOLPHIN);
-	public static final DeferredHolder<Item, JewelItem> KIRIN_JEWEL = registerJewel(Jewels.KIRIN);
-	public static final DeferredHolder<Item, JewelItem> VIPER_JEWEL = registerJewel(Jewels.VIPER);
-	public static final DeferredHolder<Item, JewelItem> TORTOISE_JEWEL = registerJewel(Jewels.TORTOISE);
-	public static final DeferredHolder<Item, JewelItem> ARCTIC_HARE_JEWEL = registerJewel(Jewels.ARCTIC_HARE);
-	public static final DeferredHolder<Item, JewelItem> MOLE_JEWEL = registerJewel(Jewels.MOLE);
-	public static final DeferredHolder<Item, JewelItem> HAWK_JEWEL = registerJewel(Jewels.HAWK);
-	public static final DeferredHolder<Item, JewelItem> DEMIGOD_JEWEL = registerJewel(Jewels.DEMIGOD);
-	public static final DeferredHolder<Item, JewelItem> STRIDER_JEWEL = registerJewel(Jewels.STRIDER);
-	public static final DeferredHolder<Item, JewelItem> WATER_STRIDER_JEWEL = registerJewel(Jewels.WATER_STRIDER);
-	public static final DeferredHolder<Item, JewelItem> PIGLIN_JEWEL = registerJewel(Jewels.PIGLIN);
-	public static final DeferredHolder<Item, ElementalItem> FIRE_SOURCE_SEED = register("fire_source_seed", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> WATER_SOURCE_SEED = register("water_source_seed", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> EARTH_SOURCE_SEED = register("earth_source_seed", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
-	public static final DeferredHolder<Item, ElementalItem> AIR_SOURCE_SEED = register("air_source_seed", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
-	public static final DeferredHolder<Item, SpellEffectItem> REPAIR_HAMMER = register("repair_hammer", () -> new SpellEffectItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> MINOR_RUNE_SLATE = register("minor_rune_slate", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> RUNE_SLATE = register("rune_slate", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> MAJOR_RUNE_SLATE = register("major_rune_slate", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> UNSET_JEWEL = register("unset_jewel", () -> new Item(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> SALMON_JEWEL = registerJewel(Jewels.SALMON);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> PHOENIX_JEWEL = registerJewel(Jewels.PHOENIX);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> BASILISK_JEWEL = registerJewel(Jewels.BASILISK);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> BEAR_JEWEL = registerJewel(Jewels.BEAR);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> TIGER_JEWEL = registerJewel(Jewels.TIGER);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> LEOPARD_JEWEL = registerJewel(Jewels.LEOPARD);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> DOLPHIN_JEWEL = registerJewel(Jewels.DOLPHIN);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> KIRIN_JEWEL = registerJewel(Jewels.KIRIN);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> VIPER_JEWEL = registerJewel(Jewels.VIPER);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> TORTOISE_JEWEL = registerJewel(Jewels.TORTOISE);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> ARCTIC_HARE_JEWEL = registerJewel(Jewels.ARCTIC_HARE);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> MOLE_JEWEL = registerJewel(Jewels.MOLE);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> HAWK_JEWEL = registerJewel(Jewels.HAWK);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> DEMIGOD_JEWEL = registerJewel(Jewels.DEMIGOD);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> STRIDER_JEWEL = registerJewel(Jewels.STRIDER);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> WATER_STRIDER_JEWEL = registerJewel(Jewels.WATER_STRIDER);
+	public static final DeferredHolder<@NotNull Item, @NotNull JewelItem> PIGLIN_JEWEL = registerJewel(Jewels.PIGLIN);
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> FIRE_SOURCE_SEED = register("fire_source_seed", () -> new ElementalItem(ElementType.FIRE, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> WATER_SOURCE_SEED = register("water_source_seed", () -> new ElementalItem(ElementType.WATER, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> EARTH_SOURCE_SEED = register("earth_source_seed", () -> new ElementalItem(ElementType.EARTH, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementalItem> AIR_SOURCE_SEED = register("air_source_seed", () -> new ElementalItem(ElementType.AIR, new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull SpellEffectItem> REPAIR_HAMMER = register("repair_hammer", () -> new SpellEffectItem(new Item.Properties()));
 
 	private ECItems() {}
 
@@ -217,15 +218,15 @@ public class ECItems {
 		});
 	}
 
-	private static <T extends PipeUpgrade> DeferredHolder<Item, PipeUpgradeItem> registerPipeUpgrade(DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<T>> pipeUpgrade) {
+	private static <T extends PipeUpgrade> DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> registerPipeUpgrade(DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<T>> pipeUpgrade) {
 		return register(pipeUpgrade.getId().getPath(), () -> new PipeUpgradeItem(pipeUpgrade::get, new Item.Properties()));
 	}
 
-	private static DeferredHolder<Item, JewelItem> registerJewel(DeferredHolder<Jewel, ? extends Jewel> jewel) {
+	private static DeferredHolder<@NotNull Item, @NotNull JewelItem> registerJewel(DeferredHolder<@NotNull Jewel, ? extends @NotNull Jewel> jewel) {
 		return register(jewel.getId().getPath(), () -> new JewelItem(jewel::get, new Item.Properties().stacksTo(1)));
 	}
 
-	private static <T extends Item> DeferredHolder<Item, T> register(String name, Supplier<T> item) {
+	private static <T extends Item> DeferredHolder<@NotNull Item, @NotNull T> register(String name, Supplier<T> item) {
 		return DEFERRED_REGISTER.register(name, item);
 	}
 

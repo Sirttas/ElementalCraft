@@ -6,7 +6,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.registry.ElementalCraftRegistries;
 
-@EventBusSubscriber(modid = ElementalCraftApi.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ECRegistryHandler {
 
     private ECRegistryHandler() { }
