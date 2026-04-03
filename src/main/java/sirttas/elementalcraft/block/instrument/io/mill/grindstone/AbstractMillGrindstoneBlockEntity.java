@@ -10,11 +10,11 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlockEntity;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import java.util.function.Supplier;
 
-public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBlockEntity<IGrindingRecipe> {
+public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBlockEntity<GrindingRecipe> {
 
 
     protected AbstractMillGrindstoneBlockEntity(
@@ -27,7 +27,7 @@ public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBloc
     }
 
     @Override
-    protected IGrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    protected GrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         if (getContainerElementType() == ElementType.NONE) {
             return null;
         }

@@ -12,11 +12,11 @@ import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityPr
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.container.SingleItemContainer;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 import javax.annotation.Nonnull;
 
-public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItemSingleElementRecipeInput, IInfusionRecipe> implements IInfuser {
+public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItemSingleElementRecipeInput, InfusionRecipe> implements IInfuser {
 
 	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(InfuserBlock.NAME);
 	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
@@ -34,7 +34,7 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItem
 	}
 
 	@Override
-	protected IInfusionRecipe lookupRecipe(@NotNull SingleItemSingleElementRecipeInput recipeInput) {
+	protected InfusionRecipe lookupRecipe(@NotNull SingleItemSingleElementRecipeInput recipeInput) {
 		return this.lookupInfusionRecipe(level);
 	}
 

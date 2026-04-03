@@ -12,12 +12,12 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.category.instrument.AbstractInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractInstrumentRecipeCategory<I, T> {
+public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, T extends InstrumentRecipe<I>> extends AbstractInstrumentRecipeCategory<I, T> {
 
 	protected final ItemStack container = new ItemStack(ECBlocks.CONTAINER.get());
 	protected final ItemStack instrument;

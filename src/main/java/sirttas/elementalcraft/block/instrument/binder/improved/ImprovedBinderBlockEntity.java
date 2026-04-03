@@ -14,7 +14,7 @@ import sirttas.elementalcraft.block.instrument.infuser.IInfuser;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.BinderInfusionRecipeWrapper;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInfuser {
 
@@ -34,7 +34,7 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 		var bindingRecipe = super.lookupRecipe(recipeInput);
 
 		if (bindingRecipe == null) {
-			IInfusionRecipe infusionRecipe = this.lookupInfusionRecipe(level);
+			InfusionRecipe infusionRecipe = this.lookupInfusionRecipe(level);
 
 			return infusionRecipe != null ? new BinderInfusionRecipeWrapper(infusionRecipe) : null;
 		}

@@ -6,7 +6,7 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 
 import java.util.List;
 
-public interface SingleElementInstrumentRecipe<I extends RecipeInput> extends IInstrumentRecipe<I>, IElementTypeProvider {
+public interface SingleElementInstrumentRecipe<I extends RecipeInput> extends InstrumentRecipe<I>, IElementTypeProvider {
 
     @Override
     default List<ElementType> getValidElementTypes() {

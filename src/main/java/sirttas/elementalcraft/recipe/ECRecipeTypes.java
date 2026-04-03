@@ -13,8 +13,8 @@ import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
@@ -23,12 +23,12 @@ import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
 public class ECRecipeTypes {
 	private static final DeferredRegister<@NotNull RecipeType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull IInfusionRecipe>> INFUSION = register(IInfusionRecipe.NAME);
+	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull InfusionRecipe>> INFUSION = register(InfusionRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull AbstractBindingRecipe>> BINDING = register(AbstractBindingRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull CrystallizationRecipe>> CRYSTALLIZATION = register(CrystallizationRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull InscriptionRecipe>> INSCRIPTION = register(InscriptionRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull OrePurificationRecipe>> ORE_PURIFICATION = register(OrePurificationRecipe.NAME);
-	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull IGrindingRecipe>> GRINDING = register(IGrindingRecipe.NAME);
+	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull GrindingRecipe>> GRINDING = register(GrindingRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull SawingRecipe>> SAWING = register(SawingRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull PureInfusionRecipe>> PURE_INFUSION = register(PureInfusionRecipe.NAME);
 	public static final DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull SpellCraftRecipe>> SPELL_CRAFT = register(SpellCraftRecipe.NAME);

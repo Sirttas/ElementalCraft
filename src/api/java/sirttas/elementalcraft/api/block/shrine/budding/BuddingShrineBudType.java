@@ -17,9 +17,10 @@ import java.util.List;
 public record BuddingShrineBudType(
         List<Block> sequence,
         Holder<@NotNull ShrineUpgrade> requiredUpgrade,
-        Identifier plateModel
+        @Deprecated Identifier plateModel
 ) {
 
+    @Deprecated
     public static final String PLATE_MODEL_FOLDER = "elementalcraft/budding_shrine_plates";
 
     public static final Codec<BuddingShrineBudType> CODEC = RecordCodecBuilder.create(builder -> builder.group(

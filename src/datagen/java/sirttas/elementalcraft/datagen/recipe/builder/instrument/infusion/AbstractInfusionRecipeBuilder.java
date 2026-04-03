@@ -4,7 +4,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public abstract class AbstractInfusionRecipeBuilder {
 
@@ -26,7 +26,7 @@ public abstract class AbstractInfusionRecipeBuilder {
 	public void save(RecipeOutput recipeOutput) {
 		Identifier id = getId();
 
-		this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), IInfusionRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, Identifier.fromNamespaceAndPath(id.getNamespace(), InfusionRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
@@ -34,7 +34,7 @@ public abstract class AbstractInfusionRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(IInfusionRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.createRL(InfusionRecipe.NAME + '/' + save));
 		}
 	}
 

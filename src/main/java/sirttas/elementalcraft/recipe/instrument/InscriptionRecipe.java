@@ -33,25 +33,25 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<MultipleItemsSin
     public static final MapCodec<InscriptionRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
             ElementType.forGetter(IElementTypeProvider::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InstrumentRecipe::getElementAmount),
             Codec.lazyInitialized(() -> Ingredient.CODEC.listOf(4, 4)).fieldOf("ingredients").forGetter(o -> o.ingredients),
-            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, InscriptionRecipe::new));
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull InscriptionRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             ElementType.STREAM_CODEC, r -> r.elementType,
             ByteBufCodecs.INT, r -> r.elementAmount,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), r -> r.ingredients,
-            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            ItemStackTemplate.STREAM_CODEC, r -> r.result,
             InscriptionRecipe::new);
 
 	private final List<Ingredient> ingredients;
-	private final ItemStackTemplate output;
+	private final ItemStackTemplate result;
 
-	public InscriptionRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate output) {
+	public InscriptionRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate result) {
         super(commonInfo, type, elementAmount);
 		this.ingredients = List.copyOf(ingredients);
-		this.output = output;
+		this.result = result;
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class InscriptionRecipe extends AbstractInstrumentRecipe<MultipleItemsSin
 
     @Override
     public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
-        return output.create();
+        return result.create();
     }
 
     @Override

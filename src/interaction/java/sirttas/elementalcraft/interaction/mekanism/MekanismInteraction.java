@@ -29,7 +29,7 @@ import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackToItemStack
 import sirttas.elementalcraft.interaction.mekanism.recipe.MekanismCrusherRecipeWrapper;
 import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import java.util.function.BiFunction;
 
@@ -58,7 +58,7 @@ public class MekanismInteraction implements ElementalCraftInteraction {
 	}
 
     @Override
-	public IGrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+	public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
 		var stack = recipeInput.getItem(0);
 		var crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(level, recipe -> recipe.test(stack));
 		var wrapper = crusherRecipe != null ? new MekanismCrusherRecipeWrapper(crusherRecipe) : null;

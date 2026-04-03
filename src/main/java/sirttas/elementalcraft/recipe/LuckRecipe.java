@@ -5,7 +5,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.recipe.input.RandomSourceRecipeInput;
 
-public interface ILuckRecipe<I extends RandomSourceRecipeInput> extends Recipe<@NotNull I> {
+public interface LuckRecipe<I extends RandomSourceRecipeInput> extends Recipe<@NotNull I> {
 
     default RandomSource getRandomSource(I input) {
         return input.getRandomSource();

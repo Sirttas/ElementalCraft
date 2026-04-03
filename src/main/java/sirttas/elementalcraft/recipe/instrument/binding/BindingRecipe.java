@@ -17,12 +17,13 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -32,25 +33,25 @@ public class BindingRecipe extends AbstractBindingRecipe {
     public static final MapCodec<BindingRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
             ElementType.forGetter(IElementTypeProvider::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
-            Codec.lazyInitialized(() -> Ingredient.CODEC.listOf(4, 4)).fieldOf("ingredients").forGetter(o -> o.ingredients),
-            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InstrumentRecipe::getElementAmount),
+            Codec.lazyInitialized(() -> Ingredient.CODEC.sizeLimitedListOf(BinderBlockEntity.MAX_INVENTORY_SIZE)).fieldOf("ingredients").forGetter(o -> o.ingredients),
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.result)
     ).apply(builder, BindingRecipe::new));
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull BindingRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             ElementType.STREAM_CODEC, r -> r.elementType,
             ByteBufCodecs.INT, r -> r.elementAmount,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), r -> r.ingredients,
-            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            ItemStackTemplate.STREAM_CODEC, r -> r.result,
             BindingRecipe::new);
 
 	private final List<Ingredient> ingredients;
-	private final ItemStackTemplate output;
+	private final ItemStackTemplate result;
 
-	public BindingRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate output) {
+	public BindingRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, List<Ingredient> ingredients, ItemStackTemplate result) {
         super(commonInfo, type, elementAmount);
 		this.ingredients = List.copyOf(ingredients);
-		this.output = output;
+		this.result = result;
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
     @Override
     public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
-        return output.create();
+        return result.create();
     }
 
     @Override

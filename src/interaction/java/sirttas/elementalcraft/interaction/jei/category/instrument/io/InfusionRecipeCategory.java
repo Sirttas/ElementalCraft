@@ -11,14 +11,14 @@ import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<SingleItemSingleElementRecipeInput, IInfusionRecipe> {
+public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<SingleItemSingleElementRecipeInput, InfusionRecipe> {
 
 	public InfusionRecipeCategory(IGuiHelper guiHelper) {
 		this(guiHelper, "elementalcraft.jei.infusion");
@@ -30,7 +30,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<S
 
 	@Nonnull
 	@Override
-	public RecipeType<IInfusionRecipe> getRecipeType() {
+	public RecipeType<InfusionRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.INFUSION;
 	}
 
@@ -41,7 +41,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<S
 
 	@Override
 	@Nonnull
-	protected List<ItemStack> getOutputs(@Nonnull IInfusionRecipe recipe) {
+	protected List<ItemStack> getOutputs(@Nonnull InfusionRecipe recipe) {
 		if (recipe instanceof ToolInfusionRecipe toolInfusionRecipe) {
 			var infusion = toolInfusionRecipe.getToolInfusion();
 
@@ -59,7 +59,7 @@ public class InfusionRecipeCategory extends AbstractIOInstrumentRecipeCategory<S
 	}
 
 	@Override
-	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull IInfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
+	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull InfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
 		var ingredients = recipe.getIngredients();
 		var output = getOutputs(recipe);
 		var input = ingredients.get(0);

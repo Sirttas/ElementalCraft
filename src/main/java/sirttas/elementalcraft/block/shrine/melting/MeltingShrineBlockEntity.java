@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -37,10 +38,10 @@ public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 		cooldown = 0;
 	}
 
-	public static boolean fill(AbstractShrineBlockEntity shrine, Direction fillingDirection, Fluid fluid, float fluidMultiplier) {
+	public static boolean fill(AbstractShrineBlockEntity shrine, Direction fillingDirection, FluidStackTemplate fluid) {
 		var fluidHandler = shrine.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, shrine.getBlockPos().relative(fillingDirection, 2), fillingDirection.getOpposite());
 
-		return fluidHandler != null && fluidHandler.fill(new FluidStack(fluid, (int) Math.round(shrine.getStrength() * fluidMultiplier)), IFluidHandler.FluidAction.EXECUTE) > 0;
+		return fluidHandler != null && fluidHandler.fill(new FluidStack(fluid, (int) Math.round(shrine.getStrength() * fluid.amount())), IFluidHandler.FluidAction.EXECUTE) > 0;
 	}
 
 	private Optional<MeltingRecipe> findRecipe() {
@@ -68,10 +69,11 @@ public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 	private void melt(MeltingRecipe recipe) {
 		var fillingDirection = getUpgradeDirection(ShrineUpgrades.FILLING);
 
-		if (fillingDirection != null && fill(this, fillingDirection, recipe.result(), recipe.fillingAmount())) {
+		if (fillingDirection != null && fill(this, fillingDirection, recipe.result())) {
 			level.destroyBlock(getTargetPos(), false);
 		} else {
-			level.setBlock(getTargetPos(), recipe.result().defaultFluidState().createLegacyBlock(), 11);
+            level.getFluidState()
+			level.setBlock(getTargetPos(), recipe.fluidState().createLegacyBlock(), 11);
 			level.levelEvent(LevelEvent.LAVA_FIZZ, getTargetPos(), 0);
 		}
 

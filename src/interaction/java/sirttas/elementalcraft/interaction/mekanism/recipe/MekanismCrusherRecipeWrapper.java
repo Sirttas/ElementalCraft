@@ -8,11 +8,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import javax.annotation.Nonnull;
 
-public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
+public class MekanismCrusherRecipeWrapper implements GrindingRecipe {
 
 	private final ItemStackToItemStackRecipe crushingRecipe;
 	
@@ -27,7 +27,7 @@ public class MekanismCrusherRecipeWrapper implements IGrindingRecipe {
 
 	@Override
 	public boolean matches(@NotNull ItemStack stack, @NotNull Level level) {
-		return crushingRecipe.getInput().test(stack) && IGrindingRecipe.super.matches(stack, level);
+		return crushingRecipe.getInput().test(stack) && GrindingRecipe.super.matches(stack, level);
 	}
 
 	@Nonnull

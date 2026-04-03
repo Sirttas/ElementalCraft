@@ -32,10 +32,10 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItem
     public static final MapCodec<CrystallizationRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
             ElementType.forGetter(IElementTypeProvider::getElementType),
-            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(IInstrumentRecipe::getElementAmount),
+            Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InstrumentRecipe::getElementAmount),
             Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
             Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
-            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, CrystallizationRecipe::new));
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull CrystallizationRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
@@ -43,18 +43,18 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItem
             ByteBufCodecs.INT, r -> r.elementAmount,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.gem,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.crystal,
-            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            ItemStackTemplate.STREAM_CODEC, r -> r.result,
             CrystallizationRecipe::new);
 
     private final Ingredient gem;
     private final Ingredient crystal;
-    private final ItemStackTemplate output;
+    private final ItemStackTemplate result;
 
-	public CrystallizationRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, Ingredient gem, Ingredient crystal, ItemStackTemplate output) {
+	public CrystallizationRecipe(CommonInfo commonInfo, ElementType type, int elementAmount, Ingredient gem, Ingredient crystal, ItemStackTemplate result) {
         super(commonInfo, type, elementAmount);
         this.gem = gem;
         this.crystal = crystal;
-        this.output = output;
+        this.result = result;
     }
 
 	@Override
@@ -67,7 +67,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItem
 
     @Override
     public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
-        return output.create();
+        return result.create();
     }
 
     @Override

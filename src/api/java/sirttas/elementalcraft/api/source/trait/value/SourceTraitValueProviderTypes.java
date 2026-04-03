@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.ApiStatus;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.registry.ElementalCraftRegistries;
 
@@ -18,13 +19,13 @@ public class SourceTraitValueProviderTypes {
 	public static final DeferredHolder<SourceTraitValueProviderType<?>, SourceTraitValueProviderType<ChanceSourceTraitValueProvider>> CHANCE = register(ChanceSourceTraitValueProvider.NAME, ChanceSourceTraitValueProvider.CODEC);
 	public static final DeferredHolder<SourceTraitValueProviderType<?>, SourceTraitValueProviderType<PredicateSourceTraitValueProvider>> PREDICATE = register(PredicateSourceTraitValueProvider.NAME, PredicateSourceTraitValueProvider.CODEC);
 
-
 	private SourceTraitValueProviderTypes() {}
 
 	private static <T extends ISourceTraitValueProvider> DeferredHolder<SourceTraitValueProviderType<?>, SourceTraitValueProviderType<T>> register(String name, MapCodec<T> codec) {
 		return DEFERRED_REGISTER.register(name, () -> new SourceTraitValueProviderType<>(codec));
 	}
 
+    @ApiStatus.Internal
 	public static void register(IEventBus bus) {
 		DEFERRED_REGISTER.register(bus);
 	}

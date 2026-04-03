@@ -10,13 +10,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 public interface IInstrumentBlock extends SimpleWaterloggedBlock {
 
 	BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	default <I extends RecipeInput, R extends IInstrumentRecipe<I>, E extends AbstractInstrumentBlockEntity<I, R>, A extends BlockEntity> BlockEntityTicker<A> createInstrumentTicker(Level level, BlockEntityType<A> type, DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> expectedType) {
+	default <I extends RecipeInput, R extends InstrumentRecipe<I>, E extends AbstractInstrumentBlockEntity<I, R>, A extends BlockEntity> BlockEntityTicker<A> createInstrumentTicker(Level level, BlockEntityType<A> type, DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> expectedType) {
 		return AbstractECEntityBlock.createECTicker(level, type, expectedType, AbstractInstrumentBlockEntity::tick);
 	}
 

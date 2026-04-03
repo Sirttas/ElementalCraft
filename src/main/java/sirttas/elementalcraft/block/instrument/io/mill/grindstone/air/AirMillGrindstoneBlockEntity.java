@@ -19,7 +19,7 @@ import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 import sirttas.elementalcraft.block.instrument.io.mill.grindstone.AbstractMillGrindstoneBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import javax.annotation.Nonnull;
 
@@ -60,7 +60,7 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 	}
 
 	@Override
-	protected IGrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+	protected GrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
 		if (damage >= AirMill.getMaxDamage()) {
 			return null;
 		}

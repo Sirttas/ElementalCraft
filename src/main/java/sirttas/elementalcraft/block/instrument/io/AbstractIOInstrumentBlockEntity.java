@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractIOInstrumentBlockEntity<I extends IOInstrumentRecipeInput, R extends IOInstrumentRecipe<I>> extends AbstractInstrumentBlockEntity<I, R> {
 
-	protected AbstractIOInstrumentBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+	protected AbstractIOInstrumentBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, properties, pos, state);
 	}
 
@@ -37,7 +37,7 @@ public abstract class AbstractIOInstrumentBlockEntity<I extends IOInstrumentReci
 	@Override
 	public void assemble() {
 		var input = createRecipeInput();
-		var craftingResult = recipe.assemble(input, level.registryAccess());
+		var craftingResult = recipe.assemble(input);
 		var inputSize = recipe.getInputSize();
 		var luck = recipe.getLuck(input);
 

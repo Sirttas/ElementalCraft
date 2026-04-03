@@ -20,12 +20,12 @@ import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.particle.ParticleHelper;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R extends IInstrumentRecipe<I>> extends AbstractECCraftingBlockEntity<I, R> implements IInstrument {
+public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R extends InstrumentRecipe<I>> extends AbstractECCraftingBlockEntity<I, R> implements IInstrument {
 
 	private int progress = 0;
 	private ISingleElementStorage containerCache; // TODO use capability cache
@@ -44,7 +44,7 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 		}
 	}
 
-	public static <I extends RecipeInput, R extends IInstrumentRecipe<I>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<I, R> instrument) {
+	public static <I extends RecipeInput, R extends InstrumentRecipe<I>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<I, R> instrument) {
 		if (!instrument.isPowered() && instrument.progressOnTick()) {
 			instrument.makeProgress();
 		}

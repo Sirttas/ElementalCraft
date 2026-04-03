@@ -19,7 +19,7 @@ import sirttas.elementalcraft.interaction.ie.injector.CrusherPureOreRecipeFactor
 import sirttas.elementalcraft.interaction.ie.recipe.IECrusherRecipeWrapper;
 import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 public class IEInteraction implements ElementalCraftInteraction {
 
@@ -39,7 +39,7 @@ public class IEInteraction implements ElementalCraftInteraction {
     }
 
     @Override
-    public IGrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         var recipeHolder = CrusherRecipe.findRecipe(level, recipeInput.getItem(0));
 
         if (recipeHolder == null) {

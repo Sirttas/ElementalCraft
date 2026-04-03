@@ -12,18 +12,30 @@ import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
 import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
+import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
 
 public class ECRecipeBookCategories {
     private static final DeferredRegister<@NotNull RecipeBookCategory> DEFERRED_REGISTER = DeferredRegister.create(Registries.RECIPE_BOOK_CATEGORY, ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> INFUSION = register(IInfusionRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> INFUSION = register(InfusionRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> TOOL_INFUSION = register(ToolInfusionRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> BINDING = register(AbstractBindingRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> CRYSTALLIZATION = register(CrystallizationRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> INSCRIPTION = register(InscriptionRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> ORE_PURIFICATION = register(OrePurificationRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> GRINDING = register(GrindingRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> SAWING = register(SawingRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> PURE_INFUSION = register(PureInfusionRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> SPELL_CRAFT = register(SpellCraftRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> CRACKING = register(CrackingRecipe.NAME);
     public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> SCULK_CRACKING = register(SculkCrackingRecipe.NAME);
+    public static final DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> MELTING = register(MeltingRecipe.NAME);
 
     private static DeferredHolder<@NotNull RecipeBookCategory, @NotNull RecipeBookCategory> register(String id) {
         return DEFERRED_REGISTER.register(id, RecipeBookCategory::new);

@@ -78,7 +78,7 @@ import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.recipe.StaffRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
@@ -1751,7 +1751,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)
-				.save(recipeOutput.withConditions(new NotCondition(new TagEmptyCondition(tagName))), ElementalCraftApi.createRL(IGrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
+				.save(recipeOutput.withConditions(new NotCondition(new TagEmptyCondition(tagName))), ElementalCraftApi.createRL(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
 	}
 
 	private void registerSawing(RecipeOutput recipeOutput) {

@@ -26,7 +26,7 @@ public class BinderBlockEntity extends AbstractInstrumentBlockEntity<MultipleIte
 
 	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(BinderBlock.NAME);
 	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
-	protected static final int MAX_INVENTORY_SIZE = 20;
+    public static final int MAX_INVENTORY_SIZE = 20;
 	private final InstrumentContainer inventory;
 
 	public BinderBlockEntity(BlockPos pos, BlockState state) {

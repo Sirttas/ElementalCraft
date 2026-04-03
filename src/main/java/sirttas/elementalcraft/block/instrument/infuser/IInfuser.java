@@ -7,11 +7,11 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public interface IInfuser extends IInstrument {
 
-	default IInfusionRecipe lookupInfusionRecipe(Level level) {
+	default InfusionRecipe lookupInfusionRecipe(Level level) {
 		if (getContainerElementType() == ElementType.NONE) {
 			return null;
 		}

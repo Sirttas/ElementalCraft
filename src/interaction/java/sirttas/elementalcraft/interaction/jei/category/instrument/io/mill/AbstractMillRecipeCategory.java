@@ -10,13 +10,13 @@ import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.category.instrument.io.AbstractIOInstrumentRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractMillRecipeCategory<I extends RecipeInput, T extends IInstrumentRecipe<I>> extends AbstractIOInstrumentRecipeCategory<I, T> {
+public abstract class AbstractMillRecipeCategory<I extends RecipeInput, T extends InstrumentRecipe<I>> extends AbstractIOInstrumentRecipeCategory<I, T> {
 
     private final List<ItemStack> instruments;
 

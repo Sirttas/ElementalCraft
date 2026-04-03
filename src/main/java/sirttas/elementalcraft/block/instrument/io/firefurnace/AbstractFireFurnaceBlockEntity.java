@@ -75,7 +75,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	@Override
 	public void assemble() {
 		super.assemble();
-		addExperience(recipe.getExperience());
+		addExperience(recipe.experience());
 	}
 	
 	public void dropExperience(ServerPlayer player) {

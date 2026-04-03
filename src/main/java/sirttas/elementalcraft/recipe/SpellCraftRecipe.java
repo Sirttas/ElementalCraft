@@ -29,23 +29,23 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
             Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
             Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
-            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.output)
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, SpellCraftRecipe::new));
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SpellCraftRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.gem,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.crystal,
-            ItemStackTemplate.STREAM_CODEC, r -> r.output,
+            ItemStackTemplate.STREAM_CODEC, r -> r.result,
             SpellCraftRecipe::new);
 
     private final Recipe.CommonInfo commonInfo;
 	private final Ingredient gem;
 	private final Ingredient crystal;
-	private final ItemStackTemplate output;
+	private final ItemStackTemplate result;
 	
-	public SpellCraftRecipe(Recipe.CommonInfo commonInfo, Ingredient gem, Ingredient crystal, ItemStackTemplate output) {
+	public SpellCraftRecipe(Recipe.CommonInfo commonInfo, Ingredient gem, Ingredient crystal, ItemStackTemplate result) {
 		this.commonInfo = commonInfo;
-        this.output = output;
+        this.result = result;
 		this.gem = gem;
 		this.crystal = crystal;
 	}
@@ -57,7 +57,7 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
 
     @Override
     public @NotNull ItemStack assemble(RecipeInput input) {
-        return output.create();
+        return result.create();
     }
 
     @Override

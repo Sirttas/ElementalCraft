@@ -6,13 +6,13 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.recipe.RuntimeRecipe;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.infusion.IInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe implements RuntimeRecipe<MultipleItemsSingleElementRecipeInput> {
 
-	private final IInfusionRecipe recipe;
+	private final InfusionRecipe recipe;
 	
-	public BinderInfusionRecipeWrapper(IInfusionRecipe infusionRecipe) {
+	public BinderInfusionRecipeWrapper(InfusionRecipe infusionRecipe) {
 		super(null, infusionRecipe.getElementType(), infusionRecipe.getElementAmount());
 		this.recipe = infusionRecipe;
 	}

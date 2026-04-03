@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.infusion.SimpleInfusionRecipe;
 
 public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	
@@ -32,6 +32,6 @@ public class InfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 	
 	@Override
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		recipeOutput.accept(id, new InfusionRecipe(elementType, elementAmount, this.ingredient, new ItemStack(this.result)), null);
+		recipeOutput.accept(id, new SimpleInfusionRecipe(elementType, elementAmount, this.ingredient, new ItemStack(this.result)), null);
 	}
 }

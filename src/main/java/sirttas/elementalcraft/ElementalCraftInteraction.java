@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +41,7 @@ public interface ElementalCraftInteraction {
         return ModList.get().isLoaded("ae2");
     }
 
-    default IGrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    default GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         return null;
     }
 
@@ -69,7 +69,7 @@ public interface ElementalCraftInteraction {
             }
 
         @Override
-        public IGrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+        public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
             return interactions.stream()
                     .map(interaction -> interaction.lookupCrusherRecipe(level, recipeInput))
                     .filter(Objects::nonNull)

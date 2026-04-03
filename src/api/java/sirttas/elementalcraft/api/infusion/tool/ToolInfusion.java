@@ -6,9 +6,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.DataManagerCodecs;
@@ -28,7 +30,8 @@ public class ToolInfusion implements IElementTypeProvider {
 			ElementType.forGetter(ToolInfusion::getElementType),
 			IToolInfusionEffect.CODEC.listOf().fieldOf(ECNames.EFFECTS).forGetter(ToolInfusion::getEffects)
 	).apply(builder, ToolInfusion::new));
-	public static final Codec<Holder<ToolInfusion>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, CODEC);
+	public static final Codec<Holder<@NotNull ToolInfusion>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, CODEC);
+	public static final @NotNull StreamCodec<@NotNull ByteBuf, @NotNull Holder<@NotNull ToolInfusion>> STREAM_CODEC = DataManagerCodecs.streamCodec(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY);
 
 	private Identifier id;
 	private final ElementType elementType;

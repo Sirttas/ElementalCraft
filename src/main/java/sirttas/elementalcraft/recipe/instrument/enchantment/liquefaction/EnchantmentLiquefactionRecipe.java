@@ -13,13 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.recipe.ILuckRecipe;
+import sirttas.elementalcraft.recipe.LuckRecipe;
 import sirttas.elementalcraft.recipe.RuntimeRecipe;
 import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.tag.ECTags;
 
-public class EnchantmentLiquefactionRecipe implements SingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput>, ILuckRecipe<SimpleIOInstrumentRecipeInput>, RuntimeRecipe<SimpleIOInstrumentRecipeInput> {
+public class EnchantmentLiquefactionRecipe implements SingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput>, LuckRecipe<SimpleIOInstrumentRecipeInput>, RuntimeRecipe<SimpleIOInstrumentRecipeInput> {
 
     public static final String NAME = "enchantment_liquefaction";
 
@@ -83,8 +83,13 @@ public class EnchantmentLiquefactionRecipe implements SingleElementInstrumentRec
     }
 
     @Override
-    public PlacementInfo placementInfo() {
-        return null;
+    public @NotNull PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 
     private boolean canEnchant(ItemStack stack) {

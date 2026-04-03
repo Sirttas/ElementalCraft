@@ -24,7 +24,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.pureore.PureOreException;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.registry.RegistryHelper;
 
 @EventBusSubscriber(modid = ElementalCraftApi.MODID)
@@ -44,7 +44,7 @@ public class PureOreRecipeFactoryTypes {
 			registerCooking(helper, RecipeType.BLASTING, BlastingRecipe::new);
 			registerCooking(helper, RecipeType.SMOKING, SmokingRecipe::new);
 			registerCooking(helper, RecipeType.CAMPFIRE_COOKING, CampfireCookingRecipe::new);
-			register(helper, IGrindingRecipe.NAME, PureOreGrindingRecipeFactory::new);
+			register(helper, GrindingRecipe.NAME, PureOreGrindingRecipeFactory::new);
 
             ElementalCraft.interactions().registerPureOreRecipeInjectors(helper);
 		});

@@ -9,11 +9,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.IGrindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import javax.annotation.Nonnull;
 
-public class IECrusherRecipeWrapper implements IGrindingRecipe {
+public class IECrusherRecipeWrapper implements GrindingRecipe {
 
     private final CrusherRecipe crushingRecipe;
 
@@ -46,14 +46,14 @@ public class IECrusherRecipeWrapper implements IGrindingRecipe {
 
     @Override
     public boolean matches(@NotNull ItemStack stack, @NotNull Level level) {
-        return crushingRecipe.input.test(stack) && IGrindingRecipe.super.matches(stack, level);
+        return crushingRecipe.input.test(stack) && GrindingRecipe.super.matches(stack, level);
     }
 
     @Nonnull
     @Override
     public @NotNull ItemStack assemble(@Nonnull SimpleIOInstrumentRecipeInput input, @Nonnull HolderLookup.Provider provider) {
         var luck = getLuck(input);
-        var result = IGrindingRecipe.super.assemble(input, provider);
+        var result = GrindingRecipe.super.assemble(input, provider);
         var rand = getRandomSource(input);
 
         crushingRecipe.secondaryOutputs.forEach(output -> {

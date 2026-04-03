@@ -6,8 +6,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.util.Util;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,7 +20,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
-import sirttas.elementalcraft.recipe.instrument.IInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
@@ -74,7 +74,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 	}
 
-	public static class RecipeWrapper implements IInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
+	public static class RecipeWrapper implements InstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
 		private final EnchantmentLiquefactionRecipe recipe;
 		private final List<ItemStack> stacks;
