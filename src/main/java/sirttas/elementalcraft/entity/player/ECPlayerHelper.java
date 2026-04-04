@@ -24,11 +24,14 @@ public class ECPlayerHelper {
             }
         }
     }
-
     public static ItemStack shrinkItem(ItemStack heldItem) {
+        return shrinkItem(heldItem, 1);
+    }
+
+    public static ItemStack shrinkItem(ItemStack heldItem, int size) {
         ItemStack copy = heldItem.copy();
 
-        copy.shrink(1);
+        copy.shrink(size);
         if (heldItem.isEmpty()) {
             return ItemStack.EMPTY;
         }

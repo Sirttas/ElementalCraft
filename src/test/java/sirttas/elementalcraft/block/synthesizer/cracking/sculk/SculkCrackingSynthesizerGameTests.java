@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.cracking.sculk;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;

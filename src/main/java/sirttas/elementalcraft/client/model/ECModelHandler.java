@@ -55,11 +55,11 @@ public class ECModelHandler {
         event.register(ElementPipeRenderer.EXTRACT_LOCATION);
         event.register(CrackingSynthesizerRenderer.HEAD_LOCATION);
         event.register(SolarSynthesizerRenderer.LENS_LOCATION);
-        event.register(MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION);
-        event.register(MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION);
-        event.register(MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION);
-        event.register(MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION);
-        event.register(AirMillSynthesizerRenderer.SHAFT_LOCATION);
+        register(event, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT);
+        register(event, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT);
+        register(event, MillRenderer.WATER_MILL_WOOD_SAW_SHAFT);
+        register(event, MillRenderer.AIR_MILL_WOOD_SAW_SHAFT);
+        register(event, AirMillSynthesizerRenderer.SHAFT);
         register(event, DiffuserRenderer.CUBE);
         register(event, AccelerationShrineUpgradeRenderer.CLOCK);
         register(event, VortexShrineUpgradeRenderer.RING);

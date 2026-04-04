@@ -10,7 +10,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
@@ -21,16 +20,16 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class RunesRenderState {
 
-    private Quaternionf rotation;
+    private float animationTime;
     private List<Material.Baked> runes;
 
     public RunesRenderState() {
-        rotation = Axis.YP.rotationDegrees(0);
+        animationTime = 0;
         runes = List.of();
     }
 
     public void update(@Nullable IRuneHandler runeHandler, RuneModelResolver runeModelResolver, float partialTicks) {
-        this.rotation = Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTicks) / 2);
+        this.animationTime = ECRendererHelper.getClientTicks(partialTicks) / 2;
         this.runes = runeHandler == null ? List.of() : runeHandler.getRunes().stream()
                 .map(runeModelResolver::getSprite)
                 .toList();
@@ -41,6 +40,7 @@ public class RunesRenderState {
     }
 
     public void clear() {
+        this.animationTime = 0;
         this.runes.clear();
     }
 
@@ -53,7 +53,7 @@ public class RunesRenderState {
 
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.75F, 0.5F);
-        poseStack.mulPose(rotation);
+        poseStack.mulPose(Axis.YP.rotationDegrees(animationTime));
         for (var rune : runes) {
             poseStack.mulPose(Axis.YP.rotationDegrees(90F / runeCount));
             poseStack.pushPose();

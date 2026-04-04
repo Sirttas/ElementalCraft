@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.retriever;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;

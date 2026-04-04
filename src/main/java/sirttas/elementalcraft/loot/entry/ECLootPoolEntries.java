@@ -11,13 +11,13 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECLootPoolEntries {
 
-    private static final DeferredRegister<LootPoolEntryType> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.LOOT_POOL_ENTRY_TYPE.key(), ElementalCraftApi.MODID);
+    private static final DeferredRegister<LootPoolEntryContainer> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.LOOT_POOL_ENTRY_TYPE.key(), ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<LootPoolEntryType, LootPoolEntryType> RUNES = register("runes", LootRunes.CODEC);
+    public static final DeferredHolder<LootPoolEntryContainer, LootPoolEntryContainer> RUNES = register("runes", LootRunes.CODEC);
 
     private ECLootPoolEntries() {}
 
-    private static DeferredHolder<LootPoolEntryType, LootPoolEntryType> register(String name, MapCodec<? extends LootPoolEntryContainer> codec) {
+    private static DeferredHolder<LootPoolEntryContainer, LootPoolEntryContainer> register(String name, MapCodec<? extends LootPoolEntryContainer> codec) {
         return DEFERRED_REGISTER.register(name, () -> new LootPoolEntryType(codec));
     }
     public static void register(IEventBus modBus) {

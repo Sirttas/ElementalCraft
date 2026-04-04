@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;

@@ -2,8 +2,9 @@ package sirttas.elementalcraft.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -18,7 +19,7 @@ import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.jewel.Jewels;
 
 @Mixin(Projectile.class)
-public abstract class MixinProjectile extends Entity {
+public abstract class MixinProjectile extends Entity implements TraceableEntity {
 
     @Unique
     private boolean homing = false;

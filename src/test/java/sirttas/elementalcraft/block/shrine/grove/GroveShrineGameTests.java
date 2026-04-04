@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.shrine.grove;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.testframework.annotation.ForEachTest;

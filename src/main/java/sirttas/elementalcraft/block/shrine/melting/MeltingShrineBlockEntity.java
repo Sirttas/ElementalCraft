@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidStackTemplate;
@@ -72,7 +71,6 @@ public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 		if (fillingDirection != null && fill(this, fillingDirection, recipe.result())) {
 			level.destroyBlock(getTargetPos(), false);
 		} else {
-            level.getFluidState()
 			level.setBlock(getTargetPos(), recipe.fluidState().createLegacyBlock(), 11);
 			level.levelEvent(LevelEvent.LAVA_FIZZ, getTargetPos(), 0);
 		}

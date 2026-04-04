@@ -46,12 +46,13 @@ public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull So
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.runes.update(blockEntity, runeModelResolver, partialTicks);
         if (blockEntity.isReceivingSkyLight()) {
-            state.receivingSkyLight = true;
             state.lensRotation = Axis.ZP.rotation(Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.sunAngle);
+            state.running = blockEntity.isWorking();
         } else {
-            state.receivingSkyLight = false;
             state.lensRotation = Axis.ZP.rotationDegrees(90);
+            state.running = false;
         }
+
     }
 
     @Override
@@ -63,7 +64,7 @@ public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull So
 		poseStack.translate(-3D / 16, -1D / 32, -3D / 16);
         ECRendererHelper.submitModel(lensModel, poseStack, submitNodeCollector, state.lightCoords);
 		poseStack.popPose();
-		if (state.receivingSkyLight) {
+		if (state.running) {
 			Vec3 beamVect = Vec3.atCenterOf(state.blockPos).subtract(cameraRenderState.pos).multiply(1, 0, 1).normalize();
 
 			poseStack.pushPose();

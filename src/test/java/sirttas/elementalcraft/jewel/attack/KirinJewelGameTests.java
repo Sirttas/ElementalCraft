@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.jewel.attack;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;

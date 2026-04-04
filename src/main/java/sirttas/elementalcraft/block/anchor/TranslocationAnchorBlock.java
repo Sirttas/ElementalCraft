@@ -62,8 +62,8 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (!newState.is(this)) {
+    protected void affectNeighborsAfterRemoval(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, boolean movedByPiston) {
+        if (!state.is(this)) {
             var anchorList = TranslocationAnchorsSaveData.get(level);
 
             if (anchorList != null) {
@@ -71,7 +71,7 @@ public class TranslocationAnchorBlock extends Block {
                 sendToPlayers(level);
             }
         }
-        super.onRemove(state, level, pos, newState, isMoving);
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     private void sendToPlayers(@Nonnull Level level) {

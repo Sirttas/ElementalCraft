@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.jewel.defence;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;

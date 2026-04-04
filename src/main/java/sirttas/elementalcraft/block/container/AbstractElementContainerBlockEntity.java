@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.container;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
@@ -9,6 +8,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
@@ -31,19 +32,17 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 		this.elementStorage = elementStorage.apply(this);
 	}
 
-	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
-		}
-	}
+    @Override
+    protected void loadAdditional(@NotNull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.ELEMENT_STORAGE, elementStorage);
+    }
 
     @Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
-	}
+    protected void saveAdditional(@NotNull ValueOutput output) {
+        super.saveAdditional(output);
+        output.putChild(ECNames.ELEMENT_STORAGE, elementStorage);
+    }
 
 	@Override
 	public ISingleElementStorage getElementStorage() {

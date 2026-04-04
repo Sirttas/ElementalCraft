@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.CropBlock;
 import net.neoforged.testframework.annotation.ForEachTest;

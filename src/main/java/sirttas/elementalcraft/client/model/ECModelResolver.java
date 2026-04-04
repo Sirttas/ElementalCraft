@@ -95,5 +95,4 @@ public class ECModelResolver<T> {
             consumer.accept(key, model);
         });
     }
-
 }

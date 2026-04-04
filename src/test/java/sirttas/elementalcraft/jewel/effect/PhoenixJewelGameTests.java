@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.jewel.effect;
 
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;

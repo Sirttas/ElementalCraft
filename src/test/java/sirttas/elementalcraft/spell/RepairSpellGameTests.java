@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

@@ -2,7 +2,7 @@ package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;

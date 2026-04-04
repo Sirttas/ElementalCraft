@@ -65,10 +65,10 @@ public final class ECRenderers {
 		register(ECBlockEntityTypes.BINDER_IMPROVED, BinderRenderer::new);
 		register(ECBlockEntityTypes.CRYSTALLIZER, CrystallizerRenderer::new);
 		register(ECBlockEntityTypes.INSCRIBER, InscriberRenderer::new);
-		register(ECBlockEntityTypes.WATER_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_WOOD_SAW_SHAFT_LOCATION));
-		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_WOOD_SAW_SHAFT_LOCATION));
+		register(ECBlockEntityTypes.WATER_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT));
+		register(ECBlockEntityTypes.AIR_MILL_GRINDSTONE, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT));
+		register(ECBlockEntityTypes.WATER_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.WATER_MILL_WOOD_SAW_SHAFT));
+		register(ECBlockEntityTypes.AIR_MILL_WOOD_SAW, context -> new MillRenderer<>(context, MillRenderer.AIR_MILL_WOOD_SAW_SHAFT));
 		register(ECBlockEntityTypes.ENCHANTMENT_LIQUEFIER, EnchantmentLiquefierRenderer::new);
 		register(ECBlockEntityTypes.PEDESTAL, context -> SingleItemBlockEntityRenderer.create(context, new Vec3(0.5, 0.9, 0.5)));
 		register(ECBlockEntityTypes.PURE_INFUSER, PureInfuserRenderer::new);

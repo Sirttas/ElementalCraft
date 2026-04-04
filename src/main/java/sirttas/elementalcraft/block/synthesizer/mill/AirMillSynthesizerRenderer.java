@@ -1,40 +1,45 @@
 package sirttas.elementalcraft.block.synthesizer.mill;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
+import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
-import javax.annotation.Nonnull;
+public class AirMillSynthesizerRenderer implements BlockEntityRenderer<@NotNull AirMillSynthesizerBlockEntity, @NotNull AirMillSynthesizerRenderState> {
 
-public class AirMillSynthesizerRenderer implements BlockEntityRenderer<AirMillSynthesizerBlockEntity> {
+    public static final SimpleStandaloneModelSupplier SHAFT = new SimpleStandaloneModelSupplier("air_mill_synthesizer_shaft");
 
-	public static final ModelIdentifier SHAFT_LOCATION = ECModelHelper.createStandaloneKey("block/air_mill_synthesizer_shaft");
+    private final BlockStateModelPart shaft;
+    private final RuneModelResolver runeModelResolver;
 
-	private BakedModel shaftModel;
+    public AirMillSynthesizerRenderer() {
+        shaft = SHAFT.loadModel();
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+    }
 
-	@Override
-	public void render(AirMillSynthesizerBlockEntity airMillSynthesizer, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int light, int overlay) {
-		ECRendererHelper.renderRunes(poseStack, bufferSource, airMillSynthesizer.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
+    @Override
+    public AirMillSynthesizerRenderState createRenderState() {
+        return new AirMillSynthesizerRenderState();
+    }
 
-		Minecraft minecraft = Minecraft.getInstance();
+    @Override
+    public void extractRenderState(@NotNull AirMillSynthesizerBlockEntity blockEntity, @NotNull AirMillSynthesizerRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.shaft.update(this.shaft, blockEntity.isBroken(), blockEntity.isWorking(), partialTicks);
+        state.runes.update(blockEntity, runeModelResolver, partialTicks);
+    }
 
-		if (airMillSynthesizer.isBroken()) {
-			return;
-		}
-
-		if (shaftModel == null) {
-			shaftModel = minecraft.getModelManager().getModel(SHAFT_LOCATION);
-		}
-		if (airMillSynthesizer.isWorking()) {
-			poseStack.translate(0.5, 0, 0.5);
-			poseStack.mulPose(Axis.YP.rotationDegrees(-5 * ECRendererHelper.getClientTicks(partialTicks)));
-			poseStack.translate(-0.5, 0, -0.5);
-		}
-		ECRendererHelper.renderModel(shaftModel, poseStack, bufferSource, airMillSynthesizer, light, overlay);
+    @Override
+    public void submit(AirMillSynthesizerRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+        state.runes.submit(state, poseStack, submitNodeCollector);
+        state.shaft.submit(state, poseStack, submitNodeCollector);
 	}
 }

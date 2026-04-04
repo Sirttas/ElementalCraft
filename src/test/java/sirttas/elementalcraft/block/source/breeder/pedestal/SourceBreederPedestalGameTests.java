@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.neoforged.testframework.annotation.TestHolder;
 import sirttas.elementalcraft.api.element.ElementType;

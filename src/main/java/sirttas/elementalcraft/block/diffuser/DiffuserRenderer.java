@@ -48,7 +48,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
     @Override
     public void extractRenderState(DiffuserBlockEntity blockEntity, DiffuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTicks = partialTick;
+        renderState.cubeRotation = Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTick));
         renderState.runes.update(blockEntity.getRuneHandler(), runeModelResolver, partialTick);
         if (blockEntity.showsRange()) {
             renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
@@ -60,13 +60,10 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
     @Override
     public void submit(DiffuserRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         renderState.range.submit();
-
-        float angle = ECRendererHelper.getClientTicks(renderState.partialTicks);
-
         renderState.runes.submit(renderState, poseStack, nodeCollector);
         poseStack.pushPose();
         poseStack.translate(0.5, 1.1, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+        poseStack.mulPose(renderState.cubeRotation);
         poseStack.mulPose(ROTATION);
         poseStack.translate(-3D / 16, -3D / 16, -3D / 16);
         ECRendererHelper.submitModel(cubeModel, poseStack, nodeCollector, renderState.lightCoords);

@@ -46,7 +46,7 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
     protected final Range range;
     protected final SingleElementStorage bufferElementStorage;
 
-    protected boolean working;
+    protected boolean working; // TODO rename to running
     private ISingleElementStorage containerCache; // TODO use capability cache
 
     protected AbstractSynthesizerBlockEntity(

@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.block.instrument.io.purifier;
 
-import net.minecraft.gametest.framework.GameTest;
+import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
