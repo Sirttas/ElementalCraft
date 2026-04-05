@@ -6,11 +6,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -150,13 +151,8 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return path;
     }
 
-    @Nonnull
-    public RenderShape getRenderShape() {
-        return RenderShape.MODEL;
-    }
-
     public void dropAll(@Nullable Player player) {
-        if (!(pipe.getLevel() instanceof ServerLevel serverLevel) || serverLevel.isClientSide) {
+        if (!(pipe.getLevel() instanceof ServerLevel serverLevel) || serverLevel.isClientSide()) {
             return;
         }
 
@@ -188,5 +184,9 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     public int getWeight() {
         return 0;
+    }
+
+    public void animateTick(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+
     }
 }

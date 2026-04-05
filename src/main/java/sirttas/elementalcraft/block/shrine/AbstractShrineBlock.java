@@ -14,7 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -45,7 +46,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	private final ElementType elementType;
-	private BlockEntityType<T> entityType;
+	private BlockEntityType<@NotNull T> entityType;
 
 	protected AbstractShrineBlock(ElementType elementType, BlockBehaviour.Properties properties) {
 		super(properties);
@@ -65,7 +66,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 		final AbstractShrineBlockEntity shrine = (AbstractShrineBlockEntity) level.getBlockEntity(pos);
 
 		if (shrine != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-			if (level.isClientSide) {
+			if (level.isClientSide()) {
 				shrine.startShowingRange();
 			}
 			return InteractionResult.SUCCESS;
@@ -96,14 +97,14 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Override
 	@Nullable
-	public <U extends BlockEntity> BlockEntityTicker<U> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<U> type) {
+	public <U extends BlockEntity> BlockEntityTicker<@NotNull U> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull U> type) {
 		return createECTicker(level, type, getEntityType(), level.isClientSide() ? AbstractShrineBlockEntity::clientTick : AbstractShrineBlockEntity::serverTick);
 	}
 
 	@SuppressWarnings("unchecked")
-	private BlockEntityType<T> getEntityType() {
+	private BlockEntityType<@NotNull T> getEntityType() {
 		if (entityType == null) {
-			entityType = (BlockEntityType<T>) BuiltInRegistries.BLOCK_ENTITY_TYPE.get(BuiltInRegistries.BLOCK.getKey(this));
+			entityType = (BlockEntityType<@NotNull T>) BuiltInRegistries.BLOCK_ENTITY_TYPE.get(BuiltInRegistries.BLOCK.getKey(this)).orElseThrow().value();
 		}
 		return entityType;
 	}
@@ -115,7 +116,7 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> builder) {
 		builder.add(WATERLOGGED);
 	}
 
@@ -127,8 +128,8 @@ public abstract class AbstractShrineBlock<T extends AbstractShrineBlockEntity> e
 
 	@Nonnull
 	@Override
-	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
-		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
-		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
+    protected BlockState updateShape(@NotNull BlockState state, @NotNull LevelReader level, @NotNull ScheduledTickAccess ticks, @NotNull BlockPos pos, @NotNull Direction directionToNeighbour, @NotNull BlockPos neighbourPos, @NotNull BlockState neighbourState, @NotNull RandomSource random) {
+        WaterLoggingHelper.scheduleWaterTick(state, level, ticks, pos);
+		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 	}
 }

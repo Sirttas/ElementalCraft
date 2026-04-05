@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -165,10 +166,10 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 
 	@Override
 	@Deprecated
-	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-		super.removeComponentsFromTag(tag);
-		tag.remove(ECNames.ELEMENT_STORAGE);
-		tag.remove(ECNames.SOURCE_TRAITS_HOLDER);
-		tag.remove(ECNames.ANALYZED);
+	public void removeComponentsFromTag(@NotNull ValueOutput output) {
+		super.removeComponentsFromTag(output);
+        output.discard(ECNames.ELEMENT_STORAGE);
+        output.discard(ECNames.SOURCE_TRAITS_HOLDER);
+        output.discard(ECNames.ANALYZED);
 	}
 }

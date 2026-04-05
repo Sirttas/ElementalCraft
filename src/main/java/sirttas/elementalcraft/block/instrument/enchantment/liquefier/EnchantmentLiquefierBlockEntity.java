@@ -77,7 +77,7 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
 
     @Override
     protected void renderProgressParticles() {
-        var rand = level.random;
+        var rand = level.getRandom();
 
         if (rand.nextInt(4) != 0) {
             return;

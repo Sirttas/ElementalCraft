@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -49,9 +50,9 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	protected static final List<Direction> DEFAULT_UPGRADE_DIRECTIONS = List.of(Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-	private final Holder<IConfigurableBlockEntityProperties> properties;
+	private final Holder<@NotNull IConfigurableBlockEntityProperties> properties;
 
-	private final Map<Direction, Holder<ShrineUpgrade>> upgrades = new EnumMap<>(Direction.class);
+	private final Map<Direction, Holder<@NotNull ShrineUpgrade>> upgrades = new EnumMap<>(Direction.class);
 	private final Map<ShrineUpgrade.BonusType, Float> upgradeMultipliers = new EnumMap<>(ShrineUpgrade.BonusType.class);
 	private final RangeRenderTimer rangeRenderTimer = new RangeRenderTimer();
 
@@ -62,7 +63,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private BlockPos targetPos;
 	private AABB range;
 
-	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 		this.elementStorage = new ShrineElementStorage(this);
 		this.properties = properties;
@@ -164,7 +165,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 			return true;
 		} else if (p == null || this.level == null) {
 			return false;
-		} else if (this.level.isClientSide) {
+		} else if (this.level.isClientSide()) {
 			return true;
 		}
 
@@ -190,31 +191,31 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		return this.upgradeMultipliers.getOrDefault(type, 1F);
 	}
 
-	public int getUpgradeCount(Holder<ShrineUpgrade> upgrade) {
+	public int getUpgradeCount(Holder<@NotNull ShrineUpgrade> upgrade) {
 		return upgrade == null ? 0 : (int) upgrades.values().stream()
 				.filter(upgrade::equals)
 				.count();
 	}
 
-	public int getUpgradeCount(ResourceKey<ShrineUpgrade> key) {
+	public int getUpgradeCount(ResourceKey<@NotNull ShrineUpgrade> key) {
 		return key == null ? 0 : (int) upgrades.values().stream().filter(u -> u.is(key)).count();
 	}
 
-	public boolean hasUpgrade(Holder<ShrineUpgrade> upgrade) {
+	public boolean hasUpgrade(Holder<@NotNull ShrineUpgrade> upgrade) {
 		return getUpgradeCount(upgrade) > 0;
 	}
 
-	public boolean hasUpgrade(ResourceKey<ShrineUpgrade> key) {
+	public boolean hasUpgrade(ResourceKey<@NotNull ShrineUpgrade> key) {
 		return getUpgradeCount(key) > 0;
 	}
 
 	@Nullable
-	public Direction getUpgradeDirection(ResourceKey<ShrineUpgrade> key) {
+	public Direction getUpgradeDirection(ResourceKey<@NotNull ShrineUpgrade> key) {
 		return getUpgradeDirection(e -> e.getValue().is(key));
 	}
 
 	@Nullable
-	private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, Holder<ShrineUpgrade>>> predicate) {
+	private Direction getUpgradeDirection(Predicate<Map.Entry<Direction, Holder<@NotNull ShrineUpgrade>>> predicate) {
 		return upgrades.entrySet().stream()
 				.filter(predicate)
 				.map(Map.Entry::getKey)
@@ -222,7 +223,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 				.orElse(null);
 	}
 
-	private void setUpgrade(Direction direction, Holder<ShrineUpgrade> upgrade) {
+	private void setUpgrade(Direction direction, Holder<@NotNull ShrineUpgrade> upgrade) {
 		var old = upgrades.get(direction);
 
 		if (old != null) {
@@ -233,7 +234,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 
-	public boolean canReceiveUpgrade(Direction direction, Holder<ShrineUpgrade> upgrade) {
+	public boolean canReceiveUpgrade(Direction direction, Holder<@NotNull ShrineUpgrade> upgrade) {
 		if (!getUpgradeDirections().contains(direction)) {
 			return false;
 		}
@@ -241,7 +242,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	}
 
-	public Collection<Holder<ShrineUpgrade>> getAllUpgrades() {
+	public Collection<Holder<@NotNull ShrineUpgrade>> getAllUpgrades() {
 		return upgrades.values();
 	}
 
@@ -371,9 +372,9 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	@Override
 	@Deprecated
-	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-		super.removeComponentsFromTag(tag);
-		tag.remove(ECNames.ELEMENT_STORAGE);
+	public void removeComponentsFromTag(@NotNull ValueOutput output) {
+		super.removeComponentsFromTag(output);
+		output.discard(ECNames.ELEMENT_STORAGE);
 	}
 
 	public ISingleElementStorage getElementStorage() {

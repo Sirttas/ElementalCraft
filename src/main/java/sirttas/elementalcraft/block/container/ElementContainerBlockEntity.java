@@ -16,7 +16,7 @@ public class ElementContainerBlockEntity extends AbstractElementContainerBlockEn
 
 	public void onWrongElementInserted() {
 		if (level != null && !level.isClientSide() && level.getGameTime() % 20 == 0) {
-			level.playSound(null, worldPosition, ECSounds.ELEMENT_CRACKLING.get(), SoundSource.BLOCKS, 0.5F, 0.5F + level.random.nextFloat());
+			level.playSound(null, worldPosition, ECSounds.ELEMENT_CRACKLING.get(), SoundSource.BLOCKS, 0.5F, 0.5F + level.getRandom().nextFloat());
 		}
 	}
 

@@ -13,8 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -40,9 +41,9 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	private final Holder<ShrineUpgrade> upgrade;
+	private final Holder<@NotNull ShrineUpgrade> upgrade;
 
-	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
+	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<@NotNull ShrineUpgrade> key, BlockBehaviour.Properties properties) {
 		super(properties);
 		upgrade = ElementalCraftApi.SHRINE_UPGRADE_MANAGER.getOrCreateHolder(key);
 		this.registerDefaultState(this.stateDefinition.any()
@@ -89,7 +90,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> builder) {
 		builder.add(WATERLOGGED);
 	}
 
@@ -101,9 +102,9 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Nonnull
     @Override
-	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
-		WaterLoggingHelper.scheduleWaterTick(state, level, pos);
-		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, level, pos, facingPos);
+    protected BlockState updateShape(@NotNull BlockState state, @NotNull LevelReader level, @NotNull ScheduledTickAccess ticks, @NotNull BlockPos pos, @NotNull Direction directionToNeighbour, @NotNull BlockPos neighbourPos, @NotNull BlockState neighbourState, @NotNull RandomSource random) {
+        WaterLoggingHelper.scheduleWaterTick(state, level, ticks, pos);
+		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 	}
 	
 	@Override
@@ -125,7 +126,7 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 		}
 	}
 
-	public Holder<ShrineUpgrade> getUpgrade() {
+	public Holder<@NotNull ShrineUpgrade> getUpgrade() {
 		return upgrade;
 	}
 }

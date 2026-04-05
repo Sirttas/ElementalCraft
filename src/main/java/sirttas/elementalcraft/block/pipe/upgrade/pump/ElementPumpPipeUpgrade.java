@@ -125,8 +125,8 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
             var type = parent.getElementType();
             var multiplier = runeHandler.getTransferSpeed(ECConfig.SERVER.elementPumpMultiplier.get().floatValue());
             var waste = Math.max(0, ECConfig.SERVER.elementPumpWaste.get().floatValue() / runeHandler.getElementPreservation());
-            var source = nodes.get(0).getStorage();
-            var target = nodes.get(nodes.size() - 1).getStorage();
+            var source = nodes.getFirst().getStorage();
+            var target = nodes.getLast().getStorage();
 
             if (source == null || target == null) {
                 return;

@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,14 +66,14 @@ public abstract class AbstractElementContainerBlockEntity extends AbstractECBloc
 
 	@Override
 	@Deprecated
-	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-		super.removeComponentsFromTag(tag);
-		tag.remove(ECNames.ELEMENT_STORAGE);
+	public void removeComponentsFromTag(@NotNull ValueOutput output) {
+		super.removeComponentsFromTag(output);
+        output.discard(ECNames.ELEMENT_STORAGE);
 	}
 
 	@Nonnull
 	@Override
-	public HolderSet<Block> getCompatibleTools() {
+	public HolderSet<@NotNull Block> getCompatibleTools() {
 		return getProperties().compatibleTools();
 	}
 

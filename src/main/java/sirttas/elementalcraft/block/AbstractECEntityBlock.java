@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.container.ECContainerHelper;
 
@@ -51,21 +52,21 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return !level.isClientSide() ? (l, p, s, be) -> sendUpdate(be) : null;
 	}
 	
 	@Nullable
-	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECTicker(Level level, BlockEntityType<A> type, DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> expectedType, BlockEntityTicker<? super E> ticker) {
+	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<@NotNull A> createECTicker(Level level, BlockEntityType<@NotNull A> type, DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull E>> expectedType, BlockEntityTicker<? super E> ticker) {
 		return createECTicker(level, type, expectedType.get(), ticker);
 	}
 
-	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECTicker(Level level, BlockEntityType<A> type, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
+	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<@NotNull A> createECTicker(Level level, BlockEntityType<@NotNull A> type, BlockEntityType<@NotNull E> expectedType, BlockEntityTicker<? super E> ticker) {
 		return createTickerHelper(type, expectedType, !level.isClientSide() ? createUpdateTicker(ticker) : ticker);
 	}
 	
 	@Nullable
-	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createECServerTicker(Level level, BlockEntityType<A> type, DeferredHolder<BlockEntityType<?>, BlockEntityType<E>> expectedType, BlockEntityTicker<? super E> ticker) {
+	public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<@NotNull A> createECServerTicker(Level level, BlockEntityType<@NotNull A> type, DeferredHolder<@NotNull BlockEntityType<?>, @NotNull BlockEntityType<@NotNull E>> expectedType, BlockEntityTicker<? super E> ticker) {
 		return level.isClientSide() ? null : createTickerHelper(type, expectedType.get(), createUpdateTicker(ticker));
 	}
 

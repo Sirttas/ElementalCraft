@@ -19,19 +19,20 @@ import javax.annotation.Nullable;
 
 public interface Coverable {
 
-    BlockCapability<Coverable, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.createRL("coverable"), Coverable.class);
+    BlockCapability<@NotNull Coverable, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.createRL("coverable"), Coverable.class);
 
     boolean hasFrame();
     void putFrame();
 
     @Nonnull BlockState getCoverState();
+    @Nonnull BlockState getUncoveredState();
 
     default boolean isCovered() {
         return hasFrame() && !getCoverState().isAir();
     }
 
     default boolean showCover(@Nullable Player player) {
-        return isCovered() && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.PIPE_COVER_HIDING)));
+        return isCovered() && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.COVER_HIDING)));
     }
 
     default @NotNull BlockState loadCoverState(@NotNull CompoundTag compound, HolderLookup.@NotNull Provider provider) {

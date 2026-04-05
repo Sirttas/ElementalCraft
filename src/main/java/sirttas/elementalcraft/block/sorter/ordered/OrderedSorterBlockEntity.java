@@ -87,7 +87,7 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 			this.setChanged();
 			return InteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	public List<ItemStack> getStacks() {

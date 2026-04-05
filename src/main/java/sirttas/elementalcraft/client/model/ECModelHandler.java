@@ -13,10 +13,10 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.block.diffuser.DiffuserRenderer;
 import sirttas.elementalcraft.block.instrument.io.mill.MillRenderer;
-import sirttas.elementalcraft.block.pipe.ElementPipeRenderer;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeModelResolver;
+import sirttas.elementalcraft.block.pipe.section.ElementPipeSectionRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.beam.ElementBeamPipeUpgradeRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpPipeUpgradeRenderer;
+import sirttas.elementalcraft.block.pipe.upgrade.render.model.PipeUpgradeModelResolver;
 import sirttas.elementalcraft.block.pipe.upgrade.valve.ElementValvePipeUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeRenderer;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeRenderer;
@@ -51,10 +51,10 @@ public class ECModelHandler {
 
         registerBuddingShrinePlatesModels(addModel);
 
-        event.register(ElementPipeRenderer.SIDE_LOCATION);
-        event.register(ElementPipeRenderer.EXTRACT_LOCATION);
+        register(event, ElementPipeSectionRenderer.SIDE);
+        register(event, ElementPipeSectionRenderer.EXTRACT);
         event.register(CrackingSynthesizerRenderer.HEAD_LOCATION);
-        event.register(SolarSynthesizerRenderer.LENS_LOCATION);
+        register(event, SolarSynthesizerRenderer.LENS);
         register(event, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT);
         register(event, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT);
         register(event, MillRenderer.WATER_MILL_WOOD_SAW_SHAFT);
@@ -67,9 +67,9 @@ public class ECModelHandler {
         event.register(SourceRenderer.STABILIZER_LOCATION);
         event.register(ElementValvePipeUpgradeRenderer.OPEN_LOCATION);
         event.register(ElementValvePipeUpgradeRenderer.CLOSE_LOCATION);
-        event.register(ElementBeamPipeUpgradeRenderer.RING_1_LOCATION);
-        event.register(ElementBeamPipeUpgradeRenderer.RING_2_LOCATION);
-        event.register(ElementBeamPipeUpgradeRenderer.RING_3_LOCATION);
+        event.register(ElementBeamPipeUpgradeRenderer.RING_1);
+        event.register(ElementBeamPipeUpgradeRenderer.RING_2);
+        event.register(ElementBeamPipeUpgradeRenderer.RING_3);
         event.register(ElementPumpPipeUpgradeRenderer.PUMP_LOCATION);
         event.register(ECModelHelper.createStandaloneKey("item/air_mill_synthesizer_broken"));
         event.register(ECModelHelper.createStandaloneKey("item/air_mill_grindstone_broken"));

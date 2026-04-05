@@ -1,8 +1,11 @@
 package sirttas.elementalcraft.block.pipe.upgrade.valve;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -67,9 +70,17 @@ public class ElementValvePipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    @Nonnull
-    public RenderShape getRenderShape() {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
+    public void animateTick(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+        if (random.nextFloat() >= 0.01F) {
+            return;
+        }
 
+        var direction = getDirection();
+        var f = -4.5F / 16.0F;
+        var x = pos.getX() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepX();
+        var y = pos.getY() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepY();
+        var z = pos.getZ() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepZ();
+
+        level.addParticle(DustParticleOptions.REDSTONE, x, y, z, 0.0D, 0.0D, 0.0D);
+    }
 }

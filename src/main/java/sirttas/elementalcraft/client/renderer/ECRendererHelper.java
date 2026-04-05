@@ -8,8 +8,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -26,7 +24,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -39,8 +36,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.event.TickHandler;
 
 import java.util.List;
@@ -330,14 +325,6 @@ public class ECRendererHelper {
                 .setNormal(last, 0.0F, 1.0F, 0.0F);
     }
 
-    public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, PipeUpgrade pu, float tick, int light, int overlay) {
-        var handler = pu.getCapability(PipeUpgradeCapabilities.RUNE_HANDLER, null);
-
-        if (handler != null && !handler.isEmpty()) {
-            ECRendererHelper.renderRunes(poseStack, buffer, handler, getClientTicks(tick), light, overlay);
-        }
-    }
-
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, BlockEntity be, float tick, int light, int overlay) {
         var handler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, null);
 
@@ -364,10 +351,6 @@ public class ECRendererHelper {
         poseStack.popPose();
     }
 
-    public static void renderModel(BlockStateModel model, PoseStack matrixStack, MultiBufferSource buffer, int light, int overlay, BlockAndTintGetter level, BlockPos pos, BlockState state) {
-        ModelBlockRenderer.renderModel(matrixStack.last(), buffer, model, 1, 1, 1, light, overlay, level, pos, state);
-    }
-
     public static float getClientTicks(float partialTicks) {
         return TickHandler.getTicksInGame() + partialTicks;
     }
@@ -391,9 +374,13 @@ public class ECRendererHelper {
         renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
     }
 
+    public static void submitModel(@NotNull List<BlockStateModelPart> model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
+        nodeCollector.submitBlockModel(poseStack, RenderTypes.solidMovingBlock(), models, new int[0], lightCoords, OverlayTexture.NO_OVERLAY, 0);
+    }
+
     public static void submitModel(@NotNull BlockStateModelPart model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
-        nodeCollector.submitBlockModel(poseStack, RenderTypes.solidMovingBlock(), List.of(model), new int[0], lightCoords, OverlayTexture.NO_OVERLAY, 0);
-   }
+       submitModel(List.of(model), poseStack, nodeCollector, lightCoords);
+    }
 
     public static ModelData getModelData(BakedModel model, BlockEntity te) {
         Level level = te.getLevel();

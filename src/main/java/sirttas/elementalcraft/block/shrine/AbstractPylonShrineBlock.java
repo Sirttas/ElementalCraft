@@ -8,8 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
@@ -44,7 +45,7 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 	}
 
 	public static void doubleHalfHarvest(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Player player) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			if (player.isCreative()) {
 				DoublePlantBlock.preventDropFromBottomPart(level, pos, state, player);
 			}
@@ -53,12 +54,12 @@ public abstract class AbstractPylonShrineBlock<T extends AbstractShrineBlockEnti
 
 	@Override
 	@Nonnull
-	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, @Nonnull BlockPos facingPos) {
-		return doubleHalfUpdateShape(state, facing, facingState, level, pos, () -> super.updateShape(state, facing, facingState, level, pos, facingPos));
+    protected BlockState updateShape(@NotNull BlockState state, @NotNull LevelReader level, @NotNull ScheduledTickAccess ticks, @NotNull BlockPos pos, @NotNull Direction directionToNeighbour, @NotNull BlockPos neighbourPos, @NotNull BlockState neighbourState, @NotNull RandomSource random) {
+        return doubleHalfUpdateShape(state, directionToNeighbour, neighbourState, level, pos, () -> super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random));
 	}
 
 	@Nonnull
-	public static BlockState doubleHalfUpdateShape(@Nonnull BlockState state, Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos pos, Supplier<BlockState> defaultState) {
+	public static BlockState doubleHalfUpdateShape(@Nonnull BlockState state, Direction facing, @Nonnull BlockState facingState, @Nonnull LevelReader level, @Nonnull BlockPos pos, Supplier<BlockState> defaultState) {
 		var doubleblockhalf = state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF);
 
 		if (facing.getAxis() != Direction.Axis.Y || doubleblockhalf == DoubleBlockHalf.LOWER != (facing == Direction.UP) || facingState.is(state.getBlock()) && facingState.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) != doubleblockhalf) {

@@ -60,7 +60,7 @@ public interface ISorterBlock {
 		Direction direction = hit.getDirection().getOpposite();
 
 		if (state.getValue(SOURCE) == direction || state.getValue(TARGET) == direction) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		} else if (ECShapes.SOURCE_SHAPES.contains(shape)) {
 			level.setBlockAndUpdate(pos, state.setValue(SOURCE, direction));
 			return InteractionResult.SUCCESS;
@@ -68,6 +68,6 @@ public interface ISorterBlock {
 			level.setBlockAndUpdate(pos, state.setValue(TARGET, direction));
 			return InteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 }

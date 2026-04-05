@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -23,14 +24,14 @@ public class PipeUpgradeTypes {
 
     private static final Map<PipeUpgradeType<?>, Item> UPGRADE_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    private static final DeferredRegister<PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
+    private static final DeferredRegister<@NotNull PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
 
-    public static final Registry<PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true));
+    public static final Registry<@NotNull PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true));
 
-    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementPumpPipeUpgrade>> ELEMENT_PUMP = register(ElementPumpPipeUpgrade.NAME, ElementPumpPipeUpgrade::new);
-    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<PipePriorityRingsPipeUpgrade>> PIPE_PRIORITY_RINGS = register(PipePriorityRingsPipeUpgrade.NAME, PipePriorityRingsPipeUpgrade::new);
-    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementValvePipeUpgrade>> ELEMENT_VALVE = register(ElementValvePipeUpgrade.NAME, ElementValvePipeUpgrade::new);
-    public static final DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<ElementBeamPipeUpgrade>> ELEMENT_BEAM = register(ElementBeamPipeUpgrade.NAME, ElementBeamPipeUpgrade::new);
+    public static final DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<ElementPumpPipeUpgrade>> ELEMENT_PUMP = register(ElementPumpPipeUpgrade.NAME, ElementPumpPipeUpgrade::new);
+    public static final DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<PipePriorityRingsPipeUpgrade>> PIPE_PRIORITY_RINGS = register(PipePriorityRingsPipeUpgrade.NAME, PipePriorityRingsPipeUpgrade::new);
+    public static final DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<ElementValvePipeUpgrade>> ELEMENT_VALVE = register(ElementValvePipeUpgrade.NAME, ElementValvePipeUpgrade::new);
+    public static final DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<ElementBeamPipeUpgrade>> ELEMENT_BEAM = register(ElementBeamPipeUpgrade.NAME, ElementBeamPipeUpgrade::new);
 
     private PipeUpgradeTypes() { }
 
@@ -38,7 +39,7 @@ public class PipeUpgradeTypes {
         return UPGRADE_ITEM_MAP.get(type);
     }
 
-    public static <T extends PipeUpgrade> DeferredHolder<PipeUpgradeType<?>, PipeUpgradeType<T>> register(String name, PipeUpgradeType.Factory<T> factory) {
+    public static <T extends PipeUpgrade> DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<T>> register(String name, PipeUpgradeType.Factory<T> factory) {
         return DEFERRED_REGISTER.register(name, () -> new PipeUpgradeType<>(factory));
     }
 

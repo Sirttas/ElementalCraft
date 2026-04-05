@@ -7,8 +7,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
@@ -23,8 +21,6 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     private Identifier key;
     private String descriptionId;
     private ResourceKey<@NotNull LootTable> lootTable;
-    @OnlyIn(Dist.CLIENT)
-
 
     public PipeUpgradeType(Factory<T> factory) {
         this.factory = factory;

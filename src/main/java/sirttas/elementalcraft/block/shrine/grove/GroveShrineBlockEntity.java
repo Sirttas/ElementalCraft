@@ -44,7 +44,7 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 				.map(BlockPos::above)
 				.toList();
 
-		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
+		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.getRandom().nextInt(positions.size())));
 	}
 
 	private boolean canPlant(BlockPos pos) {
@@ -76,6 +76,6 @@ public class GroveShrineBlockEntity extends AbstractShrineBlockEntity {
 				.mapMulti(ElementalCraftUtils.cast(BlockItem.class))
 				.toList();
 
-		return flowers.get(this.level.random.nextInt(flowers.size()));
+		return flowers.get(this.level.getRandom().nextInt(flowers.size()));
 	}
 }

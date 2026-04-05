@@ -7,6 +7,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
@@ -67,8 +68,8 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
 
     @Override
     @Deprecated
-    public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-        super.removeComponentsFromTag(tag);
-        tag.remove(ECNames.TARGET_POS);
+    public void removeComponentsFromTag(@NotNull ValueOutput output) {
+        super.removeComponentsFromTag(output);
+        output.discard(ECNames.TARGET_POS);
     }
 }

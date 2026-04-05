@@ -108,7 +108,7 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
         var sorter = BlockEntityHelper.getBlockEntityAs(level, pos, OrderedSorterBlockEntity.class).orElse(null);
 
         if (sorter == null) {
-            return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         } else if (CORE.equals(shape)) {
 			return sorter.addStack(player.getItemInHand(hand));
 		} else if (shape == ECShapes.COVER_FRAME_SHAPE || state.getValue(CoverType.PROPERTY) == CoverType.FRAME) {

@@ -63,6 +63,6 @@ public class BlockEntityHelper {
 		}
 
 		level.playSound(null, pos, stack.getBreakingSound(), SoundSource.BLOCKS);
-		ParticleHelper.createItemBreakParticle(level, pos.getCenter(), level.random, stack, 5);
+		ParticleHelper.createItemBreakParticle(level, pos.getCenter(), level.getRandom(), stack, 5);
 	}
 }

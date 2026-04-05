@@ -61,23 +61,12 @@ public class RuneModel {
         }
     }
 
-    public static class Unbaked implements UnbakedStandaloneModel<@NotNull RuneModel> {
+    public record Unbaked(Slate slate, Material sprite) implements UnbakedStandaloneModel<@NotNull RuneModel> {
 
         public static Codec<Unbaked> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 Slate.CODEC.optionalFieldOf("slate", Slate.STANDARD).forGetter(u -> u.slate),
                 Material.CODEC.fieldOf("sprite").forGetter(u -> u.sprite)
         ).apply(builder, Unbaked::new));
-
-        private final Slate slate;
-        private final Material sprite;
-
-        public Unbaked(Slate slate, Material sprite) {
-            this.slate = slate;
-            this.sprite = sprite;
-        }
-
-        @Override
-        public void resolveDependencies(@NotNull Resolver resolver) { }
 
         @Override
         public RuneModel bake(ModelBaker baker, @NotNull ModelDebugName name) {
@@ -87,6 +76,10 @@ public class RuneModel {
             builder.addAll(baker.compute(new ItemModelGenerator.ItemLayerKey(baker.materials().get(slate.getMaterial(), name), BlockModelRotation.IDENTITY, 0)));
             builder.addAll(baker.compute(new ItemModelGenerator.ItemLayerKey(backedSprite, BlockModelRotation.IDENTITY, 1)));
             return new RuneModel(backedSprite, builder.build());
+        }
+
+        @Override
+        public void resolveDependencies(@NotNull Resolver resolver) {
         }
     }
 }

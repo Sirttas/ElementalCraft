@@ -1,45 +1,57 @@
 package sirttas.elementalcraft.block.pipe.upgrade.pump;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.client.resources.model.ModelManager;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import sirttas.elementalcraft.block.pipe.section.ElementPipeSectionRenderState;
+import sirttas.elementalcraft.block.pipe.upgrade.render.PipeUpgradeRenderer;
+import sirttas.elementalcraft.block.pipe.upgrade.render.PipeUpgradeRendererProvider;
+import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
-import javax.annotation.Nonnull;
+public class ElementPumpPipeUpgradeRenderer implements PipeUpgradeRenderer<ElementPumpPipeUpgrade, ElementPumpPipeUpgradeRenderState> {
 
-public class ElementPumpPipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementPumpPipeUpgrade> {
+    public static final SimpleStandaloneModelSupplier PUMP = new SimpleStandaloneModelSupplier("element_pump_pump");
 
-    public static final ModelIdentifier PUMP_LOCATION = ECModelHelper.createStandaloneKey(PipeUpgrade.FOLDER + "element_pump_pump");
-    private BakedModel pumpModel;
+    private final BlockStateModelPart pumpModel;
+    private final RuneModelResolver runeModelResolver;
+
+    public ElementPumpPipeUpgradeRenderer(PipeUpgradeRendererProvider.Context context)  {
+        this.pumpModel = PUMP.loadModel();
+        this.runeModelResolver = context.runeModelResolver();
+    }
+
 
     @Override
-    public void render(ElementPumpPipeUpgrade upgrade, ElementPipeBlockEntity pipe, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-        if (pumpModel == null) {
-            ModelManager modelManager = Minecraft.getInstance().getModelManager();
+    public ElementPumpPipeUpgradeRenderState createRenderState() {
+        return new ElementPumpPipeUpgradeRenderState();
+    }
 
-            pumpModel = modelManager.getModel(PUMP_LOCATION);
-        }
+    @Override
+    public void extractRenderState(ElementPumpPipeUpgrade pipeUpgrade, ElementPumpPipeUpgradeRenderState state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
+        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, partialTicks, cameraPosition, sectionRenderState);
+        state.animationTime = ECRendererHelper.getClientTicks(partialTicks) % 30;
+        state.runes.update(pipeUpgrade.getRuneHandler(), runeModelResolver, partialTicks);
+    }
 
-        var tick = ECRendererHelper.getClientTicks(partialTicks) % 30;
-
+    @Override
+    public void submit(ElementPumpPipeUpgradeRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         poseStack.pushPose();
-        if (tick < 10 && tick >= 0) {
-            poseStack.translate(0, (0 - tick) / 50F, 0);
-        } else if (tick >= 10 && tick < 15) {
+        if (state.animationTime < 10 && state.animationTime >= 0) {
+            poseStack.translate(0, (0 - state.animationTime) / 50F, 0);
+        } else if (state.animationTime >= 10 && state.animationTime < 15) {
             poseStack.translate(0, -10 / 50F, 0);
-        } else if (tick >= 15 && tick < 25) {
-            poseStack.translate(0, -10 / 50F + (tick - 15) / 50F, 0);
+        } else if (state.animationTime >= 15 && state.animationTime < 25) {
+            poseStack.translate(0, -10 / 50F + (state.animationTime - 15) / 50F, 0);
         }
-        ECRendererHelper.renderModel(pumpModel, poseStack, buffer, pipe, light, overlay);
+
+        ECRendererHelper.submitModel(pumpModel, poseStack, submitNodeCollector, state.lightCoords);
         poseStack.popPose();
         poseStack.translate(0.25, 0.5, 0.25);
         poseStack.scale(0.5F, 0.5F, 0.5F);
-        ECRendererHelper.renderRunes(poseStack, buffer, upgrade, partialTicks, light, overlay);
+        state.runes.submit(poseStack, submitNodeCollector, state.lightCoords);
     }
 }

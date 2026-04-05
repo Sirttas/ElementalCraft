@@ -1,64 +1,45 @@
 package sirttas.elementalcraft.block.pipe.upgrade.valve;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.core.particles.DustParticleOptions;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.renderer.IPipeUpgradeRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import sirttas.elementalcraft.block.pipe.section.ElementPipeSectionRenderState;
+import sirttas.elementalcraft.block.pipe.upgrade.render.PipeUpgradeRenderer;
+import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-import javax.annotation.Nonnull;
+public class ElementValvePipeUpgradeRenderer implements PipeUpgradeRenderer<ElementValvePipeUpgrade, ElementValvePipeUpgradeRenderState> {
 
-public class ElementValvePipeUpgradeRenderer implements IPipeUpgradeRenderer<ElementValvePipeUpgrade> {
+    public static final SimpleStandaloneModelSupplier OPEN = new SimpleStandaloneModelSupplier("element_valve_open");
+    public static final SimpleStandaloneModelSupplier CLOSE = new SimpleStandaloneModelSupplier("element_valve_close");
 
-    public static final ModelIdentifier OPEN_LOCATION = ECModelHelper.createStandaloneKey(PipeUpgrade.FOLDER + "element_valve_open");
-    public static final ModelIdentifier CLOSE_LOCATION = ECModelHelper.createStandaloneKey(PipeUpgrade.FOLDER + "element_valve_close");
+    private final BlockStateModelPart openModel;
+    private final BlockStateModelPart closeModel;
 
-    private BakedModel openModel;
-    private BakedModel closeModel;
-
-    @Override
-    public void render(ElementValvePipeUpgrade upgrade, ElementPipeBlockEntity pipe, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-        if (openModel == null || closeModel == null) {
-            ModelManager modelManager = Minecraft.getInstance().getModelManager();
-
-            openModel = modelManager.getModel(OPEN_LOCATION);
-            closeModel = modelManager.getModel(CLOSE_LOCATION);
-        }
-
-        if (upgrade.isOpen()) {
-            ECRendererHelper.renderModel(openModel, poseStack, buffer, pipe, light, overlay);
-            renderParticles(upgrade, pipe);
-        } else {
-            ECRendererHelper.renderModel(closeModel, poseStack, buffer, pipe, light, overlay);
-        }
+    public ElementValvePipeUpgradeRenderer() {
+        openModel = OPEN.loadModel();
+        closeModel = CLOSE.loadModel();
     }
 
-    private static void renderParticles(ElementValvePipeUpgrade upgrade, ElementPipeBlockEntity pipe) {
-        var level = pipe.getLevel();
+    @Override
+    public ElementValvePipeUpgradeRenderState createRenderState() {
+        return new ElementValvePipeUpgradeRenderState();
+    }
 
-        if (level == null) {
-            return;
+    @Override
+    public void extractRenderState(ElementValvePipeUpgrade pipeUpgrade, ElementValvePipeUpgradeRenderState state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
+        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, partialTicks, cameraPosition, sectionRenderState);
+        state.open = pipeUpgrade.isOpen();
+    }
+
+    @Override
+    public void submit(ElementValvePipeUpgradeRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+        if (state.open) {
+            ECRendererHelper.submitModel(openModel, poseStack, submitNodeCollector, state.lightCoords);
+        } else {
+            ECRendererHelper.submitModel(closeModel, poseStack, submitNodeCollector, state.lightCoords);
         }
-
-        var random = level.random;
-
-        if (random.nextFloat() >= 0.01F) {
-            return;
-        }
-
-        var direction = upgrade.getDirection();
-        var pos = pipe.getBlockPos();
-        var f = -4.5F / 16.0F;
-        var x = pos.getX() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepX();
-        var y = pos.getY() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepY();
-        var z = pos.getZ() + 0.5D + (random.nextDouble() - 0.5D) * 0.2D - f * direction.getStepZ();
-
-        level.addParticle(DustParticleOptions.REDSTONE, x, y, z, 0.0D, 0.0D, 0.0D);
     }
 }

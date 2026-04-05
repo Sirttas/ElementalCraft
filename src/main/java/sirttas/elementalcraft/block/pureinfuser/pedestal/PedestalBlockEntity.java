@@ -3,10 +3,10 @@ package sirttas.elementalcraft.block.pureinfuser.pedestal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -74,9 +74,9 @@ public class PedestalBlockEntity extends AbstractIERBlockEntity implements IElem
 
 	@Override
 	@Deprecated
-	public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-		super.removeComponentsFromTag(tag);
-		tag.remove(ECNames.ELEMENT_STORAGE);
+	public void removeComponentsFromTag(@NotNull ValueOutput output) {
+		super.removeComponentsFromTag(output);
+		output.discard(ECNames.ELEMENT_STORAGE);
 	}
 
 	public SingleItemSingleElementRecipeInput createRecipeInput() {

@@ -27,10 +27,10 @@ public class RipeningSpell extends Spell {
 		var state = level.getBlockState(target);
 		var block = state.getBlock();
 
-		if (block instanceof BonemealableBlock growable && growable.isBonemealSuccess(level, level.random, target, state)) {
+		if (block instanceof BonemealableBlock growable && growable.isBonemealSuccess(level, level.getRandom(), target, state)) {
 			if (level instanceof ServerLevel serverLevel) {
 				for (int i = 0; i < 10 && growable.isValidBonemealTarget(level, target, state); i++) {
-					growable.performBonemeal(serverLevel, level.random, target, state);
+					growable.performBonemeal(serverLevel, level.getRandom(), target, state);
 					state = level.getBlockState(target);
 				}
 				level.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, target, 0);

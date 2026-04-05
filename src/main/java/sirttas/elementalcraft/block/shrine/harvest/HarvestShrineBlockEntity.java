@@ -67,7 +67,7 @@ public class HarvestShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriod() {
-		if (level instanceof ServerLevel serverLevel && !level.isClientSide) {
+		if (level instanceof ServerLevel serverLevel && !level.isClientSide()) {
 			return findCrop().map(p -> {
 				List<ItemStack> loots = LootHelper.getDrops(serverLevel, p);
 				Block block = level.getBlockState(p).getBlock();

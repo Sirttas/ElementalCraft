@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;

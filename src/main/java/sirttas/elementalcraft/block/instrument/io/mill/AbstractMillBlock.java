@@ -70,7 +70,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
 			}
 			return this.onSlotActivated(inv, player, stack, 0);
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> builder) {
 		builder.add(WATERLOGGED, FACING);
 	}
 	

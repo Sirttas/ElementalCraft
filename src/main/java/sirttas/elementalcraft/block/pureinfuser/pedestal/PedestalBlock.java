@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -87,16 +89,16 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		VoxelShape shape = getBaseShape();
 
-		if (Boolean.TRUE.equals(state.getValue(NORTH))) {
+		if (state.getValue(NORTH)) {
 			shape = Shapes.or(shape, CONNECTOR_NORTH);
 		}
-		if (Boolean.TRUE.equals(state.getValue(SOUTH))) {
+		if (state.getValue(SOUTH)) {
 			shape = Shapes.or(shape, CONNECTOR_SOUTH);
 		}
-		if (Boolean.TRUE.equals(state.getValue(EAST))) {
+		if (state.getValue(EAST)) {
 			shape = Shapes.or(shape, CONNECTOR_EAST);
 		}
-		if (Boolean.TRUE.equals(state.getValue(WEST))) {
+		if (state.getValue(WEST)) {
 			shape = Shapes.or(shape, CONNECTOR_WEST);
 		}
 		return shape;
@@ -117,7 +119,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	}
 	
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
 		container.add(NORTH, SOUTH, EAST, WEST);
 	}
 
@@ -128,7 +130,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 
 	@Nonnull
     @Override
-	public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-		return doUpdateShape(state, level, currentPos, facing);
+    protected BlockState updateShape(@NotNull BlockState state, @NotNull LevelReader level, @NotNull ScheduledTickAccess ticks, @NotNull BlockPos pos, @NotNull Direction directionToNeighbour, @NotNull BlockPos neighbourPos, @NotNull BlockState neighbourState, @NotNull RandomSource random) {
+        return doUpdateShape(state, level, pos, directionToNeighbour);
 	}
 }

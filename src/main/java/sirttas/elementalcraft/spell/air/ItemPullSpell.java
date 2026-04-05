@@ -25,7 +25,7 @@ public class ItemPullSpell extends Spell {
 
 		level.getEntitiesOfClass(ItemEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).forEach(i -> {
 			if (level.isClientSide) {
-				ParticleHelper.createEnderParticle(level, i.position(), 3, level.random);
+				ParticleHelper.createEnderParticle(level, i.position(), 3, level.getRandom());
 			}
 			i.setPos(pos.x, pos.y, pos.z);
 		});

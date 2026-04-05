@@ -90,8 +90,6 @@ public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull Order
     public void submit(OrderedSorterRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
 		if (!state.items.isEmpty()) {
 			poseStack.pushPose();
-
-
             poseStack.translate(0.5, 0.5, 0.5);
             poseStack.translate(state.facePosition.x(), state.facePosition.y(), state.facePosition.z());
             poseStack.mulPose(state.rotation);

@@ -130,7 +130,7 @@ public abstract class AbstractElementHolderItem extends Item {
 				var value = storage.transferTo(holder, elementType, amount);
 
 				if (value > 0) {
-					ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.random);
+					ParticleHelper.createElementFlowParticle(elementType, level, Vec3.atCenterOf(pos), entity.getRopeHoldPosition(0), level.getRandom());
 
 					if (isSource && storage.getElementAmount(elementType) <= 0) {
 						if (storage instanceof SourceElementStorage sourceStorage && sourceStorage.getSource().isStabilized()) {
@@ -146,7 +146,7 @@ public abstract class AbstractElementHolderItem extends Item {
 			var value = holder.transferTo(storage, elementType, amount);
 
 			if (value > 0) {
-				ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.random);
+				ParticleHelper.createElementFlowParticle(elementType, level, entity.getRopeHoldPosition(0), Vec3.atCenterOf(pos), level.getRandom());
 				return InteractionResult.CONSUME;
 			}
 			return InteractionResult.PASS;

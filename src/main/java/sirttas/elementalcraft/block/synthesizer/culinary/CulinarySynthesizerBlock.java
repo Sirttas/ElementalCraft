@@ -81,7 +81,7 @@ public class CulinarySynthesizerBlock extends AbstractECContainerBlock {
 
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createECServerTicker(level, type, ECBlockEntityTypes.CULINARY_SYNTHESIZER, CulinarySynthesizerBlockEntity::serverTick);
 	}
 	
@@ -100,7 +100,7 @@ public class CulinarySynthesizerBlock extends AbstractECContainerBlock {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
 		container.add(FACING);
 	}
 

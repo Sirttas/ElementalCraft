@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -36,6 +37,7 @@ import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
+import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
@@ -73,7 +75,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
 		container.add(CoverType.PROPERTY);
 	}
 
@@ -84,7 +86,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createECTicker(level, type, ECBlockEntityTypes.PIPE, level.isClientSide() ? ElementPipeBlockEntity::commonTick : ElementPipeBlockEntity::serverTick);
 	}
 
@@ -153,7 +155,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 	@Override
 	protected @NotNull InteractionResult useItemOn(@Nonnull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
-            return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.PASS;
         }
 
 		final ElementPipeBlockEntity pipe = (ElementPipeBlockEntity) level.getBlockEntity(pos);
@@ -181,18 +183,18 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return value;
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	private InteractionResult upgrade(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand) {
 		if (!state.is(this)) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 
 		var stack = player.getItemInHand(hand);
 
 		if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem item) || !(item.getBlock() instanceof ElementPipeBlock block) || block.type.getTiers() <= type.getTiers()) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 
 		var oldBlockEntity = getBlockEntity(level, pos);
@@ -228,7 +230,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			}
 			return pipe.activatePipe(player, face);
 		}
-		return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	@Override
@@ -283,4 +285,12 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 		}
 	}
 
+    @Override
+    public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
+        var pipe = getBlockEntity(level, pos);
+
+        for (PipeUpgrade upgrade : pipe.getUpgrades().values()) {
+            upgrade.animateTick(level, pos, rand);
+        }
+    }
 }

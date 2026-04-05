@@ -242,7 +242,7 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 	
 	public InteractionResult activatePipe(@Nullable Player player, Direction face) {
 		if (level == null) {
-			return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 
 		var upgrade = getUpgrade(face);
@@ -288,7 +288,7 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 				return InteractionResult.SUCCESS;
 			}
 			default -> {
-				return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+				return InteractionResult.PASS;
 			}
 		}
 	}

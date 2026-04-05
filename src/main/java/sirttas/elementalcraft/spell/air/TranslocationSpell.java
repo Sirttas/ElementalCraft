@@ -80,8 +80,8 @@ public class TranslocationSpell extends Spell {
 			if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z)).isCanceled()) {
 				return InteractionResult.SUCCESS;
 			}
-			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.random);
-			ParticleHelper.createEnderParticle(level, newPos, 3, level.random);
+			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.getRandom());
+			ParticleHelper.createEnderParticle(level, newPos, 3, level.getRandom());
 			this.delay(caster, 10, () -> {
 				if (caster instanceof LivingEntity livingSender) {
 					var oldPos = caster.position();

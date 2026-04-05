@@ -44,7 +44,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 				.filter(this::canGrow)
 				.toList();
 
-		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.random.nextInt(positions.size())));
+		return positions.isEmpty() ? Optional.empty() : Optional.of(positions.get(this.level.getRandom().nextInt(positions.size())));
 	}
 
 	private boolean stemCanGrow(StemBlock stem, BlockPos pos) {
@@ -68,7 +68,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		Block block = state.getBlock();
 
 		if (block instanceof BonemealableBlock growable) {
-			return (growable.isValidBonemealTarget(level, pos, state) && growable.isBonemealSuccess(level, level.random, pos, state)) || (block instanceof StemBlock stem && stemCanGrow(stem, pos));
+			return (growable.isValidBonemealTarget(level, pos, state) && growable.isBonemealSuccess(level, level.getRandom(), pos, state)) || (block instanceof StemBlock stem && stemCanGrow(stem, pos));
 		}
 		return false;
 	}
@@ -104,7 +104,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 
 			// TODO use tag only
 			if ((block instanceof BonemealableBlock || state.is(ECTags.Blocks.SHRINES_GROWTH_BONELESS)) && !(block instanceof StemBlock) && state.isRandomlyTicking() && this.elementStorage.getElementAmount() >= consumeAmount) {
-				state.randomTick((ServerLevel) level, pos, level.random);
+				state.randomTick((ServerLevel) level, pos, level.getRandom());
 
 				var newState = level.getBlockState(pos);
 
@@ -121,7 +121,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		return findGrowable().map(p -> {
 			BlockState blockstate = level.getBlockState(p);
 
-			((BonemealableBlock) blockstate.getBlock()).performBonemeal((ServerLevel) level, level.random, p, blockstate);
+			((BonemealableBlock) blockstate.getBlock()).performBonemeal((ServerLevel) level, level.getRandom(), p, blockstate);
 			addGrowthParticles(p);
 			return true;
 		}).orElse(false);
@@ -157,7 +157,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 			return false;
 		}
 
-		var pos = positions.get(this.level.random.nextInt(positions.size()));
+		var pos = positions.get(this.level.getRandom().nextInt(positions.size()));
 		var state = level.getBlockState(pos);
 		Map<Direction, BlockState> map = new EnumMap<>(Direction.class);
 
@@ -171,7 +171,7 @@ public class GrowthShrineBlockEntity extends AbstractShrineBlockEntity {
 		}
 
 		for (int tryCount = 0; tryCount < MAX_TRYS; tryCount++) {
-			state.randomTick((ServerLevel) level, pos, level.random);
+			state.randomTick((ServerLevel) level, pos, level.getRandom());
 			for (var e : map.entrySet()) {
 				var offset = pos.relative(e.getKey());
 

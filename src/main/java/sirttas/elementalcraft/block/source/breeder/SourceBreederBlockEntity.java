@@ -131,7 +131,7 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
         }
 
         if (level != null && level.isClientSide() && wrapper.progress > oldProgress && level.getRandom().nextDouble() < 0.2) {
-            ParticleHelper.createElementFlowParticle(wrapper.getElementType(), level, Vec3.atCenterOf(wrapper.pedestal.getBlockPos()).relative(Direction.UP, 0.4), Vec3.atCenterOf(worldPosition).relative(Direction.UP, 1.7), level.random);
+            ParticleHelper.createElementFlowParticle(wrapper.getElementType(), level, Vec3.atCenterOf(wrapper.pedestal.getBlockPos()).relative(Direction.UP, 0.4), Vec3.atCenterOf(worldPosition).relative(Direction.UP, 1.7), level.getRandom());
         } else if (level != null && !level.isClientSide()) {
             this.setChanged();
         }

@@ -12,6 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -183,8 +184,8 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
 
     @Override
     @Deprecated
-    public void removeComponentsFromTag(@NotNull CompoundTag tag) {
-        super.removeComponentsFromTag(tag);
-        tag.remove(ECNames.ELEMENT_STORAGE);
+    public void removeComponentsFromTag(@NotNull ValueOutput output) {
+        super.removeComponentsFromTag(output);
+        output.discard(ECNames.ELEMENT_STORAGE);
     }
 }

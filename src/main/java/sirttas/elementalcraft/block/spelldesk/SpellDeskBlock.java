@@ -79,7 +79,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
 		container.add(FACING);
 	}
 
@@ -98,7 +98,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	@Nonnull
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(new ContainerProvider());

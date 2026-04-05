@@ -127,11 +127,11 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         }
         transfered -= max;
 
-        if (level.random.nextDouble() < 0.2) {
+        if (level.getRandom().nextDouble() < 0.2) {
             var direction = this.getDirection();
             var opposite = direction.getOpposite();
 
-            ParticleHelper.createElementFlowParticle(type, level, Vec3.atCenterOf(to).relative(opposite, 0.5), Vec3.atCenterOf(pipe.getBlockPos()).relative(direction, 0.5), level.random);
+            ParticleHelper.createElementFlowParticle(type, level, Vec3.atCenterOf(to).relative(opposite, 0.5), Vec3.atCenterOf(pipe.getBlockPos()).relative(direction, 0.5), level.getRandom());
         }
     }
 

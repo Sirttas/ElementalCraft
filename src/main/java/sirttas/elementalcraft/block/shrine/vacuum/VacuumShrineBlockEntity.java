@@ -83,6 +83,6 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	private void doPickup(IItemHandler inv, ItemEntity entity) {
 		entity.setItem(ItemHandlerHelper.insertItem(inv, entity.getItem(), false));
-		ParticleHelper.createEnderParticle(level, entity.position(), 3, level.random);
+		ParticleHelper.createEnderParticle(level, entity.position(), 3, level.getRandom());
 	}
 }

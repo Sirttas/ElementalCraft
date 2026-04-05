@@ -17,6 +17,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.jewel.JewelItem;
 import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
@@ -208,8 +209,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	private void addPipeTags() {
 		copy(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
 		tag(ECTags.Items.PIPES_UPGRADES).add(getItems(PipeUpgradeItem.class));
-		tag(ECTags.Items.PIPE_COVER_HIDING)
+		tag(ECTags.Items.COVER_HIDING)
 				.addTags(ECTags.Items.PIPES, ECTags.Items.PIPES_UPGRADES)
+				.add(ECBlocks.RETRIEVER.get(), ECBlocks.ORDERED_SORTER.get())
 				.add(ECItems.COVER_FRAME.get());
 	}
 

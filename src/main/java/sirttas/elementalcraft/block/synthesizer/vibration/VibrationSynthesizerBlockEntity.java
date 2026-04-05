@@ -168,7 +168,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
                         SoundEvents.SCULK_CLICKING,
                         SoundSource.BLOCKS,
                         1.0F,
-                        serverLevel.random.nextFloat() * 0.2F + 0.8F
+                        serverlevel.getRandom().nextFloat() * 0.2F + 0.8F
                 );
             }
         }

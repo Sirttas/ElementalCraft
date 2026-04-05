@@ -58,7 +58,7 @@ public class ECTags {
 		public static final TagKey<Item> PUREROCKS = createTag("purerocks");
 		public static final TagKey<Item> PIPES = createTag("pipes");
 		public static final TagKey<Item> PIPES_UPGRADES = createTag("pipes_upgrades");
-		public static final TagKey<Item> PIPE_COVER_HIDING = createTag("pipe_cover_hiding");
+		public static final TagKey<Item> COVER_HIDING = createTag("cover_hiding");
 		public static final TagKey<Item> SHRINES = createTag("shrines");
 		public static final TagKey<Item> SHRINE_UPGRADES = createTag("shrine_upgrades");
 

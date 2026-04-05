@@ -23,8 +23,9 @@ public class SpawningShrineBlockEntity extends AbstractShrineBlockEntity {
 	@Override
 	protected boolean doPeriod() {
 		if (this.getLevel() instanceof ServerLevel serverLevel) {
+            var random = serverLevel.getRandom();
 			var range = this.getRange();
-			var pos = new BlockPos(serverLevel.random.nextInt((int) range.minX, (int) range.maxX), this.getTargetPos().getY(), serverLevel.random.nextInt((int) range.minZ, (int) range.maxZ));
+			var pos = new BlockPos(random.nextInt((int) range.minX, (int) range.maxX), this.getTargetPos().getY(), random.nextInt((int) range.minZ, (int) range.maxZ));
 
 			return EntityHelper.spawnMob(serverLevel, pos);
 		}

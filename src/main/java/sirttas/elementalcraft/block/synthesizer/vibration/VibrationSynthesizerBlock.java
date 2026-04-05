@@ -49,7 +49,7 @@ public class VibrationSynthesizerBlock extends AbstractECContainerBlock {
 
 	private static final VoxelShape SHAPE = Shapes.or(BASE_1, BASE_2, BASE_3, BASE_4, BASE_5, BASE_6);
 
-	public static final EnumProperty<SculkSensorPhase> PHASE = BlockStateProperties.SCULK_SENSOR_PHASE;
+	public static final EnumProperty<@NotNull SculkSensorPhase> PHASE = BlockStateProperties.SCULK_SENSOR_PHASE;
 
 	public VibrationSynthesizerBlock(Properties properties) {
 		super(properties);
@@ -68,7 +68,7 @@ public class VibrationSynthesizerBlock extends AbstractECContainerBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createECServerTicker(level, type, ECBlockEntityTypes.VIBRATION_SYNTHESIZER, VibrationSynthesizerBlockEntity::serverTick);
 	}
 
@@ -91,7 +91,7 @@ public class VibrationSynthesizerBlock extends AbstractECContainerBlock {
 		final VibrationSynthesizerBlockEntity synthesizer = (VibrationSynthesizerBlockEntity) level.getBlockEntity(pos);
 
 		if (synthesizer != null && player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
-			if (level.isClientSide) {
+			if (level.isClientSide()) {
 				synthesizer.startShowingRange();
 			}
 			return InteractionResult.SUCCESS;
@@ -120,7 +120,7 @@ public class VibrationSynthesizerBlock extends AbstractECContainerBlock {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> builder) {
 		builder.add(PHASE);
 	}
 }

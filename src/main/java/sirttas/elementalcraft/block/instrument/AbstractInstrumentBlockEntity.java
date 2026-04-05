@@ -40,7 +40,7 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 	public void process() {
 		super.process();
 		if (this.level.isClientSide) {
-			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.random);
+			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.getRandom());
 		}
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 
 			progress += Math.round(container.extractElement(transfer, getRecipeElementType(), false) * preservation);
 			if (level.isClientSide() && progress > 0 && getProgressRounded(transfer, progress) > getProgressRounded(transfer, oldProgress)) {
-				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.random);
+				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.getRandom());
 				renderProgressParticles();
 			}
 			return true;
