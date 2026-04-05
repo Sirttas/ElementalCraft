@@ -8,35 +8,25 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
-import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
 import sirttas.elementalcraft.network.payload.IMenuPayload;
 import sirttas.elementalcraft.network.payload.PayloadHelper;
 
 import java.util.Map;
 
 public record SourceAnalysisGlassPayload(
-		Map<Holder<SourceTrait>, ISourceTraitValue> traits
+		Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> traits
 ) implements IMenuPayload<SourceAnalysisGlassMenu> {
 
-	public static final CustomPacketPayload.Type<SourceAnalysisGlassPayload> TYPE = PayloadHelper.createType("source_analysis_glass");
-	public static final StreamCodec<FriendlyByteBuf, SourceAnalysisGlassPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SourceAnalysisGlassPayload::new);
-
-	public SourceAnalysisGlassPayload(FriendlyByteBuf buf) {
-		this(SourceTraitHelper.loadTraits(buf.readNbt()));
-	}
+	public static final CustomPacketPayload.Type<@NotNull SourceAnalysisGlassPayload> TYPE = PayloadHelper.createType("source_analysis_glass");
+	public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull SourceAnalysisGlassPayload> STREAM_CODEC = StreamCodec.composite(SourceTrait.VALUE_MAP_STREAM_CODEC, p -> p.traits, SourceAnalysisGlassPayload::new);
 
 	@Override
 	public Class<? extends SourceAnalysisGlassMenu> getMenuType() {
 		return SourceAnalysisGlassMenu.class;
 	}
 
-	public void write(FriendlyByteBuf buf) {
-		buf.writeNbt(SourceTraitHelper.saveTraits(traits));
-
-	}
-
 	@Override
-	public @NotNull Type<SourceAnalysisGlassPayload> type() {
+	public @NotNull Type<@NotNull SourceAnalysisGlassPayload> type() {
 		return TYPE;
 	}
 

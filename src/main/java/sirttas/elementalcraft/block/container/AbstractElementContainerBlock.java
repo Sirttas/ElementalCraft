@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.container;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -62,19 +63,17 @@ public abstract class AbstractElementContainerBlock extends AbstractECEntityBloc
 		ParticleHelper.createSourceParticle(storage.getElementType(), level, Vec3.atCenterOf(pos).add(0, 0.2D, 0), rand);
 	}
 
-	@Override
-	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			BlockPos up = pos.above();
+    @Override
+    protected void affectNeighborsAfterRemoval(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, boolean movedByPiston) {
+        BlockPos up = pos.above();
 
-			if (level.getBlockState(up).is(ECTags.Blocks.CONTAINER_TOOLS)) {
-				level.destroyBlock(up, true);
-			}
-		}
-		super.onRemove(state, level, pos, newState, isMoving);
-	}
+        if (level.getBlockState(up).is(ECTags.Blocks.CONTAINER_TOOLS)) {
+            level.destroyBlock(up, true);
+        }
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+    }
 
-	@Nonnull
+    @Nonnull
 	public ElementContainerProperties getProperties() {
 		if (entityProperties.isBound() && this.entityProperties.value() instanceof ElementContainerProperties elementContainerProperties) {
 			return elementContainerProperties;

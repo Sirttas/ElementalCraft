@@ -69,7 +69,7 @@ public class LumberShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	@Override
 	protected boolean doPeriod() {
-		if (level instanceof ServerLevel && !level.isClientSide) {
+		if (level instanceof ServerLevel && !level.isClientSide()) {
 			return findTreeBlock().map(p -> {
 				List<ItemStack> loots = LootHelper.getDrops((ServerLevel) level, p, hasUpgrade(ShrineUpgrades.SILK_TOUCH) ? new ItemStack(Items.SHEARS) : ItemStack.EMPTY);
 

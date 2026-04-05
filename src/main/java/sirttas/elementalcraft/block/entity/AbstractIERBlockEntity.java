@@ -32,7 +32,7 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 		if (elementStorage instanceof ValueIOSerializable valueIOSerializable) {
             valueInput.child(ECNames.ELEMENT_STORAGE).ifPresent(valueIOSerializable::deserialize);
 		}
-        getRuneHandler().load(valueInput);
+        valueInput.readChild(ECNames.RUNE_HANDLER, getRuneHandler());
 	}
 	
 	@Override
@@ -43,6 +43,6 @@ public abstract class AbstractIERBlockEntity extends AbstractECContainerBlockEnt
 		if (elementStorage instanceof ValueIOSerializable serializable) {
             serializable.serialize(valueOutput.child(ECNames.ELEMENT_STORAGE));
 		}
-        getRuneHandler().save(valueOutput);
+        valueOutput.putChild(ECNames.RUNE_HANDLER, getRuneHandler());
 	}
 }

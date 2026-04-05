@@ -8,14 +8,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.FloatTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
@@ -38,7 +37,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	protected final List<SourceTrait.Type> types;
 
 	private final Codec<ISourceTraitValue> valueCodec;
-	private final StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec;
+	private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec;
 
 	public LinearSourceTraitValueProvider(String translationKey, List<SourceTrait.Type> types, float end) {
 		this(translationKey, types, 0, end);
@@ -143,16 +142,6 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	public SourceTraitValueProviderType<? extends LinearSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.LINEAR.get();
 	}
-	
-	@Override
-	public ISourceTraitValue load(Tag tag) {
-		return tag instanceof FloatTag(float value) ? createValue(value) : null;
-	}
-
-	@Override
-	public Tag save(ISourceTraitValue value) {
-		return value instanceof SourceTraitValue sourceTraitValue ? FloatTag.valueOf(sourceTraitValue.value) : null;
-	}
 
 	@Override
 	public Codec<ISourceTraitValue> valueCodec() {
@@ -160,7 +149,7 @@ public class LinearSourceTraitValueProvider implements ISourceTraitValueProvider
 	}
 
 	@Override
-	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+	public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec() {
 		return valueStreamCodec;
 	}
 

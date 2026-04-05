@@ -34,7 +34,7 @@ public class CrackingSynthesizerRenderer<T extends AbstractCrackingSynthesizerBl
 		if (headModel == null) {
 			headModel = minecraft.getModelManager().getModel(HEAD_LOCATION);
 		}
-		if (crackingSynthesizer.isWorking()) {
+		if (crackingSynthesizer.isRunning()) {
 			poseStack.translate(0.5, 0, 0.5);
 			poseStack.mulPose(Axis.YP.rotationDegrees(-5 * ECRendererHelper.getClientTicks(partialTicks)));
 			poseStack.translate(-0.5, 0, -0.5);

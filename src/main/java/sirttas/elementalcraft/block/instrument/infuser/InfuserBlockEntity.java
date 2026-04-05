@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.instrument.infuser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +19,8 @@ import javax.annotation.Nonnull;
 
 public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItemSingleElementRecipeInput, InfusionRecipe> implements IInfuser {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(InfuserBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(InfuserBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final SingleItemContainer inventory;
 
@@ -34,7 +35,7 @@ public class InfuserBlockEntity extends AbstractInstrumentBlockEntity<SingleItem
 	}
 
 	@Override
-	protected InfusionRecipe lookupRecipe(@NotNull SingleItemSingleElementRecipeInput recipeInput) {
+	protected InfusionRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SingleItemSingleElementRecipeInput recipeInput) {
 		return this.lookupInfusionRecipe(level);
 	}
 

@@ -47,7 +47,7 @@ public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull So
         state.runes.update(blockEntity, runeModelResolver, partialTicks);
         if (blockEntity.isReceivingSkyLight()) {
             state.lensRotation = Axis.ZP.rotation(Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.sunAngle);
-            state.running = blockEntity.isWorking();
+            state.running = blockEntity.isRunning();
         } else {
             state.lensRotation = Axis.ZP.rotationDegrees(90);
             state.running = false;

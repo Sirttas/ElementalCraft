@@ -2,8 +2,6 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -12,7 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -69,30 +68,27 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return type.getKey();
     }
 
-    public final void load(CompoundTag tag, HolderLookup.Provider provider) {
-        if (tag.contains(ATTACHMENTS_NBT_KEY, 10)) {
-            this.deserializeAttachments(provider, tag.getCompound(ATTACHMENTS_NBT_KEY));
-        }
-        loadAdditional(tag, provider);
+    public final void load(ValueInput input) {
+        input.child(ATTACHMENTS_NBT_KEY).ifPresent(this::deserializeAttachments);
+        loadAdditional(input);
     }
 
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+    protected void loadAdditional(ValueInput input) {
         // for subclasses
     }
 
-    public final CompoundTag save(HolderLookup.Provider provider) {
-        var tag = new CompoundTag();
-        var attachments = this.serializeAttachments(provider);
+    public void save(ValueOutput output) {
+        var attachments = output.child(ATTACHMENTS_NBT_KEY);
 
-        tag.putString("id", getKey().toString());
-        if (attachments != null) {
-            tag.put(ATTACHMENTS_NBT_KEY, attachments);
+        output.putString("id", getKey().toString());
+        serializeAttachments(attachments);
+        if (attachments.isEmpty()) {
+            output.discard(ATTACHMENTS_NBT_KEY);
         }
-        saveAdditional(tag, provider);
-        return tag;
+        saveAdditional(output);
     }
 
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+    protected void saveAdditional(ValueOutput output) {
         // for subclasses
     }
 
@@ -157,11 +153,6 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         }
 
         var tableKey = this.type.getLootTable();
-
-        if (tableKey.equals(BuiltInLootTables.EMPTY)) {
-            return;
-        }
-
         var lootParams = new LootParams.Builder(serverLevel)
                 .withParameter(LootContextParams.BLOCK_STATE, pipe.getBlockState())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pipe.getBlockPos()))
@@ -170,7 +161,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
                 .withOptionalParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .create(ECLootContextParamSets.PIPE_UPGRADE);
 
-        serverLevel.getServer().reloadableRegistries().getLootTable(tableKey).getRandomItems(lootParams).forEach(player != null ? player::spawnAtLocation : stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
+        serverLevel.getServer().reloadableRegistries().getLootTable(tableKey).getRandomItems(lootParams).forEach(stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
     }
 
     @Nonnull

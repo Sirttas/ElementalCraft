@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.block.cover;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,12 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class CoverableBlockEntity extends AbstractECBlockEntity implements Coverable {
@@ -51,6 +50,11 @@ public class CoverableBlockEntity extends AbstractECBlockEntity implements Cover
         return coverState;
     }
 
+    @Override
+    public @NotNull BlockState getUncoveredState() {
+        return getBlockState().setValue(CoverType.PROPERTY, CoverType.NONE);
+    }
+
     public InteractionResult putCover(Player player, InteractionHand hand) {
         if (level == null) {
             return InteractionResult.PASS;
@@ -82,14 +86,22 @@ public class CoverableBlockEntity extends AbstractECBlockEntity implements Cover
     }
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        coverState = loadCoverState(compound, provider);
+    public void preRemoveSideEffects(@NotNull BlockPos pos, @NotNull BlockState state) {
+        if (isCovered()) {
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(getCoverState().getBlock()));
+        }
+        super.preRemoveSideEffects(pos, state);
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        saveCoverState(compound);
+    public void loadAdditional(@NotNull ValueInput input) {
+        super.loadAdditional(input);
+        coverState = loadCoverState(input);
+    }
+
+    @Override
+    public void saveAdditional(@NotNull ValueOutput output) {
+        super.saveAdditional(output);
+        saveCoverState(output);
     }
 }

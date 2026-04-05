@@ -9,8 +9,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public abstract class RuneBlockEntityRenderer<T extends BlockEntity, S extends RuneBlockEntityRenderState> implements BlockEntityRenderer<@NotNull T, @NotNull S> {
+
+    private final RuneModelResolver runeModelResolver;
+
+    protected RuneBlockEntityRenderer() {
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+    }
 
     public static <T extends BlockEntity> RuneBlockEntityRenderer<T, RuneBlockEntityRenderState> create() {
         return new DefaultRuneBlockEntityRenderer<>();
@@ -19,7 +27,7 @@ public abstract class RuneBlockEntityRenderer<T extends BlockEntity, S extends R
     @Override
     public void extractRenderState(T blockEntity, S renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.runes.update(blockEntity, partialTick);
+        renderState.runes.update(blockEntity, runeModelResolver, partialTick);
     }
 
     @Override

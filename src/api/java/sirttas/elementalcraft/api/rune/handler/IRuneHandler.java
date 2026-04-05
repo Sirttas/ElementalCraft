@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -19,7 +20,7 @@ import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public interface IRuneHandler {
+public interface IRuneHandler extends ValueIOSerializable {
 
 	void addRune(Holder<@NotNull Rune> rune);
 
@@ -79,13 +80,13 @@ public interface IRuneHandler {
 		return handleElementTransfer(from, to, from.getElementType(), amount);
 	}
 
-    default void load(@Nonnull ValueInput valueInput) {
+    default void deserialize(@Nonnull ValueInput valueInput) {
         this.clear();
-        valueInput.list(ECNames.RUNE_HANDLER, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
+        valueInput.list(ECNames.RUNES, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
     }
 
-	default void save(@Nonnull ValueOutput valueOutput) {
-        var list = valueOutput.list(ECNames.RUNE_HANDLER, Identifier.CODEC);
+	default void serialize(@Nonnull ValueOutput valueOutput) {
+        var list = valueOutput.list(ECNames.RUNES, Identifier.CODEC);
 
 		for ( var rune : this.getRunes()) {
             list.add(rune.getKey().identifier());

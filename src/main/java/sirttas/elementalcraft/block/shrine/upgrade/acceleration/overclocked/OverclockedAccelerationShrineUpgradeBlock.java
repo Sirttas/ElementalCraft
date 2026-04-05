@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -56,7 +55,7 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     private static final Map<Direction, VoxelShape> LOWER_SHAPES = ShapeHelper.directionShapes(Direction.NORTH, LOWER_SHAPE);
     private static final Map<Direction, VoxelShape> CONNECTED_LOWER_SHAPES = ShapeHelper.directionShapes(Direction.NORTH, Shapes.or(LOWER_SHAPE, CONNECTOR));
 
-    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+    public static final EnumProperty<@NotNull DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
 
     public OverclockedAccelerationShrineUpgradeBlock(BlockBehaviour.Properties properties) {
@@ -78,14 +77,14 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
             return UPPER_SHAPES.get(state.getValue(FACING));
-        } else if (Boolean.TRUE.equals(state.getValue(CONNECTED))) {
+        } else if (state.getValue(CONNECTED)) {
             return CONNECTED_LOWER_SHAPES.get(state.getValue(FACING));
         }
         return LOWER_SHAPES.get(state.getValue(FACING));
     }
 
     @Override
-    public void setPlacedBy(@Nonnull Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void setPlacedBy(@Nonnull Level level, @NotNull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         level.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING)), 3);
         super.setPlacedBy(level, pos, state, placer, stack);
     }
@@ -104,7 +103,7 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
         super.createBlockStateDefinition(container);
         container.add(HALF, CONNECTED);
     }
@@ -145,12 +144,12 @@ public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizonta
         return AbstractPylonShrineBlock.doubleHalfUpdateShape(state, directionToNeighbour, neighbourState, level, pos, () -> {
             var newState = super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 
-            return newState.is(this) ? getConnectionState(newState, level, ticks, pos) : newState;
+            return newState.is(this) ? getConnectionState(newState, level, pos) : newState;
         });
     }
 
     @Nonnull
-    private static BlockState getConnectionState(@Nonnull BlockState state, @Nonnull LevelAccessor level, @Nonnull BlockPos currentPos) {
+    private static BlockState getConnectionState(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos currentPos) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
             return state.setValue(CONNECTED, false);
         }

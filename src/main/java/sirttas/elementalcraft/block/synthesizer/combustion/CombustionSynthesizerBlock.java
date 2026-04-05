@@ -7,11 +7,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -65,14 +65,14 @@ public class CombustionSynthesizerBlock extends AbstractECContainerBlock {
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createECServerTicker(level, type, ECBlockEntityTypes.COMBUSTION_SYNTHESIZER, CombustionSynthesizerBlockEntity::serverTick);
 	}
 	
 	@Nonnull
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @NotNull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		if (stack.isEmpty() || AbstractFurnaceBlockEntity.isFuel(stack)) {
+		if (stack.isEmpty() || stack.getBurnTime(RecipeType.SMELTING, level.fuelValues()) > 0) {
 			return onSingleSlotActivated(stack, level, pos, player, hand);
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hit);

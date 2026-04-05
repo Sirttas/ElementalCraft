@@ -41,6 +41,8 @@ public interface ElementalCraftInteraction {
         return ModList.get().isLoaded("ae2");
     }
 
+    boolean isActive();
+
     default GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         return null;
     }
@@ -53,6 +55,10 @@ public interface ElementalCraftInteraction {
 
     default void registerTestFramework(IEventBus modBus, ModContainer container) {}
 
+    default int[] lookupColors(ItemStack stack) {
+        return null;
+    }
+
     class Wrapper implements ElementalCraftInteraction {
 
         private final List<ElementalCraftInteraction> interactions;
@@ -62,11 +68,17 @@ public interface ElementalCraftInteraction {
 
             interactions = loader.stream()
                     .map(ServiceLoader.Provider::get)
+                    .filter(ElementalCraftInteraction::isActive)
                     .toList();
             ElementalCraftApi.LOGGER.info("Elemental Craft loaded {} interactions loaded: {}", interactions::size, () -> interactions.stream()
                     .map(interaction -> interaction.getClass().getName())
                     .collect(Collectors.joining(", ")));
             }
+
+        @Override
+        public boolean isActive() {
+            return true;
+        }
 
         @Override
         public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
@@ -92,6 +104,15 @@ public interface ElementalCraftInteraction {
         @Override
         public void registerTestFramework(IEventBus modBus, ModContainer container) {
             interactions.forEach(interaction -> interaction.registerTestFramework(modBus, container));
+        }
+
+        @Override
+        public int[] lookupColors(ItemStack stack) {
+            return interactions.stream()
+                    .map(interaction -> interaction.lookupColors(stack))
+                    .filter(Objects::nonNull)
+                    .findFirst()
+                    .orElse(new int[] { -1, -1, -1 });
         }
     }
 }

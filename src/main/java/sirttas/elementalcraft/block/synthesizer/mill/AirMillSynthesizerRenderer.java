@@ -33,7 +33,7 @@ public class AirMillSynthesizerRenderer implements BlockEntityRenderer<@NotNull 
     @Override
     public void extractRenderState(@NotNull AirMillSynthesizerBlockEntity blockEntity, @NotNull AirMillSynthesizerRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-        state.shaft.update(this.shaft, blockEntity.isBroken(), blockEntity.isWorking(), partialTicks);
+        state.shaft.update(this.shaft, blockEntity.isBroken(), blockEntity.isRunning(), partialTicks);
         state.runes.update(blockEntity, runeModelResolver, partialTicks);
     }
 

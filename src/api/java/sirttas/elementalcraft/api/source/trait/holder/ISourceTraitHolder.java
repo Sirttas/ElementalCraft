@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.api.source.trait.holder;
 
 import net.minecraft.core.Holder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 
@@ -8,25 +9,25 @@ import java.util.Map;
 
 public interface ISourceTraitHolder {
 
-    Map<Holder<SourceTrait>, ISourceTraitValue> getTraits();
+    Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> getTraits();
 
     default int getCapacity() {
-        return Math.round(getTraits(SourceTrait.Type.CAPACITY));
+        return Math.round(getTraitValue(SourceTrait.Type.CAPACITY));
     }
 
     default float getSpeedModifier() {
-        return getTraits(SourceTrait.Type.EXTRACTION_SPEED);
+        return getTraitValue(SourceTrait.Type.EXTRACTION_SPEED);
     }
 
     default float getPreservationModifier() {
-        return getTraits(SourceTrait.Type.PRESERVATION);
+        return getTraitValue(SourceTrait.Type.PRESERVATION);
     }
 
     default float getBreedingCost() {
-        return getTraits(SourceTrait.Type.BREEDING_COST);
+        return getTraitValue(SourceTrait.Type.BREEDING_COST);
     }
 
-    default float getTraits(SourceTrait.Type type) {
+    default float getTraitValue(SourceTrait.Type type) {
         return (float) getTraits().values().stream()
                 .mapToDouble(traitValue -> traitValue.getValue(type))
                 .reduce(1, (a, b) -> a * b);

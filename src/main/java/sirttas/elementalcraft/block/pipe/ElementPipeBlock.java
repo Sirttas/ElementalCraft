@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -231,24 +230,6 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			return pipe.activatePipe(player, face);
 		}
 		return InteractionResult.PASS;
-	}
-
-	@Override
-	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-		var newBlock = newState.getBlock();
-
-		if (newBlock instanceof ElementPipeBlock || state.getBlock() == newBlock) {
-			return;
-		}
-		var te = level.getBlockEntity(pos);
-
-		if (te instanceof ElementPipeBlockEntity pipe) {
-			if (pipe.isCovered()) {
-				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(pipe.getCoverState().getBlock()));
-			}
-			pipe.removeAllUpgrades();
-		}
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 	
 	private static ElementPipeBlockEntity getBlockEntity(BlockGetter level, BlockPos pos) {

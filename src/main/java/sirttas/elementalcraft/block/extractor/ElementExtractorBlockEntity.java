@@ -15,6 +15,7 @@ import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
+import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
@@ -54,13 +55,13 @@ public class ElementExtractorBlockEntity extends AbstractECBlockEntity implement
 	@Override
 	public void loadAdditional(@Nonnull ValueInput valueInput) {
 		super.loadAdditional(valueInput);
-        getRuneHandler().load(valueInput);
+        valueInput.readChild(ECNames.RUNE_HANDLER, getRuneHandler());
 	}
 
 	@Override
 	public void saveAdditional(@Nonnull ValueOutput valueOutput) {
 		super.saveAdditional(valueOutput);
-        getRuneHandler().save(valueOutput);
+        valueOutput.putChild(ECNames.RUNE_HANDLER, getRuneHandler());
 	}
 
 	protected Optional<BlockState> getSourceState() {

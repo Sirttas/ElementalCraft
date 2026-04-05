@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sirttas.elementalcraft.MockRandomSource;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederBlockEntity;
 import sirttas.elementalcraft.block.source.trait.SourceTraitTestHelper;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.test.annotation.ElementalCraftTest;
@@ -26,7 +26,7 @@ public class SourceTraitHelperTests {
         var defaultSourceTraits = SourceTraitTestHelper.getDefaultTraits();
 
         // When
-        var traits = SourceTraitHelper.breed(random, 0, defaultSourceTraits, defaultSourceTraits);
+        var traits = SourceBreederBlockEntity.breed(random, 0, defaultSourceTraits, defaultSourceTraits);
 
         // Then
         assertThat(traits)
@@ -44,7 +44,7 @@ public class SourceTraitHelperTests {
 
         // When
         var fertileCount = IntStream.range(0, 1000)
-                .mapToObj(i -> SourceTraitHelper.breed(random, 0, defaultSourceTraits, defaultSourceTraits))
+                .mapToObj(i -> SourceBreederBlockEntity.breed(random, 0, defaultSourceTraits, defaultSourceTraits))
                 .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))
                 .count();
 
@@ -61,7 +61,7 @@ public class SourceTraitHelperTests {
 
         // When
         var fertileCount = IntStream.range(0, 1000)
-                .mapToObj(i -> SourceTraitHelper.breed(random, 3, defaultSourceTraits, defaultSourceTraits))
+                .mapToObj(i -> SourceBreederBlockEntity.breed(random, 3, defaultSourceTraits, defaultSourceTraits))
                 .filter(traits -> traits.containsKey(SourceTraits.FERTILITY))
                 .count();
 

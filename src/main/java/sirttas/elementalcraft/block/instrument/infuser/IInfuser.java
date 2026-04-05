@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.block.instrument.infuser;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.IInstrument;
@@ -11,7 +11,7 @@ import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 
 public interface IInfuser extends IInstrument {
 
-	default InfusionRecipe lookupInfusionRecipe(Level level) {
+	default InfusionRecipe lookupInfusionRecipe(ServerLevel level) {
 		if (getContainerElementType() == ElementType.NONE) {
 			return null;
 		}

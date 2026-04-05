@@ -2,12 +2,13 @@ package sirttas.elementalcraft.block.synthesizer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
@@ -33,15 +34,16 @@ public abstract class AbstractContainerSynthesizerBlockEntity extends AbstractSy
         }
 
         var amount = getElementAmountForStack(stack);
+        var remainder = stack.getCraftingRemainder();
 
         if (amount <= 0) {
             return 0;
-        } else if (stack.hasCraftingRemainingItem()) {
-            inventory.setItem(0, stack.getCraftingRemainingItem());
+        } else if (remainder != null) {
+            inventory.setItem(0, remainder.create());
         } else if (!stack.isEmpty()) {
             stack.shrink(1);
             if (stack.isEmpty()) {
-                inventory.setItem(0, stack.getCraftingRemainingItem());
+                inventory.setItem(0, ItemStack.EMPTY);
             }
         }
         return amount;
@@ -50,22 +52,22 @@ public abstract class AbstractContainerSynthesizerBlockEntity extends AbstractSy
     protected abstract int getElementAmountForStack(ItemStack stack);
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
+    public void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
         Container inv = getInventory();
 
-        if (inv instanceof INBTSerializable nbtInv && compound.contains(ECNames.INVENTORY)) {
-            nbtInv.deserializeNBT(provider, compound.get(ECNames.INVENTORY));
+        if (inv instanceof ValueIOSerializable serializable) {
+            input.readChild(ECNames.INVENTORY, serializable);
         }
     }
 
     @Override
-    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
+    public void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
         Container inv = getInventory();
 
-        if (inv instanceof INBTSerializable<?> nbtInv) {
-            compound.put(ECNames.INVENTORY, nbtInv.serializeNBT(provider));
+        if (inv instanceof ValueIOSerializable serializable) {
+            output.putChild(ECNames.INVENTORY, serializable);
         }
     }
 }

@@ -2,12 +2,13 @@ package sirttas.elementalcraft.block.instrument.io.mill.grindstone.air;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -25,8 +26,8 @@ import javax.annotation.Nonnull;
 
 public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEntity implements AirMill {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(AirMillGrindstoneBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(AirMillGrindstoneBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private int damage;
 
@@ -36,15 +37,15 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 	}
 
 	@Override
-	protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		damage = compound.getInt(ECNames.DAMAGE);
+	protected void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+		damage = input.getIntOr(ECNames.DAMAGE, 0);
 	}
 
 	@Override
-	protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.putInt(ECNames.DAMAGE, damage);
+	protected void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putInt(ECNames.DAMAGE, damage);
 	}
 
 	@Override
@@ -60,11 +61,11 @@ public class AirMillGrindstoneBlockEntity extends AbstractMillGrindstoneBlockEnt
 	}
 
 	@Override
-	protected GrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+	protected GrindingRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
 		if (damage >= AirMill.getMaxDamage()) {
 			return null;
 		}
-		return super.lookupRecipe(recipeInput);
+		return super.lookupRecipe(level, recipeInput);
 	}
 
 	@Override

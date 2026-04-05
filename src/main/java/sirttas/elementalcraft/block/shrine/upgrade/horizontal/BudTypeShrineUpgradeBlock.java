@@ -6,8 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -32,7 +32,7 @@ public class BudTypeShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBl
 	public static final String SPRINGALINE_NAME = "shrine_upgrade_springaline";
 	public static final String CERTUS_QUARTZ_NAME = "shrine_upgrade_certus_quartz";
 	public static final MapCodec<BudTypeShrineUpgradeBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Identifier.CODEC.xmap(l -> DataPackAnvilApi.createResourceKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, l), ResourceKey::location).fieldOf("shrine_upgrade").forGetter(p -> p.key),
+            Identifier.CODEC.xmap(l -> DataPackAnvilApi.createResourceKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, l), ResourceKey::identifier).fieldOf("shrine_upgrade").forGetter(p -> p.key),
             Codec.STRING.fieldOf("tooltip_key").forGetter(p -> p.tooltipKey),
             propertiesCodec()
     ).apply(instance, BudTypeShrineUpgradeBlock::new));
@@ -73,10 +73,10 @@ public class BudTypeShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBl
 	private static final VoxelShape PIPE_EAST = Block.box(12D, 7D, 7D, 16D, 9D, 9D);
 	private static final VoxelShape SHAPE_EAST = Shapes.or(BASE_EAST, PIPE_EAST,PLATE_WEST_EAST, PLATE_UP_EAST, PLATE_DOWN_EAST, PLATE_NORTH_EAST, PLATE_SOUTH_EAST);
 
-    private final ResourceKey<ShrineUpgrade> key;
+    private final ResourceKey<@NotNull ShrineUpgrade> key;
     private final String tooltipKey;
 
-	public BudTypeShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, String tooltipKey, BlockBehaviour.Properties properties) {
+	public BudTypeShrineUpgradeBlock(ResourceKey<@NotNull ShrineUpgrade> key, String tooltipKey, BlockBehaviour.Properties properties) {
 		super(key, properties);
         this.key = key;
         this.tooltipKey = tooltipKey;

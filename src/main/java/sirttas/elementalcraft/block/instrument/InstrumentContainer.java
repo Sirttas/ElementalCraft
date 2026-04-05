@@ -1,16 +1,18 @@
 package sirttas.elementalcraft.block.instrument;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.AbstractSynchronizableContainer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InstrumentContainer extends AbstractSynchronizableContainer {
+public class InstrumentContainer extends AbstractSynchronizableContainer implements ValueIOSerializable {
 
 	private final NonNullList<ItemStack> stacks;
 	private final int size;
@@ -83,17 +85,13 @@ public class InstrumentContainer extends AbstractSynchronizableContainer {
 		return ret;
 	}
 
-	@Override
-	public CompoundTag serializeNBT(@Nonnull HolderLookup.Provider provider) {
-		CompoundTag nbt = new CompoundTag();
+    @Override
+    public void serialize(@NotNull ValueOutput output) {
+        ContainerHelper.saveAllItems(output, this.stacks);
+    }
 
-		ContainerHelper.saveAllItems(nbt, this.stacks, provider);
-		return nbt;
-	}
-
-	@Override
-	public void deserializeNBT(@Nonnull HolderLookup.Provider provider, CompoundTag nbt) {
-		clearContent();
-		ContainerHelper.loadAllItems(nbt, this.stacks, provider);
-	}
+    @Override
+    public void deserialize(@NotNull ValueInput input) {
+        ContainerHelper.loadAllItems(input, this.stacks);
+    }
 }

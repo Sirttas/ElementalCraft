@@ -89,7 +89,6 @@ public class ECNames {
 	public static final String VALUE = DPAnvilNames.VALUE;
 	public static final String VALUES = DPAnvilNames.VALUES;
 	public static final String WEIGHT = "weight";
-	public static final String WORKING = "working";
 	public static final String XP = "experience";
 	public static final String NONE = "none";
 	public static final String SPEED = "speed";
@@ -108,6 +107,7 @@ public class ECNames {
 	public static final String LISTENER = "listener";
 	public static final String DAMAGE = "damage";
 	public static final String TRANSLATION_KEY = "translation_key";
+    public static final String RUNES = "runes";
 
-	private ECNames() {}
+    private ECNames() {}
 }

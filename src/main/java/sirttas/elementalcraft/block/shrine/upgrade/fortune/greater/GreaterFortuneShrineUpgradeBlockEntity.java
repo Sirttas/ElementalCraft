@@ -1,9 +1,9 @@
 package sirttas.elementalcraft.block.shrine.upgrade.fortune.greater;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
@@ -27,16 +27,14 @@ public class GreaterFortuneShrineUpgradeBlockEntity extends AbstractECBlockEntit
     }
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        if (compound.contains(ECNames.RUNE_HANDLER)) {
-            IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-        }
+    public void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
     }
 
     @Override
-    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
+    public void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
     }
 }

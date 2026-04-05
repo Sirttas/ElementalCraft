@@ -2,11 +2,6 @@ package sirttas.elementalcraft.block.synthesizer.vibration;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -20,12 +15,12 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.gameevent.PositionSource;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.synthesizer.AbstractSynthesizerBlockEntity;
@@ -35,10 +30,10 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 
-public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEntity implements GameEventListener.Provider<VibrationSystem.Listener>, VibrationSystem {
+public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEntity implements GameEventListener.Provider<VibrationSystem.@NotNull Listener>, VibrationSystem {
 
-    public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(VibrationSynthesizerBlock.NAME);
-    private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+    public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(VibrationSynthesizerBlock.NAME);
+    private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
     private final RangeRenderTimer rangeRenderTimer = new RangeRenderTimer();
     private VibrationSystem.Data vibrationData;
@@ -89,29 +84,17 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
     }
 
     @Override
-    protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-
-        RegistryOps<Tag> ops = provider.createSerializationContext(NbtOps.INSTANCE);
-
-        if (compound.contains(ECNames.LISTENER, 10)) {
-            VibrationSystem.Data.CODEC.parse(ops, compound.getCompound(ECNames.LISTENER))
-                    .resultOrPartial(message -> ElementalCraftApi.LOGGER.error("Failed to parse vibration listener for vibration air synthesizer: '{}'", message))
-                    .ifPresent(data -> this.vibrationData = data);
-        }
-        this.nearbySynthesis = compound.getInt("nearby_synthesis");
+    protected void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        this.vibrationData = input.read("listener", VibrationSystem.Data.CODEC).orElseGet(VibrationSystem.Data::new);
+        this.nearbySynthesis = input.getIntOr("nearby_synthesis", 0);
     }
 
     @Override
-    protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-
-        RegistryOps<Tag> ops = provider.createSerializationContext(NbtOps.INSTANCE);
-
-        VibrationSystem.Data.CODEC.encodeStart(ops, this.vibrationData)
-                .resultOrPartial(message -> ElementalCraftApi.LOGGER.error("Failed to encode vibration listener for vibration air synthesizer: '{}'", message))
-                .ifPresent(tag -> compound.put(ECNames.LISTENER, tag));
-        compound.putInt("nearby_synthesis", this.nearbySynthesis);
+    protected void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
+        output.store("listener", VibrationSystem.Data.CODEC, this.vibrationData);
+        output.putInt("nearby_synthesis", this.nearbySynthesis);
     }
 
     private class VibrationUser implements VibrationSystem.User {
@@ -135,7 +118,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
         }
 
         @Override
-        public boolean canReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<GameEvent> gameEvent, @NotNull GameEvent.Context context) {
+        public boolean canReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<@NotNull GameEvent> gameEvent, @NotNull GameEvent.Context context) {
             if (pos == getBlockPos() || !getRange().contains(pos.getCenter())) {
                 return false;
             } else if (gameEvent.is(ECGameEvents.AIR_SYNTHESIS)) {
@@ -145,7 +128,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
         }
 
         @Override
-        public void onReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<GameEvent> gameEvent, @Nullable Entity entity, @Nullable Entity owner, float range) {
+        public void onReceiveVibration(@NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull Holder<@NotNull GameEvent> gameEvent, @Nullable Entity entity, @Nullable Entity owner, float range) {
             var state = getBlockState();
 
             if (gameEvent.is(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR)) {
@@ -168,7 +151,7 @@ public class VibrationSynthesizerBlockEntity extends AbstractSynthesizerBlockEnt
                         SoundEvents.SCULK_CLICKING,
                         SoundSource.BLOCKS,
                         1.0F,
-                        serverlevel.getRandom().nextFloat() * 0.2F + 0.8F
+                        serverLevel.getRandom().nextFloat() * 0.2F + 0.8F
                 );
             }
         }

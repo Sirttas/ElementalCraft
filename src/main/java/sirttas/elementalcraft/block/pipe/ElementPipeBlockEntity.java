@@ -2,13 +2,14 @@ package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -180,7 +181,7 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 			return;
 		}
 
-		var profiler = level.getProfiler();
+		var profiler = Profiler.get();
 
 		profiler.push("elementalcraft:element_pipe_element_transfer");
 		pipe.transferer.getConnections().entrySet().stream()
@@ -316,18 +317,22 @@ public class ElementPipeBlockEntity extends CoverableBlockEntity {
 	public int getMaxTransferAmount() {
 		return transferer.maxTransferAmount;
 	}
-	
+
+    @Override
+    public void preRemoveSideEffects(@NotNull BlockPos pos, @NotNull BlockState state) {
+        removeAllUpgrades();
+        super.preRemoveSideEffects(pos, state);
+    }
+
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.TRANSFERER)) {
-		    transferer.deserializeNBT(provider, compound.getCompound(ECNames.TRANSFERER));
-		}
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+        input.readChild(ECNames.TRANSFERER, transferer);
 	}
 
 	@Override
-	public void saveAdditional(@NotNull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.TRANSFERER, transferer.serializeNBT(provider));
+	public void saveAdditional(@NotNull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putChild(ECNames.TRANSFERER, transferer);
 	}
 }

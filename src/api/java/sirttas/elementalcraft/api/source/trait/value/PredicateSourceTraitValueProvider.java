@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
@@ -49,16 +48,6 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 	public @NotNull SourceTraitValueProviderType<PredicateSourceTraitValueProvider> getType() {
 		return SourceTraitValueProviderTypes.PREDICATE.get();
 	}
-	
-	@Override
-	public ISourceTraitValue load(Tag tag) {
-		return provider.load(tag);
-	}
-
-	@Override
-	public Tag save(ISourceTraitValue value) {
-		return provider.save(value);
-	}
 
 	@Override
 	public Codec<ISourceTraitValue> valueCodec() {
@@ -66,7 +55,7 @@ public class PredicateSourceTraitValueProvider implements ISourceTraitValueProvi
 	}
 
 	@Override
-	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+	public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec() {
 		return provider.valueStreamCodec();
 	}
 }

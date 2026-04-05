@@ -20,7 +20,7 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
     }
 
     @Override
-    public float getTraits(SourceTrait.Type type) {
+    public float getTraitValue(SourceTrait.Type type) {
         return (float) getTraits().entrySet().stream()
                 .mapToDouble(e -> {
                     var value = e.getValue().getValue(type);
@@ -30,9 +30,9 @@ public class SourceSourceTraitHolder extends SourceTraitHolder {
 
                         if (level == null || value == 0 || value == 1) {
                             return 1;
-                        } else if (level.isDay()) {
+                        } else if (level.isBrightOutside()) {
                             return value;
-                        } else if (level.isNight()) {
+                        } else if (level.isDarkOutside()) {
                             return 1 / value;
                         }
                         return 1;

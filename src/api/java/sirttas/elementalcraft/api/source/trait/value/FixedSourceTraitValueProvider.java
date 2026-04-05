@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ByteTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
@@ -50,16 +48,6 @@ public final class FixedSourceTraitValueProvider implements ISourceTraitValuePro
     @Override
     public @NotNull SourceTraitValueProviderType<FixedSourceTraitValueProvider> getType() {
         return SourceTraitValueProviderTypes.FIXED.get();
-    }
-
-    @Override
-    public ISourceTraitValue load(Tag tag) {
-        return value;
-    }
-
-    @Override
-    public Tag save(ISourceTraitValue value) {
-        return ByteTag.ONE;
     }
 
     @Override

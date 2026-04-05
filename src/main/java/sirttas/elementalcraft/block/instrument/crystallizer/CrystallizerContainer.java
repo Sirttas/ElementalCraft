@@ -30,13 +30,13 @@ public class CrystallizerContainer extends InstrumentContainer {
 	}
 
 	public static void reload(RecipeManager recipeManager) {
-		var recipes = recipeManager.getAllRecipesFor(ECRecipeTypes.CRYSTALLIZATION.get());
+		var recipes = recipeManager.recipeMap().byType(ECRecipeTypes.CRYSTALLIZATION.get());
 
 		FIRST_SLOT_ITEMS.clear();
 		SECOND_SLOT_ITEMS.clear();
 		for (var holder : recipes) {
 			var recipe = holder.value();
-			var ingredients = recipe.getIngredients();
+			var ingredients = recipe.placementInfo().ingredients();
 
 			if (!ingredients.isEmpty()) {
 				FIRST_SLOT_ITEMS.add(ingredients.getFirst());

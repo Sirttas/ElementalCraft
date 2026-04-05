@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import sirttas.elementalcraft.color.ECColorHelper;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.pureore.PureOre;
 
 @OnlyIn(Dist.CLIENT)
@@ -33,7 +33,7 @@ public record PureOreDisplay(
 
     private static int[] loadPureOreColors(PureOre pureOre) {
         return pureOre.resultsForColor().stream()
-                .map(ECColorHelper::lookupColors)
+                .map(ElementalCraft.interactions()::lookupColors)
                 .findFirst()
                 .orElse(null);
     }

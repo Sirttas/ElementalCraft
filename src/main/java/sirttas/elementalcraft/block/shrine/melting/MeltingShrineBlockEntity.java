@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,6 +12,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
@@ -25,8 +27,8 @@ import java.util.Optional;
 
 public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(MeltingShrineBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(MeltingShrineBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
@@ -46,8 +48,8 @@ public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 	private Optional<MeltingRecipe> findRecipe() {
 		var input = new MeltingRecipeInput(level.getBlockState(getTargetPos()), this.getElementStorage().getElementAmount(), this.getConsumeAmount());
 
-		return level.getRecipeManager().getRecipeFor(ECRecipeTypes.MELTING.get(), input, level)
-				.map(RecipeHolder::value);
+		return level instanceof ServerLevel serverLevel ? serverLevel.recipeAccess().getRecipeFor(ECRecipeTypes.MELTING.get(), input, level)
+				.map(RecipeHolder::value) : Optional.empty();
 	}
 
 	@Override

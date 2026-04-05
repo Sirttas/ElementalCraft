@@ -2,15 +2,15 @@ package sirttas.elementalcraft.block.entity.crafting;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.entity.AbstractECContainerBlockEntity;
 import sirttas.elementalcraft.block.entity.ICraftingBlockEntity;
@@ -22,20 +22,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public abstract class AbstractECCraftingBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity, IRuneableBlockEntity {
+public abstract class AbstractECCraftingBlockEntity<I extends RecipeInput, R extends Recipe<@NotNull I>> extends AbstractECContainerBlockEntity implements ICraftingBlockEntity, IRuneableBlockEntity {
 
-	protected final Holder<IConfigurableBlockEntityProperties> properties;
+	protected final Holder<@NotNull IConfigurableBlockEntityProperties> properties;
 	protected final RuneHandler runeHandler;
 	protected R recipe;
 	protected boolean locked = false;
 	
-	protected AbstractECCraftingBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+	protected AbstractECCraftingBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
 		this.properties = properties;
 		this.runeHandler = new RuneHandler(getProperties().maxRunes(), this::setChanged);
 	}
 
-	public static <I extends RecipeInput, R extends Recipe<I>> void tick(AbstractECCraftingBlockEntity<I, R> blockEntity) {
+	public static <I extends RecipeInput, R extends Recipe<@NotNull I>> void tick(AbstractECCraftingBlockEntity<I, R> blockEntity) {
 		if (blockEntity.shouldRetrieverExtractOutput()) {
 			blockEntity.retrieve();
 		}
@@ -90,12 +90,12 @@ public abstract class AbstractECCraftingBlockEntity<I extends RecipeInput, R ext
 
 	@Nullable
     protected final R lookupRecipe() {
-		return lookupRecipe(createRecipeInput());
+		return level instanceof ServerLevel serverLevel ? lookupRecipe(serverLevel, createRecipeInput()) : null;
 	}
 
 	@Nullable
-	protected R lookupRecipe(@Nonnull I recipeInput) {
-		return level != null ? this.lookupRecipe(level, getProperties().getRecipeType(), recipeInput) : null;
+	protected R lookupRecipe(@Nonnull ServerLevel level, @Nonnull I recipeInput) {
+		return this.lookupRecipe(level, getProperties().getRecipeType(), recipeInput);
 	}
 
 	protected boolean shouldRetrieverExtractOutput() {
@@ -134,23 +134,20 @@ public abstract class AbstractECCraftingBlockEntity<I extends RecipeInput, R ext
 		return CraftingBlockEntityProperties.DEFAULT;
 	}
 
-	@Override
-	protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-		if (isLockable()) {
-			compound.putBoolean(ECNames.LOCKED, locked);
-		}
-	}
-
     @Override
-	protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, Tag.OBJECT_HEADER));
-		}
-		if (isLockable() && compound.contains(ECNames.LOCKED)) {
-			locked = compound.getBoolean(ECNames.LOCKED);
+    protected void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
+        if (isLockable()) {
+            locked = input.getBooleanOr(ECNames.LOCKED, false);
+        }
+    }
+	@Override
+	protected void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
+		if (isLockable()) {
+            output.putBoolean(ECNames.LOCKED, locked);
 		}
 	}
 

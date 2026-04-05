@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.instrument.io.mill.grindstone;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +28,12 @@ public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBloc
     }
 
     @Override
-    protected GrindingRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    protected GrindingRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         if (getContainerElementType() == ElementType.NONE) {
             return null;
         }
 
-        var recipe = super.lookupRecipe(recipeInput);
+        var recipe = super.lookupRecipe(level, recipeInput);
 
         if (recipe == null) {
             recipe = ElementalCraft.interactions().lookupCrusherRecipe(level, recipeInput);

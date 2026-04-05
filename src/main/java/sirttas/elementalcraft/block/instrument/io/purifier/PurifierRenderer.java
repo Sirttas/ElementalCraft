@@ -20,7 +20,7 @@ public class PurifierRenderer extends IOInstrumentRenderer<PurifierBlockEntity, 
 
     private static final AABB INPUT_SLOT = new AABB(0, 0, 1, 1, 1, 1);
 
-    protected PurifierRenderer(BlockEntityRendererProvider.Context context) {
+    public PurifierRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
     }
 

@@ -3,15 +3,13 @@ package sirttas.elementalcraft.block.synthesizer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +21,6 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
@@ -47,12 +44,12 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
     protected final Range range;
     protected final SingleElementStorage bufferElementStorage;
 
-    protected boolean working; // TODO rename to running
+    protected boolean running; // TODO rename to running
     private ISingleElementStorage containerCache; // TODO use capability cache
 
     protected AbstractSynthesizerBlockEntity(
             Supplier<? extends BlockEntityType<?>> blockEntityType,
-            Holder<IConfigurableBlockEntityProperties> propertiesHolder,
+            Holder<@NotNull IConfigurableBlockEntityProperties> propertiesHolder,
             BlockPos pos,
             BlockState state) {
         super(blockEntityType, pos, state);
@@ -64,16 +61,16 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
         synthesisMultiplier = properties.synthesisMultiplier();
         range = properties.range().isBound() ? properties.range().value() : Range.DEFAULT;
         bufferElementStorage = new SingleElementStorage(properties.elementType(), properties.bufferCapacity(), this::setChanged);
-        working = false;
+        running = false;
     }
 
     public static void renderElementFlow(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         BlockEntityHelper.getBlockEntityAs(level, pos, AbstractSynthesizerBlockEntity.class)
-                .filter(AbstractSynthesizerBlockEntity::isWorking)
+                .filter(AbstractSynthesizerBlockEntity::isRunning)
                 .ifPresent(synthesizer -> ParticleHelper.createElementFlowParticle(synthesizer.getElementType(), level, Vec3.atCenterOf(pos.below()), Direction.DOWN, 1, rand));
     }
 
-    private static @NotNull SynthesizerProperties getProperties(Holder<IConfigurableBlockEntityProperties> propertiesHolder) {
+    private static @NotNull SynthesizerProperties getProperties(Holder<@NotNull IConfigurableBlockEntityProperties> propertiesHolder) {
         if (!propertiesHolder.isBound()) {
             throw new IllegalStateException("Properties not bound");
         }
@@ -98,7 +95,7 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
         }
 
         if (bufferElementStorage.getElementAmount() <= 0) {
-            working = false;
+            running = false;
             setChanged();
             return;
         }
@@ -106,16 +103,16 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
         var synthesized = runeHandler.handleElementTransfer(bufferElementStorage, container, type, transferSpeed);
         var hasSynthesized = synthesized > 0;
 
-        if (hasSynthesized || working) {
-            working = hasSynthesized;
+        if (hasSynthesized || running) {
+            running = hasSynthesized;
             setChanged();
         }
     }
 
     protected abstract int synthesizeElement();
 
-    public boolean isWorking() {
-        return working;
+    public boolean isRunning() {
+        return running;
     }
 
     public AABB getRange() {
@@ -151,23 +148,19 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
     }
 
     @Override
-    protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-            bufferElementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
-        }
-        if (compound.contains(ECNames.RUNE_HANDLER)) {
-            IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, Tag.OBJECT_HEADER));
-        }
-        working = compound.getBoolean(ECNames.WORKING);
+    protected void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.ELEMENT_STORAGE, bufferElementStorage);
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
+        running = input.getBooleanOr(ECNames.RUNNING, false);
     }
 
     @Override
-    protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        compound.put(ECNames.ELEMENT_STORAGE, bufferElementStorage.serializeNBT(provider));
-        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
-        compound.putBoolean(ECNames.WORKING, working);
+    protected void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
+        output.putChild(ECNames.ELEMENT_STORAGE, bufferElementStorage);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
+        output.putBoolean(ECNames.RUNNING, running);
     }
 
     @Override

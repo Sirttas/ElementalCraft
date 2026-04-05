@@ -1,32 +1,40 @@
 package sirttas.elementalcraft.block.shrine.budding;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelIdentifier;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
+import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
+import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BuddingShrineRenderer extends ShrineRenderer<BuddingShrineBlockEntity, BuddingShrineRenderState> {
 
-    private static final Map<Identifier, BakedModel> PLATE_MODELS = new HashMap<>();
+    private final BuddingShrinePlateModelResolver buddingShrinePlateModelResolver;
+
+    public BuddingShrineRenderer(BlockEntityRendererProvider.Context context) {
+        super(context);
+        buddingShrinePlateModelResolver = ECModelResolver.get(BuddingShrinePlateModelResolver.IDENTIFIER);
+    }
 
     @Override
-    public void render(@NotNull BuddingShrineBlockEntity shrine, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {
-        super.render(shrine, partialTicks, poseStack, bufferSource, combinedLight, combinedOverlay);
-        ECRendererHelper.renderModel(getPlateModel(shrine.getBudType()), poseStack, bufferSource, shrine, combinedLight, combinedOverlay);
+    public @NotNull BuddingShrineRenderState createRenderState() {
+        return new BuddingShrineRenderState();
     }
 
-    public static BakedModel getPlateModel(BuddingShrineBudType budType) {
-        return PLATE_MODELS.computeIfAbsent(budType.plateModel(), loc -> Minecraft.getInstance().getModelManager().getModel(ModelIdentifier.standalone(loc)));
+    @Override
+    public void extractRenderState(BuddingShrineBlockEntity blockEntity, BuddingShrineRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.plate = buddingShrinePlateModelResolver.getModel(blockEntity.getBudType());
     }
 
+    @Override
+    public void submit(BuddingShrineRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
+        ECRendererHelper.submitModel(renderState.plate.getModel(), poseStack, nodeCollector, renderState.lightCoords);
+    }
 }

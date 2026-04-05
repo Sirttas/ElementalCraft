@@ -1,12 +1,10 @@
 package sirttas.elementalcraft.block.cover;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -35,17 +33,17 @@ public interface Coverable {
         return isCovered() && (player == null || EntityHelper.handStream(player).noneMatch(stack -> !stack.isEmpty() && stack.is(ECTags.Items.COVER_HIDING)));
     }
 
-    default @NotNull BlockState loadCoverState(@NotNull CompoundTag compound, HolderLookup.@NotNull Provider provider) {
-        return compound.contains(ECNames.COVER) ? NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), compound.getCompound(ECNames.COVER)) : Blocks.AIR.defaultBlockState();
+    default @NotNull BlockState loadCoverState(@NotNull ValueInput input) {
+        return input.read(ECNames.COVER, BlockState.CODEC).orElseGet(Blocks.AIR::defaultBlockState);
     }
 
-    default void saveCoverState(@NotNull CompoundTag compound) {
+    default void saveCoverState(@NotNull ValueOutput output) {
         var coverState = getCoverState();
 
         if (!coverState.isAir()) {
-            compound.put(ECNames.COVER, NbtUtils.writeBlockState(coverState));
-        } else if (compound.contains(ECNames.COVER)) {
-            compound.remove(ECNames.COVER);
+            output.store(ECNames.COVER, BlockState.CODEC, coverState);
+        } else {
+            output.discard(ECNames.COVER);
         }
     }
 }

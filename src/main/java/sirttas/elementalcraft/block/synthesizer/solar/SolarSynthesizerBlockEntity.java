@@ -51,7 +51,7 @@ public class SolarSynthesizerBlockEntity extends AbstractContainerSynthesizerBlo
 	}
 
 	protected boolean isReceivingSkyLight() {
-		return level != null && level.dimensionType().hasSkyLight() && level.canSeeSky(this.worldPosition) && level.getEffectiveSkyBrightness(worldPosition) > 10;
+		return level != null && level.dimensionType().hasSkyLight() && level.canSeeSky(this.worldPosition) && level.isBrightOutside();
 	}
 
 	@NotNull

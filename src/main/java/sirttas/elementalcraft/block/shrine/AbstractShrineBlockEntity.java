@@ -3,15 +3,14 @@ package sirttas.elementalcraft.block.shrine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
@@ -342,20 +341,18 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
-		}
-		running = compound.getBoolean(ECNames.RUNNING);
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+        input.readChild(ECNames.ELEMENT_STORAGE, elementStorage);
+		running = input.getBooleanOr(ECNames.RUNNING, false);
 		refresh();
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
-		compound.putBoolean(ECNames.RUNNING, running);
+	public void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putChild(ECNames.ELEMENT_STORAGE, elementStorage);
+        output.putBoolean(ECNames.RUNNING, running);
 	}
 
 	@Override

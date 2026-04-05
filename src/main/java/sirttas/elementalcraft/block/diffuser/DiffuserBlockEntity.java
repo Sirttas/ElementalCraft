@@ -2,18 +2,17 @@ package sirttas.elementalcraft.block.diffuser;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.container.IContainerTopBlockEntity;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
@@ -28,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DiffuserBlockEntity extends AbstractECBlockEntity implements IContainerTopBlockEntity {
 
-	private static final Holder<Range> RANGE = ElementalCraftApi.RANGE_MANAGER.getOrCreateHolder(Ranges.DIFFUSER);
+	private static final Holder<@NotNull Range> RANGE = ElementalCraftApi.RANGE_MANAGER.getOrCreateHolder(Ranges.DIFFUSER);
 
 	private boolean hasDiffused;
 	private final RuneHandler runeHandler;
@@ -42,19 +41,17 @@ public class DiffuserBlockEntity extends AbstractECBlockEntity implements IConta
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		hasDiffused = compound.getBoolean(ECNames.HAS_DIFFUSED);
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, Tag.OBJECT_HEADER));
-		}
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+		hasDiffused = input.getBooleanOr(ECNames.HAS_DIFFUSED, false);
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.putBoolean(ECNames.HAS_DIFFUSED, hasDiffused);
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
+	public void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putBoolean(ECNames.HAS_DIFFUSED, hasDiffused);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
 	}
 
 	@SuppressWarnings("unused")

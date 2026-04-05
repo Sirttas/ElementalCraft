@@ -2,9 +2,9 @@ package sirttas.elementalcraft.block.pipe.upgrade.beam;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -12,7 +12,6 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import sirttas.elementalcraft.block.pipe.ConnectionType;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
@@ -171,17 +170,15 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        if (compound.contains(ECNames.RUNE_HANDLER)) {
-            IRuneHandler.readNBT(getRuneHandler(), compound.getList(ECNames.RUNE_HANDLER, 8));
-        }
+    public void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }
 
     @Override
-    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(getRuneHandler()));
+    public void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
+        output.putChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }
 
 }

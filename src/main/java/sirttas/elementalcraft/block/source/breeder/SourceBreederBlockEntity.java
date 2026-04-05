@@ -3,29 +3,34 @@ package sirttas.elementalcraft.block.source.breeder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
-import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
+import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.holder.ISourceTraitHolder;
+import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.retriever.RetrieverBlock;
 import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
-import sirttas.elementalcraft.block.source.trait.SourceTraitHelper;
+import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
@@ -35,7 +40,6 @@ import sirttas.elementalcraft.recipe.source.breeding.SourceBreedingRecipeInput;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +146,21 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
     }
 
     private ItemStack breed(ElementType elementType, PedestalWrapper wrapper1, PedestalWrapper wrapper2) {
-        return ReceptacleHelper.create(elementType, SourceTraitHelper.breed(level.getRandom(), runeHandler.getBonus(Rune.BonusType.LUCK), wrapper1.getTraitHolder().getTraits(), wrapper2.getTraitHolder().getTraits()), wrapper1.isAnalyzed() && wrapper2.isAnalyzed());
+        return ReceptacleHelper.create(elementType, breed(level.getRandom(), runeHandler.getBonus(Rune.BonusType.LUCK), wrapper1.getTraitHolder().getTraits(), wrapper2.getTraitHolder().getTraits()), wrapper1.isAnalyzed() && wrapper2.isAnalyzed());
+    }
+
+    @VisibleForTesting
+    public static Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> breed(@Nonnull RandomSource random, float luck, Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> map1, Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> map2) {
+        var traits = SourceTraits.createTraitMap();
+
+        for (var holder : ElementalCraftApi.SOURCE_TRAIT_MANAGER.holders().toList()) {
+            var value = holder.value().breed(random, luck, map1.get(holder), map2.get(holder));
+
+            if (value != null) {
+                traits.put(holder, value);
+            }
+        }
+        return traits;
     }
 
     @Override
@@ -178,21 +196,17 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
     }
 
     @Override
-    public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(compound, provider);
-        compound.putIntArray(ECNames.PROGRESS, pedestalWrappers.entrySet().stream()
-                .sorted(Comparator.comparingInt(e -> e.getKey().get2DDataValue()))
-                .mapToInt(e -> e.getValue().progress)
-                .toArray());
-        compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
+    public void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
+        pedestalWrappers.forEach((d, w) -> w.progress = input.getIntOr(d.getSerializedName() + '_' + ECNames.PROGRESS, 0));
     }
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(compound, provider);
-        if (compound.contains(ECNames.RUNE_HANDLER)) {
-            IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-        }
+    public void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
+        pedestalWrappers.forEach((d, w) -> output.putInt(d.getSerializedName() + '_' + ECNames.PROGRESS, w.progress));
     }
 
     public List<Direction> getPedestalsDirections() {
@@ -208,7 +222,7 @@ public class SourceBreederBlockEntity extends AbstractECCraftingBlockEntity<Sour
     }
 
     @Override
-    protected SourceBreedingRecipe lookupRecipe(@NotNull SourceBreedingRecipeInput recipeInput) {
+    protected SourceBreedingRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SourceBreedingRecipeInput recipeInput) {
         var recipe = new SourceBreedingRecipe();
 
         return recipe.matches(createRecipeInput(), level) ? recipe : null;

@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -10,11 +8,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
-import sirttas.elementalcraft.container.ECContainerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,30 +26,11 @@ public abstract class AbstractECEntityBlock extends BaseEntityBlock {
 	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.MODEL;
 	}
-
-	@Override
-	public void onRemove(BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			dropItems(level, pos);
-			super.onRemove(state, level, pos, newState, isMoving);
-		}
-	}
-
-	private void dropItems(Level level, BlockPos pos) {
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
-
-		if (inv != null) {
-			for (int i = 0; i < inv.getSlots(); i++) {
-				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), inv.getStackInSlot(i));
-			}
-			level.updateNeighbourForOutputSignal(pos, this);
-		}
-	}
 	
 	@Override
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
-		return !level.isClientSide() ? (l, p, s, be) -> sendUpdate(be) : null;
+		return !level.isClientSide() ? (_, _, _, be) -> sendUpdate(be) : null;
 	}
 	
 	@Nullable

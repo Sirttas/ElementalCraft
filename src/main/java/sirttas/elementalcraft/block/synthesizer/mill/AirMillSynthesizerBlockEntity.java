@@ -2,13 +2,13 @@ package sirttas.elementalcraft.block.synthesizer.mill;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -63,15 +63,15 @@ public class AirMillSynthesizerBlockEntity extends AbstractSynthesizerBlockEntit
 	}
 
 	@Override
-	protected void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		damage = compound.getInt(ECNames.DAMAGE);
+	protected void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+		damage = input.getIntOr(ECNames.DAMAGE, 0);
 	}
 
 	@Override
-	protected void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.putInt(ECNames.DAMAGE, damage);
+	protected void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putInt(ECNames.DAMAGE, damage);
 	}
 
 	@Override

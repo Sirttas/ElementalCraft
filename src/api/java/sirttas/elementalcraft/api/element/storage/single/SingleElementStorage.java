@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.api.element.storage.single;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
@@ -64,21 +62,6 @@ public class SingleElementStorage extends AbstractSynchronizable implements ISet
 	@Override
 	public String toString() {
 		return elementAmount + "/" + elementCapacity + " " + elementType.getSerializedName();
-	}
-
-	public CompoundTag serializeNBT(@NotNull HolderLookup.Provider provider) {
-		CompoundTag compound = new CompoundTag();
-
-		compound.putString(ECNames.ELEMENT_TYPE, getElementType().getSerializedName());
-		compound.putInt(ECNames.ELEMENT_AMOUNT, getElementAmount());
-		compound.putInt(ECNames.ELEMENT_CAPACITY, getElementCapacity());
-		return compound;
-	}
-
-	public void deserializeNBT(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag compound) {
-		elementType = ElementType.byName(compound.getString(ECNames.ELEMENT_TYPE).orElse(""));
-		elementAmount = compound.getInt(ECNames.ELEMENT_AMOUNT).orElse(0);
-		elementCapacity = compound.getInt(ECNames.ELEMENT_CAPACITY).orElse(0);
 	}
 
     @Override

@@ -211,7 +211,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 	@SuppressWarnings({"ConstantConditions"})
 	@Override
 	public void registerRecipes(@Nonnull IRecipeRegistration registry) {
-		RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+		var recipeManager = Minecraft.getInstance().level.recipeAccess();
 
 		registry.addRecipes(ECJEIRecipeTypes.EXTRACTION, getExtractionRecipes());
 		registry.addRecipes(ECJEIRecipeTypes.CRACKING, getRecipes(recipeManager, ECRecipeTypes.CRACKING));

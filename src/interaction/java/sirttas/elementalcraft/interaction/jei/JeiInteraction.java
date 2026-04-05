@@ -1,27 +1,31 @@
-package sirttas.elementalcraft.color;
+package sirttas.elementalcraft.interaction.jei;
 
 import mezz.jei.library.color.ColorGetter;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModList;
+import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.Comparator;
+import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
-public class ECColorHelper {
+public class JeiInteraction implements ElementalCraftInteraction {
 
-    private static final Comparator<Integer> COLOR_BRIGHTNESS_COMPARATOR = Comparator.comparingInt(ECColorHelper::getBrightness);
+    private static final Comparator<Integer> COLOR_BRIGHTNESS_COMPARATOR = Comparator.comparingInt(JeiInteraction::getBrightness);
 
-    private static boolean noJeiLogged = false;
+    private boolean noJeiLogged = false;
 
-    private ECColorHelper() {}
+    @Override
+    public boolean isActive() {
+        return ModList.get().isLoaded("jei");
+    }
 
-    public static int[] lookupColors(ItemStack stack) {
+    @Override
+    public int[] lookupColors(ItemStack stack) {
         try {
-            var colors = new ColorGetter().getColors(stack, 3); // FIXME extract ColorGetter from JEI
+            List<Integer> colors = new ColorGetter().getColors(stack, 3);
 
-            if (colors != null && !colors.isEmpty()) {
+            if (!colors.isEmpty()) {
                 var array = colors.stream()
                         .map(color -> color == null ? -1 : color)
                         .sorted(COLOR_BRIGHTNESS_COMPARATOR.reversed())
@@ -42,11 +46,10 @@ public class ECColorHelper {
                 noJeiLogged = true;
             }
         }
-        return new int[] { -1, -1, -1 };
+        return null;
     }
 
     public static int getBrightness(int color) {
         return ((color & 0xFF) + ((color >> 8) & 0xFF) + ((color >> 16) & 0xFF)) / 3;
     }
-
 }

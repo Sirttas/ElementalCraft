@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
@@ -29,13 +30,15 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-    private BuddingShrineBudType budType = BuddingShrineBudType.AMETHYST;
+    public static final Holder<@NotNull BuddingShrineBudType> AMETHYST = ElementalCraftApi.BUD_TYPE_MANAGER.getOrCreateHolder(ElementalCraftApi.createRL("amethyst"));
+
+    private Holder<@NotNull BuddingShrineBudType> budType = AMETHYST;
 
 	public BuddingShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.BUDDING_SHRINE, PROPERTIES, pos, state);
 	}
 
-    public BuddingShrineBudType getBudType() {
+    public Holder<@NotNull BuddingShrineBudType> getBudType() {
         return budType;
     }
 
@@ -46,21 +49,22 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
     @Override
     public void refresh() {
         super.refresh();
-        budType = ElementalCraftApi.BUD_TYPE_MANAGER.getData().values().stream()
-                .filter(b -> this.hasUpgrade(b.requiredUpgrade()))
+        budType = ElementalCraftApi.BUD_TYPE_MANAGER.holders()
+                .filter(b -> this.hasUpgrade(b.value().requiredUpgrade()))
                 .findFirst()
-                .orElse(BuddingShrineBudType.AMETHYST);
+                .orElse(AMETHYST);
     }
 
     @Override
 	protected boolean doPeriod() {
+        var bud = this.budType.value();
 		var state = this.level.getBlockState(above());
 
 		if (BuddingAmethystBlock.canClusterGrowAtState(state)) {
-			setBud(budType.sequence().getFirst(), state);
+			setBud(bud.sequence().getFirst(), state);
 			return true;
 		}
-		var it = budType.sequence().iterator();
+		var it = bud.sequence().iterator();
 		while (it.hasNext()) {
 			if (state.is(it.next())) {
 				if (it.hasNext()) {

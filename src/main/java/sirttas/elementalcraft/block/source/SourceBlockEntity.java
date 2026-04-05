@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.block.source;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -117,27 +116,25 @@ public class SourceBlockEntity extends AbstractECBlockEntity implements IElement
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		if (compound.contains(ECNames.SOURCE_TRAITS_HOLDER)) {
-			traitHolder.deserializeNBT(provider, compound.getCompound(ECNames.SOURCE_TRAITS_HOLDER));
-		}
-		if (compound.contains(ECNames.ELEMENT_STORAGE)) {
-			elementStorage.deserializeNBT(provider, compound.getCompound(ECNames.ELEMENT_STORAGE));
-		} else {
-			initStorageFromTraits();
-		}
-		analyzed = compound.getBoolean(ECNames.ANALYZED);
-		stabilized = compound.getBoolean(ECNames.STABILIZED);
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+        input.readChild(ECNames.SOURCE_TRAITS_HOLDER, traitHolder);
+        if (input.child(ECNames.ELEMENT_STORAGE).isPresent()) {
+            input.readChild(ECNames.ELEMENT_STORAGE, elementStorage);
+        } else {
+            initStorageFromTraits();
+        }
+        analyzed = input.getBooleanOr(ECNames.ANALYZED, false);
+        stabilized = input.getBooleanOr(ECNames.STABILIZED, false);
 	}
 
 	@Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.SOURCE_TRAITS_HOLDER, traitHolder.serializeNBT(provider));
-		compound.put(ECNames.ELEMENT_STORAGE, elementStorage.serializeNBT(provider));
-		compound.putBoolean(ECNames.ANALYZED, analyzed);
-		compound.putBoolean(ECNames.STABILIZED, stabilized);
+	public void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putChild(ECNames.SOURCE_TRAITS_HOLDER, traitHolder);
+        output.putChild(ECNames.ELEMENT_STORAGE, elementStorage);
+        output.putBoolean(ECNames.ANALYZED, analyzed);
+        output.putBoolean(ECNames.STABILIZED, stabilized);
 	}
 
 	@Override

@@ -3,11 +3,14 @@ package sirttas.elementalcraft.block.pipe;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -18,7 +21,7 @@ import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
-import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgradeHelper;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.config.ECConfig;
 
 import javax.annotation.Nonnull;
@@ -31,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @EventBusSubscriber(modid = ElementalCraftApi.MODID)
-public class ElementPipeTransferer implements IElementTransferer {
+public class ElementPipeTransferer implements IElementTransferer, ValueIOSerializable {
 
     private static final Collection<ElementPipeTransferer> TRANSFERERS = new ReferenceOpenHashSet<>();
 
@@ -223,20 +226,32 @@ public class ElementPipeTransferer implements IElementTransferer {
     }
 
     @Override
-    public void deserializeNBT(@NotNull HolderLookup.Provider provider, @NotNull CompoundTag compound) {
+    public void deserialize(@NotNull ValueInput input) {
         for (Direction face : Direction.values()) {
-            this.setConnection(face, ConnectionType.byName(compound.getString(face.getSerializedName())));
-            this.setUpgrade(face, PipeUpgradeHelper.load(pipe, face, compound.getCompound(face.getSerializedName() + "_upgrade"), provider));
+            this.setConnection(face, ConnectionType.byName(input.getStringOr(face.getSerializedName(), "")));
+            input.child(face.getSerializedName() + "_upgrade").ifPresent(c -> this.setUpgrade(face, loadUpgrade(face, c)));
         }
     }
 
-    @Override
-    public CompoundTag serializeNBT(@NotNull HolderLookup.Provider provider) {
-        var compound = new CompoundTag();
+    private PipeUpgrade loadUpgrade(Direction direction, ValueInput input) {
+        var type = input.getString("id")
+                .flatMap(i -> PipeUpgradeTypes.REGISTRY.get(Identifier.parse(i)))
+                .map(Holder::value)
+                .orElse(null);
 
-        connections.forEach((k, v) -> compound.putString(k.getSerializedName(), v.getName()));
-        upgrades.forEach((k, v) -> compound.put(k.getSerializedName() + "_upgrade", v.save(provider)));
-        return compound;
+        if (type != null) {
+            var upgrade = type.create(pipe, direction);
+
+            upgrade.load(input);
+            return upgrade;
+        }
+        return null;
+    }
+
+    @Override
+    public void serialize(@NotNull ValueOutput output) {
+        connections.forEach((k, v) -> output.putString(k.getSerializedName(), v.getName()));
+        upgrades.forEach((k, v) -> v.save(output.child(k.getSerializedName() + "_upgrade")));
     }
 
     void copyTo(ElementPipeTransferer transferer) {

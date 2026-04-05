@@ -1,19 +1,21 @@
 package sirttas.elementalcraft.block.sorter.ordered;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -32,14 +34,14 @@ import java.util.List;
 public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 
 	private final RuneHandler runeHandler;
-	private final List<ItemStack> stacks;
+	private final NonNullList<@NotNull ItemStack> stacks;
 	private int index;
 	private float tick;
 
 	public OrderedSorterBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.SORTER, pos, state);
 		runeHandler = new RuneHandler(ECConfig.SERVER.sorterMaxRunes.get(), this::setChanged);
-		stacks = Lists.newArrayList();
+		stacks = NonNullList.of(ItemStack.EMPTY);
 		index = 0;
 		tick = 0;
 	}
@@ -49,7 +51,7 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 			return;
 		}
 
-		var profiler = level.getProfiler();
+        var profiler = Profiler.get();
 
 		profiler.push("elementalcraft:ordered_sorter");
 
@@ -157,46 +159,21 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		readStacks(provider, compound.getList(ECNames.STACKS, 10));
-		index = compound.getInt(ECNames.INDEX);
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+        ContainerHelper.loadAllItems(input, this.stacks);
+		index = input.getIntOr(ECNames.INDEX, 0);
 		if (index > stacks.size()) {
 			index = 0;
 		}
-		if (compound.contains(ECNames.RUNE_HANDLER)) {
-			IRuneHandler.readNBT(runeHandler, compound.getList(ECNames.RUNE_HANDLER, 8));
-		}
-	}
-
-    private void readStacks(@Nonnull HolderLookup.Provider provider, ListTag listNbt) {
-		stacks.clear();
-		for (int i = 0; i < listNbt.size(); ++i) {
-			ItemStack itemstack = ItemStack.parseOptional(provider, listNbt.getCompound(i));
-
-			if (!itemstack.isEmpty()) {
-				stacks.add(itemstack);
-			}
-		}
-
+        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
 	}
 
     @Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.put(ECNames.STACKS, this.writeStacks(provider));
-		compound.putInt(ECNames.INDEX, index);
-		compound.put(ECNames.RUNE_HANDLER, IRuneHandler.writeNBT(runeHandler));
+	public void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, this.stacks);
+        output.putInt(ECNames.INDEX, index);
+        output.putChild(ECNames.RUNE_HANDLER, runeHandler);
     }
-
-    private ListTag writeStacks(@Nonnull HolderLookup.Provider provider) {
-		ListTag listTag = new ListTag();
-
-		for (ItemStack itemstack : stacks) {
-			if (!itemstack.isEmpty()) {
-				listTag.add(itemstack.save(provider));
-			}
-		}
-		return listTag;
-	}
 }

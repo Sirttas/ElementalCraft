@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.synthesizer.AbstractSynthesizerBlockEntity;
 import sirttas.elementalcraft.range.RangeRenderTimer;
@@ -45,7 +46,7 @@ public class AbstractCrackingSynthesizerBlockEntity<T extends AbstractCrackingRe
                 }).orElse(0);
     }
 
-    private Optional<Pair<BlockPos, RecipeHolder<T>>> findRecipe() {
+    private Optional<Pair<BlockPos, RecipeHolder<@NotNull T>>> findRecipe() {
         var recipeManager = level.getRecipeManager();
         var type = recipeType.get();
 

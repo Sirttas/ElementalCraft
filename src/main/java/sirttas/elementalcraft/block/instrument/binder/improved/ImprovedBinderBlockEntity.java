@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.instrument.binder.improved;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
@@ -26,12 +27,12 @@ public class ImprovedBinderBlockEntity extends BinderBlockEntity implements IInf
 	}
 
 	@Override
-	protected AbstractBindingRecipe lookupRecipe(@NotNull MultipleItemsSingleElementRecipeInput recipeInput) {
+	protected AbstractBindingRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull MultipleItemsSingleElementRecipeInput recipeInput) {
 		if (getContainerElementType() == ElementType.NONE) {
 			return null;
 		}
 
-		var bindingRecipe = super.lookupRecipe(recipeInput);
+		var bindingRecipe = super.lookupRecipe(level, recipeInput);
 
 		if (bindingRecipe == null) {
 			InfusionRecipe infusionRecipe = this.lookupInfusionRecipe(level);

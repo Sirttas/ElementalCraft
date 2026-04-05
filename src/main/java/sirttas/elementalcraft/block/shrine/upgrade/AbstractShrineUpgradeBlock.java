@@ -57,17 +57,21 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 	}
 
 	@Override
-	public void setPlacedBy(@Nonnull Level level, BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-		BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
-	}
+	public void setPlacedBy(@Nonnull Level level, @NotNull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        updateShrine(level, pos, state);
+    }
 
-	@Override
-	public void onRemove(@Nonnull BlockState state, @Nonnull Level level, BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-		BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
-		super.onRemove(state, level, pos, newState, isMoving);
-	}
+    @Override
+    protected void affectNeighborsAfterRemoval(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, boolean movedByPiston) {
+        updateShrine(level, pos, state);
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+    }
 
-	@Override
+    private void updateShrine(@NotNull Level level, BlockPos pos, @NotNull BlockState state) {
+        BlockEntityHelper.getBlockEntityAs(level, pos.relative(getFacing(state)), AbstractShrineBlockEntity.class).ifPresent(AbstractShrineBlockEntity::setChanged);
+    }
+
+    @Override
 	public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader level, @Nonnull BlockPos pos) {
 		if (!upgrade.isBound()) { // we only remove upgrades if it is fully loaded
 			return true;

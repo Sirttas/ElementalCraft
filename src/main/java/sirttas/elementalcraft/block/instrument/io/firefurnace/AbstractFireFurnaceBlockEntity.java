@@ -2,9 +2,8 @@ package sirttas.elementalcraft.block.instrument.io.firefurnace;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -12,6 +11,8 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
@@ -29,22 +30,22 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	private float exp;
 	private final IOContainer inventory;
 
-	protected AbstractFireFurnaceBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
+	protected AbstractFireFurnaceBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, properties, pos, state);
 		exp = 0;
 		inventory = new IOContainer(this::setChanged);
 	}
 
 	@Override
-	public void loadAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.loadAdditional(compound, provider);
-		this.exp = compound.getFloat(ECNames.XP);
+	public void loadAdditional(@Nonnull ValueInput input) {
+		super.loadAdditional(input);
+		this.exp = input.getFloatOr(ECNames.XP, 0);
 	}
 
     @Override
-	public void saveAdditional(@Nonnull CompoundTag compound, @Nonnull HolderLookup.Provider provider) {
-		super.saveAdditional(compound, provider);
-		compound.putFloat(ECNames.XP, this.exp);
+	public void saveAdditional(@Nonnull ValueOutput output) {
+		super.saveAdditional(output);
+        output.putFloat(ECNames.XP, this.exp);
 	}
 
 	@NotNull
@@ -55,8 +56,8 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@SuppressWarnings({"DataFlowIssue"})
     @Override
-	protected FurnaceRecipeWrapper lookupRecipe(@NotNull IOInstrumentRecipeInput recipeInput) {
-		return this.getLevel().getRecipeManager().getRecipeFor(getProperties().<SingleRecipeInput, T>getRecipeType(), recipeInput.toSingleRecipeInput(), this.getLevel())
+	protected FurnaceRecipeWrapper lookupRecipe(@NotNull ServerLevel level, @NotNull IOInstrumentRecipeInput recipeInput) {
+		return level.recipeAccess().getRecipeFor(getProperties().<SingleRecipeInput, T>getRecipeType(), recipeInput.toSingleRecipeInput(), this.getLevel())
 				.map(h -> new FurnaceRecipeWrapper(h.value()))
 				.orElse(null);
 	}

@@ -1,12 +1,10 @@
 package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -35,16 +33,18 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     }
 
     @Override
-    public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
-        super.loadAdditional(tag, provider);
-        NbtUtils.readBlockPos(tag, ECNames.TARGET_POS).ifPresent(this::setTarget);
+    public void loadAdditional(@Nonnull ValueInput input) {
+        super.loadAdditional(input);
+        input.read(ECNames.TARGET_POS, BlockPos.CODEC).ifPresent(this::setTarget);
     }
 
     @Override
-    protected void saveAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
-        super.saveAdditional(tag, provider);
+    protected void saveAdditional(@Nonnull ValueOutput output) {
+        super.saveAdditional(output);
         if (target != null) {
-            tag.put(ECNames.TARGET_POS, NbtUtils.writeBlockPos(target));
+            output.store(ECNames.TARGET_POS, BlockPos.CODEC, target);
+        } else {
+            output.discard(ECNames.TARGET_POS);
         }
     }
 

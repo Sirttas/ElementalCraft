@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -53,7 +54,7 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
     }
 
     @Override
-    protected EnchantmentLiquefactionRecipe lookupRecipe(@NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    protected EnchantmentLiquefactionRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         if (level == null) {
             return null;
         }

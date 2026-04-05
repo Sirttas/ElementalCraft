@@ -1,24 +1,18 @@
 package sirttas.elementalcraft.api.source.trait.value;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.SourceTraitRollContext;
@@ -39,7 +33,7 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 	private final List<Step> steps;
 
 	private final Codec<ISourceTraitValue> valueCodec;
-	private final StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec;
+	private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec;
 
 	public static Builder builder(String translationPrefix) {
 		return new Builder(translationPrefix);
@@ -47,29 +41,16 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 
 	private StepsSourceTraitValueProvider(List<Step> steps) {
 		this.steps = ImmutableList.copyOf(steps);
-		this.valueCodec = new Codec<>() {
-            @Override
-            public <T> DataResult<Pair<ISourceTraitValue, T>> decode(DynamicOps<T> ops, T input) {
-				var result = Codec.STRING.decode(ops, input);
-
-				if (result.isSuccess()) {
-					return result.map(p -> p.mapFirst(f -> findStep(f)));
-				}
-				return Codec.INT.decode(ops, input).map(p -> p.mapFirst(f -> getStep(f)));
-            }
-
-            @Override
-            public <T> DataResult<T> encode(ISourceTraitValue input, DynamicOps<T> ops, T prefix) {
-                return input instanceof Step step ? Codec.STRING.encode(step.name(), ops, prefix) : DataResult.error(() -> "Value must be a Step");
-            }
-        };
-		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, v -> {
-			if (v instanceof Step step) {
-				return step.name();
-			}
-			throw new IllegalArgumentException("Value must be a Step");
-		}, this::findStep);
+		this.valueCodec = Codec.STRING.xmap(this::findStep, StepsSourceTraitValueProvider::getStringValue);
+		this.valueStreamCodec = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, StepsSourceTraitValueProvider::getStringValue, this::findStep);
 	}
+
+    private static String getStringValue(ISourceTraitValue value) {
+        if (!(value instanceof Step step)) {
+            throw new IllegalArgumentException("Source trait value must be of type Step");
+        }
+        return step.name();
+    }
 
 	@Override
 	public ISourceTraitValue roll(SourceTraitRollContext context, Level level, BlockPos pos) {
@@ -115,17 +96,6 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		} else {
 			return max + 1;
 		}
-	}
-
-	@Deprecated
-	private Step getStep(int stepIndex) {
-		if (stepIndex < 0 || stepIndex >= steps.size()) {
-			return null;
-		}
-		var step =  this.steps.get(stepIndex);
-
-        ElementalCraftApi.LOGGER.debug("Step loaded from index: {}", stepIndex);
-		return step;
 	}
 
 	@Nullable
@@ -181,26 +151,13 @@ public class StepsSourceTraitValueProvider implements ISourceTraitValueProvider 
 		return SourceTraitValueProviderTypes.STEPS.get();
 	}
 
-	@Override
-	public ISourceTraitValue load(Tag tag) {
-		return switch (tag) {
-			case StringTag stringTag -> findStep(stringTag.value());
-			case null, default -> null;
-		};
-	}
-
-	@Override
-	public Tag save(ISourceTraitValue value) {
-		return value instanceof Step step ? IntTag.valueOf(steps.indexOf(step)) : null;
-	}
-
     @Override
 	public Codec<ISourceTraitValue> valueCodec() {
 		return valueCodec;
 	}
 
 	@Override
-	public StreamCodec<RegistryFriendlyByteBuf, ISourceTraitValue> valueStreamCodec() {
+	public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ISourceTraitValue> valueStreamCodec() {
 		return valueStreamCodec;
 	}
 
