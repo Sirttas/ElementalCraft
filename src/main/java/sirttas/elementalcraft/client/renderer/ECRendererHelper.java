@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -19,7 +20,6 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -33,9 +33,7 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
-import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.event.TickHandler;
 
 import java.util.List;
@@ -47,11 +45,7 @@ public class ECRendererHelper {
     private ECRendererHelper() {}
 
     public static Material getBlockMaterial(String name)  {
-        return getBlockMaterial(ElementalCraftApi.createRL(name));
-    }
-
-    public static Material getBlockMaterial(Identifier loc)  {
-        return new Material(TextureAtlas.LOCATION_BLOCKS, loc);
+        return new Material(ElementalCraftApi.createRL(name));
     }
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height) {
@@ -60,10 +54,6 @@ public class ECRendererHelper {
 
     public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height, int light, int overlay) {
         renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), 0, 0, width, height, 1F, 1F, 1F, light, overlay);
-    }
-
-    public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light, int overlay) {
-        renderIcon(poseStack, renderMaterial.buffer(buffer, RenderType::entityTranslucent), x, y, width, height, r, g, b, light, overlay);
     }
 
     public static void renderIcon(PoseStack poseStack, VertexConsumer builder, float x, float y, int width, int height, float r, float g, float b, int light, int overlay) {
@@ -325,14 +315,6 @@ public class ECRendererHelper {
                 .setNormal(last, 0.0F, 1.0F, 0.0F);
     }
 
-    public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, BlockEntity be, float tick, int light, int overlay) {
-        var handler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, null);
-
-        if (handler != null && !handler.isEmpty()) {
-            ECRendererHelper.renderRunes(poseStack, buffer, handler, getClientTicks(tick), light, overlay);
-        }
-    }
-
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, IRuneHandler handler, float tick, int light, int overlay) {
         int runeCount = handler.getRuneCount();
 
@@ -374,8 +356,8 @@ public class ECRendererHelper {
         renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
     }
 
-    public static void submitModel(@NotNull List<BlockStateModelPart> model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
-        nodeCollector.submitBlockModel(poseStack, RenderTypes.solidMovingBlock(), models, new int[0], lightCoords, OverlayTexture.NO_OVERLAY, 0);
+    public static void submitModel(@NotNull List<BlockStateModelPart> models, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
+        nodeCollector.submitBlockModel(poseStack, RenderTypes.solidMovingBlock(), models, BlockModelRenderState.EMPTY_TINTS, lightCoords, OverlayTexture.NO_OVERLAY, 0);
     }
 
     public static void submitModel(@NotNull BlockStateModelPart model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {

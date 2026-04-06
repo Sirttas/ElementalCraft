@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class SingleStackContainer extends AbstractSynchronizableContainer {
+public class SingleStackContainer extends AbstractSynchronizableContainer implements ValueIOSerializable {
 
 	protected ItemStack stack;
 
@@ -76,20 +77,13 @@ public class SingleStackContainer extends AbstractSynchronizableContainer {
 		return ret;
 	}
 
-	@Override
-	@Nonnull
-	public CompoundTag serializeNBT(@Nonnull HolderLookup.Provider provider) {
-		var compoundTag = new CompoundTag();
+    @Override
+    public void serialize(@NotNull ValueOutput output) {
+        output.store("stack", ItemStack.CODEC, stack);
+    }
 
-		if (!stack.isEmpty()) {
-			compoundTag.put("stack", stack.save(provider));
-		}
-		return compoundTag;
-	}
-
-	@Override
-	public void deserializeNBT(@Nonnull HolderLookup.Provider provider, @NotNull CompoundTag compoundTag) {
-		stack = ItemStack.parseOptional(provider, compoundTag.getCompound("stack"));
-	}
-
+    @Override
+    public void deserialize(@NotNull ValueInput input) {
+        stack = input.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+    }
 }

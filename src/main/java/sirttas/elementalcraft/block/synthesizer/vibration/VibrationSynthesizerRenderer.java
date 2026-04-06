@@ -9,8 +9,16 @@ import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class VibrationSynthesizerRenderer implements BlockEntityRenderer<@NotNull VibrationSynthesizerBlockEntity, @NotNull VibrationSynthesizerRenderState> {
+
+    private final RuneModelResolver runeModelResolver;
+
+    public VibrationSynthesizerRenderer() {
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+    }
 
     @Override
     public @NotNull VibrationSynthesizerRenderState createRenderState() {
@@ -21,7 +29,7 @@ public class VibrationSynthesizerRenderer implements BlockEntityRenderer<@NotNul
     public void extractRenderState(@NotNull VibrationSynthesizerBlockEntity blockEntity, @NotNull VibrationSynthesizerRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
-        state.runes.update(blockEntity.getRuneHandler(), partialTicks);
+        state.runes.update(blockEntity.getRuneHandler(), runeModelResolver, partialTicks);
     }
 
     @Override

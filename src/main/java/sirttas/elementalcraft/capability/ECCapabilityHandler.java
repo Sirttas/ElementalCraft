@@ -199,7 +199,7 @@ public class ECCapabilityHandler {
         registerShrineUpgradeCapabilities(event, ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get());
 
 
-        deferBlockCapabilityBellow(event, Capabilities.ItemHandler.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
+        deferBlockCapabilityBellow(event, Capabilities.Item.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER);
         deferBlockCapabilityBellow(event, ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlocks.AIR_MILL_GRINDSTONE, ECBlocks.AIR_MILL_WOOD_SAW, ECBlocks.ENCHANTMENT_LIQUEFIER, ECBlocks.SOURCE_BREEDER, ECBlocks.AIR_MILL_SYNTHESIZER);
         deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorages.BLOCK, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);
         deferBlockCapabilityBellow(event, ElementalCraftCapabilities.ElementStorages.BLOCK_FOR_ELEMENT, ECBlocks.FIRE_RESERVOIR, ECBlocks.WATER_RESERVOIR, ECBlocks.EARTH_RESERVOIR, ECBlocks.AIR_RESERVOIR, ECBlocks.AIR_MILL_SYNTHESIZER);

@@ -60,16 +60,13 @@ public class ECModelHandler {
         register(event, AccelerationShrineUpgradeRenderer.CLOCK);
         register(event, VortexShrineUpgradeRenderer.RING);
         register(event, TranslocationShrineUpgradeRenderer.RING);
-        register(event, SourceRenderer.STABILIZER_LOCATION);
+        register(event, SourceRenderer.STABILIZER);
         register(event, ElementValvePipeUpgradeRenderer.OPEN);
         register(event, ElementValvePipeUpgradeRenderer.CLOSE);
         register(event, ElementBeamPipeUpgradeRenderer.RING_1);
         register(event, ElementBeamPipeUpgradeRenderer.RING_2);
         register(event, ElementBeamPipeUpgradeRenderer.RING_3);
         register(event, ElementPumpPipeUpgradeRenderer.PUMP);
-        event.register(ECModelHelper.createStandaloneKey("item/air_mill_synthesizer_broken"));
-        event.register(ECModelHelper.createStandaloneKey("item/air_mill_grindstone_broken"));
-        event.register(ECModelHelper.createStandaloneKey("item/air_mill_wood_saw_broken"));
     }
 
     private static void register(ModelEvent.RegisterStandalone event, SimpleStandaloneModelSupplier supplier) {

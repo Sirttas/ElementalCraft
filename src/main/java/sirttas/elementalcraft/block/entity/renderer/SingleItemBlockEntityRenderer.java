@@ -47,11 +47,14 @@ public abstract class SingleItemBlockEntityRenderer<T extends BlockEntity, S ext
     @Override
     public void extractRenderState(T blockEntity, S renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        renderState.partialTick = partialTick;
+        renderState.itemRotationAnimationTime = ECRendererHelper.getClientTicks(partialTick);
+        itemModelResolver.updateForTopItem(renderState.item, getItemStack(blockEntity), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);
+    }
 
+    protected ItemStack getItemStack(T blockEntity) {
         var inv = blockEntity.getLevel().getCapability(Capabilities.Item.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, null);
 
-        itemModelResolver.updateForTopItem(renderState.item, inv == null ? ItemStack.EMPTY : inv.getResource(0).toStack(inv.getAmountAsInt(0)), ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);
+        return inv == null ? ItemStack.EMPTY : inv.getResource(0).toStack(inv.getAmountAsInt(0));
     }
 
     @Override
@@ -59,7 +62,7 @@ public abstract class SingleItemBlockEntityRenderer<T extends BlockEntity, S ext
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
         if (!renderState.item.isEmpty()) {
             poseStack.translate(position.x, position.y, position.z);
-            poseStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(renderState.partialTick)));
+            poseStack.mulPose(Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(renderState.itemRotationAnimationTime)));
             poseStack.scale(size, size, size);
             renderState.item.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         }

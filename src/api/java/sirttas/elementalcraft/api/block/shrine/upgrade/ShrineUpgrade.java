@@ -13,8 +13,8 @@ import sirttas.elementalcraft.api.upgrade.AbstractUpgrade;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 
@@ -24,15 +24,15 @@ public class ShrineUpgrade extends AbstractUpgrade<ShrineUpgrade.BonusType> {
 		super(predicate, Maps.immutableEnumMap(bonuses), maxAmount);
 	}
 
-	public void addInformation(List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		getBonuses().forEach((type, multiplier) -> tooltip.add(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
+	public void addInformation(Consumer<Component> builder, @Nonnull TooltipFlag flag) {
+		getBonuses().forEach((type, multiplier) -> builder.accept(Component.translatable("shrine_upgrade_bonus.elementalcraft." + type.getSerializedName(), formatMultiplier(multiplier))
 				.withStyle(type.isPositive() ^ multiplier < 1 ? ChatFormatting.BLUE : ChatFormatting.RED)));
 		if (maxAmount > 0) {
-			tooltip.add(Component.empty());
-			tooltip.add(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
+			builder.accept(Component.empty());
+			builder.accept(Component.translatable("tooltip.elementalcraft.max_amount", maxAmount).withStyle(ChatFormatting.YELLOW));
 		}
 		if (flag.isAdvanced()) {
-			tooltip.addAll(this.getPredicateTooltip());
+            this.getPredicateTooltip().forEach(builder);
 		}
 	}
 

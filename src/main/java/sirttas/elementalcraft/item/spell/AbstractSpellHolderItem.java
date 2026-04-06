@@ -71,8 +71,9 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 	}
 
 	@Override
-	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
+	public boolean releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
 		finishUsingItem(stack, level, entityLiving);
+        return super.releaseUsing(stack, level, entityLiving, timeLeft);
 	}
 
 	@Nonnull
@@ -98,7 +99,7 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
                 doConsume(player, hand, stack, spell);
 			}
 			if (result.shouldSwing() && !player.getAbilities().instabuild) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					SpellTickHelper.startCooldown(player, spell);
 				}
 				player.releaseUsingItem();

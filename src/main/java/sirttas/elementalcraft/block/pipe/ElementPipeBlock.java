@@ -177,7 +177,7 @@ public class ElementPipeBlock extends AbstractECEntityBlock {
 			var value = onShapeActivated(face, pipe, player, hand, hit);
 
 			if (!value.consumesAction()) {
-				player.displayClientMessage(pipe.getConnectionMessage(face), true);
+				player.sendOverlayMessage(pipe.getConnectionMessage(face));
 				level.updateNeighborsAt(pos, this);
 			}
 			return value;

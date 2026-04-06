@@ -79,7 +79,10 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
                 if (state == null || !state.canSurvive(level, upgradePos)) {
                     continue;
                 }
-                renderState.ghostUpgrades.get(direction).update(blockModelResolver, level, state, upgradePos);
+                var ghostState = new GhostBlockRenderState();
+
+                ghostState.update(blockModelResolver, level, state, upgradePos);
+                renderState.ghostUpgrades.put(direction, ghostState);
                 return;
             }
         }

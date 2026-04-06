@@ -3,14 +3,11 @@ package sirttas.elementalcraft.block.shrine.upgrade;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -35,13 +32,12 @@ import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public abstract class AbstractShrineUpgradeBlock extends Block implements SimpleWaterloggedBlock {
 
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	private final Holder<@NotNull ShrineUpgrade> upgrade;
+	final Holder<@NotNull ShrineUpgrade> upgrade;
 
 	protected AbstractShrineUpgradeBlock(@Nonnull ResourceKey<@NotNull ShrineUpgrade> key, BlockBehaviour.Properties properties) {
 		super(properties);
@@ -122,13 +118,6 @@ public abstract class AbstractShrineUpgradeBlock extends Block implements Simple
 
 	@Nonnull
 	public abstract Direction getFacing(@Nonnull BlockState state);
-
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		if (upgrade.isBound()) {
-			upgrade.value().addInformation(tooltip, flag);
-		}
-	}
 
 	public Holder<@NotNull ShrineUpgrade> getUpgrade() {
 		return upgrade;

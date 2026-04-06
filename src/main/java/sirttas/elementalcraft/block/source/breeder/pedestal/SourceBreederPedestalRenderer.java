@@ -1,26 +1,39 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.block.source.SourceRendererHelper;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.client.model.ECModelResolver;
+import sirttas.elementalcraft.rune.RuneModelResolver;
 
-import javax.annotation.Nonnull;
+public class SourceBreederPedestalRenderer implements BlockEntityRenderer<@NotNull SourceBreederPedestalBlockEntity, @NotNull SourceBreederPedestalRenderState> {
 
-public class SourceBreederPedestalRenderer implements BlockEntityRenderer<SourceBreederPedestalBlockEntity> {
+    private final RuneModelResolver runeModelResolver;
+
+    public SourceBreederPedestalRenderer() {
+        this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
+    }
 
     @Override
-    public void render(@Nonnull SourceBreederPedestalBlockEntity pedestal, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-        ECRendererHelper.renderRunes(poseStack, buffer, pedestal, partialTicks, light, overlay);
+    public SourceBreederPedestalRenderState createRenderState() {
+        return new SourceBreederPedestalRenderState();
+    }
 
-        var type = pedestal.getElementType();
+    @Override
+    public void extractRenderState(SourceBreederPedestalBlockEntity blockEntity, SourceBreederPedestalRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.runes.update(blockEntity, runeModelResolver, partialTicks);
+        state.source.update(1, blockEntity.getElementType(), partialTicks);
+    }
 
-        if (type == ElementType.NONE) {
-            return;
-        }
-        poseStack.translate(0, 0.6, 0);
-        SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, type, 1);
+    @Override
+    public void submit(SourceBreederPedestalRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState camera) {
+        state.runes.submit(state, poseStack, submitNodeCollector);
+        state.source.submit(poseStack, submitNodeCollector, camera, state.lightCoords);
     }
 }

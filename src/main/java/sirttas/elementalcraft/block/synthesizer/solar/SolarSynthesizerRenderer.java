@@ -30,7 +30,6 @@ public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull So
     private final BlockStateModelPart lensModel;
     private final RuneModelResolver runeModelResolver;
 
-
     public SolarSynthesizerRenderer() {
         this.runeModelResolver = ECModelResolver.get(RuneModelResolver.IDENTIFIER);
         lensModel = LENS.loadModel();

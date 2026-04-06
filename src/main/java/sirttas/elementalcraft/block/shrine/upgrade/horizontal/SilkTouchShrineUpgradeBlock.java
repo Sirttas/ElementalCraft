@@ -86,7 +86,7 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 	@Nonnull
     @Override
 	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-		if (Boolean.TRUE.equals(state.getValue(BlockStateProperties.ATTACHED))) {
+		if (state.getValue(BlockStateProperties.ATTACHED)) {
 			return switch (state.getValue(FACING)) {
 				case SOUTH -> SHAPE_SOUTH_ATTACHED;
 				case WEST -> SHAPE_WEST_ATTACHED;
@@ -123,7 +123,7 @@ public class SilkTouchShrineUpgradeBlock extends AbstractHorizontalShrineUpgrade
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
 		super.createBlockStateDefinition(container);
 		container.add(BlockStateProperties.ATTACHED);
 	}

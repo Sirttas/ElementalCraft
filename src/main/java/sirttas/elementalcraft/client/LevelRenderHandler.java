@@ -15,11 +15,9 @@ public class LevelRenderHandler {
     private LevelRenderHandler() {}
 
     @SubscribeEvent
-    public static void onLevelRender(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            worldMatrix = new Matrix4f(event.getProjectionMatrix());
-            worldMatrix.mul(event.getPoseStack().last().pose());
-        }
+    public static void onLevelRender(RenderLevelStageEvent.AfterWeather event) {
+        worldMatrix = new Matrix4f(event.getModelViewMatrix());
+        worldMatrix.mul(event.getPoseStack().last().pose());
     }
 
     public static Matrix4f getWorldMatrix() {

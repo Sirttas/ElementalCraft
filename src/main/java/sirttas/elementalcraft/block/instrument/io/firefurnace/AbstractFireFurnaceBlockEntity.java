@@ -80,7 +80,7 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 	}
 	
 	public void dropExperience(ServerPlayer player) {
-		ExperienceOrb.award(player.serverLevel(), player.position(), Math.round(exp));
+		ExperienceOrb.award(player.level(), player.position(), Math.round(exp));
 		exp = 0;
 	}
 

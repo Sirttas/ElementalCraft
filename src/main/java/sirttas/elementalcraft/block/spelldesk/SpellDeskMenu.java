@@ -101,8 +101,8 @@ public class SpellDeskMenu extends AbstractECMenu {
 				return input.getContainerSize();
 			}
 		};
-		stacks = level.getRecipeManager().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream()
-                .map(h -> h.value().assemble(recipeInput, level.registryAccess()))
+		stacks = level.recipeAccess().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream()
+                .map(h -> h.value().assemble(recipeInput))
 				.toList();
 
 		this.page.set(0);

@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.synthesizer.culinary;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +17,8 @@ import sirttas.elementalcraft.container.SingleStackContainer;
 
 public class CulinarySynthesizerBlockEntity extends AbstractContainerSynthesizerBlockEntity {
 
-    public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(CulinarySynthesizerBlock.NAME);
-    private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+    public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(CulinarySynthesizerBlock.NAME);
+    private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
     private final SingleStackContainer inventory;
 
@@ -32,7 +33,7 @@ public class CulinarySynthesizerBlockEntity extends AbstractContainerSynthesizer
 
     @Override
     protected int getElementAmountForStack(ItemStack stack) {
-        var foodProperties = stack.getFoodProperties(null);
+        var foodProperties = stack.get(DataComponents.FOOD);
 
         if (foodProperties == null) {
             return 0;

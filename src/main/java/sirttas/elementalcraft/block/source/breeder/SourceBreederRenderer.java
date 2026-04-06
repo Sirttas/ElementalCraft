@@ -1,69 +1,87 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
-import sirttas.elementalcraft.api.element.ElementType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
-import sirttas.elementalcraft.block.source.SourceRendererHelper;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
+public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceBreederBlockEntity, SourceBreederRenderState> {
 
-public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceBreederBlockEntity> {
-
+    private final BlockModelResolver blockModelResolver;
     private final BlockState pedestalState;
 
-    public SourceBreederRenderer() {
-        super(new Vec3(0.5, 1, 0.5));
+    public SourceBreederRenderer(BlockEntityRendererProvider.Context context) {
+        super(context, new Vec3(0.5, 1, 0.5));
         pedestalState = ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState();
+        blockModelResolver = context.blockModelResolver();
     }
 
     @Override
-    public void render(@Nonnull SourceBreederBlockEntity breeder, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-        renderPedestalShadow(breeder, poseStack, buffer);
-
-        var stack = breeder.getInventory().getItem(0);
-
-        poseStack.translate(0, 1, 0);
-        if (stack.is(ECTags.Items.FULL_RECEPTACLES)) {
-            ECRendererHelper.renderRunes(poseStack, buffer, breeder.getRuneHandler(), ECRendererHelper.getClientTicks(partialTicks), light, overlay);
-
-            var type = ReceptacleHelper.getElementType(stack);
-
-            if (type == ElementType.NONE) {
-                return;
-            }
-            poseStack.translate(0, 1, 0);
-            SourceRendererHelper.renderSource(poseStack, buffer, partialTicks, light, overlay, type, 1);
-            return;
-        }
-
-        super.render(breeder, partialTicks, poseStack, buffer, light, overlay);
+    public @NotNull SourceBreederRenderState createRenderState() {
+        return new SourceBreederRenderState();
     }
 
-    private void renderPedestalShadow(@Nonnull SourceBreederBlockEntity breeder, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer) {
+    @Override
+    public void extractRenderState(SourceBreederBlockEntity blockEntity, SourceBreederRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.ghostPedestals.clear();
         if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get())) {
-            var directions = breeder.getPedestalsDirections();
+            var directions = blockEntity.getPedestalsDirections();
 
             if (directions.size() < 2) {
                 for (var direction : Direction.Plane.HORIZONTAL) {
                     if (directions.contains(direction)) {
                         continue;
                     }
-                    poseStack.pushPose();
-                    poseStack.translate(direction.getStepX() * 2D, 0, direction.getStepZ() * 2D);
-                    ECRendererHelper.renderGhost(pedestalState, poseStack, buffer, breeder.getLevel(), breeder.getBlockPos().relative(direction, 2));
-                    poseStack.popPose();
+                    var ghostState = new GhostBlockRenderState();
+
+                    ghostState.update(blockModelResolver, blockEntity.getLevel(), pedestalState, blockEntity.getBlockPos().relative(direction, 2));
+                    renderState.ghostPedestals.put(direction, ghostState);
                 }
             }
         }
+
+        var stack = blockEntity.getInventory().getItem(0);
+
+        if (stack.is(ECTags.Items.FULL_RECEPTACLES)) {
+            renderState.source.update(1, ReceptacleHelper.getElementType(stack), partialTick);
+        }
+    }
+
+    @Override
+    protected ItemStack getItemStack(SourceBreederBlockEntity blockEntity) {
+        var stack = blockEntity.getInventory().getItem(0);
+
+        if (stack.is(ECTags.Items.FULL_RECEPTACLES)) {
+            return ItemStack.EMPTY;
+        }
+        return stack;
+    }
+
+    @Override
+    public void submit(SourceBreederRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
+        poseStack.pushPose();
+        renderState.ghostPedestals.forEach((direction, ghostState) -> {
+            poseStack.translate(direction.getStepX() * 2, direction.getStepY(), direction.getStepZ() * 2);
+            ghostState.submit(poseStack, nodeCollector, renderState.lightCoords);
+        });
+        renderState.source.submit(poseStack, nodeCollector, cameraRenderState, renderState.lightCoords);
+        poseStack.popPose();
     }
 }

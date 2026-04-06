@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -139,7 +138,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createInstrumentTicker(level, type, ECBlockEntityTypes.INSCRIBER);
 	}
 
@@ -173,7 +172,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	private InteractionResult makeProgress(Player player, InteractionHand hand, InscriberBlockEntity inscriber, ItemStack heldItem) {
 		if (inscriber.useChisel()) {
 			if (heldItem.isDamageableItem() && !player.getAbilities().instabuild) {
-				heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+				heldItem.hurtAndBreak(1, player, hand.asEquipmentSlot());
 			}
 			return InteractionResult.SUCCESS;
 		}

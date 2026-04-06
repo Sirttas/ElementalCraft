@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.synthesizer.culinary;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -88,7 +89,7 @@ public class CulinarySynthesizerBlock extends AbstractECContainerBlock {
 	@Nonnull
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @NotNull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
-		if (stack.isEmpty() || stack.getFoodProperties(null) != null) {
+		if (stack.isEmpty() || stack.get(DataComponents.FOOD) != null) {
 			return onSingleSlotActivated(stack, level, pos, player, hand);
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hit);

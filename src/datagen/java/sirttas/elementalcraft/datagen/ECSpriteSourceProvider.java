@@ -11,8 +11,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.source.SourceRendererHelper;
 import sirttas.elementalcraft.block.synthesizer.solar.SolarSynthesizerRenderer;
+import sirttas.elementalcraft.client.renderer.state.SourceRenderState;
 import sirttas.elementalcraft.gui.GuiHandler;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
 
@@ -36,8 +36,8 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
                 .addSource(single(SolarSynthesizerRenderer.BEAM))
                 .addSource(single(AirShieldSpellRenderer.BACKGROUND))
                 .addSource(single(AirShieldSpellRenderer.BLADE))
-                .addSource(single(SourceRendererHelper.OUTER))
-                .addSource(single(SourceRendererHelper.MIDDLE))
+                .addSource(single(SourceRenderState.OUTER))
+                .addSource(single(SourceRenderState.MIDDLE))
                 .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER));
         atlas(Identifier.withDefaultNamespace("armor_trims"))
                 .addSource(new PalettedPermutations(List.of(

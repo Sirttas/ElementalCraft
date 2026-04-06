@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public abstract class AbstractFortuneShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
 
-	protected AbstractFortuneShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
+	protected AbstractFortuneShrineUpgradeBlock(ResourceKey<@NotNull ShrineUpgrade> key, BlockBehaviour.Properties properties) {
 		super(key, properties);
 	}
 

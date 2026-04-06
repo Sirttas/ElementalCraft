@@ -296,8 +296,8 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	protected AABB lookupRange(String key) {
 		var box = getProperties().ranges().get(key).value().scaleBox(getMultiplier(BonusType.RANGE)).move(targetPos);
-		var top = this.hasLevel() ? Math.min(this.level.getMaxBuildHeight(), box.maxY) : box.maxY;
-		var bottom = this.hasLevel() ? Math.max(this.level.getMinBuildHeight(), box.minY) : box.minY;
+		var top = this.hasLevel() ? Math.min(this.level.getMaxY(), box.maxY) : box.maxY;
+		var bottom = this.hasLevel() ? Math.max(this.level.getMinY(), box.minY) : box.minY;
 
 		return new AABB(box.minX, bottom, box.minZ, box.maxX, top, box.maxZ);
 	}

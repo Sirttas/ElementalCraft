@@ -3,6 +3,7 @@ package sirttas.elementalcraft.block.synthesizer.cracking;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -22,12 +23,12 @@ public class AbstractCrackingSynthesizerBlockEntity<T extends AbstractCrackingRe
 
     private final RangeRenderTimer rangeRenderTimer = new RangeRenderTimer();
 
-    DeferredHolder<RecipeType<?>,RecipeType<T>> recipeType;
+    DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull T>> recipeType;
 
     public AbstractCrackingSynthesizerBlockEntity(
             Supplier<? extends BlockEntityType<?>> blockEntityType,
-            Holder<IConfigurableBlockEntityProperties> propertiesHolder,
-            DeferredHolder<RecipeType<?>,RecipeType<T>> recipeType,
+            Holder<@NotNull IConfigurableBlockEntityProperties> propertiesHolder,
+            DeferredHolder<@NotNull RecipeType<?>, @NotNull RecipeType<@NotNull T>> recipeType,
             BlockPos pos,
             BlockState state) {
         super(blockEntityType, propertiesHolder, pos, state);
@@ -36,22 +37,25 @@ public class AbstractCrackingSynthesizerBlockEntity<T extends AbstractCrackingRe
 
     @Override
     protected int synthesizeElement() {
-        return findRecipe()
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return 0;
+        }
+        return findRecipe(serverLevel)
                 .map(pair -> {
                     var recipe = pair.getSecond().value();
 
-                    level.setBlockAndUpdate(pair.getFirst(), recipe.result().defaultBlockState());
+                    serverLevel.setBlockAndUpdate(pair.getFirst(), recipe.result().defaultBlockState());
                     // TODO play animation?
                     return recipe.elementAmount();
                 }).orElse(0);
     }
 
-    private Optional<Pair<BlockPos, RecipeHolder<@NotNull T>>> findRecipe() {
-        var recipeManager = level.getRecipeManager();
+    private Optional<Pair<BlockPos, RecipeHolder<@NotNull T>>> findRecipe(ServerLevel level) {
+        var recipeManager = level.recipeAccess();
         var type = recipeType.get();
 
         return getBlocksInRange()
-                .<Pair<BlockPos, RecipeHolder<T>>>mapMulti((pos, downstream) -> {
+                .<Pair<BlockPos, RecipeHolder<@NotNull T>>>mapMulti((pos, downstream) -> {
                     var state = level.getBlockState(pos);
 
                     if (state.isAir()) {

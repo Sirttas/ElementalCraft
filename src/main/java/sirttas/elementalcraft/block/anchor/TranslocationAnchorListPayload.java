@@ -14,8 +14,8 @@ import java.util.List;
 
 public record TranslocationAnchorListPayload(List<BlockPos> list) implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<TranslocationAnchorListPayload> TYPE = PayloadHelper.createType("translocation_anchor_list");
-    public static final StreamCodec<FriendlyByteBuf, TranslocationAnchorListPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), TranslocationAnchorListPayload::new);
+    public static final CustomPacketPayload.Type<@NotNull TranslocationAnchorListPayload> TYPE = PayloadHelper.createType("translocation_anchor_list");
+    public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull TranslocationAnchorListPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), TranslocationAnchorListPayload::new);
 
     public TranslocationAnchorListPayload(FriendlyByteBuf buf) {
         this(buf.readList(b -> BlockPos.of(b.readLong())));
@@ -35,7 +35,7 @@ public record TranslocationAnchorListPayload(List<BlockPos> list) implements Cus
     }
 
     @Override
-    public @NotNull Type<TranslocationAnchorListPayload> type() {
+    public @NotNull Type<@NotNull TranslocationAnchorListPayload> type() {
         return TYPE;
     }
 

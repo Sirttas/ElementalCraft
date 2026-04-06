@@ -27,7 +27,7 @@ public class FireFurnaceRenderer<T extends AbstractFireFurnaceBlockEntity<?>> ex
 
     @Override
     public void submit(IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         renderState.runes.submit(renderState, poseStack, nodeCollector);
         if (!renderState.material.isEmpty() || !renderState.result.isEmpty()) {

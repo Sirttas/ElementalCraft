@@ -213,6 +213,7 @@ public class ECItems {
 						case AbstractShrineUpgradeBlock shrineUpgradeBlock -> new ShrineUpgradeBlockItem(shrineUpgradeBlock, new Item.Properties());
 						default -> new BlockItem(block, new Item.Properties());
 					});
+                    ElementalCraftApi.LOGGER.warn("ElementalCraft Block {} has been automatically registered as item.", registryName);
 				}
 			}
 		});

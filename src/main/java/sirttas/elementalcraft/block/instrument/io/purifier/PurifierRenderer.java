@@ -31,7 +31,7 @@ public class PurifierRenderer extends IOInstrumentRenderer<PurifierBlockEntity, 
 
     @Override
     public void submit(@NotNull IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         renderState.runes.submit(renderState, poseStack, submitNodeCollector);
         if (!renderState.material.isEmpty() || !renderState.material.isEmpty()) {

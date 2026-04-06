@@ -102,9 +102,10 @@ public abstract class AbstractElementHolderItem extends Item {
 	}
 
 	@Override
-	public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
+	public boolean releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
 		stack.remove(ECDataComponents.TARGET_POS);
-	}
+        return super.releaseUsing(stack, level, entityLiving, timeLeft);
+    }
 
 	protected abstract ElementType getElementType(IElementStorage target, BlockState blockstate);
 	

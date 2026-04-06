@@ -27,7 +27,7 @@ public class EnchantmentLiquefierRenderer extends IOInstrumentRenderer<@NotNull 
 
     @Override
     public void submit(IOInstrumentRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
-        float tick = ECRendererHelper.getClientTicks(renderState.partialTick);
+        float tick = ECRendererHelper.getClientTicks(renderState.partialTicks);
 
         poseStack.translate(0F, 0.25F, 0F);
         renderState.runes.submit(renderState, poseStack, nodeCollector);

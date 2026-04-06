@@ -9,9 +9,9 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidStackTemplate;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -40,9 +40,13 @@ public class MeltingShrineBlockEntity extends AbstractShrineBlockEntity {
 	}
 
 	public static boolean fill(AbstractShrineBlockEntity shrine, Direction fillingDirection, FluidStackTemplate fluid) {
-		var fluidHandler = shrine.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, shrine.getBlockPos().relative(fillingDirection, 2), fillingDirection.getOpposite());
+        try (Transaction rootTransaction = Transaction.openRoot()) {
+            var fluidHandler = shrine.getLevel().getCapability(Capabilities.Fluid.BLOCK, shrine.getBlockPos().relative(fillingDirection, 2), fillingDirection.getOpposite());
 
-		return fluidHandler != null && fluidHandler.fill(new FluidStack(fluid, (int) Math.round(shrine.getStrength() * fluid.amount())), IFluidHandler.FluidAction.EXECUTE) > 0;
+            var value = fluidHandler != null && fluidHandler.insert(FluidResource.of(fluid), (int) Math.round(shrine.getStrength() * fluid.amount()), rootTransaction) > 0;
+            rootTransaction.commit();
+            return value;
+        }
 	}
 
 	private Optional<MeltingRecipe> findRecipe() {
