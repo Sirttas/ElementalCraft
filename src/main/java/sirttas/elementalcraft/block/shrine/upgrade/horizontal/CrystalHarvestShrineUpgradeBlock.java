@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CrystalHarvestShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class CrystalHarvestShrineUpgradeBlock extends HorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_crystal_harvest";
 	public static final MapCodec<CrystalHarvestShrineUpgradeBlock> CODEC = simpleCodec(CrystalHarvestShrineUpgradeBlock::new);

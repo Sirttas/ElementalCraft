@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.shrine.upgrade.vertical;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
@@ -12,12 +11,14 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineGameTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
+import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 
 @ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class PlantingShrineUpgradeGameTests {
@@ -45,7 +46,7 @@ public class PlantingShrineUpgradeGameTests {
                 .fill(1, 1, 1, 9, 1, 9, Blocks.OAK_LOG)
                 .fill(1, 2, 1, 9, 4, 9, Blocks.OAK_LEAVES)
                 .set(5, 1, 5, ECBlocks.LUMBER_SHRINE.get().defaultBlockState())
-                .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractVerticalShrineUpgradeBlock.FACING, Direction.DOWN)));
+                .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, Direction.DOWN)));
 
         test.onGameTest(helper -> helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(5, 3, 5), Direction.DOWN);
@@ -70,7 +71,7 @@ public class PlantingShrineUpgradeGameTests {
 
     private static void verifyUpgradeIsPresent(GameTestHelper helper, BlockPos pos, Direction up) {
         if (helper.getBlockState(pos).isAir()) {
-            helper.setBlock(pos, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(AbstractVerticalShrineUpgradeBlock.FACING, up));
+            helper.setBlock(pos, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, up));
             ElementalCraftApi.LOGGER.info("Planting shrine upgrade was not placed, placing it now.");
         }
     }

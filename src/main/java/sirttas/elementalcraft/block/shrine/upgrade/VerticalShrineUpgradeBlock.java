@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.vertical;
+package sirttas.elementalcraft.block.shrine.upgrade;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -13,16 +13,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class AbstractVerticalShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
+public abstract class VerticalShrineUpgradeBlock extends ShrineUpgradeBlock {
 
 	public static final EnumProperty<@NotNull Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.Plane.VERTICAL);
 
-	protected AbstractVerticalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
+	protected VerticalShrineUpgradeBlock(ResourceKey<ShrineUpgrade> key, BlockBehaviour.Properties properties) {
 		super(key, properties);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.UP)

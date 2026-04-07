@@ -24,7 +24,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -59,7 +59,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(IronBarsBlock.class));
 		tag(ECTags.Blocks.PIPES).add(getBlocksForClass(ElementPipeBlock.class));
 		tag(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractShrineBlock.class));
-		tag(ECTags.Blocks.SHRINE_UPGRADES).add(getBlocksForClass(AbstractShrineUpgradeBlock.class));
+		tag(ECTags.Blocks.SHRINE_UPGRADES).add(getBlocksForClass(ShrineUpgradeBlock.class));
 		tag(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(PedestalBlock.class)).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 
 		tag(ECTags.Blocks.SOURCES).add(ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());

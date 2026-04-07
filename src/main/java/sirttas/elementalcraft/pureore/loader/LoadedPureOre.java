@@ -11,6 +11,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.tag.ECTags;
@@ -48,7 +50,7 @@ public class LoadedPureOre {
     private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(BuiltInRegistries.ITEM::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(Identifier::compareTo));
 
     private final Identifier id;
-    private final Set<Holder<Item>> ores;
+    private final Set<Holder<@NotNull Item>> ores;
     private final Map<RecipeType<?>, Recipe<?>> recipes;
 
     private ItemStack resultForColor;
@@ -92,7 +94,7 @@ public class LoadedPureOre {
         return id;
     }
 
-    public Set<Holder<Item>> getOres() {
+    public Set<Holder<@NotNull Item>> getOres() {
         return ores;
     }
 
@@ -101,11 +103,12 @@ public class LoadedPureOre {
     }
 
     @SuppressWarnings("unchecked")
-    public <C extends RecipeInput, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
+    @Nullable
+    public <C extends RecipeInput, T extends Recipe<@NotNull C>> T getRecipe(RecipeType<@NotNull T> recipeType) {
         return (T) recipes.get(recipeType);
     }
 
-    public <C extends RecipeInput, T extends Recipe<C>> void addRecipe(@Nonnull T recipe, ItemStack output) {
+    public <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipe(@Nonnull T recipe, ItemStack output) {
         recipes.computeIfAbsent(recipe.getType(), t -> {
             if (resultForColor.isEmpty()) {
                 this.resultForColor = output;
@@ -114,15 +117,15 @@ public class LoadedPureOre {
         });
     }
 
-    public void addTag(TagKey<Item> tag) {
+    public void addTag(TagKey<@NotNull Item> tag) {
         addTag(ECTags.Items.getTag(tag));
     }
 
-    public void addTag(HolderSet.Named<Item> tag) {
+    public void addTag(HolderSet.Named<@NotNull Item> tag) {
         tag.forEach(ores::add);
     }
 
-    public boolean contains(Holder<Item> item) {
+    public boolean contains(Holder<@NotNull Item> item) {
         return ores.stream().anyMatch(item::is);
     }
 

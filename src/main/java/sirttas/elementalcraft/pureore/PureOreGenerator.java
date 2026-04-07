@@ -5,9 +5,11 @@ import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,6 +25,7 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.ElementalCraftUtils;
@@ -61,8 +65,9 @@ public class PureOreGenerator {
         if (player != null) {
             // FIXME use configuration task instead
             PacketDistributor.sendToPlayer(player, new PureOreSyncPayload(PureOreManager.getInstance().getPureOres()));
+        } else {
+            new PureOreGenerator().reload(event.getPlayerList().getServer());
         }
-        new PureOreGenerator().reload(event.getPlayerList().getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -96,7 +101,7 @@ public class PureOreGenerator {
         PureOreManager.getInstance().replacePureOres(pureOres);
         PacketDistributor.sendToAllPlayers(new PureOreSyncPayload(pureOres));
 
-        if (Boolean.TRUE.equals(ECConfig.SERVER.pureOreRecipeInjection.get())) {
+        if (ECConfig.SERVER.pureOreRecipeInjection.get()) {
             ElementalCraftApi.LOGGER.info("Building pure ore recipes.");
 
             var loadedPureOreSets = pureOreSets.values().stream().distinct().toList();
@@ -109,11 +114,11 @@ public class PureOreGenerator {
                     .filter(ElementalCraftUtils.distinctBy(RecipeHolder::id))
                     .toList();
             var orePurificationRecipes = pureOreSets.entrySet().stream()
-                    .<RecipeHolder<OrePurificationRecipe>>mapMulti((entry, consumer) -> entry.getValue().getOrePurificationRecipes(entry.getKey()).forEach(consumer))
+                    .<RecipeHolder<@NotNull OrePurificationRecipe>>mapMulti((entry, consumer) -> entry.getValue().getOrePurificationRecipes(entry.getKey()).forEach(consumer))
                     .toList();
 
             ElementalCraftApi.LOGGER.info("Injecting pure ore recipes.");
-            recipeManager.replaceRecipes(Iterables.concat(recipes, processingRecipes, orePurificationRecipes));
+            replaceRecipes(recipeManager, Iterables.concat(recipes, processingRecipes, orePurificationRecipes), server.getWorldData().enabledFeatures());
             ElementalCraftApi.LOGGER.info("Pure ore recipe injection finished: {} processing recipes added and {} ore purification added.", processingRecipes::size, orePurificationRecipes::size);
         }
 
@@ -124,13 +129,18 @@ public class PureOreGenerator {
                         .collect(Collectors.joining(", ")));
     }
 
+    private void replaceRecipes(RecipeManager recipeManager, Iterable<RecipeHolder<?>> recipes, FeatureFlagSet enabledFlags) {
+        recipeManager.recipes = RecipeMap.create(recipes);
+        recipeManager.finalizeRecipeLoading(enabledFlags);
+    }
+
     private Collection<? extends IPureOreRecipeFactory<?, ? extends Recipe<?>>> createFactories(@Nonnull RecipeManager recipeManager) {
         return PureOreRecipeFactoryTypes.REGISTRY.stream()
                 .map(t -> t.create(recipeManager))
                 .toList();
     }
 
-    private <C extends RecipeInput, T extends Recipe<C>> void addRecipes(LoadedPureOre ore, IPureOreRecipeFactory<C, T> factory, RegistryAccess registry) {
+    private <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipes(LoadedPureOre ore, IPureOreRecipeFactory<C, T> factory, RegistryAccess registry) {
         factory.getRecipes(ore.getOres()).forEach(h -> {
             var recipe = h.value();
 
@@ -140,18 +150,19 @@ public class PureOreGenerator {
 
     private boolean isPureOreRecipe(RecipeHolder<?> holder) {
         var id = holder.id();
+        var identifier = id.identifier();
 
-        return id.getNamespace().equals(ElementalCraftApi.MODID) && (id.getPath().startsWith("pure_ore/") || id.getPath().startsWith("ore_purification/generated/"));
+        return identifier.getNamespace().equals(ElementalCraftApi.MODID) && (identifier.getPath().startsWith("pure_ore/") || identifier.getPath().startsWith("ore_purification/generated/"));
     }
 
-    private <C extends RecipeInput, T extends Recipe<C>> Stream<RecipeHolder<T>> buildRecipes(@Nonnull RegistryAccess registry, @Nonnull IPureOreRecipeFactory<C, T> factory, @Nonnull List<LoadedPureOreSet> entries) {
+    private <C extends RecipeInput, T extends Recipe<@NotNull C>> Stream<RecipeHolder<@NotNull T>> buildRecipes(@Nonnull RegistryAccess registry, @Nonnull IPureOreRecipeFactory<C, T> factory, @Nonnull List<LoadedPureOreSet> entries) {
         return entries.stream()
                 .distinct()
-                .<RecipeHolder<T>>mapMulti((set, downstream) -> set.ores.values().forEach(v -> downstream.accept(this.buildRecipe(registry, factory, v))))
+                .<RecipeHolder<@NotNull T>>mapMulti((set, downstream) -> set.ores.values().forEach(v -> downstream.accept(this.buildRecipe(registry, factory, v))))
                 .filter(Objects::nonNull);
     }
 
-    private <C extends RecipeInput, T extends Recipe<C>> RecipeHolder<T> buildRecipe(@Nonnull RegistryAccess registry, @Nonnull IPureOreRecipeFactory<C, T> factory, @Nonnull LoadedPureOre entry) {
+    private <C extends RecipeInput, T extends Recipe<@NotNull C>> RecipeHolder<@NotNull T> buildRecipe(@Nonnull RegistryAccess registry, @Nonnull IPureOreRecipeFactory<C, T> factory, @Nonnull LoadedPureOre entry) {
         var recipeType = factory.getRecipeType();
         var key = BuiltInRegistries.RECIPE_TYPE.getKey(factory.getRecipeType());
 
@@ -163,7 +174,7 @@ public class PureOreGenerator {
             var recipe = entry.getRecipe(recipeType);
             var id = entry.getId();
 
-            return recipe != null ? new RecipeHolder<>(buildRecipeId(key, id), factory.create(registry, recipe, DataComponentIngredient.of(true, PureOreManager.getInstance().createPureOre(id)))) : null;
+            return recipe != null ? new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, buildRecipeId(key, id)), factory.create(registry, recipe, DataComponentIngredient.of(true, PureOreManager.getInstance().createPureOre(id)))) : null;
         } catch (Exception e) {
             ElementalCraftApi.LOGGER.error("Error building pure ore recipe", e);
             return null;
@@ -176,7 +187,7 @@ public class PureOreGenerator {
 
     private static class LoadedPureOreSet {
 
-        private final Map<Holder<IPureOreLoader>, LoadedPureOre> ores;
+        private final Map<Holder<@NotNull IPureOreLoader>, LoadedPureOre> ores;
 
         public LoadedPureOreSet() {
             ores = new Reference2ObjectArrayMap<>(ElementalCraft.PURE_ORE_LOADERS_MANAGER.getData().size());
@@ -186,13 +197,13 @@ public class PureOreGenerator {
             return !ores.isEmpty() && ores.values().stream().anyMatch(LoadedPureOre::isProcessable);
         }
 
-        public List<RecipeHolder<OrePurificationRecipe>> getOrePurificationRecipes(Identifier pureOreId) {
+        public List<RecipeHolder<@NotNull OrePurificationRecipe>> getOrePurificationRecipes(Identifier pureOreId) {
             return ores.entrySet().stream()
-                    .map(entry -> new RecipeHolder<>(buildOrePurificationRecipeId(entry.getKey().getKey(), pureOreId), entry.getValue().getOrePurificationRecipe()))
+                    .map(entry -> new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, buildOrePurificationRecipeId(entry.getKey().getKey(), pureOreId)), entry.getValue().getOrePurificationRecipe()))
                     .toList();
         }
 
-        private static Identifier buildOrePurificationRecipeId(@Nullable ResourceKey<IPureOreLoader> loaderKey, @Nonnull Identifier sourceId) {
+        private static Identifier buildOrePurificationRecipeId(@Nullable ResourceKey<@NotNull IPureOreLoader> loaderKey, @Nonnull Identifier sourceId) {
             if (loaderKey == null) {
                 ElementalCraftApi.LOGGER.warn("Unknown loader for pure ore {}.", sourceId);
                 return ElementalCraftApi.createRL("ore_purification/generated/unknown_loader/" + sourceId.getNamespace() + "/" + sourceId.getPath());
@@ -204,7 +215,7 @@ public class PureOreGenerator {
         }
 
         public PureOre toPureOre() {
-            var items = new HashSet<Holder<Item>>(ores.size());
+            var items = new HashSet<Holder<@NotNull Item>>(ores.size());
             var inputs = new ArrayList<Ingredient>(ores.size());
             var resultsForColor = new ArrayList<ItemStack>(ores.size());
 

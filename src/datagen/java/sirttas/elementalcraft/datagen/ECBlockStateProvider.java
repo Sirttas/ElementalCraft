@@ -34,10 +34,10 @@ import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
 import sirttas.elementalcraft.block.shrine.overload.OverloadShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.FillingShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.SilkTouchShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.vertical.AbstractVerticalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.filling.FillingShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.silktouch.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.synthesizer.mill.AirMillSynthesizerBlock;
@@ -239,13 +239,13 @@ public class ECBlockStateProvider extends BlockStateProvider {
 			springalineCluster(key, block);
 		} else if (block.defaultBlockState().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			horizontalBlock(block, models().getExistingFile(prefix(name)));
-		} else if (block.defaultBlockState().hasProperty(AbstractVerticalShrineUpgradeBlock.FACING)) {
+		} else if (block.defaultBlockState().hasProperty(VerticalShrineUpgradeBlock.FACING)) {
 			var model = models().getExistingFile(prefix(name));
 
 			getVariantBuilder(block)
 					.forAllStates(state -> ConfiguredModel.builder()
 							.modelFile(model)
-							.rotationX(state.getValue(AbstractVerticalShrineUpgradeBlock.FACING) == Direction.DOWN ? 180 : 0)
+							.rotationX(state.getValue(VerticalShrineUpgradeBlock.FACING) == Direction.DOWN ? 180 : 0)
 							.build());
 		} else if (block.defaultBlockState().hasProperty(DirectionalBlock.FACING)) {
 			directionalBlock(block, models().getExistingFile(prefix(name)));

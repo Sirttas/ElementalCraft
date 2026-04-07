@@ -4,18 +4,18 @@ package sirttas.elementalcraft.block.shrine.upgrade.translocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeItem;
 import sirttas.elementalcraft.component.ECDataComponents;
 
 import javax.annotation.Nonnull;
 
-public class TranslocationShrineUpgradeBlockItem extends BlockItem {
+public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
 
-    public TranslocationShrineUpgradeBlockItem(Block block, Properties properties) {
+    public TranslocationShrineUpgradeItem(Block block, Properties properties) {
         super(block, properties);
     }
 

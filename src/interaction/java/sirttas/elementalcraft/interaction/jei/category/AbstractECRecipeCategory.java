@@ -11,6 +11,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +42,7 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, stack);
 	}
 
-	public static void render3D(@Nonnull GuiGraphics guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) {
+	public static void render3D(@Nonnull GuiGraphicsExtractor guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) {
 		var poseStack = guiGraphics.pose();
 		var modelViewStack = RenderSystem.getModelViewStack();
 

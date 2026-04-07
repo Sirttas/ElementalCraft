@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ProtectionShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class ProtectionShrineUpgradeBlock extends HorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_protection";
 	public static final MapCodec<ProtectionShrineUpgradeBlock> CODEC = simpleCodec(ProtectionShrineUpgradeBlock::new);

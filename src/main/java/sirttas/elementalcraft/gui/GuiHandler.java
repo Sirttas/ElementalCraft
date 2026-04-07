@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -26,6 +25,7 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix3x2fStack;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -36,7 +36,7 @@ import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWrapper;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.shrine.ShrineElementStorage;
-import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
+import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeItem;
 import sirttas.elementalcraft.client.LevelRenderHandler;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
@@ -162,7 +162,7 @@ public class GuiHandler {
 			return;
 		}
 
-		var anchor = TranslocationShrineUpgradeBlockItem.getTargetAnchor(player);
+		var anchor = TranslocationShrineUpgradeItem.getTargetAnchor(player);
 
 		if (anchor == null || !TranslocationAnchorsSaveData.CLIENT_SET.contains(anchor)) {
 			return;
@@ -196,20 +196,20 @@ public class GuiHandler {
 	}
 
 
-	private static void drawAnchor(PoseStack poseStack, int width, int height, float scale, MultiBufferSource.BufferSource buffer, Vector4f v) {
+	private static void drawAnchor(Matrix3x2fStack poseStack, int width, int height, float scale, MultiBufferSource.BufferSource buffer, Vector4f v) {
 		var w = width / 2F;
 		var h = height / 2F;
 
 		var x = Mth.clamp(w + v.x() * w, 16f, width - 16f);
 		var y = Mth.clamp(h - v.y() * h, 16f, height - 16f);
 
-		poseStack.pushPose();
-		poseStack.translate(x, y, 1F);
-		poseStack.scale(0.25F, 0.25F, 1F);
-		poseStack.scale(scale, scale, 1F);
-		poseStack.translate(-64, -64, 1F);
+		poseStack.pushMatrix();
+		poseStack.translate(x, y);
+		poseStack.scale(0.25F, 0.25F);
+		poseStack.scale(scale, scale);
+		poseStack.translate(-64, -64);
 		ECRendererHelper.renderIcon(poseStack, buffer, TRANSLOCATION_ANCHOR_MARKER, 128, 128);
-		poseStack.popPose();
+		poseStack.pushMatrix();
 	}
 
 	private static float getAnchorScale(float falloffSq, float distanceSq) {

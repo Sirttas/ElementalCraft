@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BudTypeShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class BudTypeShrineUpgradeBlock extends HorizontalShrineUpgradeBlock {
 
 	public static final String SPRINGALINE_NAME = "shrine_upgrade_springaline";
 	public static final String CERTUS_QUARTZ_NAME = "shrine_upgrade_certus_quartz";

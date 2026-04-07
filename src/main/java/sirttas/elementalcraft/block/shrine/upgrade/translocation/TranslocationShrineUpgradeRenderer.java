@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.DirectionalShrineUpgradeBlock;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
@@ -35,7 +35,7 @@ public class TranslocationShrineUpgradeRenderer implements BlockEntityRenderer<@
     public void extractRenderState(TranslocationShrineUpgradeBlockEntity blockEntity, TranslocationShrineUpgradeRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.partialTicks = partialTicks;
-        state.facing = blockEntity.getBlockState().getValue(AbstractDirectionalShrineUpgradeBlock.FACING);
+        state.facing = blockEntity.getBlockState().getValue(DirectionalShrineUpgradeBlock.FACING);
     }
 
     @Override

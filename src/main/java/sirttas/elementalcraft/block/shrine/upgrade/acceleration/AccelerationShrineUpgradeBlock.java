@@ -13,11 +13,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.DirectionalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 
-public class AccelerationShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock implements EntityBlock {
+public class AccelerationShrineUpgradeBlock extends DirectionalShrineUpgradeBlock implements EntityBlock {
 
 	public static final String NAME = "shrine_upgrade_acceleration";
 	public static final MapCodec<AccelerationShrineUpgradeBlock> CODEC = simpleCodec(AccelerationShrineUpgradeBlock::new);

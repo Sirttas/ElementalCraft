@@ -25,7 +25,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.crafting.AbstractECCraftingBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.capability.PipeUpgradeCapabilities;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.container.IContainerBlockEntity;
 import sirttas.elementalcraft.container.IElementStorageBlocKEntity;
 import sirttas.elementalcraft.container.IRuneableBlockEntity;
@@ -229,7 +229,7 @@ public class ECCapabilityHandler {
                 .toArray(Block[]::new));
     }
 
-    private static void registerShrineUpgradeCapabilities(RegisterCapabilitiesEvent event, AbstractShrineUpgradeBlock block) {
+    private static void registerShrineUpgradeCapabilities(RegisterCapabilitiesEvent event, ShrineUpgradeBlock block) {
         event.registerBlock(ElementalCraftCapabilities.ShrineUpgrades.BLOCK, (_, _, state, _, context) -> {
                     if (state.is(block) && block.getFacing(state) == context) {
                         return block.getUpgrade();

@@ -14,13 +14,13 @@ import javax.annotation.Nonnull;
 import java.util.function.Function;
 
 public record ElementParticleData(
-		ParticleType<ElementParticleData> type,
+		ParticleType<@NotNull ElementParticleData> type,
 		ElementType elementType
 ) implements ParticleOptions, IElementTypeProvider {
 
 	@Nonnull
     @Override
-	public ParticleType<ElementParticleData> getType() {
+	public ParticleType<@NotNull ElementParticleData> getType() {
 		return type;
 	}
 
@@ -29,13 +29,13 @@ public record ElementParticleData(
 		return elementType;
 	}
 
-	public static ParticleType<ElementParticleData> createParticleType(boolean overrideLimiter) {
+	public static ParticleType<@NotNull ElementParticleData> createParticleType(boolean overrideLimiter) {
 		return new ParticleType<>(overrideLimiter) {
 
 			private final MapCodec<ElementParticleData> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
 					ElementType.forGetter(ElementParticleData::getElementType)
 			).apply(instance, t -> new ElementParticleData(this, t)));
-			private final StreamCodec<RegistryFriendlyByteBuf, ElementParticleData> streamCodec = ElementType.STREAM_CODEC
+			private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleData> streamCodec = ElementType.STREAM_CODEC
 					.map(t -> new ElementParticleData(this, t), ElementParticleData::getElementType)
 					.mapStream(Function.identity());
 
@@ -47,7 +47,7 @@ public record ElementParticleData(
 
 			@Nonnull
 			@Override
-			public StreamCodec<RegistryFriendlyByteBuf, ElementParticleData> streamCodec() {
+			public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleData> streamCodec() {
 				return streamCodec;
 			}
 		};

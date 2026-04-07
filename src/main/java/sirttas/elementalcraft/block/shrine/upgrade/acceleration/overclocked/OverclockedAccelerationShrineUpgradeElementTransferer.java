@@ -10,7 +10,7 @@ import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -69,7 +69,7 @@ public class OverclockedAccelerationShrineUpgradeElementTransferer implements IE
 
     @Nonnull
     private Direction getFacing() {
-        return upgrade.getBlockState().getValue(AbstractHorizontalShrineUpgradeBlock.FACING);
+        return upgrade.getBlockState().getValue(HorizontalShrineUpgradeBlock.FACING);
     }
 
     public void setShrine(AbstractShrineBlockEntity shrine) {

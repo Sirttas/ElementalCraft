@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.BlockCapability;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.EmptyRuneHandler;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
@@ -31,7 +33,7 @@ public class BlockEntityHelper {
 	}
 
 	@Nullable
-	public static <T, C> T getCapability(BlockCapability<T, C> cap, @Nonnull BlockEntity blockEntity, C context) {
+	public static <T, C> T getCapability(BlockCapability<@NotNull T, C> cap, @Nonnull BlockEntity blockEntity, C context) {
 		if (!blockEntity.hasLevel()) {
 			return null;
 		}
@@ -62,7 +64,13 @@ public class BlockEntityHelper {
 			return;
 		}
 
-		level.playSound(null, pos, stack.getBreakingSound(), SoundSource.BLOCKS);
+        var sound = stack.get(DataComponents.BREAK_SOUND);
+
+        if (sound == null || !sound.isBound()) {
+            return;
+        }
+
+		level.playSound(null, pos, sound.value(), SoundSource.BLOCKS);
 		ParticleHelper.createItemBreakParticle(level, pos.getCenter(), level.getRandom(), stack, 5);
 	}
 }

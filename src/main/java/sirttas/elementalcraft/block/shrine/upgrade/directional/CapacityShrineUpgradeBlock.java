@@ -14,7 +14,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 
-public class CapacityShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
+public class CapacityShrineUpgradeBlock extends DirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_capacity";
 	public static final MapCodec<CapacityShrineUpgradeBlock> CODEC = simpleCodec(CapacityShrineUpgradeBlock::new);

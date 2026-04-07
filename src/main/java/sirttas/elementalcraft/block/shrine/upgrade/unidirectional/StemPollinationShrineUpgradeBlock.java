@@ -17,14 +17,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ECShapes;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class StemPollinationShrineUpgradeBlock extends AbstractShrineUpgradeBlock {
+public class StemPollinationShrineUpgradeBlock extends ShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_stem_pollination";
 	public static final MapCodec<StemPollinationShrineUpgradeBlock> CODEC = simpleCodec(StemPollinationShrineUpgradeBlock::new);

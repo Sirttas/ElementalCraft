@@ -49,7 +49,7 @@ public class FortuneShrineUpgradeBlock extends AbstractFortuneShrineUpgradeBlock
 	private static final VoxelShape SHAPE_EAST = Shapes.or(CORE_EAST, PILAR_EAST, BASE_1_EAST, BASE_2_EAST, PIPE_EAST);
 
 	public FortuneShrineUpgradeBlock(BlockBehaviour.Properties properties) {
-		super(ShrineUpgrades.FORTUNE,  properties);
+		super(ShrineUpgrades.FORTUNE, properties);
 	}
 
 	@Override

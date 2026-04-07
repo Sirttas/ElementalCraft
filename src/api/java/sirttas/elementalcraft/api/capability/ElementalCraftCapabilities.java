@@ -6,6 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
@@ -29,12 +30,12 @@ public class ElementalCraftCapabilities {
         private static final Identifier ID = ElementalCraftApi.createRL(ECNames.ELEMENT_STORAGE);
         private static final Identifier FOR_ELEMENT_ID = ElementalCraftApi.createRL("element_storage_for_element");
 
-        public static final BlockCapability<IElementStorage, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IElementStorage.class);
-        public static final BlockCapability<ISingleElementStorage, @Nullable BlockForElementContext> BLOCK_FOR_ELEMENT = BlockCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, BlockForElementContext.class);
-        public static final EntityCapability<IElementStorage, Void> ENTITY = EntityCapability.createVoid(ID, IElementStorage.class);
-        public static final EntityCapability<ISingleElementStorage, @Nullable ElementType> ENTITY_FOR_ELEMENT = EntityCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, ElementType.class);
+        public static final BlockCapability<@NotNull IElementStorage, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IElementStorage.class);
+        public static final BlockCapability<@NotNull ISingleElementStorage, @Nullable BlockForElementContext> BLOCK_FOR_ELEMENT = BlockCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, BlockForElementContext.class);
+        public static final EntityCapability<@NotNull IElementStorage, Void> ENTITY = EntityCapability.createVoid(ID, IElementStorage.class);
+        public static final EntityCapability<@NotNull ISingleElementStorage, @Nullable ElementType> ENTITY_FOR_ELEMENT = EntityCapability.create(FOR_ELEMENT_ID, ISingleElementStorage.class, ElementType.class);
 
-        public static final ItemCapability<IElementStorage, Void> ITEM = ItemCapability.createVoid(ID, IElementStorage.class);
+        public static final ItemCapability<@NotNull IElementStorage, Void> ITEM = ItemCapability.createVoid(ID, IElementStorage.class);
 
         public record BlockForElementContext(
                 ElementType elementType,
@@ -47,7 +48,7 @@ public class ElementalCraftCapabilities {
         private ElementTransferers() {
         }
 
-        public static final BlockCapability<IElementTransferer, @Nullable Direction> BLOCK = BlockCapability.createSided(ElementalCraftApi.createRL("element_transferer"), IElementTransferer.class);
+        public static final BlockCapability<@NotNull IElementTransferer, @Nullable Direction> BLOCK = BlockCapability.createSided(ElementalCraftApi.createRL("element_transferer"), IElementTransferer.class);
     }
 
     public static class SourceTraits {
@@ -56,9 +57,9 @@ public class ElementalCraftCapabilities {
 
         private static final Identifier ID = ElementalCraftApi.createRL("source_trait_holder");
 
-        public static final BlockCapability<ISourceTraitHolder, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, ISourceTraitHolder.class);
-        public static final EntityCapability<ISourceTraitHolder, Void> ENTITY = EntityCapability.createVoid(ID, ISourceTraitHolder.class);
-        public static final ItemCapability<ISourceTraitHolder, Void> ITEM = ItemCapability.createVoid(ID, ISourceTraitHolder.class);
+        public static final BlockCapability<@NotNull ISourceTraitHolder, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, ISourceTraitHolder.class);
+        public static final EntityCapability<@NotNull ISourceTraitHolder, Void> ENTITY = EntityCapability.createVoid(ID, ISourceTraitHolder.class);
+        public static final ItemCapability<@NotNull ISourceTraitHolder, Void> ITEM = ItemCapability.createVoid(ID, ISourceTraitHolder.class);
     }
 
     public static class RuneHandlers {
@@ -67,9 +68,9 @@ public class ElementalCraftCapabilities {
 
         private static final Identifier ID = ElementalCraftApi.createRL("rune_handler");
 
-        public static final BlockCapability<IRuneHandler, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IRuneHandler.class);
-        public static final EntityCapability<IRuneHandler, Void> ENTITY = EntityCapability.createVoid(ID, IRuneHandler.class);
-        public static final ItemCapability<IRuneHandler, Void> ITEM = ItemCapability.createVoid(ID, IRuneHandler.class);
+        public static final BlockCapability<@NotNull IRuneHandler, @Nullable Direction> BLOCK = BlockCapability.createSided(ID, IRuneHandler.class);
+        public static final EntityCapability<@NotNull IRuneHandler, Void> ENTITY = EntityCapability.createVoid(ID, IRuneHandler.class);
+        public static final ItemCapability<@NotNull IRuneHandler, Void> ITEM = ItemCapability.createVoid(ID, IRuneHandler.class);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -79,8 +80,8 @@ public class ElementalCraftCapabilities {
 
         private static final Identifier ID = ElementalCraftApi.createRL("shrine_upgrade");
 
-        public static final BlockCapability<Holder<ShrineUpgrade>, @Nullable Direction> BLOCK = (BlockCapability) BlockCapability.createSided(ID, Holder.class);
-        public static final ItemCapability<Holder<ShrineUpgrade>, Void> ITEM =  (ItemCapability) ItemCapability.createVoid(ID, Holder.class);
+        public static final BlockCapability<@NotNull Holder<@NotNull ShrineUpgrade>, @Nullable Direction> BLOCK = (BlockCapability) BlockCapability.createSided(ID, Holder.class);
+        public static final ItemCapability<@NotNull Holder<@NotNull ShrineUpgrade>, Void> ITEM =  (ItemCapability) ItemCapability.createVoid(ID, Holder.class);
 
     }
 }

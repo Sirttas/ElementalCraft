@@ -30,13 +30,13 @@ import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class OverclockedAccelerationShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock implements EntityBlock {
+public class OverclockedAccelerationShrineUpgradeBlock extends HorizontalShrineUpgradeBlock implements EntityBlock {
 
     public static final String NAME = "shrine_upgrade_overclocked_acceleration";
     public static final MapCodec<OverclockedAccelerationShrineUpgradeBlock> CODEC = simpleCodec(OverclockedAccelerationShrineUpgradeBlock::new);

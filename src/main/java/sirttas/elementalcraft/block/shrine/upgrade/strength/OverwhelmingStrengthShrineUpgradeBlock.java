@@ -12,12 +12,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.AbstractHorizontalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class OverwhelmingStrengthShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class OverwhelmingStrengthShrineUpgradeBlock extends HorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_overwhelming_strength";
 	public static final MapCodec<OverwhelmingStrengthShrineUpgradeBlock> CODEC = simpleCodec(OverwhelmingStrengthShrineUpgradeBlock::new);

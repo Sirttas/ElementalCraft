@@ -17,14 +17,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class VortexShrineUpgradeBlock extends AbstractShrineUpgradeBlock implements EntityBlock {
+public class VortexShrineUpgradeBlock extends ShrineUpgradeBlock implements EntityBlock {
 
 	public static final String NAME = "shrine_upgrade_vortex";
 	public static final MapCodec<VortexShrineUpgradeBlock> CODEC = simpleCodec(VortexShrineUpgradeBlock::new);

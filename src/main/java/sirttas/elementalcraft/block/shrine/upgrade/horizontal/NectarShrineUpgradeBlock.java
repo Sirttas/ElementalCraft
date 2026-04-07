@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class NectarShrineUpgradeBlock extends AbstractHorizontalShrineUpgradeBlock {
+public class NectarShrineUpgradeBlock extends HorizontalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_nectar";
 	public static final MapCodec<NectarShrineUpgradeBlock> CODEC = simpleCodec(NectarShrineUpgradeBlock::new);

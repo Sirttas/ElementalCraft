@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorListPayload;
-import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlockItem;
+import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeItem;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
 
 @Mixin(Player.class)
@@ -30,6 +30,6 @@ public abstract class MixinPlayer extends LivingEntity {
     }
 
     private static boolean shouldSendAnchors(ServerPlayer serverPlayer) {
-        return TranslocationSpell.holdsTranslocation(serverPlayer) || TranslocationShrineUpgradeBlockItem.getTargetAnchor(serverPlayer) != null;
+        return TranslocationSpell.holdsTranslocation(serverPlayer) || TranslocationShrineUpgradeItem.getTargetAnchor(serverPlayer) != null;
     }
 }

@@ -15,7 +15,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.AbstractShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.BookBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.CategoryBuilder;
@@ -748,7 +748,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
-    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<Block, ? extends AbstractShrineUpgradeBlock> shrineUpgrade) {
+    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<Block, ? extends ShrineUpgradeBlock> shrineUpgrade) {
         var name = shrineUpgrade.getId().getPath();
 
         return category.entry(shrineUpgrade.get())

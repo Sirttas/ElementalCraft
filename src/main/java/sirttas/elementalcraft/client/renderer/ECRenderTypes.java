@@ -20,7 +20,7 @@ public class ECRenderTypes {
 	private static final String GHOST_NAME = "elementalcraft:ghost";
 	private static final String SOURCE_NAME = "elementalcraft:source";
 
-    public static final RenderType GHOST = RenderType.create(GHOST_NAME, RenderSetup.builder(ECRenderPipelines.GHOST_PIPELINE)
+    public static final RenderType GHOST = RenderType.create(GHOST_NAME, RenderSetup.builder(ECRenderPipelines.GHOST)
             .useLightmap()
             .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS, () -> RenderSystem.getSamplerCache()
                     .getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.NEAREST, true))
@@ -29,7 +29,7 @@ public class ECRenderTypes {
             .createRenderSetup());
 
 
-	private static final Function<Identifier, RenderType> SOURCE = Util.memoize(location -> RenderType.create(SOURCE_NAME, RenderSetup.builder(ECRenderPipelines.SOURCE_PIPELINE)
+	private static final Function<Identifier, RenderType> SOURCE = Util.memoize(location -> RenderType.create(SOURCE_NAME, RenderSetup.builder(ECRenderPipelines.SOURCE)
             .withTexture("Sampler0", location)
             .sortOnUpload()
             .createRenderSetup()));

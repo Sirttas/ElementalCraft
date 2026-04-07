@@ -1,13 +1,9 @@
-package sirttas.elementalcraft.block.shrine.upgrade.vertical;
+package sirttas.elementalcraft.block.shrine.upgrade.planting;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,12 +15,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
-public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlock {
+public class PlantingShrineUpgradeBlock extends VerticalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_planting";
 	public static final MapCodec<PlantingShrineUpgradeBlock> CODEC = simpleCodec(PlantingShrineUpgradeBlock::new);
@@ -60,12 +55,6 @@ public class PlantingShrineUpgradeBlock extends AbstractVerticalShrineUpgradeBlo
     @Override
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return state.getValue(FACING) == Direction.UP ? SHAPE_UP : SHAPE_DOWN;
-	}
-
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.planting").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, tooltipContext, tooltip, flag);
 	}
 
 	public static boolean plant(@Nonnull ItemStack seeds, @Nonnull Level level, @Nonnull BlockPos pos) {

@@ -34,7 +34,7 @@ public class EnchantmentHandler {
 				n++;
 			}
 			SpellHelper.addSpell(result, SpellHelper.getSpell(right));
-			event.setCost(n);
+			event.setXpCost(n);
 			event.setOutput(result);
 		} else if (left.is(ECTags.Items.JEWEL_SOCKETABLES) && right.getItem() instanceof JewelItem jewelItem && JewelHelper.getJewel(left) == null) {
 			var result = left.copy();
@@ -44,7 +44,7 @@ public class EnchantmentHandler {
 				n++;
 			}
 			JewelHelper.setJewel(result, jewelItem.getJewel());
-			event.setCost(n);
+			event.setXpCost(n);
 			event.setOutput(result);
 		}
 	}

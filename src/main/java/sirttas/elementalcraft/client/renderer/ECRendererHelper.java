@@ -4,23 +4,21 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.FluidRenderer;
+import net.minecraft.client.renderer.block.FluidStateModelSet;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -28,8 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -39,8 +36,6 @@ import sirttas.elementalcraft.event.TickHandler;
 import java.util.List;
 
 public class ECRendererHelper {
-
-    public static final float SPACING = 0.001F;
 
     private ECRendererHelper() {}
 
@@ -153,12 +148,12 @@ public class ECRendererHelper {
 
     public static void renderBatched(BlockState state, PoseStack poseStack, VertexConsumer consumer, Level level, BlockPos pos) {
         poseStack.pushPose();
-        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, RandomSource.create(), getModelData(level, pos), null);
+        Minecraft.getInstance().getBlockRenderer().renderBatched(state, pos, level, poseStack, consumer, false, RandomSource.create(), null, null);
         poseStack.popPose();
     }
 
     public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos) {
-        renderBatched(state, poseStack, buffer, level, pos, getModelData(level, pos));
+        renderBatched(state, poseStack, buffer, level, pos, null);
     }
 
     public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos, ModelData data) {
@@ -179,140 +174,61 @@ public class ECRendererHelper {
     }
 
     public static void renderFluid(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {
-        var fluidState = state.getFluidState();
-        var props = IClientFluidTypeExtensions.of(fluidState);
-        var overlayTexture = props.getOverlayTexture();
-        var sprites =  new TextureAtlasSprite[] {
-                Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(props.getStillTexture()),
-                Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(props.getFlowingTexture()),
-                overlayTexture == null ? null : Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(overlayTexture),
-        };
-        var consumer = buffer.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidState));
-        int tintColor = props.getTintColor();
-        float alpha = (tintColor >> 24 & 255) / 255.0F;
-        float r = (tintColor >> 16 & 255) / 255.0F;
-        float g = (tintColor >> 8 & 255) / 255.0F;
-        float b = (tintColor & 255) / 255.0F;
+        FluidStateModelSet fluidModelSet = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
+        FluidRenderer fluidRenderer = new FluidRenderer(fluidModelSet);
+        FluidState fluidState = state.getFluidState();
 
-        float f18;
-        float f19;
-        float f20;
-        float f21;
-        float f22;
-        float f23;
-        float f24;
-        float f25;
-
-        TextureAtlasSprite sprite1 = sprites[0];
-        f18 = sprite1.getU(0.0F);
-        f22 = sprite1.getV(0.0F);
-        f19 = f18;
-        f23 = sprite1.getV(16.0F);
-        f20 = sprite1.getU(16.0F);
-        f24 = f23;
-        f21 = f20;
-        f25 = f22;
-
-
-        float f49 = (f18 + f19 + f20 + f21) / 4.0F;
-        float f50 = (f22 + f23 + f24 + f25) / 4.0F;
-        float f51 = sprite1.uvShrinkRatio();
-        f18 = Mth.lerp(f51, f18, f49);
-        f19 = Mth.lerp(f51, f19, f49);
-        f20 = Mth.lerp(f51, f20, f49);
-        f21 = Mth.lerp(f51, f21, f49);
-        f22 = Mth.lerp(f51, f22, f50);
-        f23 = Mth.lerp(f51, f23, f50);
-        f24 = Mth.lerp(f51, f24, f50);
-        f25 = Mth.lerp(f51, f25, f50);
-
-        fluidVertex(poseStack, consumer, 0.0F, 1.0F - SPACING, 0.0F, r, g, b, alpha, f18, f22);
-        fluidVertex(poseStack, consumer, 0.0F, 1.0F - SPACING, 1.0F, r, g, b, alpha, f19, f23);
-        fluidVertex(poseStack, consumer, 1.0F, 1.0F - SPACING, 1.0F, r, g, b, alpha, f20, f24);
-        fluidVertex(poseStack, consumer, 1.0F, 1.0F - SPACING, 0.0F, r, g, b, alpha, f21, f25);
-
-        float f40 = sprite1.getU0();
-        float f41 = sprite1.getU1();
-        float f42 = sprite1.getV0();
-        float f43 = sprite1.getV1();
-
-        fluidVertex(poseStack, consumer, 0, SPACING, 1.0F, r, g, b, alpha, f40, f43);
-        fluidVertex(poseStack, consumer, 0, SPACING, 0, r, g, b, alpha, f40, f42);
-        fluidVertex(poseStack, consumer,  1.0F, SPACING, 0, r, g, b, alpha, f41, f42);
-        fluidVertex(poseStack, consumer, 1.0F, SPACING, 1.0F, r, g, b, alpha, f41, f43);
-
-
-        for(Direction direction : Direction.Plane.HORIZONTAL) {
-            float f44;
-            float f45;
-            float d3;
-            float d4;
-            float d5;
-            float d6;
-            switch (direction) {
-                case NORTH -> {
-                    f44 = 1.0F - SPACING;
-                    f45 = 1.0F - SPACING;
-                    d3 = 0;
-                    d5 = 1.0F;
-                    d4 = SPACING;
-                    d6 = SPACING;
+        if (!fluidState.isEmpty()) {
+            var customRenderer = fluidModelSet.get(fluidState).customRenderer();
+            var pose = poseStack.last();
+            var consumer = buffer.getBuffer(RenderTypes.solidMovingBlock());
+            var wrapper = new VertexConsumer() {
+                @Override
+                public @NotNull VertexConsumer addVertex(float x, float y, float z) {
+                    return consumer.addVertex(pose, x, y, z);
                 }
-                case SOUTH -> {
-                    f44 = 1.0F - SPACING;
-                    f45 = 1.0F - SPACING;
-                    d3 = 1.0F;
-                    d5 = 0;
-                    d4 = 1.0F - SPACING;
-                    d6 = 1.0F - SPACING;
-                }
-                case WEST -> {
-                    f44 = 1.0F - SPACING;
-                    f45 = 1.0F - SPACING;
-                    d3 = SPACING;
-                    d5 = SPACING;
-                    d4 = 1.0F;
-                    d6 = 0;
-                }
-                default -> {
-                    f44 = 1.0F - SPACING;
-                    f45 = 1.0F - SPACING;
-                    d3 = 1.0F - SPACING;
-                    d5 = 1.0F - SPACING;
-                    d4 = 0;
-                    d6 = 1.0F;
-                }
-            }
 
-            var sprite2 =  sprites[2] != null ?  sprites[2] :sprites[1];
+                @Override
+                public @NotNull VertexConsumer setColor(int r, int g, int b, int a) {
+                    return consumer.setColor(r, g, b, a);
+                }
 
-            float f54 = sprite2.getU(0.0F);
-            float f55 = sprite2.getU(8.0F);
-            float f33 = sprite2.getV(((1.0F - f44) * 16.0F * 0.5F));
-            float f34 = sprite2.getV(((1.0F - f45) * 16.0F * 0.5F));
-            float f35 = sprite2.getV(8.0F);
+                @Override
+                public @NotNull VertexConsumer setColor(int color) {
+                    return consumer.setColor(color);
+                }
 
-            fluidVertex(poseStack, consumer, d3, f44, d4, r, g, b, alpha, f54, f33);
-            fluidVertex(poseStack, consumer, d5, f45, d6, r, g, b, alpha, f55, f34);
-            fluidVertex(poseStack, consumer, d5, SPACING, d6, r, g, b, alpha, f55, f35);
-            fluidVertex(poseStack, consumer, d3, SPACING, d4, r, g, b, alpha, f54, f35);
-            if (sprite2 != ModelBakery.WATER_OVERLAY.sprite()) {
-                fluidVertex(poseStack, consumer, d3, SPACING, d4, r, g, b, alpha, f54, f35);
-                fluidVertex(poseStack, consumer, d5, SPACING, d6, r, g, b, alpha, f55, f35);
-                fluidVertex(poseStack, consumer, d5, f45, d6, r, g, b, alpha, f55, f34);
-                fluidVertex(poseStack, consumer, d3, f44, d4, r, g, b, alpha, f54, f33);
+                @Override
+                public @NotNull VertexConsumer setUv(float u, float v) {
+                    return consumer.setUv(u, v);
+                }
+
+                @Override
+                public @NotNull VertexConsumer setUv1(int u, int v) {
+                    return consumer.setUv1(u, v);
+                }
+
+                @Override
+                public @NotNull VertexConsumer setUv2(int u, int v) {
+                    return consumer.setUv2(u, v);
+                }
+
+                @Override
+                public @NotNull VertexConsumer setNormal(float x, float y, float z) {
+                    return consumer.setNormal(x, y, z);
+                }
+
+                @Override
+                public @NotNull VertexConsumer setLineWidth(float width) {
+                    return consumer.setLineWidth(width);
+                }
+            };
+
+            if (customRenderer == null || !customRenderer.renderFluid(fluidRenderer, fluidState, BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state)) {
+                fluidRenderer.tesselate(BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state, fluidState);
             }
         }
-    }
 
-    private static void fluidVertex(PoseStack poseStack, VertexConsumer consumer, float x, float y, float z, float r, float g, float b, float alpha, float u, float v) {
-        var last = poseStack.last();
-
-        consumer.addVertex(last.pose(), x, y, z)
-                .setColor(r, g, b, alpha)
-                .setUv(u, v)
-                .setLight(15728880)
-                .setNormal(last, 0.0F, 1.0F, 0.0F);
     }
 
     public static void renderRunes(PoseStack poseStack, MultiBufferSource buffer, IRuneHandler handler, float tick, int light, int overlay) {
@@ -337,23 +253,8 @@ public class ECRendererHelper {
         return TickHandler.getTicksInGame() + partialTicks;
     }
 
-    public static ModelData getModelData(Level level, BlockPos pos) {
-        var modelDataManager = level.getModelDataManager();
-
-        if (modelDataManager == null) {
-            return ModelData.EMPTY;
-        }
-
-        var data = modelDataManager.getAt(pos);
-
-        if (data == null) {
-            return ModelData.EMPTY;
-        }
-        return data;
-    }
-
     public static void renderModel(BakedModel model, PoseStack matrixStack, MultiBufferSource buffer, BlockEntity te, int light, int overlay) {
-        renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, getModelData(model, te));
+        renderModel(model, matrixStack, buffer, te.getBlockState(), light, overlay, null);
     }
 
     public static void submitModel(@NotNull List<BlockStateModelPart> models, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
@@ -362,15 +263,5 @@ public class ECRendererHelper {
 
     public static void submitModel(@NotNull BlockStateModelPart model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
        submitModel(List.of(model), poseStack, nodeCollector, lightCoords);
-    }
-
-    public static ModelData getModelData(BakedModel model, BlockEntity te) {
-        Level level = te.getLevel();
-        BlockPos pos = te.getBlockPos();
-
-        if (level == null) {
-            return ModelData.EMPTY;
-        }
-        return model.getModelData(level, pos, te.getBlockState(), getModelData(level, pos));
     }
 }

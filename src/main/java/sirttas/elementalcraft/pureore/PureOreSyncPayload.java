@@ -16,8 +16,8 @@ import java.util.Map;
 
 public record PureOreSyncPayload(Map<Identifier, PureOre> pureOres) implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<PureOreSyncPayload> TYPE = PayloadHelper.createType("pure_ore_sync");
-    public static final StreamCodec<RegistryFriendlyByteBuf, PureOreSyncPayload> STREAM_CODEC = StreamCodec.composite(
+    public static final CustomPacketPayload.Type<@NotNull PureOreSyncPayload> TYPE = PayloadHelper.createType("pure_ore_sync");
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull PureOreSyncPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.map(
                     Maps::newHashMapWithExpectedSize,
                     StreamCodec.of(RegistryFriendlyByteBuf::writeIdentifier, RegistryFriendlyByteBuf::readIdentifier),
@@ -27,7 +27,7 @@ public record PureOreSyncPayload(Map<Identifier, PureOre> pureOres) implements C
             PureOreSyncPayload::new);
 
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends @NotNull CustomPacketPayload> type() {
         return TYPE;
     }
 

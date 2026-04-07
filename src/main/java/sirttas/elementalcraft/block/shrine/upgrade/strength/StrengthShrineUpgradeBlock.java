@@ -11,11 +11,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.DirectionalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 
-public class StrengthShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock {
+public class StrengthShrineUpgradeBlock extends DirectionalShrineUpgradeBlock {
 
 	public static final String NAME = "shrine_upgrade_strength";
 	public static final MapCodec<StrengthShrineUpgradeBlock> CODEC = simpleCodec(StrengthShrineUpgradeBlock::new);

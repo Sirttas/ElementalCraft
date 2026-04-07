@@ -8,7 +8,6 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +33,7 @@ public record SpellProperties(
 		float strength,
 		int color,
 		boolean hidden,
-		Multimap<Holder<Attribute>, AttributeModifier> attributes
+		Multimap<Holder<@NotNull Attribute>, AttributeModifier> attributes
 ) implements IElementTypeProvider {
 	public static final SpellProperties NONE = new SpellProperties();
 	public static final Codec<SpellProperties> CODEC = RecordCodecBuilder.create(builder -> builder.group(
@@ -55,7 +54,7 @@ public record SpellProperties(
 		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, null);
 	}
 
-	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, Multimap<Holder<Attribute>, AttributeModifier> attributes) {
+	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, Multimap<Holder<@NotNull Attribute>, AttributeModifier> attributes) {
 		this.spellType = spellType;
 		this.elementType = elementType;
 		this.weight = weight;
@@ -69,7 +68,7 @@ public record SpellProperties(
 		this.attributes = attributes != null && !attributes.isEmpty() ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Collections.emptyMap());
 	}
 
-    public static ResourceKey<SpellProperties> getKey(ResourceKey<Spell> key) {
+    public static ResourceKey<@NotNull SpellProperties> getKey(ResourceKey<@NotNull Spell> key) {
 		return IDataManager.createKey(ElementalCraft.SPELL_PROPERTIES_MANAGER_KEY, key.identifier());
     }
 
@@ -78,7 +77,7 @@ public record SpellProperties(
 		return elementType;
 	}
 
-	public Multimap<Holder<Attribute>, AttributeModifier> getAttributes() {
+	public Multimap<Holder<@NotNull Attribute>, AttributeModifier> getAttributes() {
 		return attributes;
 	}
 
@@ -97,7 +96,7 @@ public record SpellProperties(
 		private boolean hidden;
 		private ElementType elementType;
 		private final Spell.Type type;
-		private final Multimap<Holder<Attribute>, AttributeModifier> attributes;
+		private final Multimap<Holder<@NotNull Attribute>, AttributeModifier> attributes;
 
 		private Builder(Spell.Type type) {
 			this.type = type;
@@ -160,17 +159,13 @@ public record SpellProperties(
 			return this;
 		}
 
-		public Builder addAttribute(Holder<Attribute> attribute, AttributeModifier modifier) {
+		public Builder addAttribute(Holder<@NotNull Attribute> attribute, AttributeModifier modifier) {
 			this.attributes.put(attribute, modifier);
 			return this;
 		}
 		
 		public Builder color(int r, int g, int b) {
-			return color(r / 255F, g / 255F, b / 255F);
-		}
-
-		public Builder color(float r, float g, float b) {
-			return color(Mth.color(r, g, b));
+			return color(r, g, b);
 		}
 	}
 }

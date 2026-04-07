@@ -19,9 +19,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class ShrineUpgradeBlockItem extends BlockItem {
+public class ShrineUpgradeItem extends BlockItem {
 
-    public ShrineUpgradeBlockItem(Block block, Properties properties) {
+    public ShrineUpgradeItem(Block block, Properties properties) {
         super(block, properties);
     }
 
@@ -53,8 +53,8 @@ public class ShrineUpgradeBlockItem extends BlockItem {
         }
     }
 
-    private AbstractShrineUpgradeBlock getShrineUpgradeBlock() {
-        return (AbstractShrineUpgradeBlock) getBlock();
+    private ShrineUpgradeBlock getShrineUpgradeBlock() {
+        return (ShrineUpgradeBlock) getBlock();
     }
 
     public Holder<@NotNull ShrineUpgrade> getUpgrade() {

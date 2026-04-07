@@ -15,13 +15,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.directional.AbstractDirectionalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.directional.DirectionalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class TranslocationShrineUpgradeBlock extends AbstractDirectionalShrineUpgradeBlock implements EntityBlock {
+public class TranslocationShrineUpgradeBlock extends DirectionalShrineUpgradeBlock implements EntityBlock {
 
     public static final String NAME = "shrine_upgrade_translocation";
     public static final MapCodec<TranslocationShrineUpgradeBlock> CODEC = simpleCodec(TranslocationShrineUpgradeBlock::new);

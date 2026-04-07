@@ -16,7 +16,7 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.vertical.PlantingShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.planting.PlantingShrineUpgradeBlock;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
