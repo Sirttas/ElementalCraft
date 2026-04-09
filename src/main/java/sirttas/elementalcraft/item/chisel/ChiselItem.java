@@ -1,9 +1,8 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -13,14 +12,14 @@ import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.entity.EntityHelper;
+import sirttas.elementalcraft.item.DamageableCraftingItem;
 import sirttas.elementalcraft.item.ECItemAbilities;
-import sirttas.elementalcraft.item.ECItemStackHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 
 import javax.annotation.Nonnull;
 
-public class ChiselItem extends Item implements IPipeInteractingItem {
+public class ChiselItem extends Item implements IPipeInteractingItem, DamageableCraftingItem {
 	
 	public static final String NAME_DRENCHED_IRON = "drenched_iron_chisel";
 	public static final String NAME_SWIFT_ALLOY = "swift_alloy_chisel";
@@ -33,7 +32,7 @@ public class ChiselItem extends Item implements IPipeInteractingItem {
 	@Nonnull
     @Override
 	public InteractionResult useOn(@NotNull UseOnContext context) {
-		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos(), context.getClickedFace()), context).result();
+		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos(), context.getClickedFace()), context);
 	}
 
 	@Nonnull
@@ -57,7 +56,7 @@ public class ChiselItem extends Item implements IPipeInteractingItem {
 			if (!level.isClientSide()) {
 				for (var rune : runes) {
 					if (!stack.isEmpty()) {
-						stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+						stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
 						EntityHelper.dropAtFeet(level, player, ECItems.RUNE.get().getRuneStack(rune));
 						handler.removeRune(rune);
 					}
@@ -69,17 +68,7 @@ public class ChiselItem extends Item implements IPipeInteractingItem {
 	}
 
     @Override
-    public boolean canPerformAction(@NotNull ItemStack stack, @NotNull ItemAbility itemAbility) {
+    public boolean canPerformAction(@NotNull ItemInstance stack, @NotNull ItemAbility itemAbility) {
         return itemAbility == ECItemAbilities.CHISEL_INSCRIBE_RUNE;
     }
-
-    @Override
-	public boolean hasCraftingRemainingItem(@NotNull ItemStack stack) {
-		return ECItemStackHelper.canBeDamaged(stack);
-	}
-
-	@Override
-	public @NotNull ItemStack getCraftingRemainingItem(@NotNull ItemStack stack) {
-		return ECItemStackHelper.damageItem(stack);
-	}
 }

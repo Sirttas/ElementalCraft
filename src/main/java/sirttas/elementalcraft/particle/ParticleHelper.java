@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -36,7 +37,7 @@ public class ParticleHelper {
 	}
 
 	public static void createElementFlowParticle(ElementType type, Level level, Vec3 end, Direction direction, float scale, RandomSource rand) {
-		createElementFlowParticle(type, level, end, Vec3.atLowerCornerOf(direction.getOpposite().getNormal()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
+		createElementFlowParticle(type, level, end, Vec3.atLowerCornerOf(direction.getOpposite().getUnitVec3i()).scale(scale <= 0 ? 1F : scale), new Vec3(3,3,3), rand);
 	}
 
 	public static void createElementFlowParticle(ElementType type, Level level, Vec3 start, Vec3 end, RandomSource rand) {
@@ -68,14 +69,19 @@ public class ParticleHelper {
 	}
 
 	public static void createItemBreakParticle(Level level, Vec3 pos, RandomSource rand, ItemStack stack, int count) {
+        if (stack.isEmpty()) {
+            return;
+        }
+
 		for (int i = 0; i < count; ++i) {
 			Vec3 speed = new Vec3(0, rand.nextDouble() * 0.1 + 0.1, 0);
 			Vec3 loc = pos.add(0, (rand.nextDouble() * 0.2 - 0.2), 0);
 
+
 			if (level instanceof ServerLevel serverLevel) {
-				serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
+				serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate.fromNonEmptyStack(stack)), loc.x, loc.y, loc.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
 			} else {
-				level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), loc.x, loc.y, loc.z, speed.x, speed.y + 0.05D, speed.z);
+				level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate.fromNonEmptyStack(stack)), loc.x, loc.y, loc.z, speed.x, speed.y + 0.05D, speed.z);
 			}
 		}
 	}

@@ -52,7 +52,7 @@ public class SourceAnalysisGlassItem extends Item {
 	public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
 		var hasBeenUsed = false;
 
-		for (var stack : player.getInventory().items) {
+		for (var stack : player.getInventory()) {
 			if (stack.is(ECTags.Items.FULL_RECEPTACLES) && Boolean.FALSE.equals(stack.get(ECDataComponents.SOURCE_ANALYZED))) {
 				stack.set(ECDataComponents.SOURCE_ANALYZED, true);
 				hasBeenUsed = true;

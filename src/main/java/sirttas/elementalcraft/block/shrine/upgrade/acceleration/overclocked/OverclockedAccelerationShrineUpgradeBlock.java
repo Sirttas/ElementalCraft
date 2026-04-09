@@ -29,8 +29,8 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.IPipeConnectedBlock;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.HorizontalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

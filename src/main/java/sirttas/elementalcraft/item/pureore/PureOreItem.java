@@ -5,12 +5,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.pureore.PureOre;
 import sirttas.elementalcraft.pureore.display.PureOreDisplayManager;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class PureOreItem extends Item {
 
@@ -31,15 +32,16 @@ public class PureOreItem extends Item {
 		return super.getName(stack);
 	}
 
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		if (flag.isAdvanced()) {
-			tooltip.add(Component.translatable("tooltip.elementalcraft.pure_ore.id", PureOre.getId(stack).toString()).withStyle(ChatFormatting.GRAY));
+    @Override
+    @Deprecated
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		if (tooltipFlag.isAdvanced()) {
+            builder.accept(Component.translatable("tooltip.elementalcraft.pure_ore.id", PureOre.getId(itemStack).toString()).withStyle(ChatFormatting.GRAY));
 
-			var colors = PureOreDisplayManager.getInstance().getColors(stack);
+			var colors = PureOreDisplayManager.getInstance().getColors(itemStack);
 
 			if (colors != null && colors.length > 0) {
-				tooltip.add(Component.translatable("tooltip.elementalcraft.pure_ore.colors", getColorText(colors[0]), getColorText(colors[1]), getColorText(colors[2])).withStyle(ChatFormatting.GRAY));
+                builder.accept(Component.translatable("tooltip.elementalcraft.pure_ore.colors", getColorText(colors[0]), getColorText(colors[1]), getColorText(colors[2])).withStyle(ChatFormatting.GRAY));
 			}
 		}
 	}

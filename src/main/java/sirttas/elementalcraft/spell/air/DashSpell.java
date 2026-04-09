@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -21,11 +21,11 @@ public class DashSpell extends Spell {
 
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		var range = getRange(caster);
 
 		if (caster.isPassenger()) {
-			return InteractionResult.PASS;
+			return SpellCastResult.PASS;
 		}
 
 		if (caster instanceof LivingEntity livingEntity && isFlying(livingEntity)) {
@@ -46,7 +46,7 @@ public class DashSpell extends Spell {
 		} else {
 			caster.setDeltaMovement(caster.getDeltaMovement().add(caster.getLookAngle().normalize().scale(range)));
 		}
-		return InteractionResult.SUCCESS;
+		return SpellCastResult.SUCCESS;
 	}
 
 	private boolean isFlying(LivingEntity livingEntity) {

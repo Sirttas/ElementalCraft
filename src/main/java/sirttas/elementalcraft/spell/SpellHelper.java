@@ -4,7 +4,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.component.ECDataComponents;
 
@@ -14,15 +16,15 @@ public class SpellHelper {
 
 	private SpellHelper() {}
 	
-	public static Holder<Spell> getSpell(ItemStack stack) {
+	public static Holder<@NotNull Spell> getSpell(ItemInstance stack) {
 		return stack.getOrDefault(ECDataComponents.SPELL, Spells.NONE);
 	}
 
-	public static void setSpell(ItemStack stack, Holder<Spell> spell) {
+	public static void setSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		stack.set(ECDataComponents.SPELL, spell);
 	}
 
-	public static void removeSpell(ItemStack stack, Holder<Spell> spell) {
+	public static void removeSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		var list = getSpellList(stack);
 
 		if (list.isEmpty()) {
@@ -57,15 +59,15 @@ public class SpellHelper {
 		}
 	}
 
-	public static boolean isValid(Holder<Spell> spell) {
+	public static boolean isValid(Holder<@NotNull Spell> spell) {
 		return spell.value().isValid();
 	}
 
-	public static boolean isVisible(Holder<Spell> spell) {
+	public static boolean isVisible(Holder<@NotNull Spell> spell) {
 		return spell.value().isVisible();
 	}
 
-	public static void addSpell(ItemStack stack, Holder<Spell> spell) {
+	public static void addSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		var list = getSpellList(stack);
 
 		if (list.isFull()) {
@@ -102,11 +104,11 @@ public class SpellHelper {
 		setSpell(stack, list.getSpellAt(i));
 	}
 
-	public static Holder<Spell> randomSpell(RandomSource rand) {
+	public static Holder<@NotNull Spell> randomSpell(RandomSource rand) {
 		return randomSpell(Spells.REGISTRY.holders().toList(), rand);
 	}
 
-	public static Holder<Spell> randomSpell(ElementType type, RandomSource rand) {
+	public static Holder<@NotNull Spell> randomSpell(ElementType type, RandomSource rand) {
 		return randomSpell(Spells.REGISTRY.holders()
 				.filter(spell -> {
 					var value = spell.value();
@@ -116,7 +118,7 @@ public class SpellHelper {
 				.toList(), rand);
 	}
 
-	public static Holder<Spell> randomSpell(Iterable<? extends Holder<Spell>> spells, RandomSource rand) {
+	public static Holder<@NotNull Spell> randomSpell(Iterable<? extends Holder<@NotNull Spell>> spells, RandomSource rand) {
 		var list = StreamSupport.stream(spells.spliterator(), false)
 				.filter(SpellHelper::isValid)
                 .filter(h -> h.value().getWeight() > 0)
@@ -139,7 +141,7 @@ public class SpellHelper {
 		return list.getLast();
 	}
 
-    public static Holder<Spell> getSpellInUse(Entity entity) {
+    public static Holder<@NotNull Spell> getSpellInUse(Entity entity) {
 		// TODO spell casting monster
 		if (entity instanceof LivingEntity livingEntity && livingEntity.isUsingItem()) {
 			return getSpell(livingEntity.getUseItem());

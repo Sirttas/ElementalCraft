@@ -7,10 +7,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.gamerules.GameRules;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.tag.ECTags;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class TortoiseJewel extends DefenceJewel {
 
@@ -41,8 +42,8 @@ public class TortoiseJewel extends DefenceJewel {
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.tortoise").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.tortoise").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 }

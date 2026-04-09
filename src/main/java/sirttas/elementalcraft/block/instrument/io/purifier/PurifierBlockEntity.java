@@ -6,8 +6,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -21,8 +22,8 @@ import javax.annotation.Nullable;
 
 public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<SimpleIOInstrumentRecipeInput, OrePurificationRecipe> {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(PurifierBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(PurifierBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 
 	private final PurifierContainer inventory;
 
@@ -33,8 +34,8 @@ public class PurifierBlockEntity extends AbstractIOInstrumentBlockEntity<SimpleI
 
 	@Nonnull
     @Override
-	public IItemHandler getItemHandler(@Nullable Direction direction) {
-		return new SidedInvWrapper(inventory, direction);
+	public ResourceHandler<@NotNull ItemResource> getItemResourceHandler(@Nullable Direction direction) {
+		return new WorldlyContainerWrapper(inventory, direction);
 	}
 
 	@NotNull

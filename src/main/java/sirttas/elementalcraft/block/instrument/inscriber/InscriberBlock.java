@@ -31,7 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -147,21 +146,21 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final InscriberBlockEntity inscriber = (InscriberBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (inscriber != null && hand == InteractionHand.MAIN_HAND) {
 			if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE) && !inscriber.isLocked()) {
 				return makeProgress(player, hand, inscriber, heldItem);
 			} else if ((inscriber.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !inscriber.getInventory().isEmpty()) {
-				for (int i = 0; i < inv.getSlots(); i++) {
+				for (int i = 0; i < inv.size(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return InteractionResult.SUCCESS;
 			} else if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE)) {
 				return InteractionResult.PASS;
 			}
-			for (int i = 0; i < inv.getSlots(); i++) {
-				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
+			for (int i = 0; i < inv.size(); i++) {
+				if (inv.getResource(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
 					return InteractionResult.SUCCESS;
 				}
 			}

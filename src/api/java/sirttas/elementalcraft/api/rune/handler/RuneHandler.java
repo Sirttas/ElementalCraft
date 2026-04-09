@@ -1,8 +1,6 @@
 package sirttas.elementalcraft.api.rune.handler;
 
 import net.minecraft.core.Holder;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.Rune.BonusType;
@@ -78,14 +76,4 @@ public class RuneHandler implements IRuneHandler {
 	public Map<BonusType, Float> getBonuses() {
 		return Map.copyOf(this.bonuses);
 	}
-
-    @Override
-    public void serialize(@NotNull ValueOutput output) {
-
-    }
-
-    @Override
-    public void deserialize(@NotNull ValueInput input) {
-
-    }
 }

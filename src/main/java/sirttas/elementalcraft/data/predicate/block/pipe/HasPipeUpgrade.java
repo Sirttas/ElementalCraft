@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import sirttas.dpanvil.api.predicate.block.BlockPosPredicateType;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -44,6 +45,7 @@ public record HasPipeUpgrade(PipeUpgradeType<?> type) implements IPipePredicate 
     @Override
     @Nonnull
     public List<Component> getTooltip() {
-        return List.of(Component.translatable("tooltip.elementalcraft.predicate.pipe_upgrade", type.asItem().getDescription()));
+        var stack = new ItemStack(type.asItem());
+        return List.of(Component.translatable("tooltip.elementalcraft.predicate.pipe_upgrade", stack.getItemName()));
     }
 }

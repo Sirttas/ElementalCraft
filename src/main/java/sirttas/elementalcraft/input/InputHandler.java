@@ -7,8 +7,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.spell.ChangeSpellPayload;
@@ -52,8 +52,8 @@ public class InputHandler {
 
 	private static void setSelectedSpell(LocalPlayer player, ItemStack stack, int i) {
 		SpellHelper.setSelected(stack, i);
-		player.displayClientMessage(SpellHelper.getSpell(stack).value().getDisplayName(), true);
-		PacketDistributor.sendToServer(new ChangeSpellPayload(i));
+		player.sendOverlayMessage(SpellHelper.getSpell(stack).value().getDisplayName());
+		ClientPacketDistributor.sendToServer(new ChangeSpellPayload(i));
 	}
 
 	@SubscribeEvent

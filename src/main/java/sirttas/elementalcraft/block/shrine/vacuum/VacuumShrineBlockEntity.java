@@ -11,9 +11,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade.BonusType;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -29,8 +31,8 @@ import java.util.List;
 
 public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 
-	public static final ResourceKey<IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(VacuumShrineBlock.NAME);
-	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
+	public static final ResourceKey<@NotNull IConfigurableBlockEntityProperties> PROPERTIES_KEY = IConfigurableBlockEntityProperties.createKey(VacuumShrineBlock.NAME);
+	private static final Holder<@NotNull IConfigurableBlockEntityProperties> PROPERTIES = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY);
 	public VacuumShrineBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.VACUUM_SHRINE, PROPERTIES, pos, state);
 	}
@@ -48,19 +50,19 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	
 	@Override
 	protected boolean doPeriod() {
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
+		var inv = ECContainerHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
 
 		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
 	}
 
-	private boolean pickup(IItemHandler inv) {
+	private boolean pickup(ResourceHandler<@NotNull ItemResource> inv) {
 		return getEntities().stream().findAny().map(entity -> {
 			doPickup(inv, (ItemEntity) entity);
 			return true;
 		}).orElse(false);
 	}
 
-	private boolean pull(IItemHandler inv) {
+	private boolean pull(ResourceHandler<@NotNull ItemResource> inv) {
 		int consumeAmount = this.getConsumeAmount();
 		double pullSpeed = this.getStrength();
 		Vec3 pos3d = Vec3.atCenterOf(this.getTargetPos());
@@ -81,8 +83,8 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 		return false;
 	}
 
-	private void doPickup(IItemHandler inv, ItemEntity entity) {
-		entity.setItem(ItemHandlerHelper.insertItem(inv, entity.getItem(), false));
+	private void doPickup(ResourceHandler<@NotNull ItemResource> inv, ItemEntity entity) {
+		entity.setItem(ItemUtil.insertItemReturnRemaining(inv, entity.getItem(), false, null));
 		ParticleHelper.createEnderParticle(level, entity.position(), 3, level.getRandom());
 	}
 }

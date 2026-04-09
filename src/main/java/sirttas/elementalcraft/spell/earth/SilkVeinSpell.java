@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -13,6 +12,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.Tags;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
@@ -53,13 +53,13 @@ public class SilkVeinSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		if (!level.isClientSide() && isValidBlock(level.getBlockState(target))) {
 			mineVein(sender, level, target);
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
 
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 
 

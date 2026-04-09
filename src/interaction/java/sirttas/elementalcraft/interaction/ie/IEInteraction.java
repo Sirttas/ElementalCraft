@@ -29,7 +29,7 @@ public class IEInteraction implements ElementalCraftInteraction {
         register(registry, IERecipeTypes.CRUSHER, CrusherPureOreRecipeFactory::new);
     }
 
-    private static <T extends IESerializableRecipe> void register(RegisterEvent.RegisterHelper<IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry, IERecipeTypes.TypeWithClass<T> type, IPureOreRecipeFactoryType<RecipeInput, IESerializableRecipe> factory) {
+    private static <T extends IESerializableRecipe> void register(RegisterEvent.RegisterHelper<@NotNull IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry, IERecipeTypes.TypeWithClass<T> type, IPureOreRecipeFactoryType<RecipeInput, IESerializableRecipe> factory) {
         PureOreRecipeFactoryTypes.register(registry, type.type().getId(), factory);
     }
 

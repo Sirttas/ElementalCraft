@@ -2,14 +2,13 @@ package sirttas.elementalcraft.item.spell;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class FocusItem extends AbstractSpellHolderItem {
 
@@ -24,21 +23,22 @@ public class FocusItem extends AbstractSpellHolderItem {
 		SpellHelper.removeSpell(stack, SpellHelper.getSpell(stack));
 	}
 
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flagIn) {
-		var spell = SpellHelper.getSpell(stack);
+    @Override
+    @Deprecated
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		var spell = SpellHelper.getSpell(itemStack);
 
-		SpellHelper.getSpellList(stack).forEachSpell((s, i) -> {
+		SpellHelper.getSpellList(itemStack).forEachSpell((s, i) -> {
 			ChatFormatting style = s.value() == spell ? ChatFormatting.AQUA : ChatFormatting.GRAY;
 
 			if (i == 1) {
-				tooltip.add(Component.empty().append(s.value().getDisplayName()).withStyle(style));
+                builder.accept(Component.empty().append(s.value().getDisplayName()).withStyle(style));
 			} else {
-				tooltip.add(Component.literal(i + " ").append(s.value().getDisplayName()).withStyle(style));
+                builder.accept(Component.literal(i + " ").append(s.value().getDisplayName()).withStyle(style));
 			}
 		});
 		if (SpellHelper.isValid(spell)) {
-			addAttributeTooltip(tooltip, SpellHelper.getSpell(stack).value());
+			addAttributeTooltip(builder, SpellHelper.getSpell(itemStack).value());
 		}
 	}
 }

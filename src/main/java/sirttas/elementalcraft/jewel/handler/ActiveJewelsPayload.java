@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.jewel.handler;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -11,11 +12,12 @@ import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.network.payload.PayloadHelper;
 
 import java.util.List;
+import java.util.Optional;
 
 public record ActiveJewelsPayload(List<Identifier> jewels) implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<ActiveJewelsPayload> TYPE = PayloadHelper.createType("active_jewels");
-    public static final StreamCodec<FriendlyByteBuf, ActiveJewelsPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), ActiveJewelsPayload::new);
+    public static final CustomPacketPayload.Type<@NotNull ActiveJewelsPayload> TYPE = PayloadHelper.createType("active_jewels");
+    public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull ActiveJewelsPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), ActiveJewelsPayload::new);
 
     public ActiveJewelsPayload(IJewelHandler jewelHandler) {
         this(jewelHandler.getActiveJewels().stream()
@@ -32,7 +34,7 @@ public record ActiveJewelsPayload(List<Identifier> jewels) implements CustomPack
     }
 
     @Override
-    public @NotNull Type<ActiveJewelsPayload> type() {
+    public @NotNull Type<@NotNull ActiveJewelsPayload> type() {
         return TYPE;
     }
 
@@ -43,6 +45,9 @@ public record ActiveJewelsPayload(List<Identifier> jewels) implements CustomPack
             if (player.getCapability(IJewelHandler.CAPABILITY) instanceof ClientJewelHandler handler) {
                 handler.setActiveJewels(jewels.stream()
                         .map(Jewels.REGISTRY::get)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .map(Holder::value)
                         .toList());
             }
         });

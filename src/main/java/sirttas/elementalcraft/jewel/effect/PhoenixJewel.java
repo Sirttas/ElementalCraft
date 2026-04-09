@@ -5,12 +5,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class PhoenixJewel extends EffectJewel {
 
@@ -28,9 +29,9 @@ public class PhoenixJewel extends EffectJewel {
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.phoenix").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.phoenix").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 
 }

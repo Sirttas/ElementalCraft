@@ -8,5 +8,4 @@ import java.util.List;
 
 public class PureInfuserRenderState extends SingleItemBlockEntityRenderState {
     public final List<GhostBlockRenderState> ghostPedestals = new ArrayList<>(4);
-
 }

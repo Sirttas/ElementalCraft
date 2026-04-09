@@ -5,6 +5,6 @@ import sirttas.elementalcraft.client.renderer.state.RangeRenderState;
 import sirttas.elementalcraft.client.renderer.state.RunesRenderState;
 
 public class VibrationSynthesizerRenderState extends BlockEntityRenderState {
-    public RangeRenderState range = new RangeRenderState();
-    public RunesRenderState runes = new RunesRenderState();
+    public final RangeRenderState range = new RangeRenderState();
+    public final RunesRenderState runes = new RunesRenderState();
 }

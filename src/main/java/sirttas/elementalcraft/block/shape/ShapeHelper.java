@@ -32,10 +32,12 @@ public class ShapeHelper {
 		return vector.x >= box.minX && vector.x <= box.maxX && vector.y >= box.minY && vector.y <= box.maxY && vector.z >= box.minZ && vector.z <= box.maxZ;
 	}
 
+    @Deprecated
 	public static Map<Direction, VoxelShape> directionShapes(VoxelShape shape) {
 		return directionShapes(Direction.UP, shape);
 	}
 
+    @Deprecated
 	public static Map<Direction, VoxelShape> directionShapes(Direction from, VoxelShape shape) {
 		return Maps.immutableEnumMap(Map.of(
 				Direction.UP, rotateShape(from, Direction.UP, shape),
@@ -47,6 +49,7 @@ public class ShapeHelper {
 		));
 	}
 
+    @Deprecated
 	public static VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
 		if (from == to) {
 			return shape;

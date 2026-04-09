@@ -50,8 +50,8 @@ public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceB
                     }
                     var ghostState = new GhostBlockRenderState();
 
-                    ghostState.update(blockModelResolver, blockEntity.getLevel(), pedestalState, blockEntity.getBlockPos().relative(direction, 2));
-                    renderState.ghostPedestals.put(direction, ghostState);
+                    ghostState.update(blockModelResolver, pedestalState, direction.step().mul(2));
+                    renderState.ghostPedestals.add(ghostState);
                 }
             }
         }
@@ -76,12 +76,7 @@ public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceB
     @Override
     public void submit(SourceBreederRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
-        poseStack.pushPose();
-        renderState.ghostPedestals.forEach((direction, ghostState) -> {
-            poseStack.translate(direction.getStepX() * 2, direction.getStepY(), direction.getStepZ() * 2);
-            ghostState.submit(poseStack, nodeCollector, renderState.lightCoords);
-        });
+        renderState.ghostPedestals.forEach(ghostState -> ghostState.submit(poseStack, nodeCollector, renderState.lightCoords));
         renderState.source.submit(poseStack, nodeCollector, cameraRenderState, renderState.lightCoords);
-        poseStack.popPose();
     }
 }

@@ -10,7 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
@@ -24,10 +26,11 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 		super(properties);
 	}
 
-	private boolean canInsertStack(IItemHandler inventory, ItemStack stack, ItemStack heldItem, int slot) {
-		return ItemStack.isSameItemSameComponents(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
-	}
+    public InteractionResult onSlotActivated(ResourceHandler<@NotNull ItemResource> inventory, Player player, ItemStack heldItem, int slot) {
+        return this.onSlotActivated(IItemHandler.of(inventory), player, heldItem, slot);
+    }
 
+    @Deprecated
 	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
 		ItemStack stack = inventory.getStackInSlot(slot);
 		Level level = player.level();
@@ -56,6 +59,10 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 		return InteractionResult.PASS;
 	}
 
+    private boolean canInsertStack(IItemHandler inventory, ItemStack stack, ItemStack heldItem, int slot) {
+        return ItemStack.isSameItemSameComponents(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
+    }
+
 	protected InteractionResult onSingleSlotActivated(ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand) {
 		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
@@ -72,6 +79,6 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
     @Override
     protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Direction direction) {
-        return ItemHandlerHelper.calcRedstoneFromInventory(ECContainerHelper.getItemHandlerAt(level, pos));
+        return ResourceHandlerUtil.getRedstoneSignalFromResourceHandler(ECContainerHelper.getItemHandlerAt(level, pos));
     }
 }

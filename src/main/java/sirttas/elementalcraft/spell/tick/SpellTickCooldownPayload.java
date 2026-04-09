@@ -11,8 +11,8 @@ import sirttas.elementalcraft.spell.Spells;
 
 public record SpellTickCooldownPayload(Spell spell) implements CustomPacketPayload {
 
-	public static final CustomPacketPayload.Type<SpellTickCooldownPayload> TYPE = PayloadHelper.createType("spell_tick_cooldown");
-	public static final StreamCodec<FriendlyByteBuf, SpellTickCooldownPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SpellTickCooldownPayload::new);
+	public static final CustomPacketPayload.Type<@NotNull SpellTickCooldownPayload> TYPE = PayloadHelper.createType("spell_tick_cooldown");
+	public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull SpellTickCooldownPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SpellTickCooldownPayload::new);
 
 	public SpellTickCooldownPayload(FriendlyByteBuf buf) {
 		this(Spells.REGISTRY.get(buf.readIdentifier()));
@@ -23,7 +23,7 @@ public record SpellTickCooldownPayload(Spell spell) implements CustomPacketPaylo
 	}
 
 	@Override
-	public @NotNull Type<SpellTickCooldownPayload> type() {
+	public @NotNull Type<@NotNull SpellTickCooldownPayload> type() {
 		return TYPE;
 	}
 

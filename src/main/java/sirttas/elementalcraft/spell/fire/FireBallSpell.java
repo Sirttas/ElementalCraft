@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.spell.fire;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
@@ -9,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -21,9 +21,9 @@ public class FireBallSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		if (!(caster instanceof LivingEntity livingEntity)) {
-			return InteractionResult.PASS;
+			return SpellCastResult.PASS;
 		}
 
 		Vec3 vec3d = livingEntity.getLookAngle();
@@ -36,6 +36,6 @@ public class FireBallSpell extends Spell {
 		fireball.setPos(livingEntity.getX() + vec3d.x * 4.0D, livingEntity.getY(0.5D) + 0.5D, fireball.getZ() + vec3d.z * 4.0D);
 		level.addFreshEntity(fireball);
 
-		return InteractionResult.SUCCESS;
+		return SpellCastResult.SUCCESS;
 	}
 }

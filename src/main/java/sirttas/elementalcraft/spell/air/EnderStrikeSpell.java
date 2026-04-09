@@ -4,7 +4,6 @@ import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
@@ -15,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
@@ -29,11 +29,11 @@ public class EnderStrikeSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		Vec3 newPos = target.position().add(target.getLookAngle().reverse().normalize());
 
 		if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z)).isCanceled()) {
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
 		if (caster instanceof LivingEntity livingSender) {
 			livingSender.teleportTo(newPos.x, newPos.y + 0.5, newPos.z);
@@ -45,22 +45,22 @@ public class EnderStrikeSpell extends Spell {
 				playerSender.attack(target);
 				playerSender.resetAttackStrengthTicker();
 			} else {
-				livingSender.doHurtTarget(target);
+				livingSender.doHurtTarget(level, target);
 			}
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		Vec3 pos = caster.position();
 
 		return level.getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()
 				.filter(Enemy.class::isInstance)
 				.min(Comparator.comparingDouble(e -> pos.distanceTo(e.position())))
 				.map(e -> castOnEntity(level, caster, e))
-				.orElse(InteractionResult.PASS);
+				.orElse(SpellCastResult.PASS);
 	}
 	
 	public static class Event extends EntityTeleportEvent {

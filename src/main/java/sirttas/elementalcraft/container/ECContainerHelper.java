@@ -9,10 +9,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.EmptyItemHandler;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 
 import javax.annotation.Nonnull;
@@ -22,13 +24,13 @@ public class ECContainerHelper {
 
 	private ECContainerHelper() {}
 
-	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+	public static ResourceHandler<@NotNull ItemResource> getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
 		return getItemHandlerAt(world, pos, null);
 	}
 
-	public static IItemHandler getItemHandlerAt(@Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nullable Direction side) {
+	public static ResourceHandler<@NotNull ItemResource> getItemHandlerAt(@Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nullable Direction side) {
 		if (level instanceof Level l) {
-			var handler = l.getCapability(Capabilities.ItemHandler.BLOCK, pos, side);
+			var handler = l.getCapability(Capabilities.Item.BLOCK, pos, side);
 
 			if (handler != null) {
 				return handler;
@@ -36,21 +38,21 @@ public class ECContainerHelper {
 		}
 		return BlockEntityHelper.getBlockEntity(level, pos)
 				.map(t -> getItemHandler(t, side))
-				.orElse(EmptyItemHandler.INSTANCE);
+				.orElseGet(EmptyResourceHandler::instance);
 	}
 
 	@Nonnull
-	public static IItemHandler getItemHandler(BlockEntity entity, @Nullable Direction side) {
-		var handler = BlockEntityHelper.getCapability(Capabilities.ItemHandler.BLOCK, entity, side);
+	public static ResourceHandler<@NotNull ItemResource> getItemHandler(BlockEntity entity, @Nullable Direction side) {
+		var handler = BlockEntityHelper.getCapability(Capabilities.Item.BLOCK, entity, side);
 
 		if (handler != null) {
 			return handler;
 		} else if (entity instanceof WorldlyContainer worldlyContainer && side != null) {
-			return new SidedInvWrapper(worldlyContainer, side);
+			return new WorldlyContainerWrapper(worldlyContainer, side);
 		} else if (entity instanceof Container container) {
-			return new InvWrapper(container);
+			return VanillaContainerWrapper.of(container);
 		}
-		return EmptyItemHandler.INSTANCE;
+		return EmptyResourceHandler.instance();
 	}
 
 	public static int getSlotFor(Container inv, ItemStack stack) {
@@ -61,13 +63,12 @@ public class ECContainerHelper {
 				return i;
 			}
 		}
-
 		return -1;
 	}
 
-	public static boolean isEmpty(IItemHandler targetInv) {
-		for (int i = 0; i < targetInv.getSlots(); i++) {
-			if (!targetInv.getStackInSlot(i).isEmpty()) {
+	public static boolean isEmpty(ResourceHandler<@NotNull ItemResource> targetInv) {
+		for (int i = 0; i < targetInv.size(); i++) {
+			if (!targetInv.getResource(i).isEmpty()) {
 				return false;
 			}
 		}

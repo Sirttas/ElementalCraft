@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.item.source.analysis;
 
 import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -18,7 +18,7 @@ public record SourceAnalysisGlassPayload(
 ) implements IMenuPayload<SourceAnalysisGlassMenu> {
 
 	public static final CustomPacketPayload.Type<@NotNull SourceAnalysisGlassPayload> TYPE = PayloadHelper.createType("source_analysis_glass");
-	public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull SourceAnalysisGlassPayload> STREAM_CODEC = StreamCodec.composite(SourceTrait.VALUE_MAP_STREAM_CODEC, p -> p.traits, SourceAnalysisGlassPayload::new);
+	public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SourceAnalysisGlassPayload> STREAM_CODEC = StreamCodec.composite(SourceTrait.VALUE_MAP_STREAM_CODEC, p -> p.traits, SourceAnalysisGlassPayload::new);
 
 	@Override
 	public Class<? extends SourceAnalysisGlassMenu> getMenuType() {

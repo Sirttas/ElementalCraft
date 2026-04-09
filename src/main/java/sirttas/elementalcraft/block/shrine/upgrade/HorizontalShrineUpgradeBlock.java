@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
+package sirttas.elementalcraft.block.shrine.upgrade;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

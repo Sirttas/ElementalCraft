@@ -2,7 +2,6 @@ package sirttas.elementalcraft.spell.repair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +10,7 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -24,11 +24,11 @@ public class RepairSpell extends Spell {
 
     @Nonnull
     @Override
-    public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+    public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
         var offset = target.relative(hitResult.getDirection());
 
         if (!level.getBlockState(offset).isAir() || FallingBlock.isFree(level.getBlockState(offset.below()))) {
-            return InteractionResult.PASS;
+            return SpellCastResult.PASS;
         }
 
         if (sender instanceof Player player) {
@@ -37,11 +37,11 @@ public class RepairSpell extends Spell {
             if (!item.isEmpty() && item.isDamaged()) {
                 repairPlayerItems(item);
                 playSound(level, offset, player);
-                return InteractionResult.CONSUME;
+                return SpellCastResult.CHANNEL;
             }
         }
 
-        return InteractionResult.PASS;
+        return SpellCastResult.PASS;
     }
 
     private void repairPlayerItems(ItemStack stack) {

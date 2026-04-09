@@ -1,7 +1,9 @@
 package sirttas.elementalcraft.pureore;
 
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -34,6 +36,15 @@ public class PureOreManager {
 		}
 		return ItemStack.EMPTY;
 	}
+
+    public ItemStackTemplate createPureOreTemplate(Identifier id, int size) {
+        if (this.pureOres.containsKey(id)) {
+            return new ItemStackTemplate(ECItems.PURE_ORE, size, DataComponentPatch.builder()
+                    .set(ECDataComponents.PURE_ORE.get(), id)
+                    .build());
+        }
+        return null;
+    }
 
 	void replacePureOres(Map<Identifier, PureOre> pureOres) {
 		this.pureOres.clear();

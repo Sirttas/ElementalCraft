@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +24,7 @@ public class AoeSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		float range = getRange(caster);
 
 		if (caster instanceof LivingEntity livingSender) {
@@ -43,9 +42,9 @@ public class AoeSpell extends Spell {
 				playerSender.sweepAttack();
 				playerSender.resetAttackStrengthTicker();
 			}
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 
 

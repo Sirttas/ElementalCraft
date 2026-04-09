@@ -7,7 +7,10 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.AccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.boneless.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.bonelessgrowth.BonelessGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.bud.BudShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.crystalgrowth.CrystalGrowthShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.crystalharvest.CrystalHarvestShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.CapacityShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.EfficiencyShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.directional.OptimizationShrineUpgradeBlock;
@@ -15,19 +18,16 @@ import sirttas.elementalcraft.block.shrine.upgrade.directional.RangeShrineUpgrad
 import sirttas.elementalcraft.block.shrine.upgrade.filling.FillingShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.FortuneShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.BudTypeShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.CrystalHarvestShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.NectarShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.ProtectionShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.mysticalgrove.MysticalGroveShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.nectar.NectarShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.pickup.PickupShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.planting.PlantingShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.protection.ProtectionShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.silktouch.SilkTouchShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.stempollination.StemPollinationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.strength.OverwhelmingStrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.strength.StrengthShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.CrystalGrowthShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.MysticalGroveShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.PickupShrineUpgradeBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.unidirectional.StemPollinationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeBlock;
 
 public class ShrineUpgrades {
@@ -49,8 +49,8 @@ public class ShrineUpgrades {
 	public static final ResourceKey<@NotNull ShrineUpgrade> CRYSTAL_HARVEST = createKey(CrystalHarvestShrineUpgradeBlock.NAME);
 	public static final ResourceKey<@NotNull ShrineUpgrade> CRYSTAL_GROWTH = createKey(CrystalGrowthShrineUpgradeBlock.NAME);
 	public static final ResourceKey<@NotNull ShrineUpgrade> STRENGTH = createKey(StrengthShrineUpgradeBlock.NAME);
-    public static final ResourceKey<@NotNull ShrineUpgrade> SPRINGALINE = createKey(BudTypeShrineUpgradeBlock.SPRINGALINE_NAME);
-    public static final ResourceKey<@NotNull ShrineUpgrade> CERTUS_QUARTZ = createKey(BudTypeShrineUpgradeBlock.CERTUS_QUARTZ_NAME);
+    public static final ResourceKey<@NotNull ShrineUpgrade> SPRINGALINE = createKey(BudShrineUpgradeBlock.SPRINGALINE_NAME);
+    public static final ResourceKey<@NotNull ShrineUpgrade> CERTUS_QUARTZ = createKey(BudShrineUpgradeBlock.CERTUS_QUARTZ_NAME);
 	public static final ResourceKey<@NotNull ShrineUpgrade> CAPACITY = createKey(CapacityShrineUpgradeBlock.NAME);
 	public static final ResourceKey<@NotNull ShrineUpgrade> RANGE = createKey(RangeShrineUpgradeBlock.NAME);
 	public static final ResourceKey<@NotNull ShrineUpgrade> EFFICIENCY = createKey(EfficiencyShrineUpgradeBlock.NAME);

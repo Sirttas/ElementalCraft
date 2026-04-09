@@ -5,17 +5,18 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECGameEvents {
 
-    private static final DeferredRegister<GameEvent> DEFERRED_REGISTRY = DeferredRegister.create(Registries.GAME_EVENT, ElementalCraftApi.MODID);
+    private static final DeferredRegister<@NotNull GameEvent> DEFERRED_REGISTRY = DeferredRegister.create(Registries.GAME_EVENT, ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<GameEvent, GameEvent> AIR_SYNTHESIS = register("air_synthesis");
+    public static final DeferredHolder<@NotNull GameEvent, @NotNull GameEvent> AIR_SYNTHESIS = register("air_synthesis");
 
     private ECGameEvents() {}
     
-    private static DeferredHolder<GameEvent, GameEvent> register(String name) {
+    private static DeferredHolder<@NotNull GameEvent, @NotNull GameEvent> register(String name) {
         return DEFERRED_REGISTRY.register(name, () -> new GameEvent(16));
     }
 

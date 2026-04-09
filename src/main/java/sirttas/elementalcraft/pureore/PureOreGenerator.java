@@ -198,9 +198,16 @@ public class PureOreGenerator {
         }
 
         public List<RecipeHolder<@NotNull OrePurificationRecipe>> getOrePurificationRecipes(Identifier pureOreId) {
-            return ores.entrySet().stream()
-                    .map(entry -> new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, buildOrePurificationRecipeId(entry.getKey().getKey(), pureOreId)), entry.getValue().getOrePurificationRecipe()))
-                    .toList();
+            var result = new ArrayList<RecipeHolder<@NotNull OrePurificationRecipe>>(ores.size());
+
+            ores.forEach((holder, ore) -> {
+                var recipe = ore.getOrePurificationRecipe();
+
+                if (recipe != null) {
+                    result.add(new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, buildOrePurificationRecipeId(holder.getKey(), pureOreId)), recipe));
+                }
+            });
+            return result;
         }
 
         private static Identifier buildOrePurificationRecipeId(@Nullable ResourceKey<@NotNull IPureOreLoader> loaderKey, @Nonnull Identifier sourceId) {

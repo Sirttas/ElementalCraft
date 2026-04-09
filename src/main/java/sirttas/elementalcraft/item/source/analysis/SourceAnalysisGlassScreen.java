@@ -10,13 +10,14 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.container.menu.screen.IRefreshedScreen;
 
 import javax.annotation.Nonnull;
 
-public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAnalysisGlassMenu> implements MenuAccess<SourceAnalysisGlassMenu>, IRefreshedScreen {
+public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull SourceAnalysisGlassMenu> implements MenuAccess<@NotNull SourceAnalysisGlassMenu>, IRefreshedScreen {
 	
 	private static final Identifier SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/source_analysis_glass.png");
 
@@ -53,7 +54,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 		traitsList.refresh();
 	}
 
-	private class TraitsList extends ObjectSelectionList<TraitsList.Entry> {
+	private class TraitsList extends ObjectSelectionList<TraitsList.@NotNull Entry> {
 
 		private static final int WIDTH = 158;
 		private static final int HEIGHT = 62;
@@ -97,7 +98,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<SourceAna
 			menu.getTraits().values().forEach(value -> addEntry(new TraitsList.Entry(value)));
 		}
 
-		private class Entry extends ObjectSelectionList.Entry<Entry> {
+		private class Entry extends ObjectSelectionList.Entry<@NotNull Entry> {
 
 			private final ISourceTraitValue value;
 

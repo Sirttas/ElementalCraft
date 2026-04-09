@@ -18,7 +18,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import sirttas.elementalcraft.advancements.LookAtSourcePayload;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
@@ -90,16 +90,18 @@ public class EntityClientHandler {
 	}
 
 	private static void renderSpellEffectFirstPerson(AbstractClientPlayer player, ItemStack stack, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		if (player instanceof LocalPlayer localPlayer && !localPlayer.isScoping()) {
-			var spell = SpellHelper.getSpell(stack);
+		if (!(player instanceof LocalPlayer localPlayer) || localPlayer.isScoping()) {
+            return;
+        }
 
-			if (localPlayer.isUsingItem() && localPlayer.getUsedItemHand() == hand && !stack.isEmpty()) {
-				renderSingleSpellFirstPerson(spell.value(), null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
-			}
-			if (hand == InteractionHand.MAIN_HAND) {
-				SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
-			}
-		}
+        var spell = SpellHelper.getSpell(stack);
+
+        if (localPlayer.isUsingItem() && localPlayer.getUsedItemHand() == hand && !stack.isEmpty()) {
+            renderSingleSpellFirstPerson(spell.value(), null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
+        }
+        if (hand == InteractionHand.MAIN_HAND) {
+            SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
+        }
 	}
 
 	private static void renderSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
@@ -128,7 +130,7 @@ public class EntityClientHandler {
 			var state = minecraft.level.getBlockState(hitResult.getBlockPos());
 
 			if (state.is(ECTags.Blocks.SOURCES)) {
-				PacketDistributor.sendToServer(new LookAtSourcePayload(hitResult));
+                ClientPacketDistributor.sendToServer(new LookAtSourcePayload(hitResult));
 				minecraft.player.setData(ECDataAttachments.HAS_SEEN_SOURCE, true);
 			}
 		}

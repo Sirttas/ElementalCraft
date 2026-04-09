@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Util;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -51,7 +50,7 @@ public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBl
         renderState.cubeRotation = Axis.YP.rotationDegrees(ECRendererHelper.getClientTicks(partialTick));
         renderState.runes.update(blockEntity.getRuneHandler(), runeModelResolver, partialTick);
         if (blockEntity.showsRange()) {
-            renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
+            renderState.range.update(blockEntity, blockEntity.getRange());
         } else {
             renderState.range.clear();
         }

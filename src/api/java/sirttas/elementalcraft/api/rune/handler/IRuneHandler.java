@@ -80,11 +80,13 @@ public interface IRuneHandler extends ValueIOSerializable {
 		return handleElementTransfer(from, to, from.getElementType(), amount);
 	}
 
+    @Override
     default void deserialize(@Nonnull ValueInput valueInput) {
         this.clear();
         valueInput.list(ECNames.RUNES, Identifier.CODEC).ifPresent(list -> list.forEach(id -> this.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(id))));
     }
 
+    @Override
 	default void serialize(@Nonnull ValueOutput valueOutput) {
         var list = valueOutput.list(ECNames.RUNES, Identifier.CODEC);
 

@@ -17,6 +17,8 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECKeyMappings {
 
+    public static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(ElementalCraftApi.createRL("key_category"));
+
     public static final List<KeyMapping> CHANGE_TO_SPELL = List.of(
             spellChangeKey(1),
             spellChangeKey(2),
@@ -41,7 +43,7 @@ public class ECKeyMappings {
     }
 
     private static KeyMapping key(String name, IKeyConflictContext keyConflictContext, KeyModifier keyModifier, int keyCode) {
-        return new KeyMapping("key.elementalcraft." + name, keyConflictContext, keyModifier, InputConstants.Type.KEYSYM.getOrCreate(keyCode), "key.categories.elementalcraft");
+        return new KeyMapping("key.elementalcraft." + name, keyConflictContext, keyModifier, InputConstants.Type.KEYSYM.getOrCreate(keyCode), KEY_CATEGORY);
     }
 
     @SubscribeEvent

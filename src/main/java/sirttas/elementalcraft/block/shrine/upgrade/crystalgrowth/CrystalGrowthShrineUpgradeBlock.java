@@ -1,13 +1,8 @@
-package sirttas.elementalcraft.block.shrine.upgrade.unidirectional;
+package sirttas.elementalcraft.block.shrine.upgrade.crystalgrowth;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -21,8 +16,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class CrystalGrowthShrineUpgradeBlock extends ShrineUpgradeBlock {
 
@@ -56,11 +49,5 @@ public class CrystalGrowthShrineUpgradeBlock extends ShrineUpgradeBlock {
     @Override
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
 		return SHAPE;
-	}
-
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.shrine_upgrade.crystal_growth").withStyle(ChatFormatting.BLUE));
-		super.appendHoverText(stack, tooltipContext, tooltip, flag);
 	}
 }

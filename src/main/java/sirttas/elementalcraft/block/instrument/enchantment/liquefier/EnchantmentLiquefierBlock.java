@@ -89,13 +89,13 @@ public class EnchantmentLiquefierBlock extends AbstractECContainerBlock implemen
 
         if (enchantmentLiquefier != null && hand == InteractionHand.MAIN_HAND) {
             if ((enchantmentLiquefier.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !enchantmentLiquefier.getInventory().isEmpty()) {
-                for (int i = 0; i < inv.getSlots(); i++) {
+                for (int i = 0; i < inv.size(); i++) {
                     this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
                 }
                 return InteractionResult.SUCCESS;
             }
-            for (int i = 0; i < inv.getSlots(); i++) {
-                if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
+            for (int i = 0; i < inv.size(); i++) {
+                if (inv.getResource(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
                     return InteractionResult.SUCCESS;
                 }
             }

@@ -32,13 +32,13 @@ public class LootRunes extends LootPoolSingletonContainer {
 
     @Override
     protected void createItemStack(@Nonnull Consumer<ItemStack> output, @Nonnull LootContext context) {
-        var be = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        var be = context.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
         if (be == null) {
             return;
         }
 
-        var runeHandler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, context.getParamOrNull(ECLootContextParams.DIRECTION));
+        var runeHandler = BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, be, context.getOptionalParameter(ECLootContextParams.DIRECTION));
 
         if (runeHandler == null) {
             return;

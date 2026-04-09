@@ -14,8 +14,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.block.shrine.upgrade.HorizontalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;

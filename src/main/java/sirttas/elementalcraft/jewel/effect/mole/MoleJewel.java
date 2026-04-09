@@ -4,10 +4,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.jewel.effect.EffectJewel;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class MoleJewel extends EffectJewel {
 
@@ -18,8 +19,8 @@ public class MoleJewel extends EffectJewel {
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.mole").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.mole").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 }

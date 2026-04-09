@@ -1,20 +1,24 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.event.TickHandler;
 
-import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -23,37 +27,41 @@ import java.util.stream.Collectors;
 
 public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfuserBlockEntity, PureInfuserRenderState> {
 
+    private final BlockModelResolver blockModelResolver;
+
 	public PureInfuserRenderer(BlockEntityRendererProvider.Context context) {
 		super(context, new Vec3(0.5, 0.9, 0.5));
+        blockModelResolver = context.blockModelResolver();
 	}
 
-	@Override
-	public void render(@Nonnull PureInfuserBlockEntity blockEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource buffer, int light, int overlay) {
-		renderPedestalShadow(blockEntity, partialTicks, poseStack, buffer);
-		super.render(blockEntity, partialTicks, poseStack, buffer, light, overlay);
-	}
+    @Override
+    public @NotNull PureInfuserRenderState createRenderState() {
+        return new PureInfuserRenderState();
+    }
 
-	private void renderPedestalShadow(@Nonnull PureInfuserBlockEntity te, float partialTicks, @Nonnull PoseStack matrixStack, @Nonnull MultiBufferSource buffer) {
-		if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !te.isRunning()) {
-			Map<Direction, ElementType> map = getDirectionMap(te);
-			List<ElementType> remaining = getRemainingElements(map);
+    @Override
+    public void extractRenderState(PureInfuserBlockEntity blockEntity, PureInfuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !blockEntity.isRunning()) {
+            Map<Direction, ElementType> map = getDirectionMap(blockEntity);
+            List<ElementType> remaining = getRemainingElements(map);
 
-			if (!remaining.isEmpty()) {
-				map.entrySet().stream().filter(entry -> entry.getValue() == ElementType.NONE).map(Entry::getKey).forEach(direction -> {
-					ElementType type = remaining.get((int) (((TickHandler.getTicksInGame() + partialTicks) / 20) % remaining.size()));
-					Block pedestal = getPedestalForType(type);
+            if (!remaining.isEmpty()) {
+                map.entrySet().stream().filter(entry -> entry.getValue() == ElementType.NONE).map(Entry::getKey).forEach(direction -> {
+                    ElementType type = remaining.get((int) (((TickHandler.getTicksInGame() + partialTick) / 20) % remaining.size()));
+                    Block pedestal = getPedestalForType(type);
 
-					if (pedestal != null) {
-						matrixStack.pushPose();
-						matrixStack.translate(direction.getStepX() * 3D, 0, direction.getStepZ() * 3D);
-						ECRendererHelper.renderGhost(pedestal.defaultBlockState(), matrixStack, buffer, te.getLevel(), te.getBlockPos().relative(direction, 3));
-						matrixStack.popPose();
-						remaining.remove(type);
-					}
-				});
-			}
-		}
-	}
+                    if (pedestal != null) {
+                        var ghostState = new GhostBlockRenderState();
+
+                        ghostState.update(blockModelResolver, pedestal.defaultBlockState(), direction.step().mul(3));
+                        renderState.ghostPedestals.add(ghostState);
+                        remaining.remove(type);
+                    }
+                });
+            }
+        }
+    }
 
 	private List<ElementType> getRemainingElements(Map<Direction, ElementType> map) {
 		List<ElementType> usedElements = map.values().stream().filter(elementType -> elementType != ElementType.NONE).toList();
@@ -80,4 +88,11 @@ public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfus
 			default -> null;
 		};
 	}
+
+    @Override
+    public void submit(PureInfuserRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
+        renderState.ghostPedestals.forEach(ghostState -> ghostState.submit(poseStack, nodeCollector, renderState.lightCoords));
+    }
+
 }

@@ -27,7 +27,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -81,17 +80,17 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final BinderBlockEntity binder = (BinderBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (binder != null && hand == InteractionHand.MAIN_HAND) {
 			if ((binder.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !binder.getInventory().isEmpty()) {
-				for (int i = 0; i < inv.getSlots(); i++) {
+				for (int i = 0; i < inv.size(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return InteractionResult.SUCCESS;
 			}
-			for (int i = 0; i < inv.getSlots(); i++) {
-				if (inv.getStackInSlot(i).isEmpty()) {
+			for (int i = 0; i < inv.size(); i++) {
+				if (inv.getResource(i).isEmpty()) {
 					return this.onSlotActivated(inv, player, heldItem, i);
 				}
 			}

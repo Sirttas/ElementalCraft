@@ -3,7 +3,6 @@ package sirttas.elementalcraft.spell.air;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +15,7 @@ import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
@@ -66,19 +66,19 @@ public class TranslocationSpell extends Spell {
 	}
 	
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		Vec3 look = caster.getLookAngle();
 		Vec3 newPos = getNewPos(caster, level, look);
 
 		if (newPos == null) {
-			return InteractionResult.PASS;
+			return SpellCastResult.PASS;
 		}
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
 
 			if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z)).isCanceled()) {
-				return InteractionResult.SUCCESS;
+				return SpellCastResult.SUCCESS;
 			}
 			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.getRandom());
 			ParticleHelper.createEnderParticle(level, newPos, 3, level.getRandom());
@@ -94,7 +94,7 @@ public class TranslocationSpell extends Spell {
 				}
 			});
 		}
-		return InteractionResult.SUCCESS;
+		return SpellCastResult.SUCCESS;
 	}
 
 	private Vec3 getNewPos(@Nonnull Entity caster, Level level, Vec3 look) {

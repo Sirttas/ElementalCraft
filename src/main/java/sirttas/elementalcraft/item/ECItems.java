@@ -25,14 +25,25 @@ import sirttas.elementalcraft.block.cover.CoverFrameItem;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
+import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
+import sirttas.elementalcraft.block.shrine.ShrineItem;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeItem;
-import sirttas.elementalcraft.block.shrine.upgrade.boneless.BonelessGrowthShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.bonelessgrowth.BonelessGrowthShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.bud.BudShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.crystalgrowth.CrystalGrowthShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.crystalharvest.CrystalHarvestShrineUpgradeItem;
 import sirttas.elementalcraft.block.shrine.upgrade.filling.FillingShrineUpgradeItem;
 import sirttas.elementalcraft.block.shrine.upgrade.fortune.FortuneShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.mysticalgrove.MysticalGroveShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.nectar.NectarShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.pickup.PickupShrineUpgradeItem;
 import sirttas.elementalcraft.block.shrine.upgrade.planting.PlantingShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.protection.ProtectionShrineUpgradeItem;
 import sirttas.elementalcraft.block.shrine.upgrade.silktouch.SilkTouchShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.stempollination.StemPollinationShrineUpgradeItem;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeItem;
+import sirttas.elementalcraft.block.shrine.upgrade.vortex.VortexShrineUpgradeItem;
 import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.block.source.SourceElementStorage;
 import sirttas.elementalcraft.block.source.trait.holder.ItemSourceTraitHolder;
@@ -198,7 +209,17 @@ public class ECItems {
     public static final DeferredHolder<@NotNull Item, @NotNull SilkTouchShrineUpgradeItem> SILK_TOUCH_SHRINE_UPGRADE = registerBlock(ECBlocks.SILK_TOUCH_SHRINE_UPGRADE, b -> new SilkTouchShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull PlantingShrineUpgradeItem> PLANTING_SHRINE_UPGRADE = registerBlock(ECBlocks.PLANTING_SHRINE_UPGRADE, b -> new PlantingShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull BonelessGrowthShrineUpgradeItem> BONELESS_GROWTH_SHRINE_UPGRADE = registerBlock(ECBlocks.BONELESS_GROWTH_SHRINE_UPGRADE, b -> new BonelessGrowthShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull PickupShrineUpgradeItem> PICKUP_SHRINE_UPGRADE = registerBlock(ECBlocks.PICKUP_SHRINE_UPGRADE, b -> new PickupShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull VortexShrineUpgradeItem> VORTEX_SHRINE_UPGRADE = registerBlock(ECBlocks.VORTEX_SHRINE_UPGRADE, b -> new VortexShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull NectarShrineUpgradeItem> NECTAR_SHRINE_UPGRADE = registerBlock(ECBlocks.NECTAR_SHRINE_UPGRADE, b -> new NectarShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull MysticalGroveShrineUpgradeItem> MYSTICAL_GROVE_SHRINE_UPGRADE = registerBlock(ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE, b -> new MysticalGroveShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull StemPollinationShrineUpgradeItem> STEM_POLLINATION_SHRINE_UPGRADE = registerBlock(ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE, b -> new StemPollinationShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull ProtectionShrineUpgradeItem> PROTECTION_SHRINE_UPGRADE = registerBlock(ECBlocks.PROTECTION_SHRINE_UPGRADE, b -> new ProtectionShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull FillingShrineUpgradeItem> FILLING_SHRINE_UPGRADE = registerBlock(ECBlocks.FILLING_SHRINE_UPGRADE, b -> new FillingShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull BudShrineUpgradeItem> SPRINGALINE_SHRINE_UPGRADE = registerBlock(ECBlocks.SPRINGALINE_SHRINE_UPGRADE, b -> new BudShrineUpgradeItem(b, "tooltip.elementalcraft.shrine_upgrade.springaline", new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull BudShrineUpgradeItem> CERTUS_QUARTZ_SHRINE_UPGRADE = registerBlock(ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE, b -> new BudShrineUpgradeItem(b, "tooltip.elementalcraft.shrine_upgrade.certus_quartz", new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull CrystalHarvestShrineUpgradeItem> CRYSTAL_HARVEST_SHRINE_UPGRADE = registerBlock(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, b -> new CrystalHarvestShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull CrystalGrowthShrineUpgradeItem> CRYSTAL_GROWTH_SHRINE_UPGRADE = registerBlock(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE, b -> new CrystalGrowthShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull TranslocationShrineUpgradeItem> TRANSLOCATION_SHRINE_UPGRADE = registerBlock(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE, b -> new TranslocationShrineUpgradeItem(b, new Item.Properties()));
 
     public static final DeferredHolder<@NotNull Item, @NotNull SpellEffectItem> REPAIR_HAMMER = register("repair_hammer", () -> new SpellEffectItem(new Item.Properties()));
@@ -230,9 +251,10 @@ public class ECItems {
 								.component(ECDataComponents.ELEMENT_AMOUNT, SourceElementStorage.DEFAULT_CAPACITY)
 								.component(ECDataComponents.SOURCE_ANALYZED, false));
 						case ShrineUpgradeBlock shrineUpgradeBlock -> new ShrineUpgradeItem(shrineUpgradeBlock, new Item.Properties());
+						case AbstractShrineBlock<?> shrineBlock -> new ShrineItem(shrineBlock, new Item.Properties());
 						default -> new BlockItem(block, new Item.Properties());
 					});
-                    ElementalCraftApi.LOGGER.warn("ElementalCraft Block {} has been automatically registered as item.", registryName);
+                    ElementalCraftApi.LOGGER.debug("ElementalCraft Block {} has been automatically registered as item.", registryName);
 				}
 			}
 		});
@@ -246,7 +268,7 @@ public class ECItems {
 		return register(jewel.getId().getPath(), () -> new JewelItem(jewel::get, new Item.Properties().stacksTo(1)));
 	}
 
-    private static  <T extends BlockItem> DeferredHolder<@NotNull Item, @NotNull T> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull Block> block, Function<Block, T> item) {
+    private static  <B extends Block, T extends BlockItem> DeferredHolder<@NotNull Item, @NotNull T> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block, Function<B, T> item) {
         return register(block.getId().getPath(), () -> item.apply(block.get()));
     }
 

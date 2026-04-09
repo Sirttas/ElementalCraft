@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.boneless;
+package sirttas.elementalcraft.block.shrine.upgrade.bonelessgrowth;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -6,7 +6,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeItem;
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
 
 public class BonelessGrowthShrineUpgradeItem extends ShrineUpgradeItem {
 
-    public BonelessGrowthShrineUpgradeItem(Block block, Properties properties) {
+    public BonelessGrowthShrineUpgradeItem(BonelessGrowthShrineUpgradeBlock block, Properties properties) {
         super(block, properties);
     }
 

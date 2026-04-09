@@ -2,7 +2,6 @@ package sirttas.elementalcraft.spell.fire;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -11,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -23,7 +23,7 @@ public class InfernoSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		float range = getRange(caster);
 		Vec3 look = caster.getLookAngle().normalize();
 
@@ -42,9 +42,9 @@ public class InfernoSpell extends Spell {
 				
 				level.levelEvent(null, LevelEvent.PARTICLES_MOBBLOCK_SPAWN, livingSender.blockPosition().offset(new Vec3i((int) Math.round(scaledLook.x), (int) Math.round(scaledLook.y), (int) Math.round(scaledLook.z))), 0);
 			}
-			return InteractionResult.CONSUME;
+			return SpellCastResult.CHANNEL;
 		}
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 
 	private double getAngle(Entity sender, Entity target) {

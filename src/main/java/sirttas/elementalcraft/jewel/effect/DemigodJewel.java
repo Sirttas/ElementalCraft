@@ -13,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -21,7 +22,7 @@ import sirttas.elementalcraft.jewel.Jewels;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class DemigodJewel extends EffectJewel {
 
@@ -53,7 +54,7 @@ public class DemigodJewel extends EffectJewel {
         }
         entity.setHealth(1.0F);
         super.apply(entity);
-        entity.level().broadcastEntityEvent(entity, EntityEvent.TALISMAN_ACTIVATE);
+        entity.level().broadcastEntityEvent(entity, EntityEvent.PROTECTED_FROM_DEATH);
     }
 
     @Override
@@ -81,9 +82,9 @@ public class DemigodJewel extends EffectJewel {
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.demigod").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.demigod").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 
 }

@@ -7,13 +7,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class SalmonJewel extends EffectJewel {
 
@@ -25,15 +26,15 @@ public class SalmonJewel extends EffectJewel {
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        return entity.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())
+        return entity.isEyeInFluid(Tags.Fluids.WATER)
                 && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN)
                 && super.isActive(entity, elementStorage);
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.salmon").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.salmon").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 
 }

@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -72,22 +73,12 @@ public class LoadedPureOre {
     }
 
     public Ingredient getInput() {
-        return Ingredient.of(getOres().stream().map(i -> {
-            ItemStack stack = new ItemStack(i);
-
-            stack.setCount(inputSize);
-            return stack;
-        }));
+        return Ingredient.of(getOres().stream()
+                .map(Holder::value));
     }
 
-    private ItemStack getOutput() {
-        var result = PureOreManager.getInstance().createPureOre(id);
-
-        if (result.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        result.setCount(outputSize);
-        return result;
+    private ItemStackTemplate getOutput() {
+        return PureOreManager.getInstance().createPureOreTemplate(id, outputSize);
     }
 
     public Identifier getId() {
@@ -129,8 +120,14 @@ public class LoadedPureOre {
         return ores.stream().anyMatch(item::is);
     }
 
+    @Nullable
     public OrePurificationRecipe getOrePurificationRecipe() {
-        return new OrePurificationRecipe(getInput(), getOutput(), elementConsumption, inputSize, luckRatio);
+        var result = getOutput();
+
+        if (result == null) {
+            return null;
+        }
+        return new OrePurificationRecipe(new Recipe.CommonInfo(false), elementConsumption, luckRatio, getInput(), inputSize, result);
     }
 
     public ItemStack getResultForColor() {

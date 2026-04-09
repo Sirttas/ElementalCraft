@@ -1,35 +1,18 @@
 package sirttas.elementalcraft.item;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemInstance;
 import org.jetbrains.annotations.NotNull;
 
 public class ECItemStackHelper {
 
     private ECItemStackHelper() {}
 
-    public static boolean canBeDamaged(@NotNull ItemStack stack) {
-        return !stack.isEmpty() && stack.getMaxDamage() - stack.getDamageValue() > 1;
-    }
+    public static boolean canBeDamaged(@NotNull ItemInstance stack) {
+        int maxDamage = stack.getOrDefault(DataComponents.MAX_DAMAGE, 0);
+        int damage = Mth.clamp(stack.getOrDefault(DataComponents.DAMAGE, 0), 0, maxDamage);
 
-    public static @NotNull ItemStack damageItem(@NotNull ItemStack stack) {
-        return damageItem(stack, 1);
-    }
-
-    public static @NotNull ItemStack damageItem(@NotNull ItemStack stack, int damage) {
-        if (stack.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-
-        var result = stack.copy();
-        var damageValue = result.getDamageValue() + damage; // TODO: enchantment ?
-
-        result.setDamageValue(damageValue);
-        if (damageValue >= result.getMaxDamage()) {
-            result.shrink(1);
-        }
-        if (result.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        return result;
+        return stack.count() > 0 && maxDamage - damage > 1;
     }
 }

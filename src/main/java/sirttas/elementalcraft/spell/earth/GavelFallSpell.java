@@ -4,13 +4,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -19,7 +20,7 @@ public class GavelFallSpell extends Spell {
 
 	public static final String NAME = "gravelfall";
 
-	public GavelFallSpell(ResourceKey<Spell> key) {
+	public GavelFallSpell(ResourceKey<@NotNull Spell> key) {
 		super(key);
 	}
 
@@ -37,22 +38,22 @@ public class GavelFallSpell extends Spell {
 		}
 	}
 
-    private InteractionResult spawnGravel(@Nonnull Level level, BlockPos pos) {
+    private SpellCastResult spawnGravel(@Nonnull Level level, BlockPos pos) {
         checkAndSpawn(level, pos.above(4));
         checkAndSpawn(level, pos.above(5));
         checkAndSpawn(level, pos.above(6));
-        return InteractionResult.SUCCESS;
+        return SpellCastResult.SUCCESS;
     }
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		return spawnGravel(level, target);
 	}
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		return spawnGravel(level, BlockPos.containing(target.position()));
 	}
 

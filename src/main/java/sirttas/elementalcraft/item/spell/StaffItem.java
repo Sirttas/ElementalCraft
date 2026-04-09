@@ -16,19 +16,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class StaffItem extends FocusItem {
 
@@ -61,20 +59,15 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+	public void hurtEnemy(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
 		stack.hurtAndBreak(1, target, EquipmentSlot.MAINHAND);
-		return true;
 	}
-	
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		super.appendHoverText(stack, tooltipContext, tooltip, flag);
-		tooltip.add(Component.translatable("tooltip.elementalcraft.staff.ranges").withStyle(ChatFormatting.BLUE));
-	}
-	
-	@Override
-	public boolean canPerformAction(@NotNull ItemStack stack, @NotNull ItemAbility itemAbility) {
-		return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(itemAbility) || super.canPerformAction(stack, itemAbility);
+
+    @Override
+    @Deprecated
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
+        builder.accept(Component.translatable("tooltip.elementalcraft.staff.ranges").withStyle(ChatFormatting.BLUE));
 	}
 
 	@Nonnull

@@ -1,5 +1,6 @@
 - port to 26.1.1
 - add a facing property for fire furnace and fire blast furnace
+- purification spell now only consumes if it successfully removes a negative effect
 
 
 7.1.3:

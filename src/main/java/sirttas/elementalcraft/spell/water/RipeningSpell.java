@@ -3,13 +3,13 @@ package sirttas.elementalcraft.spell.water;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -23,7 +23,7 @@ public class RipeningSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		var state = level.getBlockState(target);
 		var block = state.getBlock();
 
@@ -35,8 +35,8 @@ public class RipeningSpell extends Spell {
 				}
 				level.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, target, 0);
 			}
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 }

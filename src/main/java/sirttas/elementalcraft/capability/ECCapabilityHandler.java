@@ -77,7 +77,7 @@ public class ECCapabilityHandler {
         registerCraftingBlockEntityCapabilities(event, ECBlockEntityTypes.FIRE_BLAST_FURNACE);
         registerCraftingBlockEntityCapabilities(event, ECBlockEntityTypes.PURIFIER);
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), IContainerBlockEntity::getItemHandler);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), IContainerBlockEntity::getItemResourceHandler);
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.SOURCE_BREEDER.get(), (blockEntity, _) -> blockEntity.getRuneHandler());
 
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, ECBlockEntityTypes.EXTRACTOR.get(), (blockEntity, _) -> blockEntity.getRuneHandler());
@@ -249,7 +249,7 @@ public class ECCapabilityHandler {
     private static void registerCraftingBlockEntityCapabilities(RegisterCapabilitiesEvent event, DeferredHolder<@NotNull BlockEntityType<?>, ? extends @NotNull BlockEntityType<? extends @NotNull AbstractECCraftingBlockEntity<?, ?>>> holder) {
         var type = (BlockEntityType<@NotNull AbstractECCraftingBlockEntity<?, ?>>) holder.get();
 
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, IContainerBlockEntity::getItemHandler);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, type, IContainerBlockEntity::getItemResourceHandler);
         event.registerBlockEntity(ElementalCraftCapabilities.RuneHandlers.BLOCK, type, (blockEntity, _) -> blockEntity.getRuneHandler());
     }
 
@@ -258,7 +258,7 @@ public class ECCapabilityHandler {
     }
 
     private static <T extends BlockEntity & IContainerBlockEntity & IRuneableBlockEntity & IElementStorageBlocKEntity> void registerIERCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<@NotNull T> type) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, IContainerBlockEntity::getItemHandler);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, type, IContainerBlockEntity::getItemResourceHandler);
         registerElementRunesCapabilities(event, type);
     }
 

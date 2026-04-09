@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.tick;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -69,16 +69,12 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
     }
 
     @Override
-    public @NotNull CompoundTag serializeNBT(@NotNull HolderLookup.Provider provider) {
-        var tag = new CompoundTag();
-
-        spellCooldowns.forEach((spell, cooldown) -> tag.putLong(spell.getKey().toString(), cooldown.expireTicks() - tick));
-        return tag;
+    public void serialize(@NotNull ValueOutput output) {
+        spellCooldowns.forEach((spell, cooldown) -> output.putLong(spell.getKey().toString(), cooldown.expireTicks() - tick));
     }
 
     @Override
-    public void deserializeNBT(@NotNull HolderLookup.Provider provider, CompoundTag nbt) {
-        spellCooldowns.clear();
-        nbt.getAllKeys().forEach(key -> spellCooldowns.put(Spells.REGISTRY.get(ElementalCraftApi.createRL(key)), new SpellCooldown(tick, tick + nbt.getLong(key))));
+    public void deserialize(@NotNull ValueInput input) {
+        input.keySet().forEach(key -> Spells.REGISTRY.get(ElementalCraftApi.createRL(key)).ifPresent(spell -> spellCooldowns.put(spell.value(), new SpellCooldown(tick, tick + input.getLongOr(key, 0)))));
     }
 }

@@ -2,9 +2,12 @@ package sirttas.elementalcraft.infusion.tool;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.DPAnvilNames;
 import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -20,21 +23,21 @@ import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class ToolInfusionHelper {
 
-	private static final Holder<ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DPAnvilNames.Identifiers.NONE);
+	private static final Holder<@NotNull ToolInfusion> NONE = ElementalCraftApi.TOOL_INFUSION_MANAGER.getOrCreateHolder(DPAnvilNames.Identifiers.NONE);
 
 	private ToolInfusionHelper() {}
 
 	@Nonnull
-	public static Holder<ToolInfusion> getInfusion(@Nonnull ItemStack stack) {
-		if (stack.isEmpty()) {
+	public static Holder<@NotNull ToolInfusion> getInfusion(@Nonnull ItemInstance stack) {
+		if (stack.count() <= 0) {
 			return NONE;
 		}
 		var infusion = stack.get(ECDataComponents.TOOL_INFUSION);
@@ -42,7 +45,7 @@ public class ToolInfusionHelper {
 		return infusion != null ? infusion : NONE;
 	}
 	
-	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull Holder<ToolInfusion> infusion) {
+	public static void setInfusion(@Nonnull ItemStack stack, @Nonnull Holder<@NotNull ToolInfusion> infusion) {
 		if (stack.isEmpty()) {
 			return;
 		} else if (NONE.is(infusion)) {
@@ -59,7 +62,7 @@ public class ToolInfusionHelper {
 		stack.remove(ECDataComponents.TOOL_INFUSION);
 	}
 
-	public static boolean hasAutoSmelt(ItemStack stack) {
+	public static boolean hasAutoSmelt(ItemInstance stack) {
 		return getInfusionEffects(stack, AutoSmeltToolInfusionEffect.class).findAny().isPresent();
 	}
 	
@@ -81,8 +84,9 @@ public class ToolInfusionHelper {
 
 	private static Stream<ToolInfusion> getInfusions(Entity entity) {
 		if (entity instanceof LivingEntity livingEntity) {
-			return StreamSupport.stream(livingEntity.getAllSlots().spliterator(), false)
-					.map(s -> getInfusion(s).value());
+
+			return Arrays.stream(EquipmentSlot.values())
+					.map(s -> getInfusion(livingEntity.getItemBySlot(s)).value());
 		}
 		return Stream.empty();
 	}
@@ -91,11 +95,11 @@ public class ToolInfusionHelper {
 		return getInfusions(entity).flatMap(t -> t.getEffects().stream());
 	}
 	
-	private static <T extends IToolInfusionEffect> Stream<T> getInfusionEffects(ItemStack stack, Class<T> type) {
+	private static <T extends IToolInfusionEffect> Stream<T> getInfusionEffects(ItemInstance stack, Class<T> type) {
 		return getInfusion(stack).value().getEffects().stream().mapMulti(ElementalCraftUtils.cast(type));
 	}
 
-	public static Map<Holder<Enchantment>, Integer> getAllInfusionEnchantments(ItemStack stack) {
+	public static Map<Holder<@NotNull Enchantment>, Integer> getAllInfusionEnchantments(ItemInstance stack) {
 		return getInfusionEffects(stack, EnchantmentToolInfusionEffect.class)
 				.collect(Collectors.toMap(EnchantmentToolInfusionEffect::getEnchantment, EnchantmentToolInfusionEffect::getLevel, Integer::sum));
 	}

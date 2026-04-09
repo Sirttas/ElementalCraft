@@ -59,7 +59,7 @@ public class ContainerRenderer<T extends AbstractElementContainerBlockEntity> im
                     var state = block.getStateForPlacement(new DirectionalPlaceContext(level, instrumentPos, Direction.DOWN, stack, Direction.UP));
 
                     if (state != null && state.canSurvive(level, instrumentPos) && state.is(container.getCompatibleTools())) {
-                        renderState.ghostBlockRenderState.update(blockModelResolver, level, state, instrumentPos);
+                        renderState.ghostBlockRenderState.update(blockModelResolver, state, Direction.UP.step());
                         return;
                     }
                 }

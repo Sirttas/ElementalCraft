@@ -44,9 +44,9 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 		var heldItem = player.getItemInHand(hand);
 	
 		if (furnace != null && hand == InteractionHand.MAIN_HAND) {
-			var inv = furnace.getItemHandler(null);
+			var inv = furnace.getItemResourceHandler(null);
 
-			if (!inv.getStackInSlot(1).isEmpty()) {
+			if (!inv.getResource(1).isEmpty()) {
 				if (player instanceof ServerPlayer serverPlayer) {
 					furnace.dropExperience(serverPlayer);
 				}
@@ -69,7 +69,7 @@ public abstract class AbstractFireFurnaceBlock extends AbstractECContainerBlock 
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> builder) {
 		builder.add(WATERLOGGED);
 	}
 

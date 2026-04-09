@@ -6,11 +6,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -31,7 +31,7 @@ public class StoneWallSpell extends Spell {
 		}
 	}
 
-	public InteractionResult cast(@Nonnull Level level, Entity sender, BlockPos pos, Direction direction) {
+	public SpellCastResult cast(@Nonnull Level level, Entity sender, BlockPos pos, Direction direction) {
 		checkAndPlace(level, pos);
 		checkAndPlace(level, pos.relative(direction.getClockWise()));
 		checkAndPlace(level, pos.relative(direction.getCounterClockWise()));
@@ -41,15 +41,15 @@ public class StoneWallSpell extends Spell {
 		checkAndPlace(level, pos.relative(direction.getClockWise()).above(2));
 		checkAndPlace(level, pos.relative(direction.getCounterClockWise()).above(1));
 		checkAndPlace(level, pos.relative(direction.getCounterClockWise()).above(2));
-		return InteractionResult.SUCCESS;
+		return SpellCastResult.SUCCESS;
 	}
 
 	@Override
-	public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
 		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(caster)).filter(d -> d.getAxis() != Axis.Y).findFirst();
 		
 		if (opt.isEmpty()) {
-			return InteractionResult.PASS;
+			return SpellCastResult.PASS;
 		}
 		return cast(level, caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());
 	}

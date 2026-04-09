@@ -37,7 +37,7 @@ public class EmptyReceptacleItem extends Item {
 		var hand = context.getHand();
 
 		if (blockstate.is(ECTags.Blocks.SOURCES)) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				spawnReceptacle(level, pos, player);
 				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 				if (player != null) {

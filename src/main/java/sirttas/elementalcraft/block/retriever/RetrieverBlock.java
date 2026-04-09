@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -119,7 +119,7 @@ public class RetrieverBlock extends AbstractECEntityBlock implements ISorterBloc
 	public static ItemStack retrieve(BlockState state, BlockGetter world, BlockPos pos, ItemStack output) {
 		Direction direction = state.getValue(TARGET);
 
-		return ItemHandlerHelper.insertItem(ECContainerHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false);
+		return ItemUtil.insertItemReturnRemaining(ECContainerHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false, null);
 	}
 
 }

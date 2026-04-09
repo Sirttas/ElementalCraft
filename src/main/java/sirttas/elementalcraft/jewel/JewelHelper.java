@@ -4,10 +4,12 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.jewel.attribute.AttributeJewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
@@ -41,7 +43,8 @@ public class JewelHelper {
 
         var list = new ArrayList<Jewel>();
 
-        for (var item : livingEntity.getAllSlots()) {
+        for (var slot : EquipmentSlot.values()) {
+            var item = livingEntity.getItemBySlot(slot);
             var jewel = getJewel(item);
 
             if( jewel != null) {
@@ -64,8 +67,8 @@ public class JewelHelper {
         return getActiveJewels(entity).contains(jewel);
     }
 
-    public static Multimap<Holder<Attribute>, AttributeModifier> getJewelsAttribute(Entity entity) {
-        Multimap<Holder<Attribute>, AttributeModifier>  map = ArrayListMultimap.create();
+    public static Multimap<Holder<@NotNull Attribute>, AttributeModifier> getJewelsAttribute(Entity entity) {
+        Multimap<Holder<@NotNull Attribute>, AttributeModifier>  map = ArrayListMultimap.create();
 
         for (var jewel : getActiveJewels(entity)) {
             if (jewel.isTicking() && jewel instanceof AttributeJewel attributeJewel) {

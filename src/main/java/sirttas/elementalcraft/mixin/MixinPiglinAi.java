@@ -12,10 +12,10 @@ import sirttas.elementalcraft.jewel.Jewels;
 @Mixin(PiglinAi.class)
 public abstract class MixinPiglinAi {
 
-    @Inject(method = "isWearingGold(Lnet/minecraft/world/entity/LivingEntity;)Z",
+    @Inject(method = "isWearingSafeArmor(Lnet/minecraft/world/entity/LivingEntity;)Z",
             at = @At("RETURN"),
             cancellable = true)
-    private static void isWearingGold$return(LivingEntity livingEntity, CallbackInfoReturnable<Boolean> cir) {
+    private static void isWearingSafeArmor$return(LivingEntity livingEntity, CallbackInfoReturnable<Boolean> cir) { // TODO move it to IItemExtension.makesPiglinsNeutral(ItemStack stack, LivingEntity wearer) // istead
         if (!cir.getReturnValueZ()) {
             cir.setReturnValue(JewelHelper.hasJewel(livingEntity, Jewels.PIGLIN.get()));
         }

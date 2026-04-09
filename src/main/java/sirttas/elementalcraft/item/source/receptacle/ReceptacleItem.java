@@ -5,6 +5,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -15,9 +16,7 @@ import sirttas.elementalcraft.block.source.trait.holder.ItemSourceTraitHolder;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.element.storage.AbstractItemStackSingleElementStorage;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class ReceptacleItem extends BlockItem implements IElementTypeProvider {
 
@@ -31,12 +30,7 @@ public class ReceptacleItem extends BlockItem implements IElementTypeProvider {
 		return ((SourceBlock) getBlock()).getElementType();
 	}
 
-	@Override
-	public @NotNull String getDescriptionId() {
-		return this.getOrCreateDescriptionId();
-	}
-
-	@NotNull
+    @NotNull
 	public static ISourceTraitHolder getTraitHolder(ItemStack stack) {
 		return stack.getOrDefault(ECDataComponents.SOURCE_TRAITS_HOLDER, ItemSourceTraitHolder.EMPTY);
 	}
@@ -45,16 +39,17 @@ public class ReceptacleItem extends BlockItem implements IElementTypeProvider {
 		return new ElementStorage(stack);
 	}
 
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		boolean analyzed = Boolean.TRUE.equals(stack.get(ECDataComponents.SOURCE_ANALYZED));
+    @Override
+    @Deprecated
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		boolean analyzed = Boolean.TRUE.equals(itemStack.get(ECDataComponents.SOURCE_ANALYZED));
 
 		if (analyzed) {
-			for (var value : getTraitHolder(stack).getTraits().values()) {
-				tooltip.add(value.getDescription());
+			for (var value : getTraitHolder(itemStack).getTraits().values()) {
+                builder.accept(value.getDescription());
 			}
 		} else {
-			tooltip.add(Component.translatable("tooltip.elementalcraft.source.unanalyzed"));
+            builder.accept(Component.translatable("tooltip.elementalcraft.source.unanalyzed"));
 		}
 	}
 

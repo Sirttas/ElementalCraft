@@ -15,6 +15,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -105,18 +107,18 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		return index;
 	}
 
-	private int transfer(IItemHandler sourceInv, IItemHandler targetInv, int amount) {
+	private int transfer(ResourceHandler<@NotNull ItemResource> sourceInv, ResourceHandler<@NotNull ItemResource> targetInv, int amount) {
 		if (stacks.isEmpty()) {
-			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (!sourceInv.getStackInSlot(i).isEmpty()) {
+			for (int i = 0; i < sourceInv.size(); i++) {
+				if (!sourceInv.getResource(i).isEmpty()) {
 					return doTransfer(sourceInv, targetInv, i, doTransfer(sourceInv, targetInv, i, amount, true), false);
 				}
 			}
 		} else if (!doesTargetUsesSingleSet(this.getBlockState().getValue(ISorterBlock.TARGET)) || index > 0 || ECContainerHelper.isEmpty(targetInv)) {
 			ItemStack stack = stacks.get(index).copy();
 
-			for (int i = 0; i < sourceInv.getSlots(); i++) {
-				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getStackInSlot(i)) && doTransfer(sourceInv, targetInv, i, 1, true) > 0) {
+			for (int i = 0; i < sourceInv.size(); i++) {
+				if (ItemStack.isSameItemSameComponents(stack, sourceInv.getResource(i).toStack()) && doTransfer(sourceInv, targetInv, i, 1, true) > 0) {
 					doTransfer(sourceInv, targetInv, i, 1, false);
                     moveIndexForward();
                     return 1;
@@ -137,6 +139,11 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
         }
     }
 
+    private int doTransfer(ResourceHandler<@NotNull ItemResource> sourceInv, ResourceHandler<@NotNull ItemResource> targetInv, int i, int amount, boolean simulate) {
+        return doTransfer(IItemHandler.of(sourceInv), IItemHandler.of(targetInv), i, amount, simulate);
+    }
+
+    @Deprecated
 	private int doTransfer(IItemHandler sourceInv, IItemHandler targetInv, int i, int amount, boolean simulate) {
 		var extracted = sourceInv.extractItem(i, amount, simulate);
 

@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
@@ -21,11 +22,12 @@ import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.TooltipHelper;
 import sirttas.elementalcraft.spell.ItemAbilitySpell;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractSpellHolderItem extends Item implements ISpellHolder {
 
@@ -33,12 +35,12 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 		super(properties);
 	}
 
-	protected void addAttributeTooltip(List<Component> tooltip, Spell spell) {
-		tooltip.add(Component.empty());
-		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).withStyle(ChatFormatting.YELLOW));
-		tooltip.add(Component.translatable("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).withStyle(ChatFormatting.YELLOW));
-		spell.addInformation(tooltip);
-		TooltipHelper.addAttributeMultiMapToTooltip(tooltip, spell.getOnUseAttributeModifiers(), Component.translatable("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
+	protected void addAttributeTooltip(Consumer<Component> builder, Spell spell) {
+        builder.accept(Component.empty());
+        builder.accept(Component.translatable("tooltip.elementalcraft.consumes", spell.getElementType().getDisplayName()).withStyle(ChatFormatting.YELLOW));
+        builder.accept(Component.translatable("tooltip.elementalcraft.cooldown", spell.getCooldown() / 20).withStyle(ChatFormatting.YELLOW));
+		spell.addInformation(builder);
+		TooltipHelper.addAttributeMultiMapToTooltip(builder, spell.getOnUseAttributeModifiers(), Component.translatable("tooltip.elementalcraft.on_spell_use").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override
@@ -92,13 +94,13 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 
 		AttributesHelper.addAttributes(attributeMap, attributes);
 
-		InteractionResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(level, player, spell) : InteractionResult.FAIL;
+        SpellCastResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(level, player, spell) : SpellCastResult.PASS;
 
-		if (result.consumesAction()) {
-			if (result.indicateItemUse()) {
+		if (result.success()) {
+			if (result.consume()) {
                 doConsume(player, hand, stack, spell);
 			}
-			if (result.shouldSwing() && !player.getAbilities().instabuild) {
+			if (result.startCooldown() && !player.getAbilities().instabuild) {
 				if (!level.isClientSide()) {
 					SpellTickHelper.startCooldown(player, spell);
 				}
@@ -110,25 +112,25 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 			player.releaseUsingItem();
 		}
 		AttributesHelper.removeAttributes(attributeMap, attributes);
-		return result;
+		return result.interactionResult();
 	}
 
-	private InteractionResult castSpell(Level level, Player player, Spell spell) {
+	private SpellCastResult castSpell(Level level, Player player, Spell spell) {
 		if (SpellTickHelper.hasCooldown(player, spell)) {
-			return InteractionResult.PASS;
+			return SpellCastResult.PASS;
 		}
-		
-		InteractionResult result = InteractionResult.PASS;
+
+        SpellCastResult result = SpellCastResult.PASS;
 		HitResult ray = EntityHelper.rayTrace(player);
 		HitResult.Type rayType = ray.getType();
 		
 		if (rayType == HitResult.Type.ENTITY && ray instanceof EntityHitResult entityRay) {
 			result = spell.castOnEntity(level, player, entityRay.getEntity());
 		}
-		if (rayType == HitResult.Type.BLOCK && !result.consumesAction() && ray instanceof BlockHitResult blockRay) {
+		if (rayType == HitResult.Type.BLOCK && !result.success() && ray instanceof BlockHitResult blockRay) {
 			result = spell.castOnBlock(level, player, blockRay.getBlockPos(), blockRay);
 		}
-		if (!result.consumesAction()) {
+		if (!result.success()) {
 			result = spell.castOnSelf(level, player);
 		}
 		return result;
@@ -137,14 +139,14 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 	private void doConsume(Player player, InteractionHand hand, ItemStack stack, Spell spell) {
 		if (!player.getAbilities().instabuild && !spell.consume(player, false)) {
 			consume(stack);
-			player.onEquippedItemBroken(this, LivingEntity.getSlotForHand(hand));
+			player.onEquippedItemBroken(this, hand.asEquipmentSlot());
         }
     }
 
 	protected abstract void consume(ItemStack stack);
 
 	@Override
-	public boolean canPerformAction(@NotNull ItemStack stack, @NotNull ItemAbility itemAbility) {
+	public boolean canPerformAction(@NotNull ItemInstance stack, @NotNull ItemAbility itemAbility) {
 		return SpellHelper.getSpell(stack) instanceof ItemAbilitySpell toolActionSpell && toolActionSpell.getItemAbilities().contains(itemAbility);
 	}
 }

@@ -6,10 +6,11 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.damagesource.ECDamageTypes;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class KirinJewel extends AbstractAttackJewel {
 
@@ -25,15 +26,15 @@ public class KirinJewel extends AbstractAttackJewel {
 
     @Override
     public void onAttack(Entity attacker, LivingEntity target) {
-        var isUndead = target.getType().is(EntityTypeTags.UNDEAD);
+        var isUndead = target.is(EntityTypeTags.UNDEAD);
 
         target.hurt(holyFire(attacker), isUndead ? 10 : 5);
         target.igniteForSeconds(isUndead ? 5 : 2);
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        tooltip.add(Component.translatable("tooltip.elementalcraft.kirin").withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.kirin").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 }

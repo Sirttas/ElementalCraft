@@ -7,18 +7,19 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class StriderJewel extends Jewel {
 
-    private final TagKey<Fluid> tag;
+    private final TagKey<@NotNull Fluid> tag;
 
-    public StriderJewel(ElementType elementType, int consumption, TagKey<Fluid> tag) {
+    public StriderJewel(ElementType elementType, int consumption, TagKey<@NotNull Fluid> tag) {
         super(elementType, consumption, true);
         this.tag = tag;
     }
@@ -36,14 +37,14 @@ public class StriderJewel extends Jewel {
     }
 
     @Override
-    public void appendHoverText(List<Component> tooltip) {
-        var key = tag.identifier();
+    public void appendHoverText(@NotNull Consumer<Component> builder) {
+        var key = tag.location();
 
-        tooltip.add(Component.translatable("tooltip.elementalcraft.strider." + key.getNamespace() + '.' + key.getPath().replace("/", ".")).withStyle(ChatFormatting.BLUE));
-        super.appendHoverText(tooltip);
+        builder.accept(Component.translatable("tooltip.elementalcraft.strider." + key.getNamespace() + '.' + key.getPath().replace("/", ".")).withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(builder);
     }
 
-    public TagKey<Fluid> getTag() {
+    public TagKey<@NotNull Fluid> getTag() {
         return tag;
     }
 }

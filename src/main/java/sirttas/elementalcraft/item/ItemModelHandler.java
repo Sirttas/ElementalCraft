@@ -19,6 +19,8 @@ public class ItemModelHandler {
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register();
+
         event.register(ECItems.PURE_ORE.get(), (s, l) -> {
             var colors = PureOreDisplayManager.getInstance().getColors(s);
 

@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -8,6 +7,8 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -93,8 +94,6 @@ public class GuiHandler {
 			return;
 		}
 
-		RenderSystem.enableBlend();
-
 		var spell = getSpell(player);
 		var i = 0;
 
@@ -109,7 +108,6 @@ public class GuiHandler {
 			}
 			i++;
 		}
-		RenderSystem.disableBlend();
 	}
 
 	private static boolean isPlayerOwned(Player player, ISingleElementStorage storage) {
@@ -136,7 +134,6 @@ public class GuiHandler {
 		var playerPos = player.position();
 		var buffer = createBufferSource();
 
-		RenderSystem.enableBlend();
 		for (var anchor : TranslocationAnchorsSaveData.CLIENT_SET) {
 			var center = Vec3.atCenterOf(anchor);
 			var distanceSq = center.distanceToSqr(playerPos);
@@ -150,7 +147,6 @@ public class GuiHandler {
 				drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
 			}
 		}
-		RenderSystem.disableBlend();
 		buffer.endBatch();
 	}
 
@@ -185,9 +181,7 @@ public class GuiHandler {
 
 		var buffer = createBufferSource();
 
-		RenderSystem.enableBlend();
 		drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), 1.5f, buffer, v);
-		RenderSystem.disableBlend();
 		buffer.endBatch();
 	}
 
@@ -196,25 +190,46 @@ public class GuiHandler {
 	}
 
 
-	private static void drawAnchor(Matrix3x2fStack poseStack, int width, int height, float scale, MultiBufferSource.BufferSource buffer, Vector4f v) {
+	private static void drawAnchor(Matrix3x2fStack matrix, int width, int height, float scale, MultiBufferSource.BufferSource buffer, Vector4f v) {
 		var w = width / 2F;
 		var h = height / 2F;
 
 		var x = Mth.clamp(w + v.x() * w, 16f, width - 16f);
 		var y = Mth.clamp(h - v.y() * h, 16f, height - 16f);
 
-		poseStack.pushMatrix();
-		poseStack.translate(x, y);
-		poseStack.scale(0.25F, 0.25F);
-		poseStack.scale(scale, scale);
-		poseStack.translate(-64, -64);
-		ECRendererHelper.renderIcon(poseStack, buffer, TRANSLOCATION_ANCHOR_MARKER, 128, 128);
-		poseStack.pushMatrix();
+        var builder = buffer.getBuffer(RenderTypes.entityTranslucent(TRANSLOCATION_ANCHOR_MARKER.sprite()));
+
+		matrix.pushMatrix();
+		matrix.translate(x, y);
+		matrix.scale(0.25F, 0.25F);
+		matrix.scale(scale, scale);
+		matrix.translate(-64, -64);
+
+        builder.addVertexWith2DPose(matrix, 0, 0)
+                .setColor(1F, 1F, 1F, 1F)
+                .setUv(0, 0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(15728880);
+        builder.addVertexWith2DPose(matrix, 128, 0)
+                .setColor(1F, 1F, 1F, 1F)
+                .setUv(1, 0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(15728880);
+        builder.addVertexWith2DPose(matrix, 128, 128)
+                .setColor(1F, 1F, 1F, 1F)
+                .setUv(1, 1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(15728880);
+        builder.addVertexWith2DPose(matrix, 0, 128)
+                .setColor(1F, 1F, 1F, 1F)
+                .setUv(0, 1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(15728880);
+		matrix.pushMatrix();
 	}
 
 	private static float getAnchorScale(float falloffSq, float distanceSq) {
 		return Mth.clamp(1f - distanceSq / falloffSq, 0.2f, 1f);
-
 	}
 
 	@Nonnull

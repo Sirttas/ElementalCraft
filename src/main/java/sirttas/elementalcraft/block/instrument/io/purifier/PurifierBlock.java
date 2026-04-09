@@ -32,7 +32,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -105,7 +104,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
 
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<@NotNull T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<@NotNull T> type) {
 		return createInstrumentTicker(level, type, ECBlockEntityTypes.PURIFIER);
 	}
 
@@ -113,7 +112,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final PurifierBlockEntity purifier = (PurifierBlockEntity) level.getBlockEntity(pos);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
 		if (purifier != null && hand == InteractionHand.MAIN_HAND) {

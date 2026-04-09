@@ -7,6 +7,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.testframework.Test;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -115,7 +116,7 @@ public class InfuserGameTests {
         });
     }
 
-    private static void assertHasToolInfusionWithEnchantment(GameTestHelper helper, ItemStack stack, ResourceKey<Enchantment> enchantment) {
+    private static void assertHasToolInfusionWithEnchantment(GameTestHelper helper, ItemStack stack, ResourceKey<@NotNull Enchantment> enchantment) {
         assertThat(stack.getEnchantmentLevel(ECEnchantmentHelper.getEnchantmentHolder(helper.getLevel().registryAccess(), enchantment))).isEqualTo(1);
     }
 

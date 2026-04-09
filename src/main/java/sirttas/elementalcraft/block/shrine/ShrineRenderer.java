@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.phys.Vec3;
@@ -40,12 +39,12 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
     public void extractRenderState(T blockEntity, S renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         if (blockEntity.showsRange()) {
-            renderState.range.update(blockEntity, blockEntity.getRange(), ARGB.colorFromFloat(1, 1, 1, 0.6F));
+            renderState.range.update(blockEntity, blockEntity.getRange());
         } else {
             renderState.range.clear();
         }
         if (!ECConfig.CLIENT.renderInstrumentShadow.get()) {
-            renderState.ghostUpgrades.values().forEach(GhostBlockRenderState::clear);
+            renderState.ghostUpgrades.clear();
             return;
         }
 
@@ -81,8 +80,8 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
                 }
                 var ghostState = new GhostBlockRenderState();
 
-                ghostState.update(blockModelResolver, level, state, upgradePos);
-                renderState.ghostUpgrades.put(direction, ghostState);
+                ghostState.update(blockModelResolver, state, direction.step());
+                renderState.ghostUpgrades.add(ghostState);
                 return;
             }
         }
@@ -91,13 +90,7 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
     @Override
     public void submit(S renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         renderState.range.submit();
-
-        poseStack.pushPose();
-        renderState.ghostUpgrades.forEach((direction, ghostState) -> {
-            poseStack.translate(direction.getStepX(), direction.getStepY(), direction.getStepZ());
-            ghostState.submit(poseStack, nodeCollector, renderState.lightCoords);
-        });
-        poseStack.popPose();
+        renderState.ghostUpgrades.forEach(ghostState-> ghostState.submit(poseStack, nodeCollector, renderState.lightCoords));
 	}
 
     private static class Default<T extends AbstractShrineBlockEntity> extends ShrineRenderer<T , ShrineRenderState> {

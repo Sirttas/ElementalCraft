@@ -49,7 +49,7 @@ public class ECModelHandler {
 
         register(event, ElementPipeSectionRenderer.SIDE);
         register(event, ElementPipeSectionRenderer.EXTRACT);
-        register(event, CrackingSynthesizerRenderer.HEAD_LOCATION);
+        register(event, CrackingSynthesizerRenderer.HEAD);
         register(event, SolarSynthesizerRenderer.LENS);
         register(event, MillRenderer.WATER_MILL_GRINDSTONE_SHAFT);
         register(event, MillRenderer.AIR_MILL_GRINDSTONE_SHAFT);

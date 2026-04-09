@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.spell.water;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
 
@@ -19,12 +19,12 @@ public class AnimalGrowthSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
 		if (target instanceof Animal animal && animal.isBaby()) {
 			animal.setAge(0);
-			return InteractionResult.SUCCESS;
+			return SpellCastResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return SpellCastResult.PASS;
 	}
 
 

@@ -15,7 +15,7 @@ import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class Jewel implements IElementTypeProvider, ItemLike {
 
@@ -91,9 +91,9 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 		}
 	}
 
-	public void appendHoverText(List<Component> tooltip) {
-		tooltip.add(Component.empty());
-		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
+	public void appendHoverText(@NotNull Consumer<Component> builder) {
+        builder.accept(Component.empty());
+        builder.accept(Component.translatable("tooltip.elementalcraft.consumes", elementType.getDisplayName()).withStyle(ChatFormatting.YELLOW));
 	}
 
 	@Override

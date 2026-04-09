@@ -6,7 +6,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.Block;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeItem;
 import sirttas.elementalcraft.component.ECDataComponents;
@@ -15,7 +14,7 @@ import javax.annotation.Nonnull;
 
 public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
 
-    public TranslocationShrineUpgradeItem(Block block, Properties properties) {
+    public TranslocationShrineUpgradeItem(TranslocationShrineUpgradeBlock block, Properties properties) {
         super(block, properties);
     }
 

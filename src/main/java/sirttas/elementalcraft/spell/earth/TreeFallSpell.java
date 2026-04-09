@@ -3,12 +3,12 @@ package sirttas.elementalcraft.spell.earth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -47,13 +47,13 @@ public class TreeFallSpell extends Spell {
 
 	@Nonnull
 	@Override
-	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
 		if (level.isClientSide() || !isValidBlock(level.getBlockState(target))) {
-            return InteractionResult.PASS;
+            return SpellCastResult.PASS;
         }
 
         cutTree(sender, level, target);
-        return InteractionResult.SUCCESS;
+        return SpellCastResult.SUCCESS;
 
     }
 }

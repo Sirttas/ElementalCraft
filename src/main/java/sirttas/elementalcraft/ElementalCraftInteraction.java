@@ -67,7 +67,7 @@ public interface ElementalCraftInteraction {
             ServiceLoader<ElementalCraftInteraction> loader = ServiceLoader.load(ElementalCraftInteraction.class);
 
             interactions = loader.stream()
-                    .map(ServiceLoader.Provider::get)
+                    .map(ServiceLoader.Provider::get) // TODO try catch
                     .filter(ElementalCraftInteraction::isActive)
                     .toList();
             ElementalCraftApi.LOGGER.info("Elemental Craft loaded {} interactions loaded: {}", interactions::size, () -> interactions.stream()
@@ -77,7 +77,7 @@ public interface ElementalCraftInteraction {
 
         @Override
         public boolean isActive() {
-            return true;
+            return !interactions.isEmpty();
         }
 
         @Override

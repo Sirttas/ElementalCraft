@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -25,9 +26,9 @@ import java.util.function.Supplier;
 
 public class ECCreativeModeTabs {
 
-    private static final DeferredRegister<CreativeModeTab> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ElementalCraftApi.MODID);
+    private static final DeferredRegister<@NotNull CreativeModeTab> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
+    public static final DeferredHolder<@NotNull CreativeModeTab, @NotNull CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.elementalcraft"))
             .icon(() -> new ItemStack(ECItems.FOCUS))
             .displayItems((p, o) -> {
@@ -293,7 +294,7 @@ public class ECCreativeModeTabs {
     }
 
     private static void generateSpells(@Nonnull CreativeModeTab.Output output) {
-        Spells.REGISTRY.holders()
+        Spells.REGISTRY.listElements()
                 .filter(SpellHelper::isVisible)
                 .map(s -> {
                     var stack = new ItemStack(ECItems.SCROLL);

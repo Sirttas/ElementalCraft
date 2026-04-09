@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -21,8 +22,7 @@ import sirttas.elementalcraft.entity.player.ECPlayerHelper;
 import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class RuneItem extends Item implements IPipeInteractingItem {
 
@@ -81,12 +81,13 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 		return stack;
 	}
 
-	@Override
-	public void appendHoverText(@Nonnull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		var rune = getRune(stack);
+    @Override
+    @Deprecated
+    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+		var rune = getRune(itemStack);
 
 		if (rune != null) {
-			rune.value().addInformation(tooltip, flag);
+			rune.value().appendHoverText(builder, tooltipFlag);
 		}
 	}
 

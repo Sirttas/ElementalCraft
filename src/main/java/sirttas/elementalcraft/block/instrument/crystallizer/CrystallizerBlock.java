@@ -28,7 +28,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.AbstractECContainerBlock;
 import sirttas.elementalcraft.block.WaterLoggingHelper;
@@ -89,17 +88,17 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final CrystallizerBlockEntity crystallizer = (CrystallizerBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		IItemHandler inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
 
 		if (crystallizer != null && hand == InteractionHand.MAIN_HAND) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !crystallizer.getInventory().isEmpty()) {
-				for (int i = 0; i < inv.getSlots(); i++) {
+				for (int i = 0; i < inv.size(); i++) {
 					this.onSlotActivated(inv, player, ItemStack.EMPTY, i);
 				}
 				return InteractionResult.SUCCESS;
 			}
-			for (int i = 0; i < inv.getSlots(); i++) {
-				if (inv.getStackInSlot(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
+			for (int i = 0; i < inv.size(); i++) {
+				if (inv.getResource(i).isEmpty() && this.onSlotActivated(inv, player, heldItem, i) == InteractionResult.SUCCESS) {
 					return InteractionResult.SUCCESS;
 				}
 			}

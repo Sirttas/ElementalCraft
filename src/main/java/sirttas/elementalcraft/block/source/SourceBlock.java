@@ -3,10 +3,6 @@ package sirttas.elementalcraft.block.source;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -23,11 +19,8 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
-import sirttas.elementalcraft.item.source.receptacle.ReceptacleItem;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class SourceBlock extends AbstractECEntityBlock implements IElementTypeProvider {
 
@@ -90,19 +83,6 @@ public class SourceBlock extends AbstractECEntityBlock implements IElementTypePr
 	@Override
 	public RenderShape getRenderShape(@Nonnull BlockState state) {
 		return RenderShape.INVISIBLE;
-	}
-
-	@Override
-	public void appendHoverText(@NotNull ItemStack stack, @Nullable Item.TooltipContext tooltipContext, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
-		var traits = ReceptacleItem.getTraitHolder(stack).getTraits().values();
-
-		if (traits.isEmpty()) {
-			return;
-		}
-
-		for (var value : traits) {
-			tooltip.add(value.getDescription());
-		}
 	}
 
 	public static SourceBlock findSourceBlock(ElementType type) {

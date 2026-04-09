@@ -155,11 +155,6 @@ public abstract class AbstractElementHolderItem extends Item {
 		return InteractionResult.PASS;
 	}
 
-	@Override
-	public boolean isBookEnchantable(@NotNull ItemStack stack, @NotNull ItemStack book) {
-		return false;
-	}
-
 	@Nonnull
 	@Override
 	public Optional<TooltipComponent> getTooltipImage(@Nonnull ItemStack stack) {

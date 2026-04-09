@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.block.shrine.upgrade.boneless;
+package sirttas.elementalcraft.block.shrine.upgrade.bonelessgrowth;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

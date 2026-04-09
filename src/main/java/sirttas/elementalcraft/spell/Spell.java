@@ -9,7 +9,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Util;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -36,16 +35,16 @@ import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class Spell implements IElementTypeProvider {
 
 	private String descriptionId;
-	protected final Holder<SpellProperties> properties;
-	private final ResourceKey<Spell> key;
+	protected final Holder<@NotNull SpellProperties> properties;
+    @Deprecated
+	private final ResourceKey<@NotNull Spell> key;
 
-	protected Spell(ResourceKey<Spell> key) {
+	protected Spell(ResourceKey<@NotNull Spell> key) {
 		properties = ElementalCraft.SPELL_PROPERTIES_MANAGER.getOrCreateHolder(SpellProperties.getKey(key));
 		this.key = key;
 	}
@@ -58,6 +57,7 @@ public class Spell implements IElementTypeProvider {
 		return this.descriptionId;
 	}
 
+    @Deprecated
 	public Identifier getKey() {
 		return key.identifier();
 	}
@@ -66,7 +66,7 @@ public class Spell implements IElementTypeProvider {
 		return Component.translatable(getDescriptionId());
 	}
 
-    public boolean is(@NotNull Holder<Spell> spell) {
+    public boolean is(@NotNull Holder<@NotNull Spell> spell) {
         return this.key == spell.getKey();
     }
 
@@ -82,23 +82,23 @@ public class Spell implements IElementTypeProvider {
         return ItemStack.EMPTY;
     }
 
-	public Multimap<Holder<Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
+	public Multimap<Holder<@NotNull Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
 		return getProperties().getAttributes();
 	}
 
 	@Nonnull
-	public InteractionResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
-		return InteractionResult.PASS;
+	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+		return SpellCastResult.PASS;
 	}
 
 	@Nonnull
-	public InteractionResult castOnBlock(@Nonnull Level level, @Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
-		return InteractionResult.PASS;
+	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+		return SpellCastResult.PASS;
 	}
 
 	@Nonnull
-	public InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
-		return InteractionResult.PASS;
+	public SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+		return SpellCastResult.PASS;
 	}
 
 	public void addSpellInstance(AbstractSpellInstance instance) {
@@ -212,7 +212,7 @@ public class Spell implements IElementTypeProvider {
 		return getSpellType() != Type.NONE && getElementType() != ElementType.NONE;
 	}
 
-	public void addInformation(List<Component> tooltip) {
+	public void addInformation(Consumer<Component> builder) {
 		// provided for override
 	}
 
@@ -230,7 +230,10 @@ public class Spell implements IElementTypeProvider {
     }
 
     public enum Type implements StringRepresentable {
-		NONE("none"), COMBAT("combat"), UTILITY("utility"), MIXED("mixed");
+		NONE("none"),
+        COMBAT("combat"),
+        UTILITY("utility"),
+        MIXED("mixed");
 		
 		public static final Codec<Type> CODEC = StringRepresentable.fromEnum(Type::values);
 

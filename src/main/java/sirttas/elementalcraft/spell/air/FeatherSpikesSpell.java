@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.entity.projectile.FeatherSpike;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 
 import javax.annotation.Nonnull;
@@ -23,12 +23,12 @@ public class FeatherSpikesSpell extends Spell {
     }
 
     @Override
-    public @Nonnull InteractionResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+    public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
         if (caster instanceof LivingEntity livingEntity) {
             this.addSpellInstance(new Instance(livingEntity));
-            return InteractionResult.SUCCESS;
+            return SpellCastResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return SpellCastResult.PASS;
     }
 
     private class Instance extends AbstractSpellInstance {

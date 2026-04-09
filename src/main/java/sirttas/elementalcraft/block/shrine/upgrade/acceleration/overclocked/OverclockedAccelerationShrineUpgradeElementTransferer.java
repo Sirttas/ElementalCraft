@@ -10,7 +10,7 @@ import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
-import sirttas.elementalcraft.block.shrine.upgrade.horizontal.HorizontalShrineUpgradeBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.HorizontalShrineUpgradeBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
