@@ -43,7 +43,7 @@ public abstract class MixinProjectile extends Entity {
     @Unique
     private void handleHoming() {
         //noinspection ConstantConditions
-        if ((Entity) this instanceof AbstractArrow arrow && arrow.inGround) {
+        if ((Entity) this instanceof AbstractArrow arrow && arrow.isInGround()) {
             return;
         }
 

@@ -8,7 +8,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -91,7 +91,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 		}
 
 		@Override
-		public void drawWidget(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+		public void drawWidget(@NotNull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 			int stepIndex = ticks % steps.length;
 			steps[stepIndex].draw(guiGraphics, 0, 0);
 		}

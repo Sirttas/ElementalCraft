@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.interaction.jei;
 
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -42,34 +43,34 @@ public class ECJEIRecipeTypes {
 
     private ECJEIRecipeTypes() {}
 
-    public static final RecipeType<ExtractionRecipeCategory.ExtractionRecipe> EXTRACTION = create(ExtractionRecipeCategory.NAME, ExtractionRecipeCategory.ExtractionRecipe.class);
-    public static final RecipeType<CrackingRecipe> CRACKING = create(CrackingRecipe.NAME, CrackingRecipe.class);
-    public static final RecipeType<SculkCrackingRecipe> SCULK_CRACKING = create(SculkCrackingRecipe.NAME, SculkCrackingRecipe.class);
-    public static final RecipeType<IJeiFuelingRecipe> COMBUSTION = create(CombustionRecipeCategory.NAME, IJeiFuelingRecipe.class);
-    public static final RecipeType<Ingredient> SOLAR_SYNTHESIS = create(SolarSynthesisRecipeCategory.NAME, Ingredient.class);
-    public static final RecipeType<IngredientElementType> DRAINING = create(DrainingRecipeCategory.NAME, IngredientElementType.class);
-    public static final RecipeType<ItemStack> CULINARY = create(CulinaryRecipeCategory.NAME, ItemStack.class);
-    public static final RecipeType<IngredientElementType> VIBRATION = create(VibrationRecipeCategory.NAME, IngredientElementType.class);
-    public static final RecipeType<IngredientElementType> AIR_MILL_SYNTHESIS = create(AirMillSynthesisRecipeCategory.NAME, IngredientElementType.class);
-    public static final RecipeType<InfusionRecipe> INFUSION = create(InfusionRecipe.NAME, InfusionRecipe.class);
-    public static final RecipeType<InfusionRecipe> TOOL_INFUSION = create(ToolInfusionRecipe.NAME, InfusionRecipe.class);
-    public static final RecipeType<AbstractBindingRecipe> BINDING = create(AbstractBindingRecipe.NAME, AbstractBindingRecipe.class);
-    public static final RecipeType<CrystallizationRecipe> CRYSTALLIZATION = create(CrystallizationRecipe.NAME, CrystallizationRecipe.class);
-    public static final RecipeType<InscriptionRecipe> INSCRIPTION = create(InscriptionRecipe.NAME, InscriptionRecipe.class);
-    public static final RecipeType<EnchantmentLiquefactionRecipeCategory.RecipeWrapper> ENCHANTMENT_LIQUEFACTION = create(EnchantmentLiquefactionRecipe.NAME, EnchantmentLiquefactionRecipeCategory.RecipeWrapper.class);
-    public static final RecipeType<PureInfusionRecipe> PURE_INFUSION = create(PureInfusionRecipe.NAME, PureInfusionRecipe.class);
-    public static final RecipeType<OrePurificationRecipe> ORE_PURIFICATION = create(PurificationRecipeCategory.NAME, OrePurificationRecipe.class);
-    public static final RecipeType<GrindingRecipe> GRINDING = create(GrindingRecipe.NAME, GrindingRecipe.class);
-    public static final RecipeType<SawingRecipe> SAWING = create(SawingRecipe.NAME, SawingRecipe.class);
-    public static final RecipeType<SpellCraftRecipe> SPELL_CRAFTING = create(SpellCraftRecipe.NAME, SpellCraftRecipe.class);
-    public static final RecipeType<ElementType> DISPLACEMENT = create(DisplacementRecipeCategory.NAME, ElementType.class);
-    public static final RecipeType<BuddingShrineBudType> BUDDING_SHRINE = create(BuddingShrineBlock.NAME, BuddingShrineBudType.class);
-    public static final RecipeType<MeltingRecipe> MELTING_SHRINE = create(MeltingShrineBlock.NAME, MeltingRecipe.class);
-    public static final RecipeType<SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
-    public static final RecipeType<ElementalItem> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, ElementalItem.class);
+    public static final IRecipeType<ExtractionRecipeCategory.@NotNull ExtractionRecipe> EXTRACTION = create(ExtractionRecipeCategory.NAME, ExtractionRecipeCategory.ExtractionRecipe.class);
+    public static final IRecipeType<@NotNull CrackingRecipe> CRACKING = create(CrackingRecipe.NAME, CrackingRecipe.class);
+    public static final IRecipeType<@NotNull SculkCrackingRecipe> SCULK_CRACKING = create(SculkCrackingRecipe.NAME, SculkCrackingRecipe.class);
+    public static final IRecipeType<@NotNull IJeiFuelingRecipe> COMBUSTION = create(CombustionRecipeCategory.NAME, IJeiFuelingRecipe.class);
+    public static final IRecipeType<@NotNull Ingredient> SOLAR_SYNTHESIS = create(SolarSynthesisRecipeCategory.NAME, Ingredient.class);
+    public static final IRecipeType<@NotNull IngredientElementType> DRAINING = create(DrainingRecipeCategory.NAME, IngredientElementType.class);
+    public static final IRecipeType<@NotNull ItemStack> CULINARY = create(CulinaryRecipeCategory.NAME, ItemStack.class);
+    public static final IRecipeType<@NotNull IngredientElementType> VIBRATION = create(VibrationRecipeCategory.NAME, IngredientElementType.class);
+    public static final IRecipeType<@NotNull IngredientElementType> AIR_MILL_SYNTHESIS = create(AirMillSynthesisRecipeCategory.NAME, IngredientElementType.class);
+    public static final IRecipeType<@NotNull InfusionRecipe> INFUSION = create(InfusionRecipe.NAME, InfusionRecipe.class);
+    public static final IRecipeType<@NotNull InfusionRecipe> TOOL_INFUSION = create(ToolInfusionRecipe.NAME, InfusionRecipe.class);
+    public static final IRecipeType<@NotNull AbstractBindingRecipe> BINDING = create(AbstractBindingRecipe.NAME, AbstractBindingRecipe.class);
+    public static final IRecipeType<@NotNull CrystallizationRecipe> CRYSTALLIZATION = create(CrystallizationRecipe.NAME, CrystallizationRecipe.class);
+    public static final IRecipeType<@NotNull InscriptionRecipe> INSCRIPTION = create(InscriptionRecipe.NAME, InscriptionRecipe.class);
+    public static final IRecipeType<EnchantmentLiquefactionRecipeCategory.@NotNull RecipeWrapper> ENCHANTMENT_LIQUEFACTION = create(EnchantmentLiquefactionRecipe.NAME, EnchantmentLiquefactionRecipeCategory.RecipeWrapper.class);
+    public static final IRecipeType<@NotNull PureInfusionRecipe> PURE_INFUSION = create(PureInfusionRecipe.NAME, PureInfusionRecipe.class);
+    public static final IRecipeType<@NotNull OrePurificationRecipe> ORE_PURIFICATION = create(PurificationRecipeCategory.NAME, OrePurificationRecipe.class);
+    public static final IRecipeType<@NotNull GrindingRecipe> GRINDING = create(GrindingRecipe.NAME, GrindingRecipe.class);
+    public static final IRecipeType<@NotNull SawingRecipe> SAWING = create(SawingRecipe.NAME, SawingRecipe.class);
+    public static final IRecipeType<@NotNull SpellCraftRecipe> SPELL_CRAFTING = create(SpellCraftRecipe.NAME, SpellCraftRecipe.class);
+    public static final IRecipeType<@NotNull ElementType> DISPLACEMENT = create(DisplacementRecipeCategory.NAME, ElementType.class);
+    public static final IRecipeType<@NotNull BuddingShrineBudType> BUDDING_SHRINE = create(BuddingShrineBlock.NAME, BuddingShrineBudType.class);
+    public static final IRecipeType<@NotNull MeltingRecipe> MELTING_SHRINE = create(MeltingShrineBlock.NAME, MeltingRecipe.class);
+    public static final IRecipeType<@NotNull SpringShrineBlock> SPRING_SHRINE = create(SpringShrineBlock.NAME, SpringShrineBlock.class);
+    public static final IRecipeType<@NotNull ElementalItem> SOURCE_BREEDING = create(SourceBreedingRecipeCategory.NAME, ElementalItem.class);
 
-    private static <T> RecipeType<T> create(String path, Class<? extends T> recipeClass) {
-        return RecipeType.create(ElementalCraftApi.MODID, path, recipeClass);
+    private static <T> IRecipeType<@NotNull T> create(String path, Class<? extends T> recipeClass) {
+        return IRecipeType.create(ElementalCraftApi.MODID, path, recipeClass);
     }
 
 }

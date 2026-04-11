@@ -17,11 +17,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +49,14 @@ public class ECRendererHelper {
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material.Baked renderMaterial, int width, int height, int light) {
         submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().atlasLocation()), 0, 0, width, height, 1F, 1F, 1F, light);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector,  Material renderMaterial, int width, int height, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), 0, 0, width, height, 1, 1, 1, light);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector,  Material renderMaterial, int width, int height, float r, float g, float b, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), 0, 0, width, height, r, g, b, light);
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light) {
@@ -97,79 +100,11 @@ public class ECRendererHelper {
         submitModel(List.of(model), poseStack, nodeCollector, lightCoords);
     }
 
-
-    public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height) {
-        renderIcon(poseStack, buffer.getBuffer(RenderTypes.entityTranslucent(renderMaterial.sprite())), 0, 0, width, height, 1F, 1F, 1F, 15728880, OverlayTexture.NO_OVERLAY);
-    }
-
-    public static void renderIcon(PoseStack poseStack, MultiBufferSource buffer, Material renderMaterial, int width, int height, int light, int overlay) {
-        renderIcon(poseStack, buffer.getBuffer(RenderTypes.entityTranslucent(renderMaterial.sprite())), 0, 0, width, height, 1F, 1F, 1F, light, overlay);
-    }
-
-    public static void renderIcon(PoseStack poseStack, VertexConsumer builder, float x, float y, int width, int height, float r, float g, float b, int light, int overlay) {
-        var pose = poseStack.last();
-        var matrix = pose.pose();
-
-        builder.addVertex(matrix, x, y, 0)
-                .setColor(r, g, b, 1F)
-                .setUv(0, 0)
-                .setOverlay(overlay)
-                .setLight(light)
-                .setNormal(pose, 0, 1, 0);
-        builder.addVertex(matrix, x + width, y, 0)
-                .setColor(r, g, b, 1F)
-                .setUv(1, 0)
-                .setOverlay(overlay)
-                .setLight(light)
-                .setNormal(pose, 0, 1, 0);
-        builder.addVertex(matrix, x + width, y + height, 0)
-                .setColor(r, g, b, 1F)
-                .setUv(1, 1)
-                .setOverlay(overlay)
-                .setLight(light)
-                .setNormal(pose, 0, 1, 0);
-        builder.addVertex(matrix, x, y + height, 0)
-                .setColor(r, g, b, 1F)
-                .setUv(0, 1)
-                .setOverlay(overlay)
-                .setLight(light)
-                .setNormal(pose, 0, 1, 0);
-    }
-
-    public static void renderItem(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay) {
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.GROUND, light, overlay, poseStack, buffer, null, 0);
-    }
-
     public static void renderBlock(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {
-        renderBlock(state, poseStack, buffer, 15728880, OverlayTexture.NO_OVERLAY, ModelData.EMPTY);
-    }
-
-    public static void renderBlock(BlockState state, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay, ModelData data) {
         if (state.isAir()) {
             return;
         }
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, poseStack, buffer, light, overlay, data, null);
-    }
-
-    public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos) {
-        renderBatched(state, poseStack, buffer, level, pos, null);
-    }
-
-    public static void renderBatched(BlockState state, PoseStack poseStack, MultiBufferSource buffer, Level level, BlockPos pos, ModelData data) {
-        poseStack.pushPose();
-        var blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        var rand = RandomSource.create();
-
-        if (state.getRenderShape() != RenderShape.INVISIBLE) {
-            var model = blockRenderer.getBlockModel(state);
-
-            for (var renderType : model.getRenderTypes(state, rand, data)) {
-                var consumer = buffer.getBuffer(renderType);
-
-                blockRenderer.renderBatched(state, pos, level, poseStack, consumer, false, rand, data, renderType);
-            }
-        }
-        poseStack.popPose();
+        // TODO
     }
 
     public static void renderFluid(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {

@@ -13,8 +13,8 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class StoneWallSpell extends Spell {
@@ -60,10 +60,10 @@ public class StoneWallSpell extends Spell {
 
 		return super.consume(sender, simulate) && value;
 	}
-	
-	@Override
-	public void addInformation(List<Component> tooltip) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
+
+    @Override
+    public void addInformation(Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 9, Blocks.STONE.getName()))
 				.withStyle(ChatFormatting.YELLOW));
 	}
 }

@@ -87,6 +87,10 @@ public abstract class AbstractIOInstrumentRecipe implements IOInstrumentRecipe<S
         return PlacementInfo.create(input);
     }
 
+    public double getLuckRatio() {
+        return luckRatio;
+    }
+
     @Override
     public int getLuck(SimpleIOInstrumentRecipeInput input) {
         return (int) Math.round(input.getRuneBonus(Rune.BonusType.LUCK) * luckRatio);

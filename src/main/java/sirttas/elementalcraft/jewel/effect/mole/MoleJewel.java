@@ -15,7 +15,7 @@ public class MoleJewel extends EffectJewel {
     public static final String NAME = "mole";
 
     public MoleJewel() {
-        super(ElementType.EARTH, 1000, false, new MobEffectInstance(MobEffects.DIG_SPEED, 1200, 2));
+        super(ElementType.EARTH, 1000, false, new MobEffectInstance(MobEffects.HASTE, 1200, 2));
     }
 
     @Override

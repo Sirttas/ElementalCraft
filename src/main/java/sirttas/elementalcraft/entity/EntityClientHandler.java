@@ -1,14 +1,18 @@
 package sirttas.elementalcraft.entity;
 
+import com.google.common.reflect.TypeToken;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.util.Mth;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -19,61 +23,100 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.advancements.LookAtSourcePayload;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.data.attachment.ECDataAttachments;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
-import sirttas.elementalcraft.spell.renderer.ISpellInstanceRenderer;
+import sirttas.elementalcraft.spell.renderer.SpellRenderState;
+import sirttas.elementalcraft.spell.renderer.SpellRenderer;
 import sirttas.elementalcraft.spell.renderer.SpellRenderers;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class EntityClientHandler {
 
+    private static final ContextKey<@NotNull List<SpellRenderState>> SPELL_RENDER_STATES = new ContextKey<>(ElementalCraftApi.createRL("spell_render_states"));
+
 	private EntityClientHandler() {}
 
+    @SubscribeEvent
+    public static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {
+        event.registerEntityModifier(new TypeToken<@NotNull EntityRenderer<@NotNull Entity, @NotNull EntityRenderState>>() {}, EntityClientHandler::extractSpellRenderStates);
+    }
+
+    private static void extractSpellRenderStates(Entity entity, EntityRenderState state) {
+        var spell = SpellHelper.getSpellInUse(entity);
+        var instances = SpellTickHelper.getSpellInstances(entity);
+        var states = new ArrayList<SpellRenderState>(instances.size() + 1);
+        var mainState = extractSingleSpellRenderState(spell.value(), null, entity, state);
+
+        if (mainState != null) {
+            states.add(mainState);
+        }
+        instances.forEach(instance -> {
+            var instanceState = extractSingleSpellRenderState(instance.getSpell(), instance, entity, state);
+
+            if (instanceState != null) {
+                states.add(instanceState);
+            }
+        });
+        state.setRenderData(SPELL_RENDER_STATES, states);
+    }
+
+    private static <S extends SpellRenderState> S extractSingleSpellRenderState(Spell spell, @Nullable AbstractSpellInstance instance, Entity caster, EntityRenderState entityRenderState) {
+        if (!spell.isValid()) {
+            return null;
+        }
+        SpellRenderer<S> renderer = SpellRenderers.get(spell);
+
+        if (renderer == null) {
+            return null;
+        }
+        S state = renderer.createRenderState();
+
+        if (state == null) {
+            return null;
+        }
+        renderer.extractRenderState(state, spell, instance, caster, spell.getHand(caster), entityRenderState.partialTick, entityRenderState.lightCoords);
+        return state;
+    }
+
 	@SubscribeEvent
-	public static void renderSpellEffects(final RenderLivingEvent.Post<?, ?, ?> event) {
-		var poseStack = event.getPoseStack();
-		var entity = event.getEntity();
-		var spell = SpellHelper.getSpellInUse(entity);
-		var partialTicks = event.getPartialTick();
-		var buffer = event.getMultiBufferSource();
-		var packedLight = event.getPackedLight();
+	public static void submitSpellEffects(final RenderLivingEvent.Post<?, ?, ?> event) {
+        var state = event.getRenderState();
+        var states = state.getRenderData(SPELL_RENDER_STATES);
+
+        if (states == null) {
+            return;
+        }
+
+        var poseStack = event.getPoseStack();
+        var submitNodeCollector = event.getSubmitNodeCollector();
+        var cameraRenderState = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.cameraRenderState;
 
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(180 - Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot)));
-		renderSingleSpellFirstPerson(spell.value(), null, entity, partialTicks, poseStack, buffer, packedLight);
-		SpellTickHelper.getSpellInstances(entity).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, entity, partialTicks, poseStack, buffer, packedLight));
+		poseStack.mulPose(Axis.YP.rotationDegrees(180 - state.bodyRot));
+        states.forEach(s -> {
+            var renderer = SpellRenderers.get(s.spell);
+
+            if (renderer != null) {
+                renderer.submit(s, poseStack, submitNodeCollector, cameraRenderState);
+            }
+        });
 		poseStack.popPose();
 	}
 
-	private static void renderSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LivingEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		if (!spell.isValid()) {
-			return;
-		}
-		var renderer = SpellRenderers.get(spell);
-
-		if (renderer == null) {
-			return;
-		}
-
-		poseStack.pushPose();
-		if (renderer instanceof ISpellInstanceRenderer spellInstanceRenderer && instance != null) {
-			spellInstanceRenderer.render(instance, partialTicks, poseStack, buffer, packedLight);
-		} else {
-			renderer.render(spell, entity, partialTicks, poseStack, buffer, packedLight);
-		}
-		poseStack.popPose();
-	}
-
 	@SubscribeEvent
-	public static void renderSpellEffects(final RenderHandEvent event) {
+	public static void submitSpellEffectsFirstPerson(final RenderHandEvent event) {
 		var player = Minecraft.getInstance().player;
 
 		if (player == null) {
@@ -86,25 +129,26 @@ public class EntityClientHandler {
 		if (inUseRenderer != null && inUseRenderer.hideHand(hand)) {
 			event.setCanceled(true);
 		}
-		renderSpellEffectFirstPerson(player, event.getItemStack(), hand, event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
+        submitSpellEffectsFirstPerson(player, event.getItemStack(), hand, event.getPartialTick(), event.getPoseStack(), event.getSubmitNodeCollector(), event.getPackedLight());
 	}
 
-	private static void renderSpellEffectFirstPerson(AbstractClientPlayer player, ItemStack stack, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+	private static void submitSpellEffectsFirstPerson(AbstractClientPlayer player, ItemStack stack, InteractionHand hand, float partialTicks, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight) {
 		if (!(player instanceof LocalPlayer localPlayer) || localPlayer.isScoping()) {
             return;
         }
 
         var spell = SpellHelper.getSpell(stack);
+        var cameraRenderState = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.cameraRenderState;
 
         if (localPlayer.isUsingItem() && localPlayer.getUsedItemHand() == hand && !stack.isEmpty()) {
-            renderSingleSpellFirstPerson(spell.value(), null, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
+            submitSingleSpellFirstPerson(spell.value(), null, localPlayer, hand, partialTicks, poseStack, submitNodeCollector, cameraRenderState, packedLight);
         }
         if (hand == InteractionHand.MAIN_HAND) {
-            SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> renderSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, buffer, packedLight));
+            SpellTickHelper.getSpellInstances(localPlayer).forEach(i -> submitSingleSpellFirstPerson(i.getSpell(), i, localPlayer, hand, partialTicks, poseStack, submitNodeCollector, cameraRenderState, packedLight));
         }
 	}
 
-	private static void renderSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+	private static void submitSingleSpellFirstPerson(Spell spell, @Nullable AbstractSpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, int packedLight) {
 		if (!spell.isValid()) {
 			return;
 		}
@@ -113,12 +157,17 @@ public class EntityClientHandler {
 		if (renderer == null) {
 			return;
 		}
+
+        var state = renderer.createRenderState();
+
+        if (state == null) {
+            return;
+        }
+
+        renderer.extractRenderState(state, spell, instance, localPlayer, hand, partialTicks, packedLight);
+
 		poseStack.pushPose();
-		if (renderer instanceof ISpellInstanceRenderer spellInstanceRenderer && instance != null) {
-			spellInstanceRenderer.renderFirstPerson(instance, localPlayer, partialTicks, poseStack, buffer, packedLight);
-		} else {
-			renderer.renderFirstPerson(spell, localPlayer, hand, partialTicks, poseStack, buffer, packedLight);
-		}
+		renderer.submitFirstPerson(state, poseStack, submitNodeCollector, cameraRenderState);
 		poseStack.popPose();
 	}
 

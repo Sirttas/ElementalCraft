@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.component.ECDataComponents;
 
 import java.util.ArrayList;
@@ -17,18 +18,15 @@ import java.util.List;
 import java.util.Set;
 
 public record PureOre(
-        Set<Holder<Item>> items,
+        Set<Holder<@NotNull Item>> items,
         List<Ingredient> inputs,
         List<ItemStack> resultsForColor
 ) {
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, PureOre> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.collection(HashSet::new, ByteBufCodecs.holderRegistry(Registries.ITEM)),
-            PureOre::items,
-            ByteBufCodecs.collection(ArrayList::new, Ingredient.CONTENTS_STREAM_CODEC),
-            PureOre::inputs,
-            ByteBufCodecs.collection(ArrayList::new, ItemStack.STREAM_CODEC),
-            PureOre::resultsForColor,
+    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull PureOre> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.collection(HashSet::new, ByteBufCodecs.holderRegistry(Registries.ITEM)), PureOre::items,
+            ByteBufCodecs.collection(ArrayList::new, Ingredient.CONTENTS_STREAM_CODEC), PureOre::inputs,
+            ByteBufCodecs.collection(ArrayList::new, ItemStack.STREAM_CODEC), PureOre::resultsForColor,
             PureOre::new
     );
 
@@ -36,7 +34,7 @@ public record PureOre(
         return stack.get(ECDataComponents.PURE_ORE);
     }
 
-    public PureOre(Set<Holder<Item>> items, List<Ingredient> inputs, List<ItemStack> resultsForColor) {
+    public PureOre(Set<Holder<@NotNull Item>> items, List<Ingredient> inputs, List<ItemStack> resultsForColor) {
         this.items = Set.copyOf(items);
         this.inputs = List.copyOf(inputs);
         this.resultsForColor = List.copyOf(resultsForColor);

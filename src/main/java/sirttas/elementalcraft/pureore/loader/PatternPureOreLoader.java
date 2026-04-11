@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.codec.Codecs;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -38,7 +39,7 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
     final String namespace;
     final Optional<Pattern> namespacePattern;
 
-    public PatternPureOreLoader(HolderSet<Item> source, int elementConsumption, int inputSize, int outputSize, double luckRatio, int order, Pattern tagPattern, List<Pattern> patterns, String namespace, Optional<Pattern> namespacePattern) {
+    public PatternPureOreLoader(HolderSet<@NotNull Item> source, int elementConsumption, int inputSize, int outputSize, double luckRatio, int order, Pattern tagPattern, List<Pattern> patterns, String namespace, Optional<Pattern> namespacePattern) {
         super(source, elementConsumption, inputSize, outputSize, luckRatio, order);
         this.tagPattern = tagPattern;
         this.patterns = patterns;
@@ -52,7 +53,7 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
     }
 
     @Override
-    protected PureOreTagGroup load(Map<Identifier, LoadedPureOre> pureOres, Holder<Item> ore) {
+    protected PureOreTagGroup load(Map<Identifier, LoadedPureOre> pureOres, Holder<@NotNull Item> ore) {
         var np = namespacePattern.orElseGet(() -> Pattern.compile("^" + namespace + "$"));
         var key = ore.getKey();
 
@@ -63,7 +64,7 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
         var id = key.identifier();
         var tags = ore.tags()
                 .filter(t -> {
-                    var location = t.identifier();
+                    var location = t.location();
 
                     return np.matcher(location.getNamespace()).find() && tagPattern.matcher(location.getPath()).find();
                 }).toList();
@@ -74,9 +75,9 @@ public class PatternPureOreLoader extends AbstractPureOreLoader {
                         id::toString,
                         np::pattern,
                         tagPattern::pattern,
-                        () -> tags.stream().map(t -> t.identifier().toString()).collect(Collectors.joining(", ")));
+                        () -> tags.stream().map(t -> t.location().toString()).collect(Collectors.joining(", ")));
             }
-            id = Identifier.fromNamespaceAndPath(namespace, cleanPath(tagPattern.matcher(tags.getFirst().identifier().getPath()).replaceAll("")));
+            id = Identifier.fromNamespaceAndPath(namespace, cleanPath(tagPattern.matcher(tags.getFirst().location().getPath()).replaceAll("")));
         } else {
             id = Identifier.fromNamespaceAndPath(id.getNamespace(), cleanPath(id.getPath()));
         }

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.pureore.loader;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -19,36 +18,12 @@ import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationR
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class LoadedPureOre {
-
-    private static final String MINECRAFT = "minecraft";
-    private static final String DEEPSLATE = "deepslate";
-
-    private static final Comparator<Identifier> MINECRAFT_NAMESPACE_COMPARATOR = (name1, name2) -> {
-        if (MINECRAFT.equals(name1.getNamespace()) && !MINECRAFT.equals(name2.getNamespace())) {
-            return -1;
-        } else if (!MINECRAFT.equals(name1.getNamespace()) && MINECRAFT.equals(name2.getNamespace())) {
-            return 1;
-        }
-        return 0;
-    };
-
-    private static final Comparator<Identifier> DEEPSLATE_COMPARATOR = (name1, name2) -> {
-        if (name1.getPath().contains(DEEPSLATE) && !name2.getPath().contains(DEEPSLATE)) {
-            return 1;
-        } else if (!name1.getPath().contains(DEEPSLATE) && name2.getPath().contains(DEEPSLATE)) {
-            return -1;
-        }
-        return 0;
-    };
-
-    private static final Comparator<Item> DESCRIPTION_COMPARATOR = Comparator.comparing(BuiltInRegistries.ITEM::getKey, MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(Identifier::compareTo));
 
     private final Identifier id;
     private final Set<Holder<@NotNull Item>> ores;
@@ -100,7 +75,7 @@ public class LoadedPureOre {
     }
 
     public <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipe(@Nonnull T recipe, ItemStack output) {
-        recipes.computeIfAbsent(recipe.getType(), t -> {
+        recipes.computeIfAbsent(recipe.getType(), _ -> {
             if (resultForColor.isEmpty()) {
                 this.resultForColor = output;
             }

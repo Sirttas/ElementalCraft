@@ -1,23 +1,11 @@
 package sirttas.elementalcraft.particle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import net.minecraft.client.GraphicsStatus;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractECParticle extends SingleQuadParticle {
@@ -25,27 +13,9 @@ public abstract class AbstractECParticle extends SingleQuadParticle {
 	protected final double coordX;
 	protected final double coordY;
 	protected final double coordZ;
-
-	@SuppressWarnings("deprecation")
-	static final ParticleRenderType EC_RENDER = new ParticleRenderType() {
-		@Override
-		public BufferBuilder begin(Tesselator tesselator, @Nonnull TextureManager textureManager) {
-			RenderSystem.enableDepthTest();
-			RenderSystem.depthMask(false);
-			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-			RenderSystem.enableBlend();
-			RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			return tesselator.begin(Mode.QUADS, DefaultVertexFormat.PARTICLE);
-		}
-
-		@Override
-		public String toString() {
-			return "elementalcraft:renderer";
-		}
-	};
 	
-	protected AbstractECParticle(ClientLevel level, Vec3 coord) {
-		super(level, coord.x(), coord.y(), coord.z());
+	protected AbstractECParticle(ClientLevel level, Vec3 coord, TextureAtlasSprite sprite) {
+		super(level, coord.x(), coord.y(), coord.z(), sprite);
 		this.coordX = coord.x();
 		this.coordY = coord.y();
 		this.coordZ = coord.z();
@@ -62,33 +32,9 @@ public abstract class AbstractECParticle extends SingleQuadParticle {
 		return true;
 	}
 
-	@Nonnull
-    @Override
-	@OnlyIn(Dist.CLIENT)
-	public ParticleRenderType getRenderType() {
-		return Minecraft.getInstance().options.graphicsMode().get() == GraphicsStatus.FAST ? ParticleRenderType.PARTICLE_SHEET_OPAQUE : EC_RENDER;
-	}
-
 	@Override
 	public void move(double x, double y, double z) {
 		this.setBoundingBox(this.getBoundingBox().move(x, y, z));
 		this.setLocationFromBoundingbox();
 	}
-
-	@Override
-	public int getLightColor(float partialTick) {
-		int i = super.getLightColor(partialTick);
-		float f = (float) this.age / (float) this.lifetime;
-		f = f * f;
-		f = f * f;
-		int j = i & 255;
-		int k = i >> 16 & 255;
-		k = k + (int) (f * 15.0F * 16.0F);
-		if (k > 240) {
-			k = 240;
-		}
-	
-		return j | k << 16;
-	}
-
 }

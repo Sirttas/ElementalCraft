@@ -1744,7 +1744,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput, BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + BuiltInRegistries.ITEM.getKey(from.asItem()).getPath());
 	}
 
-	private void grindToDye(ItemLike dye, TagKey<Item> from, RecipeOutput recipeOutput) {
+	private void grindToDye(ItemLike dye, TagKey<@NotNull Item> from, RecipeOutput recipeOutput) {
 		var tagName = from.identifier();
 
 		GrindingRecipeBuilder.grindingRecipe(dye)
@@ -1777,7 +1777,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 	}
 
-	private void sawingRecipe(ItemLike stripedLog, ItemLike stripedWood, ItemLike planks, ItemLike log, ItemLike wood, TagKey<Item> stripped, RecipeOutput recipeOutput) {
+	private void sawingRecipe(ItemLike stripedLog, ItemLike stripedWood, ItemLike planks, ItemLike log, ItemLike wood, TagKey<@NotNull Item> stripped, RecipeOutput recipeOutput) {
 		SawingRecipeBuilder.sawingRecipe(stripedLog)
 				.withIngredient(log)
 				.withElementAmount(250)
@@ -1965,11 +1965,11 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(recipeOutput);
 	}
 
-	private Ingredient createScrollIngredient(Holder<Spell> spell) {
+	private Ingredient createScrollIngredient(Holder<@NotNull Spell> spell) {
 		return DataComponentIngredient.of(true, ECDataComponents.SPELL, spell, ECItems.SCROLL.get());
 	}
 
-	private Ingredient createRuneIngredient(ResourceKey<Rune> rune) {
+	private Ingredient createRuneIngredient(ResourceKey<@NotNull Rune> rune) {
 		return createRuneIngredient(rune.identifier());
 	}
 
@@ -2172,7 +2172,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		return existingFileHelper.exists(BuiltInRegistries.BLOCK.getKey(block), PackType.SERVER_DATA, ".json", "recipes");
 	}
 
-	private void createNuggetIngotBlock(ItemLike nugget, TagKey<Item> nuggetTag, ItemLike ingot, TagKey<Item> ingotTag, ItemLike block, TagKey<Item> blockTag, RecipeOutput recipeOutput) {
+	private void createNuggetIngotBlock(ItemLike nugget, TagKey<@NotNull Item> nuggetTag, ItemLike ingot, TagKey<@NotNull Item> ingotTag, ItemLike block, TagKey<@NotNull Item> blockTag, RecipeOutput recipeOutput) {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ingot).define('#', nuggetTag)
 				.pattern("###")
 				.pattern("###")
@@ -2280,7 +2280,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		return "has_" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
 	}
 
-	protected static Criterion<InventoryChangeTrigger.TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
+	protected static Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
 		return has(itemLike.get().asItem());
 	}
 }

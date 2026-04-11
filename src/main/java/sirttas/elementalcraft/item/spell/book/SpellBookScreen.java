@@ -1,25 +1,21 @@
 package sirttas.elementalcraft.item.spell.book;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import sirttas.elementalcraft.config.ECConfig;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import java.text.MessageFormat;
-
-public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> implements MenuAccess<SpellBookMenu> {
+public class SpellBookScreen extends AbstractContainerScreen<@NotNull SpellBookMenu> implements MenuAccess<@NotNull SpellBookMenu> {
 	private static final Identifier CHEST_GUI_TEXTURE = Identifier.withDefaultNamespace("textures/gui/container/generic_54.png");
 
-	public SpellBookScreen(SpellBookMenu container, Inventory playerInventory, Component title) {
-		super(container, playerInventory, title);
-		this.imageHeight = 114 + SpellBookMenu.ROW_COUNT * 18;
+	public SpellBookScreen(SpellBookMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title, 176, 114 + SpellBookMenu.ROW_COUNT * 18);
 		this.inventoryLabelY = this.imageHeight - 94;
 	}
+
+    /* TODO
 
 	@Override
 	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
@@ -45,4 +41,6 @@ public class SpellBookScreen extends AbstractContainerScreen<SpellBookMenu> impl
 		guiGraphics.blit(CHEST_GUI_TEXTURE, i, j, 0, 0, this.imageWidth, SpellBookMenu.ROW_COUNT * 18 + 17);
 		guiGraphics.blit(CHEST_GUI_TEXTURE, i, j + SpellBookMenu.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96);
 	}
+
+     */
 }

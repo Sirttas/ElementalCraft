@@ -35,12 +35,13 @@ public class ItemStackGasToItemStackPureOreRecipeFactory<T extends ItemStackChem
 	}
 
 	@Override
+    @Deprecated
 	public ItemStack getRecipeOutput(@NotNull RegistryAccess registry, @NotNull T recipe) {
 		return tweakOutput(recipe.getOutput(ItemStack.EMPTY, ChemicalStack.EMPTY));
 	}
 
 	@Override
-	public boolean filter(RecipeHolder<T> recipe, ItemStack stack) {
+	public boolean filter(RecipeHolder<@NotNull T> recipe, ItemStack stack) {
 		return recipe.value().getItemInput().test(stack) && super.filter(recipe, stack);
 	}
 

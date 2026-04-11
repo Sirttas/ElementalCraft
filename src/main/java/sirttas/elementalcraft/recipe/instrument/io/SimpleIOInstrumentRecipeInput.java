@@ -19,6 +19,8 @@ public record SimpleIOInstrumentRecipeInput(
         Map<Rune.BonusType, Float> bonuses
 ) implements IOInstrumentRecipeInput, RuneBonusesRecipeInput {
 
+    public static final @NotNull SimpleIOInstrumentRecipeInput EMPTY = new SimpleIOInstrumentRecipeInput(ItemStack.EMPTY, ItemStack.EMPTY, 0, RandomSource.create(), ElementType.NONE, 0, Map.of());
+
     public SimpleIOInstrumentRecipeInput(ItemStack input, ItemStack output, int itemLimit, RandomSource randomSource, ElementType elementType, int elementAmount, Map<Rune.BonusType, Float> bonuses) {
         this.input = input;
         this.output = output;

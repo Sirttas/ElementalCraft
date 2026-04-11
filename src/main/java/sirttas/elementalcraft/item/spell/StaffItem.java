@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.item.spell;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -17,13 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -43,11 +40,6 @@ public class StaffItem extends FocusItem {
 
 	public StaffItem(Item.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public boolean canAttackBlock(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, Player player) {
-		return !player.isCreative();
 	}
 
 	@Override
@@ -85,16 +77,4 @@ public class StaffItem extends FocusItem {
 				Math.max(playerAABB.maxZ, targetAABB.maxZ)
 		);
 	}
-
-	@Override
-	public boolean isValidRepairItem(@Nonnull ItemStack toRepair, ItemStack repair) {
-		return repair.is(ECTags.Items.INGOTS_FIREITE);
-	}
-
-	@Override
-	@Deprecated
-	public int getEnchantmentValue() {
-		return 16;
-	}
-
 }

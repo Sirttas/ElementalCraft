@@ -74,6 +74,9 @@ sourceSets {
     interaction {
         java {
             srcDir 'src/interaction/java'
+            exclude 'sirttas/elementalcraft/interaction/curios/**'
+            exclude 'sirttas/elementalcraft/interaction/ie/**'
+            exclude 'sirttas/elementalcraft/interaction/mekanism/**'
         }
         resources {
             srcDir 'src/interaction/resources'
@@ -94,8 +97,6 @@ neoForge {
     addModdingDependenciesTo(sourceSets.interaction)
     addModdingDependenciesTo(sourceSets.datagen)
     addModdingDependenciesTo(sourceSets.test)
-
-    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         configureEach {
@@ -209,6 +210,7 @@ dependencies {
 
     interactionImplementation "mezz.jei:jei-${jei_suffix}:${jei_version}"
 
+    interactionCompileOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}:api"
     interactionCompileOnly "mekanism:Mekanism:${mekanism_version}"
     interactionCompileOnly "blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}"
     interactionImplementation "org.appliedenergistics:appliedenergistics2:${ae2_version}"

@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
@@ -33,13 +34,14 @@ public class FireInfusionLootModifier extends LootModifier {
 	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {
 		var level = context.getLevel();
 		var registry = level.registryAccess();
+        var input = new SingleRecipeInput(stack);
 		var recipe = level.recipeAccess().recipeMap().byType(RecipeType.SMELTING).stream()
 				.map(RecipeHolder::value)
-				.filter(r -> r.getIngredients().getFirst().test(stack))
+				.filter(r -> r.matches(input, level))
 				.findFirst();
 
 		if (recipe.isPresent()) {
-			var ret = recipe.get().getResultItem(registry).copy();
+			var ret = recipe.get().assemble(input).copy();
 
 			ret.setCount(ret.getCount() * stack.getCount());
 			if (stack.is(Tags.Items.ORES)) {

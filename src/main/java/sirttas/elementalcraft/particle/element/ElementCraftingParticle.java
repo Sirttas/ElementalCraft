@@ -1,20 +1,24 @@
 package sirttas.elementalcraft.particle.element;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine.SpriteParticleRegistration;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 
 @OnlyIn(Dist.CLIENT)
 public class ElementCraftingParticle extends AbstractElementParticle {
 
-	public static final SpriteParticleRegistration<ElementParticleData> FACTORY = s -> (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new ElementCraftingParticle(level, new Vec3(x, y, z), s, data.getElementType());
 	
-	private ElementCraftingParticle(ClientLevel level, Vec3 coord, SpriteSet sprite, ElementType type) {
-		super(level, coord, type);
+	private ElementCraftingParticle(ClientLevel level, Vec3 coord, TextureAtlasSprite sprite, ElementType type) {
+		super(level, coord, sprite, type);
 		this.xd = (this.random.nextFloat() - 0.5F);
 		this.yd = (this.random.nextFloat() - 0.5F);
 		this.zd = (this.random.nextFloat() - 0.5F);
@@ -26,7 +30,6 @@ public class ElementCraftingParticle extends AbstractElementParticle {
 		this.z = this.zo;
 		usingDefaultSize();
 		this.lifetime = this.random.nextInt(10) + 5;
-		this.pickSprite(sprite);
 	}
 
 	@Override
@@ -39,4 +42,19 @@ public class ElementCraftingParticle extends AbstractElementParticle {
 			this.z = this.coordZ + this.zd * f;
 		}
 	}
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Provider implements ParticleProvider<@NotNull ElementParticleType> {
+
+        private final SpriteSet sprites;
+
+        public Provider(SpriteSet sprites) {
+            this.sprites = sprites;
+        }
+
+        @Override
+        public @Nullable Particle createParticle(@NotNull ElementParticleType elementParticleType, @NotNull ClientLevel clientLevel, double v, double v1, double v2, double v3, double v4, double v5, @NotNull RandomSource randomSource) {
+            return new ElementCraftingParticle(clientLevel, new Vec3(v, v1, v2), sprites.get(randomSource), elementParticleType.getElementType());
+        }
+    }
 }

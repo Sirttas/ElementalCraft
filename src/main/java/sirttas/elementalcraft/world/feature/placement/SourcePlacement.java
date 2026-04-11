@@ -25,7 +25,7 @@ public class SourcePlacement extends PlacementModifier {
 	public static int getHeight(LevelAccessor level, int x, int z) {
 		var y = level.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, x, z);
 
-		if (y < level.getMaxBuildHeight()) {
+		if (y < level.getMaxY()) {
 			return Math.max(level.getSeaLevel(), y) + level.getRandom().nextInt(4);
 		}
 		return 0;

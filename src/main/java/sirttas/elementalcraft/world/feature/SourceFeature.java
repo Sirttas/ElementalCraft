@@ -56,6 +56,6 @@ public class SourceFeature extends Feature<IElementTypeFeatureConfig> {
 
 		level.setBlock(pos, sourceBlock.defaultBlockState(), 2);
 		BlockEntityHelper.getBlockEntityAs(level, pos, SourceBlockEntity.class).ifPresent(s -> s.resetTraits(level, luck));
-		level.blockUpdated(pos, sourceBlock);
+		level.updateNeighborsAt(pos, sourceBlock);
 	}
 }

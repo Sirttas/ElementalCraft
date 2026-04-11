@@ -9,7 +9,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -66,7 +66,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
     }
 
     @Override
-    public void draw(@Nonnull BuddingShrineBudType budType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(@Nonnull BuddingShrineBudType budType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         render3D(guiGraphics, (p, b) -> {
             p.translate(0, 0.5, 0);
             setupPose(p);
@@ -131,7 +131,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
             return Blocks.AIR.defaultBlockState();
         }
         return upgrade.unwrap().map(k -> upgradeStates.computeIfAbsent(k, k2 -> {
-            var state = BuiltInRegistries.BLOCK.get(k.identifier()).defaultBlockState();
+            var state = BuiltInRegistries.BLOCK.get(k.identifier()).get().value().defaultBlockState();
 
             if (state.isAir()) {
                 return Blocks.AIR.defaultBlockState();

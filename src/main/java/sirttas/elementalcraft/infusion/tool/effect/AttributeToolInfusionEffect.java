@@ -9,14 +9,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.infusion.tool.effect.IToolInfusionEffect;
 import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.item.TooltipHelper;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public record AttributeToolInfusionEffect(
 		EquipmentSlotGroup slotGroup,
-		Holder<Attribute> attribute,
+		Holder<@NotNull Attribute> attribute,
 		AttributeModifier modifier
 ) implements IToolInfusionEffect {
 
@@ -29,7 +32,10 @@ public record AttributeToolInfusionEffect(
 
 	@Override
 	public Component getDescription() {
-		return TooltipHelper.getAttributeTooltip(attribute, modifier).withStyle(ChatFormatting.YELLOW);
+        AtomicReference<Component> value = new AtomicReference<>(Component.empty());
+
+		TooltipHelper.addAttributeTooltip(value::set, attribute, modifier);
+        return value.get().copy().withStyle(ChatFormatting.YELLOW);
 	}
 
 	@Override

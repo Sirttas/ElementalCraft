@@ -30,6 +30,7 @@ import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.Spell;
+import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 import java.nio.file.Path;
@@ -739,7 +740,7 @@ public class BookDataProvider implements DataProvider {
     }
 
 
-    private static void shrine(CategoryBuilder category, DeferredHolder<Block, ? extends AbstractShrineBlock<?>> shrine) {
+    private static void shrine(CategoryBuilder category, DeferredHolder<@NotNull Block, ? extends @NotNull AbstractShrineBlock<?>> shrine) {
         var name = shrine.getId().getPath();
 
         category.entry(shrine.get())
@@ -748,7 +749,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
-    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<Block, ? extends ShrineUpgradeBlock> shrineUpgrade) {
+    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<@NotNull Block, ? extends @NotNull ShrineUpgradeBlock> shrineUpgrade) {
         var name = shrineUpgrade.getId().getPath();
 
         return category.entry(shrineUpgrade.get())
@@ -758,11 +759,11 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.crafting(shrineUpgrade.get()));
     }
 
-    private static void spell(CategoryBuilder category, DeferredHolder<Spell, ? extends Spell> spell) {
+    private static void spell(CategoryBuilder category, DeferredHolder<@NotNull Spell, ? extends @NotNull Spell> spell) {
         var name = spell.getId().getPath();
         var stack = new ItemStack(ECItems.SCROLL);
 
-        stack.set(ECDataComponents.SPELL, spell);
+        SpellHelper.setSpell(stack, spell);
 
         category.entry(name)
                 .name(spell.get().getDescriptionId())
@@ -772,7 +773,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
-    private static void jewel(CategoryBuilder category, DeferredHolder<Jewel, ? extends Jewel> jewel) {
+    private static void jewel(CategoryBuilder category, DeferredHolder<@NotNull Jewel, ? extends @NotNull Jewel> jewel) {
         var name = jewel.getId().getPath();
 
         category.entry(jewel.get())

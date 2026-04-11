@@ -39,8 +39,8 @@ public class ElementBeamPipeUpgradeRenderer implements PipeUpgradeRenderer<Eleme
     }
 
     @Override
-    public void extractRenderState(ElementBeamPipeUpgrade pipeUpgrade, ElementBeamPipeUpgradeRenderState state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
-        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, partialTicks, cameraPosition, sectionRenderState);
+    public void extractRenderState(ElementBeamPipeUpgrade pipeUpgrade, ElementBeamPipeUpgradeRenderState state, ElementPipeSectionRenderState sectionRenderState, float partialTicks, Vec3 cameraPosition) {
+        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, sectionRenderState, partialTicks, cameraPosition);
         state.animationTime = ECRendererHelper.getClientTicks(partialTicks) % 50;
         state.linked = pipeUpgrade.isLinked();
         state.runes.update(pipeUpgrade.getRuneHandler(), runeModelResolver, partialTicks);

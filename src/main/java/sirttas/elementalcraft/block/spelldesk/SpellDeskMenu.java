@@ -4,6 +4,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.TransientCraftingContainer;
@@ -12,10 +13,8 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -23,10 +22,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class SpellDeskMenu extends AbstractECMenu {
+public class SpellDeskMenu extends AbstractContainerMenu {
 
 	private final Container input;
-	private final Container output;
+	private final Container result;
 	private final Level level;
 
 	private final DataSlot page = DataSlot.standalone();
@@ -35,10 +34,10 @@ public class SpellDeskMenu extends AbstractECMenu {
 	private List<ItemStack> stacks;
 
 	public SpellDeskMenu(int id, Inventory player) {
-		super(ECMenus.SPELL_DESK, id);
+		super(ECMenus.SPELL_DESK.get(), id);
 		this.level = player.player.level();
 		input = new TransientCraftingContainer(this, 3, 1);
-		output = new SimpleContainer(6);
+		result = new SimpleContainer(6);
 		stacks = Collections.emptyList();
 		
 		this.addSlot(new InputSlot(0, 32, 35, s -> s.is(ECItems.SCROLL_PAPER.get())));
@@ -50,7 +49,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 		this.addSlot(new OutputSlot(3, 108, 53));
 		this.addSlot(new OutputSlot(4, 126, 53));
 		this.addSlot(new OutputSlot(5, 144, 53));
-		this.addPlayerSlots(player, 84);
+		this.addStandardInventorySlots(player, 0, 84);
 		this.addDataSlot(this.page);
 		this.addDataSlot(this.pageCount);
 	}
@@ -101,9 +100,7 @@ public class SpellDeskMenu extends AbstractECMenu {
 				return input.getContainerSize();
 			}
 		};
-		stacks = level.recipeAccess().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream()
-                .map(h -> h.value().assemble(recipeInput))
-				.toList();
+		stacks = List.of(); // TODO level.recipeAccess().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream().map(h -> h.value().assemble(recipeInput)).toList();
 
 		this.page.set(0);
 		this.pageCount.set(Math.max(1, (int) Math.ceil(stacks.size() / 6.0)));
@@ -111,12 +108,12 @@ public class SpellDeskMenu extends AbstractECMenu {
 	}
 
 	private void setOutput() {
-		output.clearContent();
+		result.clearContent();
 		var size = Math.min(stacks.size(), 6);
 		var index = page.get() * 6;
 
 		for (int i = 0; i < size; i++) {
-			output.setItem(i, stacks.get(i + index));
+			result.setItem(i, stacks.get(i + index));
 		}
 		this.broadcastChanges();
 	}
@@ -126,7 +123,12 @@ public class SpellDeskMenu extends AbstractECMenu {
 		updateRecipeList(level);
 	}
 
-	@Override
+    @Override
+    public boolean stillValid(@NotNull Player player) {
+        return true;
+    }
+
+    @Override
 	public void removed(@Nonnull Player player) {
 		super.removed(player);
 		clearContainer(player, input);
@@ -150,11 +152,10 @@ public class SpellDeskMenu extends AbstractECMenu {
 		setOutput();
 	}
 
-
-	private class OutputSlot extends Slot {
+    private class OutputSlot extends Slot {
 
 		public OutputSlot(int index, int xPosition, int yPosition) {
-			super(output, index, xPosition, yPosition);
+			super(result, index, xPosition, yPosition);
 		}
 		
 		@Override

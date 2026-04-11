@@ -24,8 +24,8 @@ public class BasiliskJewel extends EffectJewel {
 
     public BasiliskJewel() {
         super(ElementType.WATER, 20, true,
-                new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 2, 3),
-                new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 2, 2));
+                new MobEffectInstance(MobEffects.SLOWNESS, 2, 3),
+                new MobEffectInstance(MobEffects.MINING_FATIGUE, 2, 2));
     }
 
     private Entity getTarget(Entity entity) {
@@ -45,8 +45,8 @@ public class BasiliskJewel extends EffectJewel {
             return false;
         }
         return !entity.isAlliedTo(target)
-                && target instanceof LivingEntity livingEntity
-                && this.effects.stream().allMatch(effect -> CommonHooks.canMobEffectBeApplied(livingEntity, effect))
+                && target instanceof LivingEntity livingTarget
+                && this.effects.stream().allMatch(effect -> CommonHooks.canMobEffectBeApplied(livingTarget, effect, entity))
                 && super.isActive(entity, target, elementStorage);
     }
 

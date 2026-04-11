@@ -31,8 +31,8 @@ public class ElementPumpPipeUpgradeRenderer implements PipeUpgradeRenderer<Eleme
     }
 
     @Override
-    public void extractRenderState(ElementPumpPipeUpgrade pipeUpgrade, ElementPumpPipeUpgradeRenderState state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
-        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, partialTicks, cameraPosition, sectionRenderState);
+    public void extractRenderState(ElementPumpPipeUpgrade pipeUpgrade, ElementPumpPipeUpgradeRenderState state, ElementPipeSectionRenderState sectionRenderState, float partialTicks, Vec3 cameraPosition) {
+        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, sectionRenderState, partialTicks, cameraPosition);
         state.animationTime = ECRendererHelper.getClientTicks(partialTicks) % 30;
         state.runes.update(pipeUpgrade.getRuneHandler(), runeModelResolver, partialTicks);
     }

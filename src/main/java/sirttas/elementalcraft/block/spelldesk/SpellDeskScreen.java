@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.block.spelldesk;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -11,8 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-import javax.annotation.Nonnull;
-
 public class SpellDeskScreen extends AbstractContainerScreen<@NotNull SpellDeskMenu> implements MenuAccess<@NotNull SpellDeskMenu> {
 	
 	private static final Identifier SPELL_DESK_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/spell_desk.png");
@@ -21,8 +17,8 @@ public class SpellDeskScreen extends AbstractContainerScreen<@NotNull SpellDeskM
 	private Button next;
 
 
-	public SpellDeskScreen(SpellDeskMenu screenContainer, Inventory inv, Component titleIn) {
-		super(screenContainer, inv, titleIn);
+	public SpellDeskScreen(SpellDeskMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title);
 	}
 	@Override
 	protected void init() {
@@ -38,7 +34,9 @@ public class SpellDeskScreen extends AbstractContainerScreen<@NotNull SpellDeskM
 		addRenderableOnly(previous);
 		addRenderableOnly(next);
 	}
-	
+
+    /* TODO
+
 	@Override
 	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
@@ -60,4 +58,6 @@ public class SpellDeskScreen extends AbstractContainerScreen<@NotNull SpellDeskM
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		guiGraphics.blit(SPELL_DESK_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
+
+    */
 }

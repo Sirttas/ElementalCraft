@@ -4,8 +4,8 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -92,7 +92,7 @@ public class SourceAltarStructure extends Structure {
 
 		public Piece(StructureTemplateManager manager, CompoundTag tag) {
 			super(ECStructureTypes.SOURCE_ALTAR_PIECE_TYPE.get(), tag, manager, Piece::makeSettings);
-			this.elementType = ElementType.byName(tag.getString("ElementType"));
+			this.elementType = ElementType.byName(tag.getStringOr("ElementType", ""));
 		}
 
 		private static StructurePlaceSettings makeSettings(Identifier id) {
@@ -118,7 +118,7 @@ public class SourceAltarStructure extends Structure {
 		protected void handleDataMarker(String name, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
 			if (name.endsWith("chest")) {
 				this.createChest(level, sbb, rand, pos, ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName())), null); // FIXME static resource keys
-				level.blockUpdated(pos, Blocks.CHEST);
+				level.updateNeighborsAt(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
 				SourceFeature.placeSource(level, pos, elementType, getSourceLuck(name));
 			}

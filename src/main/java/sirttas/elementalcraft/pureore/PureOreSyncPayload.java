@@ -6,6 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -34,9 +35,9 @@ public record PureOreSyncPayload(Map<Identifier, PureOre> pureOres) implements C
     public void handle(IPayloadContext payloadContext) {
         payloadContext.enqueueWork(() -> {
             var player = payloadContext.player();
-            var server = player.getServer();
+            var server = player instanceof ServerPlayer serverPlayer ? serverPlayer.level().getServer() : null;
 
-            if (server == null || !server.isSingleplayerOwner(player.getGameProfile())) { // don't replace pure ores for local player
+            if (server == null || !server.isSingleplayerOwner(player.nameAndId())) { // don't replace pure ores for local player
                 PureOreManager.getInstance().replacePureOres(pureOres);
             }
             PureOreDisplayManager.getInstance().regenerate(pureOres);

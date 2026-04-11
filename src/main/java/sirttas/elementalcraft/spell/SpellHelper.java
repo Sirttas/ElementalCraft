@@ -21,7 +21,17 @@ public class SpellHelper {
 	}
 
 	public static void setSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
+        var oldSpell = getSpell(stack);
+
+        if (oldSpell.is(spell)) {
+            return;
+        } else if (oldSpell.value() instanceof DataComponentSpell oldDataComponentSpell) {
+            oldDataComponentSpell.unpatch(stack);
+        }
 		stack.set(ECDataComponents.SPELL, spell);
+        if (spell.value() instanceof DataComponentSpell dataComponentSpell) {
+            dataComponentSpell.patch(stack);
+        }
 	}
 
 	public static void removeSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
@@ -105,11 +115,11 @@ public class SpellHelper {
 	}
 
 	public static Holder<@NotNull Spell> randomSpell(RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.holders().toList(), rand);
+		return randomSpell(Spells.REGISTRY.listElements().toList(), rand);
 	}
 
 	public static Holder<@NotNull Spell> randomSpell(ElementType type, RandomSource rand) {
-		return randomSpell(Spells.REGISTRY.holders()
+		return randomSpell(Spells.REGISTRY.listElements()
 				.filter(spell -> {
 					var value = spell.value();
 

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.particle.element.ElementCraftingParticle;
 import sirttas.elementalcraft.particle.element.ElementFlowParticle;
-import sirttas.elementalcraft.particle.element.ElementParticleData;
+import sirttas.elementalcraft.particle.element.ElementParticleType;
 import sirttas.elementalcraft.particle.element.source.SourceParticle;
 
 import java.util.function.Supplier;
@@ -25,18 +25,18 @@ public class ECParticles {
 
 	private static final DeferredRegister<@NotNull ParticleType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.PARTICLE_TYPE, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleData>> SOURCE = register(() -> ElementParticleData.createParticleType(true), "source");
-	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleData>> ELEMENT_FLOW = register(() -> ElementParticleData.createParticleType(false), "element_flow");
-	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleData>> ELEMENT_CRAFTING = register(() -> ElementParticleData.createParticleType(false), "elementcrafting");
+	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleType>> SOURCE = register(() -> ElementParticleType.createParticleType(true), "source");
+	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleType>> ELEMENT_FLOW = register(() -> ElementParticleType.createParticleType(false), "element_flow");
+	public static final DeferredHolder<@NotNull ParticleType<?>, @NotNull ParticleType<@NotNull ElementParticleType>> ELEMENT_CRAFTING = register(() -> ElementParticleType.createParticleType(false), "elementcrafting");
 
 	private ECParticles() {}
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void registerFactories(RegisterParticleProvidersEvent evt) {
-		evt.registerSpriteSet(SOURCE.get(), SourceParticle.FACTORY);
-		evt.registerSpriteSet(ELEMENT_FLOW.get(), ElementFlowParticle.FACTORY);
-		evt.registerSpriteSet(ELEMENT_CRAFTING.get(), ElementCraftingParticle.FACTORY);
+		evt.registerSpriteSet(SOURCE.get(), SourceParticle.Provider::new);
+		evt.registerSpriteSet(ELEMENT_FLOW.get(), ElementFlowParticle.Provider::new);
+		evt.registerSpriteSet(ELEMENT_CRAFTING.get(), ElementCraftingParticle.Provider::new);
 	}
 
 	private static <O extends ParticleOptions, T extends ParticleType<@NotNull O>> DeferredHolder<@NotNull ParticleType<?>, @NotNull T> register(Supplier<T> type, String name) {

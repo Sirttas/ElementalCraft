@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 
@@ -18,7 +19,7 @@ public class RepairSpell extends Spell {
 
     public static final String NAME = "repair";
 
-    public RepairSpell(ResourceKey<Spell> key) {
+    public RepairSpell(ResourceKey<@NotNull Spell> key) {
         super(key);
     }
 

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,7 +22,7 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 	private static final Identifier MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
 
 	@Override
-	public void render(@Nonnull GuiGraphics guiGraphics, @Nonnull IngredientSource source) {
+	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientSource source) {
 		var elementType = source.getElementType();
 		var poseStack = guiGraphics.pose();
 		var angle = -(TickHandler.getTicksInGame() % 360);

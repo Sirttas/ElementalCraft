@@ -31,6 +31,7 @@ public class ItemStackToItemStackPureOreRecipeFactory<T extends ItemStackToItemS
 	}
 
 	@Override
+    @Deprecated
 	public ItemStack getRecipeOutput(@NotNull RegistryAccess registry, @NotNull T recipe) {
 		return tweakOutput(recipe.getOutput(ItemStack.EMPTY));
 	}

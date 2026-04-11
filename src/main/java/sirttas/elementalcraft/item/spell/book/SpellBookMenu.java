@@ -6,13 +6,13 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.config.ECConfig;
-import sirttas.elementalcraft.container.menu.AbstractECMenu;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.container.menu.IMenuOpenListener;
 import sirttas.elementalcraft.item.ECItems;
@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
+public class SpellBookMenu extends AbstractContainerMenu implements IMenuOpenListener {
 
 	static final int ROW_COUNT = (Spells.REGISTRY.size() + 9 - 1) / 9;
 	static final int SLOT_COUNT = ROW_COUNT * 9;
@@ -38,7 +38,7 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 	}
 
 	private SpellBookMenu(int id, Inventory playerInventoryIn, ItemStack book) {
-		super(ECMenus.SPELL_BOOK, id);
+		super(ECMenus.SPELL_BOOK.get(), id);
 		this.book = book;
 		this.inventory = new SimpleContainer(SLOT_COUNT);
 		this.player = playerInventoryIn.player;
@@ -55,7 +55,7 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 				this.addSlot(new ScrollSlot(inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
 			}
 		}
-		addPlayerSlots(playerInventoryIn, 103 + (ROW_COUNT - 4) * 18);
+        this.addStandardInventorySlots(inventory, 0, 103 + (ROW_COUNT - 4) * 18);
 	}
 
 	@Override
@@ -137,7 +137,12 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 		}
 	}
 
-	public int getSpellCount() {
+    @Override
+    public boolean stillValid(@NotNull Player player) {
+        return true;
+    }
+
+    public int getSpellCount() {
 		int spellCount = SpellHelper.getSpellList(book).count();
 
 		return spellCount > 0 ? spellCount : IntStream.range(0, SLOT_COUNT).map(i -> {
@@ -153,7 +158,7 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 
 	}
 
-	public boolean canAddSpell(ItemStack stack, Holder<Spell> spell) {
+	public boolean canAddSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		return stack.is(ECItems.SCROLL.get()) && SpellHelper.isValid(spell) && !SpellHelper.getSpellList(stack).isFull();
 	}
 	
@@ -205,7 +210,7 @@ public class SpellBookMenu extends AbstractECMenu implements IMenuOpenListener {
 		}
 	}
 
-	private void addSpell(ItemStack stack, Holder<Spell> spell) {
+	private void addSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		for (int i = 0; i < SLOT_COUNT; i++) {
 			Slot slot = this.slots.get(i);
 

@@ -46,7 +46,7 @@ public class SourceRenderState {
         poseStack.scale(0.016F, 0.016F, 0.016F);
         poseStack.mulPose(Axis.ZP.rotationDegrees(animationTime));
         poseStack.translate(-16, -16, 0);
-        ECRendererHelper.submitIcon(poseStack, submitNodeCollector, 0, 0, OUTER, 32, 32, red, green, blue, light);
+        ECRendererHelper.submitIcon(poseStack, submitNodeCollector, OUTER, 32, 32, red, green, blue, light);
         poseStack.translate(16, 16, 0);
         poseStack.mulPose(Axis.ZP.rotationDegrees(animationTime * 5f * remainingRatio));
         poseStack.translate(-16, -16, -0.01);

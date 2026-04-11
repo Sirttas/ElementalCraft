@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Util;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -70,16 +71,26 @@ public class Spell implements IElementTypeProvider {
         return this.key == spell.getKey();
     }
 
-    public ItemStack getItemInOtherHand(LivingEntity entity) {
-        var mainHand = entity.getMainHandItem();
-        var offHand = entity.getOffhandItem();
+    public InteractionHand getHand(Entity entity) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
+            return InteractionHand.MAIN_HAND;
+        }
+
+        var mainHand = livingEntity.getMainHandItem();
+        var offHand = livingEntity.getOffhandItem();
 
         if (this.is(SpellHelper.getSpell(mainHand))) {
-            return offHand;
+            return InteractionHand.MAIN_HAND;
         } else if (this.is(SpellHelper.getSpell(offHand))) {
-            return mainHand;
+            return InteractionHand.OFF_HAND;
         }
-        return ItemStack.EMPTY;
+        return InteractionHand.MAIN_HAND;
+    }
+
+    public ItemStack getItemInOtherHand(LivingEntity entity) {
+        var hand = this.getHand(entity);
+
+        return hand == InteractionHand.MAIN_HAND ? entity.getOffhandItem() : entity.getMainHandItem();
     }
 
 	public Multimap<Holder<@NotNull Attribute>, AttributeModifier> getOnUseAttributeModifiers() {

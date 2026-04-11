@@ -63,6 +63,25 @@ public class ECModelResolver<T> {
         return modelCache.computeIfAbsent(identifier, i -> modelManager.getStandaloneModel(keys.get(i)));
     }
 
+    public void registerModels(BiConsumer<StandaloneModelKey<@NotNull T>, UnbakedStandaloneModel<@NotNull T>> consumer) {
+        keys.clear();
+        modelCache.clear();
+        resolveModels().forEach((id, model) -> {
+            StandaloneModelKey<@NotNull T> key = new StandaloneModelKey<>(id::toString);
+
+            keys.put(id, key);
+            consumer.accept(key, model);
+        });
+    }
+
+    protected Map<Identifier, UnbakedStandaloneModel<@NotNull T>> resolveModels() {
+        RegistryAccess.Frozen staticRegistries = ClientRegistryLayer.createRegistryAccess().compositeAccess();
+        PlaceholderLookupProvider lookup = new PlaceholderLookupProvider(staticRegistries);
+        DynamicOps<JsonElement> ops = lookup.createSerializationContext(JsonOps.INSTANCE);
+
+        return resolveModels(Minecraft.getInstance().getResourceManager(), ops);
+    }
+
     private Map<Identifier, UnbakedStandaloneModel<@NotNull T>> resolveModels(ResourceManager resourceManager, DynamicOps<JsonElement> ops) {
         Map<Identifier, UnbakedStandaloneModel<@NotNull T>> models = new HashMap<>();
 
@@ -78,21 +97,5 @@ public class ECModelResolver<T> {
             }
         });
         return models;
-    }
-
-    public void registerModels(BiConsumer<StandaloneModelKey<@NotNull T>, UnbakedStandaloneModel<@NotNull T>> consumer) {
-        keys.clear();
-        modelCache.clear();
-
-        RegistryAccess.Frozen staticRegistries = ClientRegistryLayer.createRegistryAccess().compositeAccess();
-        PlaceholderLookupProvider lookup = new PlaceholderLookupProvider(staticRegistries);
-        DynamicOps<JsonElement> ops = lookup.createSerializationContext(JsonOps.INSTANCE);
-
-        resolveModels(Minecraft.getInstance().getResourceManager(), ops).forEach((id, model) -> {
-            StandaloneModelKey<@NotNull T> key = new StandaloneModelKey<>(id::toString);
-
-            keys.put(id, key);
-            consumer.accept(key, model);
-        });
     }
 }

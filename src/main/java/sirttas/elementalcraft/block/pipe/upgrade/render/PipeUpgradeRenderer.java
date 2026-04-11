@@ -11,7 +11,7 @@ public interface PipeUpgradeRenderer<T extends PipeUpgrade, S extends PipeUpgrad
 
     S createRenderState();
 
-    default void extractRenderState(T pipeUpgrade, S state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
+    default void extractRenderState(T pipeUpgrade, S state, ElementPipeSectionRenderState sectionRenderState, float partialTicks, Vec3 cameraPosition) {
         PipeUpgradeRenderState.extractBase(pipeUpgrade, state, sectionRenderState);
     }
 

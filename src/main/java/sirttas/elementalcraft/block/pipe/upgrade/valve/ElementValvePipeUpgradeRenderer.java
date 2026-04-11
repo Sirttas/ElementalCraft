@@ -29,8 +29,8 @@ public class ElementValvePipeUpgradeRenderer implements PipeUpgradeRenderer<Elem
     }
 
     @Override
-    public void extractRenderState(ElementValvePipeUpgrade pipeUpgrade, ElementValvePipeUpgradeRenderState state, float partialTicks, Vec3 cameraPosition, ElementPipeSectionRenderState sectionRenderState) {
-        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, partialTicks, cameraPosition, sectionRenderState);
+    public void extractRenderState(ElementValvePipeUpgrade pipeUpgrade, ElementValvePipeUpgradeRenderState state, ElementPipeSectionRenderState sectionRenderState, float partialTicks, Vec3 cameraPosition) {
+        PipeUpgradeRenderer.super.extractRenderState(pipeUpgrade, state, sectionRenderState, partialTicks, cameraPosition);
         state.open = pipeUpgrade.isOpen();
     }
 

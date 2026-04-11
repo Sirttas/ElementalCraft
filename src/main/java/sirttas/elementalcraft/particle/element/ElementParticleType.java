@@ -13,14 +13,14 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import javax.annotation.Nonnull;
 import java.util.function.Function;
 
-public record ElementParticleData(
-		ParticleType<@NotNull ElementParticleData> type,
+public record ElementParticleType(
+		ParticleType<@NotNull ElementParticleType> type,
 		ElementType elementType
 ) implements ParticleOptions, IElementTypeProvider {
 
 	@Nonnull
     @Override
-	public ParticleType<@NotNull ElementParticleData> getType() {
+	public ParticleType<@NotNull ElementParticleType> getType() {
 		return type;
 	}
 
@@ -29,25 +29,25 @@ public record ElementParticleData(
 		return elementType;
 	}
 
-	public static ParticleType<@NotNull ElementParticleData> createParticleType(boolean overrideLimiter) {
+	public static ParticleType<@NotNull ElementParticleType> createParticleType(boolean overrideLimiter) {
 		return new ParticleType<>(overrideLimiter) {
 
-			private final MapCodec<ElementParticleData> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
-					ElementType.forGetter(ElementParticleData::getElementType)
-			).apply(instance, t -> new ElementParticleData(this, t)));
-			private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleData> streamCodec = ElementType.STREAM_CODEC
-					.map(t -> new ElementParticleData(this, t), ElementParticleData::getElementType)
+			private final MapCodec<ElementParticleType> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
+					ElementType.forGetter(ElementParticleType::getElementType)
+			).apply(instance, t -> new ElementParticleType(this, t)));
+			private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleType> streamCodec = ElementType.STREAM_CODEC
+					.map(t -> new ElementParticleType(this, t), ElementParticleType::getElementType)
 					.mapStream(Function.identity());
 
 			@Nonnull
             @Override
-			public MapCodec<ElementParticleData> codec() {
+			public MapCodec<ElementParticleType> codec() {
 				return codec;
 			}
 
 			@Nonnull
 			@Override
-			public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleData> streamCodec() {
+			public StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleType> streamCodec() {
 				return streamCodec;
 			}
 		};

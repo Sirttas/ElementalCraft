@@ -14,12 +14,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
 public class AoeSpell extends Spell {
 
-	protected AoeSpell(ResourceKey<Spell> key) {
+	protected AoeSpell(ResourceKey<@NotNull Spell> key) {
 		super(key);
 	}
 
@@ -38,10 +39,6 @@ public class AoeSpell extends Spell {
 
 			level.playSound(null, livingSender.getX(), livingSender.getY(), livingSender.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, livingSender.getSoundSource(), 1.0F, 1.0F);
 			livingSender.swing(InteractionHand.MAIN_HAND);
-			if (livingSender instanceof Player playerSender) {
-				playerSender.sweepAttack();
-				playerSender.resetAttackStrengthTicker();
-			}
 			return SpellCastResult.SUCCESS;
 		}
 		return SpellCastResult.PASS;

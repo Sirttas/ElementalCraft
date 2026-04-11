@@ -19,6 +19,7 @@ import sirttas.elementalcraft.item.TooltipHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class EffectSpell extends Spell {
 
@@ -48,8 +49,8 @@ public class EffectSpell extends Spell {
 		return applyEffect(caster);
 	}
 
-	@Override
-	public void addInformation(List<Component> tooltip) {
+    @Override
+    public void addInformation(Consumer<Component> builder) {
 		Multimap<Holder<@NotNull Attribute>, AttributeModifier> multiMap = HashMultimap.create();
 
 		if (!effects.isEmpty()) {
@@ -67,10 +68,10 @@ public class EffectSpell extends Spell {
 					mutableComponent = Component.translatable("potion.withDuration", mutableComponent, MobEffectUtil.formatDuration(effectInstance, 1, 20));
 				}
 
-				tooltip.add(mutableComponent.withStyle(effect.getCategory().getTooltipFormatting()));
+                builder.accept(mutableComponent.withStyle(effect.getCategory().getTooltipFormatting()));
 			}
 		}
-		TooltipHelper.addAttributeMultiMapToTooltip(tooltip, multiMap, Component.translatable("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
+		TooltipHelper.addAttributeMultiMapToTooltip(builder, multiMap, Component.translatable("tooltip.elementalcraft.spell_effect_on_use").withStyle(ChatFormatting.DARK_PURPLE));
 	}
 
 	public final List<MobEffectInstance> getEffects() {

@@ -14,7 +14,7 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.function.Consumer;
 
 public class GavelFallSpell extends Spell {
 
@@ -63,10 +63,9 @@ public class GavelFallSpell extends Spell {
 
 		return super.consume(sender, simulate) && value;
 	}
-	
-	@Override
-	public void addInformation(List<Component> tooltip) {
-		tooltip.add(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 3, Blocks.GRAVEL.getName()))
+    @Override
+    public void addInformation(Consumer<Component> builder) {
+        builder.accept(Component.translatable("tooltip.elementalcraft.consumes", Component.translatable("tooltip.elementalcraft.count", 3, Blocks.GRAVEL.getName()))
 				.withStyle(ChatFormatting.YELLOW));
 	}
 }

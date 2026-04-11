@@ -4,7 +4,7 @@ import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ElementIngredientRenderer implements IIngredientRenderer<IngredientElementType> {
 
 	@Override
-	public void render(@Nonnull GuiGraphics guiGraphics, @Nonnull IngredientElementType ingredient) {
+	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientElementType ingredient) {
 		int amount = ingredient.amount();
 
 		GuiHelper.renderElementGauge(guiGraphics, Minecraft.getInstance().font, 0, 0, amount == -1 ? 4 : amount, 4, ingredient.getElementType(), false);

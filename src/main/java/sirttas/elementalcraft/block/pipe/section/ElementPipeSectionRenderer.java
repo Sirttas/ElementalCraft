@@ -86,7 +86,7 @@ public class ElementPipeSectionRenderer {
             var upgradeState = upgradeRenderer.createRenderState();
 
             if (upgradeState != null) {
-                upgradeRenderer.extractRenderState(upgrade, upgradeState, partialTicks, cameraPosition, renderState);
+                upgradeRenderer.extractRenderState(upgrade, upgradeState, renderState, partialTicks, cameraPosition);
                 renderState.upgradeState = upgradeState;
             }
         }

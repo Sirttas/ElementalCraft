@@ -2,6 +2,7 @@ package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 
@@ -23,16 +25,20 @@ public class EnderStrikeSpell extends Spell {
 
 	public static final String NAME = "ender_strike";
 
-	public EnderStrikeSpell(ResourceKey<Spell> key) {
+	public EnderStrikeSpell(ResourceKey<@NotNull Spell> key) {
 		super(key);
 	}
 
 	@Nonnull
 	@Override
 	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+        if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
+            return SpellCastResult.PASS;
+        }
+
 		Vec3 newPos = target.position().add(target.getLookAngle().reverse().normalize());
 
-		if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y + 0.5F, newPos.z)).isCanceled()) {
+		if (NeoForge.EVENT_BUS.post(new Event(caster, serverLevel, newPos.x, newPos.y + 0.5F, newPos.z)).isCanceled()) {
 			return SpellCastResult.SUCCESS;
 		}
 		if (caster instanceof LivingEntity livingSender) {
@@ -45,7 +51,7 @@ public class EnderStrikeSpell extends Spell {
 				playerSender.attack(target);
 				playerSender.resetAttackStrengthTicker();
 			} else {
-				livingSender.doHurtTarget(level, target);
+				livingSender.doHurtTarget(serverLevel, target);
 			}
 			return SpellCastResult.SUCCESS;
 		}
@@ -65,8 +71,8 @@ public class EnderStrikeSpell extends Spell {
 	
 	public static class Event extends EntityTeleportEvent {
 
-		public Event(Entity entity, double targetX, double targetY, double targetZ) {
-			super(entity, targetX, targetY, targetZ);
+		public Event(Entity entity, ServerLevel targetLevel, double targetX, double targetY, double targetZ) {
+			super(entity, targetLevel, targetX, targetY, targetZ);
 		}
 	}
 }

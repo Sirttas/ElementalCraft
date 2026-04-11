@@ -2,6 +2,7 @@ package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -74,10 +75,10 @@ public class TranslocationSpell extends Spell {
 			return SpellCastResult.PASS;
 		}
 
-		if (!level.isClientSide()) {
+		if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
 			level.getChunk(((int) Math.round(newPos.x / 16)), ((int) Math.round(newPos.z / 16)));
 
-			if (NeoForge.EVENT_BUS.post(new Event(caster, newPos.x, newPos.y, newPos.z)).isCanceled()) {
+			if (NeoForge.EVENT_BUS.post(new Event(caster, serverLevel, newPos.x, newPos.y, newPos.z)).isCanceled()) {
 				return SpellCastResult.SUCCESS;
 			}
 			ParticleHelper.createEnderParticle(level, caster.position(), 3, level.getRandom());
@@ -128,8 +129,8 @@ public class TranslocationSpell extends Spell {
 	
 	public static class Event extends EntityTeleportEvent {
 
-		public Event(Entity entity, double targetX, double targetY, double targetZ) {
-			super(entity, targetX, targetY, targetZ);
+		public Event(Entity entity, ServerLevel targetLevel, double targetX, double targetY, double targetZ) {
+			super(entity, targetLevel, targetX, targetY, targetZ);
 		}
 	}
 }

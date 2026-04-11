@@ -1,0 +1,7 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "ELEMENTALCRAFT_SPELL_CRAFT"
+    }
+  }

@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.item.source.analysis;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
@@ -23,9 +21,8 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 
 	private TraitsList traitsList;
 
-	public SourceAnalysisGlassScreen(SourceAnalysisGlassMenu screenContainer, Inventory inv, Component titleIn) {
-		super(screenContainer, inv, titleIn);
-		imageHeight = 180;
+	public SourceAnalysisGlassScreen(SourceAnalysisGlassMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title, 176, 180);
 		inventoryLabelY += 14;
 	}
 
@@ -35,6 +32,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 		this.traitsList = new TraitsList(this.minecraft);
 		this.addRenderableWidget(this.traitsList);
 	}
+    /* TODO
 
 	@Override
 	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
@@ -48,6 +46,8 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
+
+    */
 
 	@Override
 	public void refresh() {
@@ -71,15 +71,16 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 		}
 
 		@Override
-		protected int getScrollbarPosition() {
+		protected int scrollBarX() {
 			return this.getRight() - 7;
 		}
 
-		@Override
-		protected int getRowTop(int index) {
+        @Override
+        public int getRowTop(int index) {
 			return super.getRowTop(index) - 4;
 		}
 
+        /* TODO
 		@Override
 		protected void renderDecorations(@Nonnull GuiGraphicsExtractor guiGraphics, int x, int y) {
 			var poseStack = guiGraphics.pose();
@@ -92,7 +93,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.getRight(), -this.getBottom() -11, 0, imageHeight, WIDTH, 11);
 			poseStack.popPose();
 		}
-
+        */
 		public void refresh() {
 			this.clearEntries();
 			menu.getTraits().values().forEach(value -> addEntry(new TraitsList.Entry(value)));
@@ -112,10 +113,10 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 				return value.getDescription();
 			}
 
-			@Override
-			public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int entryIdx, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float partialTick) {
-				guiGraphics.drawString(font, getNarration(), left, top, -1);
-			}
+            @Override
+            public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
+                graphics.text(font, getNarration(), getContentX(), getContentY(), -1);
+            }
 		}
 	}
 }

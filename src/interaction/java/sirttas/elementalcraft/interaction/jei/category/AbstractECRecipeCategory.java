@@ -10,7 +10,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
@@ -104,19 +103,16 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		this.overlays.add(new Overlay<>(overlay, x, y, condition));
 	}
 
-
 	@Override
-	public void draw(@Nonnull T recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+	public void draw(@Nonnull T recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
 		if (overlays.isEmpty()) {
 			return;
 		}
-		RenderSystem.enableBlend();
 		for (Overlay<T> overlay : overlays) {
 			if (overlay.condition.test(recipe)) {
 				overlay.drawable.draw(guiGraphics, overlay.x, overlay.y);
 			}
 		}
-		RenderSystem.disableBlend();
 	}
 
 	private record Overlay<T>(

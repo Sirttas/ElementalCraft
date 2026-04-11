@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 import sirttas.elementalcraft.client.renderer.ECRenderTypes;
 
 public class GhostBlockRenderState {
-    public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
 
     private final BlockModelRenderState blockModelRenderState;
     private BlockState blockState;

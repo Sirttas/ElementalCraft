@@ -2,6 +2,7 @@ package sirttas.elementalcraft.spell.renderer;
 
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class SpellRenderers {
 
-    private static final Map<Identifier, ISpellRenderer> SPELL_RENDERERS = new HashMap<>();
+    private static final Map<Identifier, SpellRenderer<?>> SPELL_RENDERERS = new HashMap<>(); // TODO add provider
 
     static {
         register(Spells.FLAME_CLEAVE, new FlameCleaveSpellRenderer());
@@ -23,11 +24,12 @@ public class SpellRenderers {
 
     private SpellRenderers() {}
 
-    public static ISpellRenderer get(Spell spell) {
-        return SPELL_RENDERERS.get(spell.getKey());
+    @SuppressWarnings("unchecked")
+    public static <S extends SpellRenderState> SpellRenderer<S> get(Spell spell) {
+        return (SpellRenderer<S>) SPELL_RENDERERS.get(spell.getKey());
     }
 
-    public static void register(DeferredHolder<Spell, ? extends Spell> spell, ISpellRenderer renderer) {
+    public static void register(DeferredHolder<@NotNull Spell, ? extends @NotNull Spell> spell, SpellRenderer<?> renderer) {
         SPELL_RENDERERS.put(spell.getId(), renderer);
     }
 }

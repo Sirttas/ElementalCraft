@@ -3,7 +3,7 @@ package sirttas.elementalcraft.interaction.jei.category.element.synthesis;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.widgets.IRecipeWidget;
 import mezz.jei.api.helpers.IGuiHelper;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +30,7 @@ public class FoodWidget implements IRecipeWidget {
     }
 
     @Override
-    public void drawWidget(@NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void drawWidget(@NotNull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         if (ticks < 20) {
             fullFood.draw(guiGraphics, 0, 0);
         } else if (ticks < 40) {
