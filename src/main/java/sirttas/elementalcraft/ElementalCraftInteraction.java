@@ -14,12 +14,17 @@ import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public interface ElementalCraftInteraction {
+
+    String IMC_METHOD = "elementalcraft_interaction";
 
     static boolean isMekanismActive() {
         return ModList.get().isLoaded("mekanism");
@@ -33,17 +38,13 @@ public interface ElementalCraftInteraction {
         return ModList.get().isLoaded("silentgear");
     }
 
-    static boolean isImmersiveEngineeringActive() {
-        return ModList.get().isLoaded("immersiveengineering");
-    }
-
     static boolean isAppliedEnergistics2Active() {
         return ModList.get().isLoaded("ae2");
     }
 
     boolean isActive();
 
-    default GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    default GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         return null;
     }
 
@@ -59,6 +60,8 @@ public interface ElementalCraftInteraction {
         return null;
     }
 
+    default void addCraftingStation(BiConsumer<Object, ItemStack> consumer) {}
+
     class Wrapper implements ElementalCraftInteraction {
 
         private final List<ElementalCraftInteraction> interactions;
@@ -66,10 +69,10 @@ public interface ElementalCraftInteraction {
         public Wrapper() {
             ServiceLoader<ElementalCraftInteraction> loader = ServiceLoader.load(ElementalCraftInteraction.class);
 
-            interactions = loader.stream()
+            interactions = new ArrayList<>(loader.stream()
                     .map(ServiceLoader.Provider::get) // TODO try catch
                     .filter(ElementalCraftInteraction::isActive)
-                    .toList();
+                    .toList());
             ElementalCraftApi.LOGGER.info("Elemental Craft loaded {} interactions loaded: {}", interactions::size, () -> interactions.stream()
                     .map(interaction -> interaction.getClass().getName())
                     .collect(Collectors.joining(", ")));
@@ -81,9 +84,9 @@ public interface ElementalCraftInteraction {
         }
 
         @Override
-        public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+        public GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
             return interactions.stream()
-                    .map(interaction -> interaction.lookupCrusherRecipe(level, recipeInput))
+                    .map(interaction -> interaction.lookupGrindingRecipe(level, recipeInput))
                     .filter(Objects::nonNull)
                     .findFirst()
                     .orElse(null);
@@ -112,7 +115,20 @@ public interface ElementalCraftInteraction {
                     .map(interaction -> interaction.lookupColors(stack))
                     .filter(Objects::nonNull)
                     .findFirst()
-                    .orElse(new int[] { -1, -1, -1 });
+                    .orElse(null);
+        }
+
+        @Override
+        public void addCraftingStation(BiConsumer<Object, ItemStack> consumer) {
+            interactions.forEach(interaction -> interaction.addCraftingStation(consumer));
+        }
+
+        <T> void addInteractionFromIMC(Supplier<?> supplier) {
+            var interaction = (ElementalCraftInteraction) supplier.get();
+
+            if  (interaction != null) {
+                interactions.add(interaction);
+            }
         }
     }
 }

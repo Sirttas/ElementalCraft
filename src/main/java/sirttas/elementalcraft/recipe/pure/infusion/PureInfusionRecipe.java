@@ -15,11 +15,14 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.PureInfuserBlock;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
@@ -82,11 +85,6 @@ public class PureInfusionRecipe implements Recipe<@NotNull PureInfusionRecipeInp
 	}
 
 	@Nonnull
-	public Map<ElementType, Ingredient> getIngredientsMap() {
-		return ingredients;
-	}
-
-	@Nonnull
 	@Override
 	public RecipeSerializer<@NotNull PureInfusionRecipe> getSerializer() {
 		return ECRecipeSerializers.PURE_INFUSION.get();
@@ -140,4 +138,17 @@ public class PureInfusionRecipe implements Recipe<@NotNull PureInfusionRecipeInp
     public int getElementAmount() {
 		return elementAmount;
 	}
+
+    @Override
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new PureInfusionRecipeDisplay(
+                getElementAmount(),
+                ingredients.get(ElementType.NONE).display(),
+                ingredients.get(ElementType.FIRE).display(),
+                ingredients.get(ElementType.WATER).display(),
+                ingredients.get(ElementType.EARTH).display(),
+                ingredients.get(ElementType.AIR).display(),
+                new SlotDisplay.ItemStackSlotDisplay(this.result),
+                new SlotDisplay.ItemSlotDisplay(ECBlocks.BINDER.get().asItem())));
+    }
 }

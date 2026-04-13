@@ -1,7 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import mezz.jei.api.constants.VanillaTypes;
@@ -9,7 +7,6 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
@@ -41,12 +38,12 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, stack);
 	}
 
-	public static void render3D(@Nonnull GuiGraphicsExtractor guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) {
-		var poseStack = guiGraphics.pose();
+	public static void render3D(@Nonnull GuiGraphicsExtractor guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) { /* TODO
+		var guiPose = guiGraphics.pose();
 		var modelViewStack = RenderSystem.getModelViewStack();
 
 		modelViewStack.pushMatrix();
-		modelViewStack.mul(poseStack.last().pose());
+		modelViewStack.mul(guiPose);
 		modelViewStack.translate(0, 0, 1050);
 		modelViewStack.scale(1.0F, 1.0F, -1.0F);
 		RenderSystem.applyModelViewMatrix();
@@ -64,7 +61,7 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		bufferSource.endBatch();
 		modelViewStack.popMatrix();
 		RenderSystem.applyModelViewMatrix();
-		Lighting.setupFor3DItems();
+		Lighting.setupFor3DItems(); */
 	}
 
 	protected static void setupPose(PoseStack p) {

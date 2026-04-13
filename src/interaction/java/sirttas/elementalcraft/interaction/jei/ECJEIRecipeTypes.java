@@ -24,20 +24,20 @@ import sirttas.elementalcraft.interaction.jei.category.source.DisplacementRecipe
 import sirttas.elementalcraft.interaction.jei.category.source.SourceBreedingRecipeCategory;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.item.elemental.ElementalItem;
-import sirttas.elementalcraft.recipe.SpellCraftRecipe;
 import sirttas.elementalcraft.recipe.cracking.CrackingRecipe;
 import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
-import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
-import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.crystallization.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.enchantment.liquefaction.EnchantmentLiquefactionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.inscription.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.spell.SpellCraftRecipe;
 
 public class ECJEIRecipeTypes {
 

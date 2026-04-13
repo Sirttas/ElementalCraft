@@ -4,8 +4,9 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -29,7 +30,7 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 
 	@Nonnull
 	@Override
-	public RecipeType<ElementalItem> getRecipeType() {
+	public IRecipeType<@NotNull ElementalItem> getRecipeType() {
 		return ECJEIRecipeTypes.SOURCE_BREEDING;
 	}
 
@@ -38,12 +39,12 @@ public class SourceBreedingRecipeCategory extends AbstractECRecipeCategory<Eleme
 		var type = seed.getElementType();
 		var sourceReceptacle = ReceptacleHelper.create(type);
 
-		builder.addSlot(RecipeIngredientRole.INPUT, 25, 46).addItemStack(new ItemStack(seed));
-		builder.addSlot(RecipeIngredientRole.INPUT, 25, 62).addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(type, 4));
+		builder.addSlot(RecipeIngredientRole.INPUT, 25, 46).add(new ItemStack(seed));
+		builder.addSlot(RecipeIngredientRole.INPUT, 25, 62).add(ECIngredientTypes.ELEMENT, new IngredientElementType(type, 4));
 
-		builder.addSlot(RecipeIngredientRole.CATALYST, 4, 38).addItemStack(sourceReceptacle);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 48, 38).addItemStack(sourceReceptacle);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 4, 38).add(sourceReceptacle);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 48, 38).add(sourceReceptacle);
 
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 25, 2).addItemStack(ReceptacleHelper.create(type));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 25, 2).add(ReceptacleHelper.create(type));
 	}
 }

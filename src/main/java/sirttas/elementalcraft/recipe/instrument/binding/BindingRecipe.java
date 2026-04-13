@@ -12,11 +12,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.binder.BinderBlockEntity;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
@@ -32,10 +35,10 @@ public class BindingRecipe extends AbstractBindingRecipe {
 
     public static final MapCodec<BindingRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
-            ElementType.forGetter(IElementTypeProvider::getElementType),
+            ElementType.MAP_CODEC.forGetter(IElementTypeProvider::getElementType),
             Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InstrumentRecipe::getElementAmount),
-            Codec.lazyInitialized(() -> Ingredient.CODEC.sizeLimitedListOf(BinderBlockEntity.MAX_INVENTORY_SIZE)).fieldOf("ingredients").forGetter(o -> o.ingredients),
-            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.OUTPUT).forGetter(r -> r.result)
+            Codec.lazyInitialized(() -> Ingredient.CODEC.sizeLimitedListOf(BinderBlockEntity.MAX_INVENTORY_SIZE)).fieldOf(ECNames.INGREDIENTS).forGetter(o -> o.ingredients),
+            ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, BindingRecipe::new));
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull BindingRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
@@ -85,6 +88,18 @@ public class BindingRecipe extends AbstractBindingRecipe {
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.BINDING.get();
+    }
+
+    @Override
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new BinderRecipeDisplay(
+                getElementType(),
+                getElementAmount(),
+                ingredients.stream()
+                        .map(Ingredient::display)
+                        .toList(),
+                new SlotDisplay.ItemStackSlotDisplay(this.result),
+                new SlotDisplay.ItemSlotDisplay(ECBlocks.BINDER.get().asItem())));
     }
 
     private boolean matchesOrdered(MultipleItemsSingleElementRecipeInput input) {

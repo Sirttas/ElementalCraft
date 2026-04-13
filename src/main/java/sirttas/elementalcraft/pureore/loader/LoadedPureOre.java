@@ -5,12 +5,12 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.pureore.PureOreManager;
@@ -20,6 +20,7 @@ import sirttas.elementalcraft.tag.ECTags;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +30,6 @@ public class LoadedPureOre {
     private final Set<Holder<@NotNull Item>> ores;
     private final Map<RecipeType<?>, Recipe<?>> recipes;
 
-    private ItemStack resultForColor;
     private final int elementConsumption;
 
     private final int inputSize;
@@ -40,7 +40,6 @@ public class LoadedPureOre {
         this.id = id;
         this.ores = new HashSet<>();
         recipes = new HashMap<>();
-        this.resultForColor = ItemStack.EMPTY;
         this.elementConsumption = elementConsumption;
         this.inputSize = inputSize;
         this.outputSize = outputSize;
@@ -74,13 +73,14 @@ public class LoadedPureOre {
         return (T) recipes.get(recipeType);
     }
 
-    public <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipe(@Nonnull T recipe, ItemStack output) {
-        recipes.computeIfAbsent(recipe.getType(), _ -> {
-            if (resultForColor.isEmpty()) {
-                this.resultForColor = output;
-            }
-            return recipe;
-        });
+    public <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipe(@Nonnull T recipe) {
+        recipes.computeIfAbsent(recipe.getType(), _ -> recipe);
+    }
+
+    public List<RecipeDisplay> recipeDisplays() {
+        return recipes.values().stream()
+                .flatMap(recipe -> recipe.display().stream())
+                .toList();
     }
 
     public void addTag(TagKey<@NotNull Item> tag) {
@@ -104,9 +104,4 @@ public class LoadedPureOre {
         }
         return new OrePurificationRecipe(new Recipe.CommonInfo(false), elementConsumption, luckRatio, getInput(), inputSize, result);
     }
-
-    public ItemStack getResultForColor() {
-        return resultForColor;
-    }
-
 }

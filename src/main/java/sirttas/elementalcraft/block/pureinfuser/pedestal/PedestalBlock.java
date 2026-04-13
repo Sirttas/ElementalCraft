@@ -52,7 +52,7 @@ public class PedestalBlock extends AbstractECContainerBlock implements IElementT
 	public static final String NAME_AIR = NAME + "_air";
 
 	public static final MapCodec<PedestalBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.forGetter(PedestalBlock::getElementType),
+			ElementType.MAP_CODEC.forGetter(PedestalBlock::getElementType),
 			propertiesCodec()
 	).apply(instance, PedestalBlock::new));
 

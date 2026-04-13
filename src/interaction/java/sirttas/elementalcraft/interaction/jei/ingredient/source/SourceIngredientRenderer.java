@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.ingredient.source;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.math.Axis;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -11,22 +8,20 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.event.TickHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class SourceIngredientRenderer implements IIngredientRenderer<IngredientSource> {
+public class SourceIngredientRenderer implements IIngredientRenderer<@NotNull IngredientSource> {
 
 	private static final Identifier OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
 	private static final Identifier MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
 
 	@Override
-	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientSource source) {
+	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientSource source) {/* TODO
 		var elementType = source.getElementType();
-		var poseStack = guiGraphics.pose();
+		var guiPose = guiGraphics.pose();
 		var angle = -(TickHandler.getTicksInGame() % 360);
-
 
 		RenderSystem.enableDepthTest();
 		RenderSystem.depthMask(false);
@@ -34,14 +29,14 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		RenderSystem.setShaderColor(elementType.getRed(), elementType.getGreen(), elementType.getBlue(), 1.0F);
-		poseStack.scale(0.5f, 0.5f, 0.5f);
-		poseStack.translate(16, 16, 0);
-		poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
-		poseStack.translate(-16, -16, 0);
+		guiPose.scale(0.5f, 0.5f, 0.5f);
+		guiPose.translate(16, 16, 0);
+		guiPose.mulPose(Axis.ZP.rotationDegrees(angle));
+		guiPose.translate(-16, -16, 0);
 		guiGraphics.blit(OUTER, 0, 0, 0, 0, 32, 32, 32, 32);
-		poseStack.translate(16, 16, 0);
-		poseStack.mulPose(Axis.ZP.rotationDegrees(angle * 5f));
-		poseStack.translate(-16, -16, -0.01);
+		guiPose.translate(16, 16, 0);
+		guiPose.mulPose(Axis.ZP.rotationDegrees(angle * 5f));
+		guiPose.translate(-16, -16, -0.01);
 
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
@@ -51,7 +46,7 @@ public class SourceIngredientRenderer implements IIngredientRenderer<IngredientS
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.disableDepthTest();
-		RenderSystem.depthMask(true);
+		RenderSystem.depthMask(true);*/
 	}
 
 	@Override

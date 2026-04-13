@@ -8,20 +8,23 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
-import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.AbstractIOInstrumentRecipe;
-import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipeDisplay;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
-public class SawingRecipe extends AbstractIOInstrumentRecipe implements SingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
+public class SawingRecipe extends AbstractIOInstrumentRecipe {
 
-    public static final String NAME = "ore_purification";
+    public static final String NAME = "sawing";
     public static final MapCodec<SawingRecipe> CODEC = codec(SawingRecipe::new);
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SawingRecipe> STREAM_CODEC = streamCodec(SawingRecipe::new);
 
@@ -53,7 +56,17 @@ public class SawingRecipe extends AbstractIOInstrumentRecipe implements SingleEl
     }
 
     @Override
-    public @NotNull ElementType getElementType() {
-        return ElementType.EARTH;
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new IOInstrumentRecipeDisplay(
+                ElementType.WATER,
+                getElementAmount(),
+                input.display(),
+                new SlotDisplay.ItemStackSlotDisplay(result),
+                new SlotDisplay.ItemSlotDisplay(ECBlocks.WATER_MILL_WOOD_SAW.get().asItem())));
+    }
+
+    @Override
+    public List<ElementType> getValidElementTypes() {
+        return List.of(ElementType.WATER, ElementType.AIR);
     }
 }

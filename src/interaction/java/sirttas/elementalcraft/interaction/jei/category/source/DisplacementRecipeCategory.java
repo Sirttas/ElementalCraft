@@ -4,8 +4,9 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -29,14 +30,14 @@ public class DisplacementRecipeCategory extends AbstractECRecipeCategory<Element
 
 	@Nonnull
 	@Override
-	public RecipeType<ElementType> getRecipeType() {
+	public IRecipeType<@NotNull ElementType> getRecipeType() {
 		return ECJEIRecipeTypes.DISPLACEMENT;
 	}
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ElementType type, @Nonnull IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).addIngredient(ECIngredientTypes.SOURCE, new IngredientSource(type));
-		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).addItemStack( new ItemStack(ECItems.EMPTY_RECEPTACLE));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 16).addItemStack(ReceptacleHelper.create(type));
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0).add(ECIngredientTypes.SOURCE, new IngredientSource(type));
+		builder.addSlot(RecipeIngredientRole.INPUT, 0, 16).add( new ItemStack(ECItems.EMPTY_RECEPTACLE));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 16).add(ReceptacleHelper.create(type));
 	}
 }

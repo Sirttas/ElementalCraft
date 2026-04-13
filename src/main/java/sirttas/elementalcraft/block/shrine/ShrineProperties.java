@@ -26,7 +26,7 @@ public record ShrineProperties(
     public static final ShrineProperties DEFAULT = new ShrineProperties(ElementType.NONE, 1.0, 0, 1000000, RangeVariants.DEFAULT, Collections.emptyList());
 
     public static final MapCodec<ShrineProperties> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(ShrineProperties::getElementType),
+            ElementType.MAP_CODEC.forGetter(ShrineProperties::getElementType),
             Codec.DOUBLE.optionalFieldOf(ECNames.PERIOD, 0D).forGetter(ShrineProperties::period),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(ShrineProperties::consumption),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CAPACITY, 0).forGetter(ShrineProperties::capacity),

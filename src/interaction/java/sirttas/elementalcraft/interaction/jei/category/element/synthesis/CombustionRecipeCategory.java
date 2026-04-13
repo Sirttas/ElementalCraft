@@ -5,10 +5,11 @@ import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.recipe.vanilla.IJeiFuelingRecipe;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -39,7 +40,7 @@ public class CombustionRecipeCategory extends AbstractECRecipeCategory<IJeiFueli
 
 	@Nonnull
 	@Override
-	public RecipeType<IJeiFuelingRecipe> getRecipeType() {
+	public IRecipeType<@NotNull IJeiFuelingRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.COMBUSTION;
 	}
 
@@ -48,11 +49,11 @@ public class CombustionRecipeCategory extends AbstractECRecipeCategory<IJeiFueli
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
 				.addItemStacks(recipe.getInputs());
 
-		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 31)
-				.addItemStack(COMBUSTION_SYNTHESIZER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 47)
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 31)
+				.add(COMBUSTION_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 47)
 				.addItemStacks(CONTAINERS);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 39, 16)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.FIRE, IngredientElementType.getGaugeValue(recipe.getBurnTime())));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.FIRE, IngredientElementType.getGaugeValue(recipe.getBurnTime())));
 	}
 }

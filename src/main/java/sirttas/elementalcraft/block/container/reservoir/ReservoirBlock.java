@@ -55,7 +55,7 @@ public class ReservoirBlock extends AbstractConnectedElementContainerBlock imple
 	private static final Holder<IConfigurableBlockEntityProperties> PROPERTIES_AIR = ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER.getOrCreateHolder(PROPERTIES_KEY_AIR);
 
 	public static final MapCodec<ReservoirBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.forGetter(ReservoirBlock::getElementType),
+			ElementType.MAP_CODEC.forGetter(ReservoirBlock::getElementType),
 			propertiesCodec()
 	).apply(instance, ReservoirBlock::new));
 

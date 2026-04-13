@@ -7,16 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.item.rune.RuneItem;
 
-public class RuneSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
+public class RuneSubtypeInterpreter implements ISubtypeInterpreter<@NotNull ItemStack> {
     @Override
     public @Nullable Object getSubtypeData(@NotNull ItemStack ingredient, @NotNull UidContext context) {
         return RuneItem.getRune(ingredient);
-    }
-
-    @Override
-    public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
-        var key = RuneItem.getRune(ingredient).getKey();
-
-        return key == null ? "" : key.identifier().toString();
     }
 }

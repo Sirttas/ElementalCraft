@@ -71,7 +71,7 @@ public abstract class AbstractCrackingRecipe implements Recipe<@NotNull Cracking
         return PlacementInfo.create(new Ingredient(input));
     }
 
-    private @NotNull BlockHolderSetIngredient input() {
+    public @NotNull BlockHolderSetIngredient input() {
         return input;
     }
 

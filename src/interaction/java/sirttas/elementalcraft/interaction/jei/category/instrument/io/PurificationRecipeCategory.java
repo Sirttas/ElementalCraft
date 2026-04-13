@@ -1,7 +1,8 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
@@ -19,7 +20,7 @@ public class PurificationRecipeCategory extends AbstractIOInstrumentRecipeCatego
 
 	@Nonnull
 	@Override
-	public RecipeType<OrePurificationRecipe> getRecipeType() {
+	public IRecipeType<@NotNull OrePurificationRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.ORE_PURIFICATION;
 	}
 }

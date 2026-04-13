@@ -4,8 +4,9 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
@@ -32,14 +33,14 @@ public class AirMillSynthesisRecipeCategory extends AbstractECRecipeCategory<Ing
 
 	@Nonnull
 	@Override
-	public RecipeType<IngredientElementType> getRecipeType() {
+	public IRecipeType<@NotNull IngredientElementType> getRecipeType() {
 		return ECJEIRecipeTypes.AIR_MILL_SYNTHESIS;
 	}
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull IngredientElementType recipe, @Nonnull IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 16).addItemStack(AIR_MILL_SYNTHESIZER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 32).addItemStacks(CONTAINERS);
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 32).addIngredient(ECIngredientTypes.ELEMENT, recipe);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 16).add(AIR_MILL_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 32).addItemStacks(CONTAINERS);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 47, 32).add(ECIngredientTypes.ELEMENT, recipe);
 	}
 }

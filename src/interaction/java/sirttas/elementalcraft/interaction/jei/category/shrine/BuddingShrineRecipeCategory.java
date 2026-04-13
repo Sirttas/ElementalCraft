@@ -7,10 +7,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -21,13 +20,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.shrine.budding.BuddingShrineRenderer;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
@@ -40,7 +37,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
 
     private final ITickTimer timer;
     private final BlockState shrineState;
-    private final Map<ResourceKey<ShrineUpgrade>, BlockState> upgradeStates;
+    private final Map<ResourceKey<@NotNull ShrineUpgrade>, BlockState> upgradeStates;
 
     public BuddingShrineRecipeCategory(IGuiHelper guiHelper) {
         super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), 110, 66);
@@ -52,7 +49,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
 
     @Nonnull
     @Override
-    public RecipeType<BuddingShrineBudType> getRecipeType() {
+    public IRecipeType<@NotNull BuddingShrineBudType> getRecipeType() {
         return ECJEIRecipeTypes.BUDDING_SHRINE;
     }
 
@@ -71,7 +68,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
             p.translate(0, 0.5, 0);
             setupPose(p);
             ECRendererHelper.renderBlock(shrineState, p, b);
-            ECRendererHelper.renderModel(BuddingShrineRenderer.getPlateModel(budType), p, b, shrineState, 15728880, OverlayTexture.NO_OVERLAY, ModelData.EMPTY);
+            // TODO ECRendererHelper.renderModel(BuddingShrineRenderer.getPlateModel(budType), p, b, shrineState, 15728880, OverlayTexture.NO_OVERLAY);
 
             var upgradeState = getUpgradeState(budType);
 
@@ -110,9 +107,9 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
         var upgradeStack = getUpgradeStack(budType);
 
         if (!upgradeStack.isEmpty()) {
-            builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStack(upgradeStack);
+            builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).add(upgradeStack);
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 40).addItemStack(new ItemStack(budType.sequence().getLast()));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 40).add(new ItemStack(budType.sequence().getLast()));
     }
 
     private ItemStack getUpgradeStack(BuddingShrineBudType type) {

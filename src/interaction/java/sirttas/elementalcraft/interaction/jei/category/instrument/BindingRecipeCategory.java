@@ -5,7 +5,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.types.IRecipeType;
-import mezz.jei.library.util.RecipeUtil;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -14,6 +13,7 @@ import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.binding.BinderRecipeDisplay;
 
 import javax.annotation.Nonnull;
 
@@ -36,20 +36,23 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Mult
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull AbstractBindingRecipe recipe, @Nonnull IFocusGroup focuses) {
-		int i = 0;
-		var ingredients = recipe.getIngredients();
-        var display = recipe.display().getFirst();
+        if (!(recipe.display().getFirst() instanceof BinderRecipeDisplay display)) {
+            return;
+        }
 
-		for (var ingredient : ingredients) {
-			double a = Math.toRadians(i / (double) ingredients.size() * 360D + 180);
+        int i = 0;
+        int size = display.ingredients().size();
 
-			builder.addSlot(RecipeIngredientRole.INPUT, RADIUS + (int) (-RADIUS * Math.sin(a)), RADIUS + (int) (RADIUS * Math.cos(a)))
+		for (var ingredient : display.ingredients()) {
+			double angle = Math.toRadians(i / (double) size * 360D + 180);
+
+			builder.addSlot(RecipeIngredientRole.INPUT, RADIUS + (int) (-RADIUS * Math.sin(angle)), RADIUS + (int) (RADIUS * Math.cos(angle)))
 					.add(ingredient);
 			i++;
 		}
 
 		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, RADIUS, RADIUS - 16)
-				.add(BINDER);
+				.add(display.craftingStation());
 		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, RADIUS, RADIUS)
 				.add(container);
 
@@ -57,6 +60,6 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Mult
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, RADIUS * 2 + 32, RADIUS)
-				.add(RecipeUtil.getResultItem(recipe));
+				.add(display.result());
 	}
 }

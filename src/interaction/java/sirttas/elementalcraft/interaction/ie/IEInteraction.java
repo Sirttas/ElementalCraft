@@ -4,11 +4,11 @@ import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.crafting.IERecipeTypes;
 import blusunrize.immersiveengineering.api.crafting.IESerializableRecipe;
 import blusunrize.immersiveengineering.common.util.compat.jei.JEIRecipeTypes;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraftInteraction;
@@ -21,7 +21,14 @@ import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
+import java.util.function.BiConsumer;
+
 public class IEInteraction implements ElementalCraftInteraction {
+
+    @Override
+    public boolean isActive() {
+        return ModList.get().isLoaded("immersiveengineering");
+    }
 
     @Override
     public void registerPureOreRecipeInjectors(RegisterEvent.RegisterHelper<@NotNull IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry) {
@@ -33,13 +40,8 @@ public class IEInteraction implements ElementalCraftInteraction {
         PureOreRecipeFactoryTypes.register(registry, type.type().getId(), factory);
     }
 
-    public static void addMillsToCrushing(IRecipeCatalystRegistration registry) {
-        registry.addRecipeCatalyst(new ItemStack(ECBlocks.WATER_MILL_GRINDSTONE.get()), JEIRecipeTypes.CRUSHER);
-        registry.addRecipeCatalyst(new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()), JEIRecipeTypes.CRUSHER);
-    }
-
     @Override
-    public GrindingRecipe lookupCrusherRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    public GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         var recipeHolder = CrusherRecipe.findRecipe(level, recipeInput.getItem(0));
 
         if (recipeHolder == null) {
@@ -49,6 +51,12 @@ public class IEInteraction implements ElementalCraftInteraction {
         var recipe = new IECrusherRecipeWrapper(recipeHolder.value());
 
         return recipe.matches(recipeInput, level) ? recipe : null;
+    }
+
+    @Override
+    public void addCraftingStation(BiConsumer<Object, ItemStack> consumer) {
+        consumer.accept(JEIRecipeTypes.CRUSHER, new ItemStack(ECBlocks.WATER_MILL_GRINDSTONE.get()));
+        consumer.accept(JEIRecipeTypes.CRUSHER, new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()));
     }
 
 }

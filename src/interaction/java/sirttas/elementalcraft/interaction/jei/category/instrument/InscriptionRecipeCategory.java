@@ -4,15 +4,16 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.library.util.RecipeUtil;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
+import sirttas.elementalcraft.recipe.instrument.inscription.InscriptionRecipe;
+import sirttas.elementalcraft.recipe.instrument.inscription.InscriptionRecipeDisplay;
 
 import javax.annotation.Nonnull;
 
@@ -29,32 +30,36 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 
 	@Nonnull
 	@Override
-	public RecipeType<InscriptionRecipe> getRecipeType() {
+	public IRecipeType<@NotNull InscriptionRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.INSCRIPTION;
 	}
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull InscriptionRecipe recipe, @Nonnull IFocusGroup focuses) {
-		var ingredients = recipe.getIngredients();
+        if (!(recipe.display().getFirst() instanceof InscriptionRecipeDisplay display)) {
+            return;
+        }
+
+		var ingredients = display.ingredients();
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 22, 4)
-				.addIngredients(ingredients.get(0));
+				.add(ingredients.get(0));
 		builder.addSlot(RecipeIngredientRole.INPUT, 6, 22)
-				.addIngredients(ingredients.get(1));
+				.add(ingredients.get(1));
 		builder.addSlot(RecipeIngredientRole.INPUT, 22, 22)
-				.addIngredients(ingredients.get(2));
+				.add(ingredients.get(2));
 		builder.addSlot(RecipeIngredientRole.INPUT, 38, 22)
-				.addIngredients(ingredients.get(3));
+				.add(ingredients.get(3));
 
-		builder.addSlot(RecipeIngredientRole.CATALYST, 22, 42)
-				.addItemStack(INSCRIBER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 22, 58)
-				.addItemStack(container);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 22, 42)
+				.add(display.craftingStation());
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 22, 58)
+				.add(container);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 23, 76)
 				.addIngredients(ECIngredientTypes.ELEMENT, getElementTypeIngredients(recipe));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 34)
-				.addItemStack(RecipeUtil.getResultItem(recipe));
+				.add(display.result());
 	}
 }

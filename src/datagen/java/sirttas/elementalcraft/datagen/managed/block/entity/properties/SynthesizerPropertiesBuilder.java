@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SynthesizerPropertiesBuilder implements IConfigurableBlockEntityPropertiesBuilder {
 
     public static final MapCodec<SynthesizerPropertiesBuilder> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(b -> b.elementType),
+            ElementType.MAP_CODEC.forGetter(b -> b.elementType),
             Codec.INT.fieldOf(ECNames.TRANSFER_SPEED).forGetter(b -> b.transferSpeed),
             Codec.INT.fieldOf(ECNames.ELEMENT_CAPACITY).forGetter(b -> b.bufferCapacity),
             Codec.INT.fieldOf(ECNames.MAX_RUNES).forGetter(b -> b.maxRunes),

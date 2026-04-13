@@ -6,12 +6,12 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
@@ -35,7 +35,7 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
 
     @Nonnull
     @Override
-    public RecipeType<MeltingRecipe> getRecipeType() {
+    public IRecipeType<@NotNull MeltingRecipe> getRecipeType() {
         return ECJEIRecipeTypes.MELTING_SHRINE;
     }
 
@@ -48,10 +48,10 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
 
             var t = timer.getValue();
 
-            if (t >= recipe.input().size()) {
-                ECRendererHelper.renderFluid(recipe.result().defaultFluidState().createLegacyBlock(), p, b);
+            if (t >= recipe.input().blocks().size()) {
+                ECRendererHelper.renderFluid(recipe.result().fluid().value().defaultFluidState().createLegacyBlock(), p, b);
             } else {
-                ECRendererHelper.renderBlock(recipe.input().get(t).value().defaultBlockState(), p, b);
+                ECRendererHelper.renderBlock(recipe.input().blocks().get(t).value().defaultBlockState(), p, b);
             }
         });
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
@@ -59,9 +59,10 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull MeltingRecipe recipe, @Nonnull IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 51, 60).addIngredients(Ingredient.of(recipe.input().stream()
+        builder.addSlot(RecipeIngredientRole.INPUT, 51, 60).addItemStacks(recipe.input().blocks().stream()
                 .map(Holder::value)
-                .map(ItemStack::new)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 101, 60).addFluidStack(recipe.result(), 1000);
+                .map(ItemStack::new)
+                .toList());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 101, 60).add(recipe.result().fluid().value(), 1000);
     }
 }

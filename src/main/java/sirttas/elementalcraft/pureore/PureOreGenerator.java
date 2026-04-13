@@ -11,13 +11,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeMap;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -89,7 +90,7 @@ public class PureOreGenerator {
         ElementalCraft.PURE_ORE_LOADERS_MANAGER.holders()
                 .sorted(Comparator.comparingInt(holder -> holder.value().getOrder()))
                 .forEach(holder -> holder.value().generate(registry).forEach(e -> {
-                    factories.forEach(factory -> addRecipes(e, factory, registry));
+                    factories.forEach(factory -> addRecipes(e, factory));
                     pureOreSets.computeIfAbsent(e.getId(), i -> new LoadedPureOreSet()).ores.put(holder, e);
                 }));
 
@@ -140,12 +141,8 @@ public class PureOreGenerator {
                 .toList();
     }
 
-    private <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipes(LoadedPureOre ore, IPureOreRecipeFactory<C, T> factory, RegistryAccess registry) {
-        factory.getRecipes(ore.getOres()).forEach(h -> {
-            var recipe = h.value();
-
-            ore.addRecipe(recipe, factory.getRecipeOutput(registry, recipe));
-        });
+    private <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipes(LoadedPureOre ore, IPureOreRecipeFactory<C, T> factory) {
+        factory.getRecipes(ore.getOres()).forEach(h -> ore.addRecipe(h.value()));
     }
 
     private boolean isPureOreRecipe(RecipeHolder<?> holder) {
@@ -224,17 +221,18 @@ public class PureOreGenerator {
         public PureOre toPureOre() {
             var items = new HashSet<Holder<@NotNull Item>>(ores.size());
             var inputs = new ArrayList<Ingredient>(ores.size());
-            var resultsForColor = new ArrayList<ItemStack>(ores.size());
+            var recipeDisplays = new ArrayList<RecipeDisplay>(ores.size());
 
             for (var ore : ores.values()) {
                 items.addAll(ore.getOres());
                 inputs.add(ore.getInput());
-                if (!ore.getResultForColor().isEmpty()) {
-                    resultsForColor.add(ore.getResultForColor());
-                }
+                recipeDisplays.addAll(ore.recipeDisplays());
             }
 
-            return new PureOre(items, inputs, resultsForColor);
+            return new PureOre(items, inputs, recipeDisplays.stream()
+                    .map(RecipeDisplay::result)
+                    .findFirst()
+                    .orElse(SlotDisplay.Empty.INSTANCE));
         }
     }
 }

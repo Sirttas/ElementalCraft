@@ -21,7 +21,7 @@ public record SynthesizerProperties(
 
     public static final SynthesizerProperties DEFAULT = new SynthesizerProperties(ElementType.NONE, 0, 0, 0, 1, Holder.direct(Range.DEFAULT));
     public static final MapCodec<SynthesizerProperties> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(SynthesizerProperties::elementType),
+            ElementType.MAP_CODEC.forGetter(SynthesizerProperties::elementType),
             Codec.INT.fieldOf(ECNames.TRANSFER_SPEED).forGetter(SynthesizerProperties::transferSpeed),
             Codec.INT.fieldOf(ECNames.ELEMENT_CAPACITY).forGetter(SynthesizerProperties::bufferCapacity),
             Codec.INT.fieldOf(ECNames.MAX_RUNES).forGetter(SynthesizerProperties::maxRunes),

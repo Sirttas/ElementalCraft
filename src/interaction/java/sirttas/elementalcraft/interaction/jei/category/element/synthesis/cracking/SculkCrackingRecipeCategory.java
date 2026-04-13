@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.interaction.jei.category.element.synthesis.cracking;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -22,7 +22,7 @@ public class SculkCrackingRecipeCategory extends AbstractCrackingRecipeCategory<
 	}
 
 	@Override
-	public @NotNull RecipeType<SculkCrackingRecipe> getRecipeType() {
+	public @NotNull IRecipeType<@NotNull SculkCrackingRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.SCULK_CRACKING;
 	}
 }

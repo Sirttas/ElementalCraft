@@ -14,7 +14,7 @@ import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 
 import javax.annotation.Nonnull;
 
-public class SourceIngredientHelper implements IIngredientHelper<IngredientSource> {
+public class SourceIngredientHelper implements IIngredientHelper<@NotNull IngredientSource> {
 
 	@Nonnull
     @Override
@@ -22,11 +22,6 @@ public class SourceIngredientHelper implements IIngredientHelper<IngredientSourc
 		return I18n.get(ingredient.getTranslationKey());
 	}
 
-	@Nonnull
-    @Override
-	public String getUniqueId(@Nonnull IngredientSource ingredient, @Nonnull UidContext context) {
-		return getName(ingredient);
-	}
 
 	@Nonnull
 	private String getName(IngredientSource ingredient) {
@@ -64,7 +59,7 @@ public class SourceIngredientHelper implements IIngredientHelper<IngredientSourc
 
 	@Nonnull
     @Override
-	public IIngredientType<IngredientSource> getIngredientType() {
+	public IIngredientType<@NotNull IngredientSource> getIngredientType() {
 		return ECIngredientTypes.SOURCE;
 	}
 

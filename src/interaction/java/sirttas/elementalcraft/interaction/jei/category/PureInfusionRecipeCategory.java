@@ -4,9 +4,9 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.library.util.RecipeUtil;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -14,6 +14,7 @@ import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.interaction.jei.ingredient.element.IngredientElementType;
 import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipeDisplay;
 
 import javax.annotation.Nonnull;
 
@@ -26,43 +27,46 @@ public class PureInfusionRecipeCategory extends AbstractECRecipeCategory<PureInf
 
 	@Nonnull
 	@Override
-	public RecipeType<PureInfusionRecipe> getRecipeType() {
+	public IRecipeType<@NotNull PureInfusionRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.PURE_INFUSION;
 	}
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull PureInfusionRecipe recipe, @Nonnull IFocusGroup focuses) {
-		var ingredients = recipe.getIngredientsMap();
-		var elementAmount = IngredientElementType.getGaugeValue(recipe.getElementAmount());
+        if (!(recipe.display().getFirst() instanceof PureInfusionRecipeDisplay display)) {
+            return;
+        }
+
+		var elementAmount = IngredientElementType.getGaugeValue(display.elementAmount());
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 61)
-				.addIngredients(ingredients.get(ElementType.NONE));
+				.add(display.pureInfuserInput());
 
 		// Left
 		builder.addSlot(RecipeIngredientRole.INPUT, 26, 61)
-				.addIngredients(ingredients.get(ElementType.FIRE));
+				.add(display.fireInput());
 		builder.addSlot(RecipeIngredientRole.INPUT, 9, 61)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.FIRE, elementAmount));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.FIRE, elementAmount));
 
 		// Top
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 27)
-				.addIngredients(ingredients.get(ElementType.WATER));
+				.add(display.waterInput());
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 10)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.WATER, elementAmount));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.WATER, elementAmount));
 
 		// Bottom
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 95)
-				.addIngredients(ingredients.get(ElementType.EARTH));
+				.add(display.earthInput());
 		builder.addSlot(RecipeIngredientRole.INPUT, 60, 112)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.EARTH, elementAmount));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.EARTH, elementAmount));
 
 		// Right
 		builder.addSlot(RecipeIngredientRole.INPUT, 94, 61)
-				.addIngredients(ingredients.get(ElementType.AIR));
+				.add(display.airInput());
 		builder.addSlot(RecipeIngredientRole.INPUT, 111, 61)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.AIR, elementAmount));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.AIR, elementAmount));
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 154, 61)
-				.addItemStack(RecipeUtil.getResultItem(recipe));
+				.add(display.result());
 	}
 }

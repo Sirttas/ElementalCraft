@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.recipe.instrument;
+package sirttas.elementalcraft.recipe.instrument.crystallization;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -13,15 +13,20 @@ import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.AbstractInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -31,7 +36,7 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItem
 	public static final String NAME = "crystallization";
     public static final MapCodec<CrystallizationRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
-            ElementType.forGetter(IElementTypeProvider::getElementType),
+            ElementType.MAP_CODEC.forGetter(IElementTypeProvider::getElementType),
             Codec.INT.fieldOf(ECNames.ELEMENT_AMOUNT).forGetter(InstrumentRecipe::getElementAmount),
             Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
             Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
@@ -94,5 +99,16 @@ public class CrystallizationRecipe extends AbstractInstrumentRecipe<MultipleItem
     @Override
     public @NotNull RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.CRYSTALLIZATION.get();
+    }
+
+    @Override
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new CrystallizationRecipeDisplay(
+                getElementType(),
+                getElementAmount(),
+                gem.display(),
+                crystal.display(),
+                new SlotDisplay.ItemStackSlotDisplay(this.result),
+                new SlotDisplay.ItemSlotDisplay(ECBlocks.BINDER.get().asItem())));
     }
 }

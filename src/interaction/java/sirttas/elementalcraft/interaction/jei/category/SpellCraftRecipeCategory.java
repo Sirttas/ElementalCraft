@@ -4,13 +4,15 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.library.util.RecipeUtil;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
-import sirttas.elementalcraft.recipe.SpellCraftRecipe;
+import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.recipe.spell.SpellCraftRecipe;
+import sirttas.elementalcraft.recipe.spell.SpellCraftRecipeDisplay;
 
 import javax.annotation.Nonnull;
 
@@ -23,22 +25,24 @@ public class SpellCraftRecipeCategory extends AbstractECRecipeCategory<SpellCraf
 
 	@Nonnull
 	@Override
-	public RecipeType<SpellCraftRecipe> getRecipeType() {
+	public IRecipeType<@NotNull SpellCraftRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.SPELL_CRAFTING;
 	}
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull SpellCraftRecipe recipe, @Nonnull IFocusGroup focuses) {
-		var ingredients = recipe.getIngredients();
+        if (!(recipe.display().getFirst() instanceof SpellCraftRecipeDisplay display)) {
+            return;
+        }
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 20, 11)
-				.addIngredients(ingredients.get(0));
+				.add(new ItemStack(ECItems.SCROLL_PAPER));
 		builder.addSlot(RecipeIngredientRole.INPUT, 11, 29)
-				.addIngredients(ingredients.get(1));
+				.add(display.gem());
 		builder.addSlot(RecipeIngredientRole.INPUT, 29, 29)
-				.addIngredients(ingredients.get(2));
+				.add(display.crystal());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 20)
-				.addItemStack(RecipeUtil.getResultItem(recipe));
+				.add(display.result());
 	}
 }

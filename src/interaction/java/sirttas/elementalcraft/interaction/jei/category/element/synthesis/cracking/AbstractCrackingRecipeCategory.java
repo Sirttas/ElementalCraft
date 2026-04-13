@@ -32,20 +32,20 @@ public abstract class AbstractCrackingRecipeCategory<T extends AbstractCrackingR
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull T recipe, @Nonnull IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 20)
-				.addItemStacks(recipe.input().stream()
+				.addItemStacks(recipe.input().blocks().stream()
 						.map(b -> new ItemStack(b.value()))
 						.toList());
 
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 41, 17)
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 41, 17)
 				.addItemStacks(containers);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 41, 1)
-				.addItemStack(synthesizer);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 41, 1)
+				.add(synthesizer);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 70, 0)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.EARTH, IngredientElementType.getGaugeValue(recipe.elementAmount())));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.EARTH, IngredientElementType.getGaugeValue(recipe.elementAmount())));
 
 		if (recipe.hasResult()) {
 			builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 20)
-					.addItemStack(new ItemStack(recipe.result()));
+					.add(new ItemStack(recipe.result()));
 		}
 	}
 }

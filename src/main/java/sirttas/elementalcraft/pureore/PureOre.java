@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.component.ECDataComponents;
 
@@ -20,13 +21,13 @@ import java.util.Set;
 public record PureOre(
         Set<Holder<@NotNull Item>> items,
         List<Ingredient> inputs,
-        List<ItemStack> resultsForColor
+        SlotDisplay result
 ) {
 
     public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull PureOre> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(HashSet::new, ByteBufCodecs.holderRegistry(Registries.ITEM)), PureOre::items,
             ByteBufCodecs.collection(ArrayList::new, Ingredient.CONTENTS_STREAM_CODEC), PureOre::inputs,
-            ByteBufCodecs.collection(ArrayList::new, ItemStack.STREAM_CODEC), PureOre::resultsForColor,
+            SlotDisplay.STREAM_CODEC, PureOre::result,
             PureOre::new
     );
 
@@ -34,10 +35,10 @@ public record PureOre(
         return stack.get(ECDataComponents.PURE_ORE);
     }
 
-    public PureOre(Set<Holder<@NotNull Item>> items, List<Ingredient> inputs, List<ItemStack> resultsForColor) {
+    public PureOre(Set<Holder<@NotNull Item>> items, List<Ingredient> inputs, SlotDisplay result) {
         this.items = Set.copyOf(items);
         this.inputs = List.copyOf(inputs);
-        this.resultsForColor = List.copyOf(resultsForColor);
+        this.result = result;
     }
 
     public boolean test(ItemStack stack) {

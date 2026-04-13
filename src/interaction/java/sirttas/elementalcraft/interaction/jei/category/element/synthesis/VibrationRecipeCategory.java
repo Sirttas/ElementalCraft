@@ -7,7 +7,7 @@ import mezz.jei.api.gui.widgets.IRecipeWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.resources.Identifier;
@@ -45,7 +45,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 
 	@Nonnull
 	@Override
-	public RecipeType<IngredientElementType> getRecipeType() {
+	public IRecipeType<@NotNull IngredientElementType> getRecipeType() {
 		return ECJEIRecipeTypes.VIBRATION;
 	}
 
@@ -56,12 +56,12 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull IngredientElementType recipe, @Nonnull IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.CATALYST, 6, 19)
-				.addItemStack(VIBRATION_SYNTHESIZER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 6, 36)
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 6, 19)
+				.add(VIBRATION_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 6, 36)
 				.addItemStacks(CONTAINERS);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 45, 6)
-				.addIngredient(ECIngredientTypes.ELEMENT, recipe);
+				.add(ECIngredientTypes.ELEMENT, recipe);
 	}
 
 	static class VibrationWidget implements IRecipeWidget {

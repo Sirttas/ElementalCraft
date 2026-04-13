@@ -8,16 +8,21 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.AbstractIOInstrumentRecipe;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipeDisplay;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class OrePurificationRecipe extends AbstractIOInstrumentRecipe implements SingleElementInstrumentRecipe<SimpleIOInstrumentRecipeInput> {
 
@@ -55,5 +60,15 @@ public class OrePurificationRecipe extends AbstractIOInstrumentRecipe implements
     @Override
     public @NotNull ElementType getElementType() {
         return ElementType.EARTH;
+    }
+
+    @Override
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new IOInstrumentRecipeDisplay(
+                getElementType(),
+                getElementAmount(),
+                input.display(),
+                new SlotDisplay.ItemStackSlotDisplay(result),
+                new SlotDisplay.ItemSlotDisplay(ECBlocks.PURIFIER.get().asItem())));
     }
 }

@@ -5,24 +5,19 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.interaction.jei.ingredient.ECIngredientTypes;
 
 import javax.annotation.Nonnull;
 
-public class ElementIngredientHelper implements IIngredientHelper<IngredientElementType> {
+public class ElementIngredientHelper implements IIngredientHelper<@NotNull IngredientElementType> {
 
 	@Nonnull
     @Override
 	public String getDisplayName(IngredientElementType ingredient) {
 		return I18n.get(ingredient.getElementType().getDescriptionId());
-	}
-
-	@Nonnull
-    @Override
-	public String getUniqueId(IngredientElementType ingredient, @Nonnull UidContext context) {
-		return ingredient.getElementType().getSerializedName();
 	}
 
 	@Nonnull
@@ -56,7 +51,7 @@ public class ElementIngredientHelper implements IIngredientHelper<IngredientElem
 
 	@Nonnull
     @Override
-	public IIngredientType<IngredientElementType> getIngredientType() {
+	public IIngredientType<@NotNull IngredientElementType> getIngredientType() {
 		return ECIngredientTypes.ELEMENT;
 	}
 

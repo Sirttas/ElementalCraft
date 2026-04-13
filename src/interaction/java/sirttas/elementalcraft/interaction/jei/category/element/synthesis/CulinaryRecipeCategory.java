@@ -5,7 +5,7 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ public class CulinaryRecipeCategory extends AbstractECRecipeCategory<ItemStack> 
 
 	@Nonnull
 	@Override
-	public RecipeType<ItemStack> getRecipeType() {
+	public IRecipeType<@NotNull ItemStack> getRecipeType() {
 		return ECJEIRecipeTypes.CULINARY;
 	}
 
@@ -50,13 +50,13 @@ public class CulinaryRecipeCategory extends AbstractECRecipeCategory<ItemStack> 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull ItemStack recipe, @Nonnull IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
-				.addItemStack(recipe);
-		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 32)
-				.addItemStack(CULINARY_SYNTHESIZER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 47)
+				.add(recipe);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 32)
+				.add(CULINARY_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 47)
 				.addItemStacks(CONTAINERS);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 39, 17)
-				.addIngredient(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.WATER, 2));
+				.add(ECIngredientTypes.ELEMENT, new IngredientElementType(ElementType.WATER, 2));
 	}
 
 }

@@ -12,7 +12,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.item.ECItems;
-import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
+import sirttas.elementalcraft.recipe.instrument.inscription.InscriptionRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

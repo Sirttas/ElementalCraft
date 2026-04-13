@@ -27,7 +27,7 @@ public class ToolInfusion implements IElementTypeProvider {
 
 	public static final ToolInfusion NONE = new ToolInfusion(ElementType.NONE, Collections.emptyList());
 	public static final Codec<ToolInfusion> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-			ElementType.forGetter(ToolInfusion::getElementType),
+			ElementType.MAP_CODEC.forGetter(ToolInfusion::getElementType),
 			IToolInfusionEffect.CODEC.listOf().fieldOf(ECNames.EFFECTS).forGetter(ToolInfusion::getEffects)
 	).apply(builder, ToolInfusion::new));
 	public static final Codec<Holder<@NotNull ToolInfusion>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.TOOL_INFUSION_MANAGER_KEY, CODEC);
@@ -43,7 +43,7 @@ public class ToolInfusion implements IElementTypeProvider {
 	}
 	
 	protected static <T extends ToolInfusion> P1<Mu<T>, ElementType> codec(Instance<T> builder) {
-		return builder.group(ElementType.forGetter(ToolInfusion::getElementType));
+		return builder.group(ElementType.MAP_CODEC.forGetter(ToolInfusion::getElementType));
 	}
 
 	public List<Component> getTooltipInformation() {

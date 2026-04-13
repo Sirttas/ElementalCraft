@@ -2,7 +2,7 @@ package sirttas.elementalcraft.api.element;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.MapCodec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,7 +18,6 @@ import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public enum ElementType implements StringRepresentable, IElementTypeProvider, Resource {
@@ -31,6 +30,7 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider, Re
 
 	public static final List<ElementType> ALL_VALID = ImmutableList.copyOf(Stream.of(values()).filter(type -> type != NONE).toList());
 	public static final Codec<ElementType> CODEC = StringRepresentable.fromEnum(ElementType::values);
+	public static final MapCodec<ElementType> MAP_CODEC = CODEC.fieldOf(ECNames.ELEMENT_TYPE);
 	public static final StreamCodec<@NotNull ByteBuf, @NotNull ElementType> STREAM_CODEC = ByteBufCodecs.INT.map(i -> values()[i], Enum::ordinal);
 	
 	private final String name;
@@ -125,9 +125,5 @@ public enum ElementType implements StringRepresentable, IElementTypeProvider, Re
 			return provider.getElementType();
 		}
 		return ElementType.NONE;
-	}
-
-	public static <T> RecordCodecBuilder<T, ElementType> forGetter(final Function<T, ElementType> getter) {
-		return CODEC.fieldOf(ECNames.ELEMENT_TYPE).forGetter(getter);
 	}
 }

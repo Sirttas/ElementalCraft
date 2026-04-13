@@ -33,7 +33,7 @@ public class SourceBlock extends AbstractECEntityBlock implements IElementTypePr
 	public static final String NAME_AIR = "air_" + NAME;
 
 	public static final MapCodec<SourceBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-			ElementType.forGetter(SourceBlock::getElementType),
+			ElementType.MAP_CODEC.forGetter(SourceBlock::getElementType),
 			propertiesCodec()
 	).apply(instance, SourceBlock::new));
 

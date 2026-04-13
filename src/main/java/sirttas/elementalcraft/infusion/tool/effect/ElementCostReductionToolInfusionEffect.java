@@ -18,7 +18,7 @@ public record ElementCostReductionToolInfusionEffect(
 
 	public static final String NAME = "element_cost_reduction";
 	public static final MapCodec<ElementCostReductionToolInfusionEffect> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-			ElementType.forGetter(ElementCostReductionToolInfusionEffect::getElementType),
+			ElementType.MAP_CODEC.forGetter(ElementCostReductionToolInfusionEffect::getElementType),
 			Codec.FLOAT.fieldOf(ECNames.VALUE).forGetter(ElementCostReductionToolInfusionEffect::value)
 	).apply(builder, ElementCostReductionToolInfusionEffect::new));
 

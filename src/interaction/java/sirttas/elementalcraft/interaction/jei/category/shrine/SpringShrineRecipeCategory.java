@@ -6,12 +6,13 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
@@ -38,7 +39,7 @@ public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringS
 
     @Nonnull
     @Override
-    public RecipeType<SpringShrineBlock> getRecipeType() {
+    public IRecipeType<@NotNull SpringShrineBlock> getRecipeType() {
         return ECJEIRecipeTypes.SPRING_SHRINE;
     }
 
@@ -60,6 +61,6 @@ public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringS
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull SpringShrineBlock recipe, @Nonnull IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 60).addFluidStack(Fluids.WATER, 1000);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 60).add(Fluids.WATER, 1000);
     }
 }

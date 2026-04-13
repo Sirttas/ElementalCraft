@@ -1,7 +1,8 @@
 package sirttas.elementalcraft.interaction.jei.category.instrument.io.mill;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
@@ -17,7 +18,7 @@ public class SawingRecipeCategory extends AbstractMillRecipeCategory<SimpleIOIns
 
 	@Nonnull
 	@Override
-	public RecipeType<SawingRecipe> getRecipeType() {
+	public IRecipeType<@NotNull SawingRecipe> getRecipeType() {
 		return ECJEIRecipeTypes.SAWING;
 	}
 }

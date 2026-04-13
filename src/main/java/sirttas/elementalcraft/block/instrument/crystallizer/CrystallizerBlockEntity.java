@@ -13,7 +13,7 @@ import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityPr
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.block.instrument.InstrumentContainer;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
+import sirttas.elementalcraft.recipe.instrument.crystallization.CrystallizationRecipe;
 
 import javax.annotation.Nonnull;
 

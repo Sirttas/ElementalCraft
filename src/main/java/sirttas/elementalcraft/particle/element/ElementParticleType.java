@@ -33,7 +33,7 @@ public record ElementParticleType(
 		return new ParticleType<>(overrideLimiter) {
 
 			private final MapCodec<ElementParticleType> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
-					ElementType.forGetter(ElementParticleType::getElementType)
+					ElementType.MAP_CODEC.forGetter(ElementParticleType::getElementType)
 			).apply(instance, t -> new ElementParticleType(this, t)));
 			private final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ElementParticleType> streamCodec = ElementType.STREAM_CODEC
 					.map(t -> new ElementParticleType(this, t), ElementParticleType::getElementType)

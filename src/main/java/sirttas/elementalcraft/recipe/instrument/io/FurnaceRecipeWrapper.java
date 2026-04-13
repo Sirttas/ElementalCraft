@@ -5,14 +5,18 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.recipe.RuntimeRecipe;
 import sirttas.elementalcraft.recipe.instrument.SingleElementInstrumentRecipe;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class FurnaceRecipeWrapper implements IOInstrumentRecipe<IOInstrumentRecipeInput>, SingleElementInstrumentRecipe<IOInstrumentRecipeInput>, RuntimeRecipe<IOInstrumentRecipeInput> {
 
@@ -54,4 +58,14 @@ public class FurnaceRecipeWrapper implements IOInstrumentRecipe<IOInstrumentReci
 	public int getElementAmount() {
 		return duration() * (recipe.getType() == RecipeType.SMELTING ? ECConfig.SERVER.fireFurnaceElementAmount.get() : ECConfig.SERVER.fireBlastFurnaceElementAmount.get());
 	}
+
+    @Override
+    public @NotNull List<RecipeDisplay> display() {
+        return List.of(new IOInstrumentRecipeDisplay(
+                getElementType(),
+                getElementAmount(),
+                recipe.input().display(),
+                new SlotDisplay.ItemStackSlotDisplay(recipe.result()),
+                new SlotDisplay.ItemSlotDisplay(recipe.getType() == RecipeType.SMELTING  ? ECBlocks.FIRE_FURNACE.get().asItem() : ECBlocks.FIRE_BLAST_FURNACE.get().asItem())));
+    }
 }

@@ -1,11 +1,13 @@
 package sirttas.elementalcraft.pureore.display;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +33,6 @@ public record PureOreDisplay(
         }
         return 0;
     };
-
     private static final Comparator<Identifier> DEEPSLATE_COMPARATOR = (name1, name2) -> {
         if (name1.getPath().contains(DEEPSLATE) && !name2.getPath().contains(DEEPSLATE)) {
             return 1;
@@ -40,8 +41,9 @@ public record PureOreDisplay(
         }
         return 0;
     };
-
     private static final Comparator<Holder<@NotNull Item>> DESCRIPTION_COMPARATOR = Comparator.comparing(h -> h.getKey().identifier(), MINECRAFT_NAMESPACE_COMPARATOR.thenComparing(DEEPSLATE_COMPARATOR).thenComparing(Identifier::compareTo));
+
+    private static final int[] DEFAULT_COLORS = new int[] { -1, -1, -1 };
 
     public PureOreDisplay(Identifier id, PureOre pureOre) {
         this(loadPureOreName(id, pureOre), loadPureOreColors(pureOre));
@@ -62,9 +64,21 @@ public record PureOreDisplay(
     }
 
     private static int[] loadPureOreColors(PureOre pureOre) {
-        return pureOre.resultsForColor().stream()
-                .map(ElementalCraft.interactions()::lookupColors)
+        var context = SlotDisplayContext.fromLevel(Minecraft.getInstance().level);
+        var stack = pureOre.result().resolveForStacks(context).stream()
+                .filter(s -> !s.isEmpty())
                 .findFirst()
-                .orElse(null);
+                .orElse(ItemStack.EMPTY);
+
+        if (stack.isEmpty()) {
+            return DEFAULT_COLORS;
+        }
+
+        var value = ElementalCraft.interactions().lookupColors(stack);
+
+        if (value == null) {
+            return DEFAULT_COLORS;
+        }
+        return value;
     }
 }

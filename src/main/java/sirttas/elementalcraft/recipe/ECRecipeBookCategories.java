@@ -9,16 +9,17 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.recipe.cracking.CrackingRecipe;
 import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
-import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
-import sirttas.elementalcraft.recipe.instrument.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.binding.AbstractBindingRecipe;
+import sirttas.elementalcraft.recipe.instrument.crystallization.CrystallizationRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
 import sirttas.elementalcraft.recipe.instrument.infusion.ToolInfusionRecipe;
+import sirttas.elementalcraft.recipe.instrument.inscription.InscriptionRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 import sirttas.elementalcraft.recipe.pure.infusion.PureInfusionRecipe;
+import sirttas.elementalcraft.recipe.spell.SpellCraftRecipe;
 
 public class ECRecipeBookCategories {
     private static final DeferredRegister<@NotNull RecipeBookCategory> DEFERRED_REGISTER = DeferredRegister.create(Registries.RECIPE_BOOK_CATEGORY, ElementalCraftApi.MODID);

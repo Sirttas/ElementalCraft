@@ -7,16 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-public class SpellSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
+public class SpellSubtypeInterpreter implements ISubtypeInterpreter<@NotNull ItemStack> {
     @Override
     public @Nullable Object getSubtypeData(@NotNull ItemStack ingredient, @NotNull UidContext context) {
         return SpellHelper.getSpell(ingredient);
-    }
-
-    @Override
-    public @NotNull String getLegacyStringSubtypeInfo(@NotNull ItemStack ingredient, @NotNull UidContext context) {
-        var key = SpellHelper.getSpell(ingredient).getKey();
-
-        return key == null ? "" : key.identifier().toString();
     }
 }

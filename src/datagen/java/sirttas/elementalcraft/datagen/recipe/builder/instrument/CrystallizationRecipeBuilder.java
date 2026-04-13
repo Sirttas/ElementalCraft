@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
-import sirttas.elementalcraft.recipe.instrument.CrystallizationRecipe;
+import sirttas.elementalcraft.recipe.instrument.crystallization.CrystallizationRecipe;
 
 import java.util.List;
 

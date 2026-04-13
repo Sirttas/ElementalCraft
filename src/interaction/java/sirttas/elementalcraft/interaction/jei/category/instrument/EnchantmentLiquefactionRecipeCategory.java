@@ -5,12 +5,15 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.core.HolderLookup;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
@@ -43,7 +46,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 
 	@Nonnull
 	@Override
-	public RecipeType<EnchantmentLiquefactionRecipeCategory.RecipeWrapper> getRecipeType() {
+	public IRecipeType<@NotNull RecipeWrapper> getRecipeType() {
 		return ECJEIRecipeTypes.ENCHANTMENT_LIQUEFACTION;
 	}
 
@@ -65,9 +68,9 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 						.addItemStacks(Lists.reverse(enchantmentStacks))
 		);
 
-		builder.addSlot(RecipeIngredientRole.CATALYST, 35, 42)
-				.addItemStack(ENCHANTMENT_LIQUEFIER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 35, 58)
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 35, 42)
+				.add(ENCHANTMENT_LIQUEFIER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 35, 58)
 				.addItemStacks(containers);
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 36, 76)
@@ -115,7 +118,42 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 			return recipe.matches(input, level);
 		}
 
-		@Override
+        @Override
+        public @NotNull ItemStack assemble(@NotNull SimpleIOInstrumentRecipeInput input) {
+            return recipe.assemble(input);
+        }
+
+        @Override
+        public boolean showNotification() {
+            return recipe.showNotification();
+        }
+
+        @Override
+        public @NotNull String group() {
+            return recipe.group();
+        }
+
+        @Override
+        public @NotNull RecipeSerializer<? extends @NotNull Recipe<@NotNull SimpleIOInstrumentRecipeInput>> getSerializer() {
+            return recipe.getSerializer();
+        }
+
+        @Override
+        public @NotNull RecipeType<? extends @NotNull Recipe<@NotNull SimpleIOInstrumentRecipeInput>> getType() {
+            return recipe.getType();
+        }
+
+        @Override
+        public @NotNull PlacementInfo placementInfo() {
+            return recipe.placementInfo();
+        }
+
+        @Override
+        public @NotNull RecipeBookCategory recipeBookCategory() {
+            return recipe.recipeBookCategory();
+        }
+
+        @Override
 		public List<ElementType> getValidElementTypes() {
 			return recipe.getValidElementTypes();
 		}
@@ -123,21 +161,6 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 		@Override
 		public int getElementAmount() {
 			return recipe.getElementAmount();
-		}
-
-		@Override
-		public @NotNull ItemStack getResultItem(@Nonnull HolderLookup.Provider provider) {
-			return recipe.getResultItem(provider);
-		}
-
-		@Override
-		public @NotNull RecipeSerializer<?> getSerializer() {
-			return recipe.getSerializer();
-		}
-
-		@Override
-		public @NotNull net.minecraft.world.item.crafting.RecipeType<?> getType() {
-			return recipe.getType();
 		}
 	}
 }

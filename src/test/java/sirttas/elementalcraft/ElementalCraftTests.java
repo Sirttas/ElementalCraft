@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -49,6 +50,11 @@ public class ElementalCraftTests implements ElementalCraftInteraction {
 
 
     static MinecraftServer server;
+
+    @Override
+    public boolean isActive() {
+        return ModList.get().isLoaded("testframework");
+    }
 
     @Override
     public void registerTestFramework(IEventBus modBus, ModContainer container) {

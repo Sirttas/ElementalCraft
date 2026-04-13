@@ -5,7 +5,7 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +41,7 @@ public class DrainingRecipeCategory extends AbstractECRecipeCategory<IngredientE
 
 	@Nonnull
 	@Override
-	public RecipeType<IngredientElementType> getRecipeType() {
+	public IRecipeType<@NotNull IngredientElementType> getRecipeType() {
 		return ECJEIRecipeTypes.DRAINING;
 	}
 
@@ -52,12 +52,12 @@ public class DrainingRecipeCategory extends AbstractECRecipeCategory<IngredientE
 
 	@Override
 	public void setRecipe(@Nonnull IRecipeLayoutBuilder builder, @Nonnull IngredientElementType recipe, @Nonnull IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.CATALYST, 0, 15)
-				.addItemStack(DRAINING_SYNTHESIZER);
-		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 0, 30)
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 15)
+				.add(DRAINING_SYNTHESIZER);
+		builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 0, 30)
 				.addItemStacks(CONTAINERS);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 39, 0)
-				.addIngredient(ECIngredientTypes.ELEMENT, recipe);
+				.add(ECIngredientTypes.ELEMENT, recipe);
 	}
 
 }

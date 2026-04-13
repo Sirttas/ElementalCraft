@@ -18,7 +18,7 @@ import java.util.stream.DoubleStream;
 public class ShrinePropertiesBuilder implements IConfigurableBlockEntityPropertiesBuilder {
 
     public static final MapCodec<ShrinePropertiesBuilder> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            ElementType.forGetter(b -> b.elementType),
+            ElementType.MAP_CODEC.forGetter(b -> b.elementType),
             Codec.DOUBLE.optionalFieldOf(ECNames.PERIOD, 0D).forGetter(b -> b.period),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CONSUMPTION, 0).forGetter(b -> b.consumption),
             Codec.INT.optionalFieldOf(ECNames.ELEMENT_CAPACITY, 0).forGetter(b -> b.capacity),
