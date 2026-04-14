@@ -1,14 +1,11 @@
 package sirttas.elementalcraft.datagen.interaction.patchouli.builder;
 
-import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.PageBuilder;
@@ -17,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntryBuilder implements PatchouliFile {
-
-    private static final ExistingFileHelper.ResourceType ADVANCEMENT = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", "advancement");
 
     private final CategoryBuilder category;
     private final String fileName;
@@ -122,17 +117,8 @@ public class EntryBuilder implements PatchouliFile {
         if (StringUtils.isNotBlank(name)) {
             category.book.translationKeyValidator.checkHasKey(name);
         }
-        if (icon != null) {
-            icon.validate(category.book.existingFileHelper);
-        }
-        if (advancement != null) {
-            Preconditions.checkState(category.book.existingFileHelper.exists(advancement, ADVANCEMENT), "Advancement %s does not exist.", advancement);
-        }
-        if (turnIn != null) {
-            Preconditions.checkState(category.book.existingFileHelper.exists(turnIn, ADVANCEMENT), "Advancement %s does not exist.", turnIn);
-        }
         for (PageBuilder page : pages) {
-            page.validate(category.book.existingFileHelper, category.book.translationKeyValidator);
+            page.validate(category.book.translationKeyValidator);
         }
     }
 }

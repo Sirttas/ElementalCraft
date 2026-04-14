@@ -1,15 +1,12 @@
 package sirttas.elementalcraft.datagen.interaction.patchouli.builder;
 
-import com.google.common.base.Preconditions;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 interface BookIcon {
 
@@ -37,15 +34,14 @@ interface BookIcon {
         };
     }
 
-    default void validate(ExistingFileHelper existingFileHelper) {}
+    default void validate() {}
 
     record TextureIcon(
             Identifier texture
     ) implements BookIcon {
 
         @Override
-        public void validate(ExistingFileHelper existingFileHelper) {
-            Preconditions.checkState(existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES), "Texture %s does not exist.", texture);
+        public void validate() {
         }
     }
 

@@ -2,14 +2,13 @@ package sirttas.elementalcraft.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 
 public class ECBlockModelProvider extends BlockModelProvider {
 
-    public ECBlockModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, ElementalCraftApi.MODID, existingFileHelper);
+    public ECBlockModelProvider(PackOutput output) {
+        super(output, ElementalCraftApi.MODID);
     }
 
     @Override

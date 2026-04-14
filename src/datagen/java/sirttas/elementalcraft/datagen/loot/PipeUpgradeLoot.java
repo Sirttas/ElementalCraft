@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 public class PipeUpgradeLoot implements LootTableSubProvider {
 
-	private final Map<ResourceKey<LootTable>, Builder> map = Maps.newHashMap();
+	private final Map<ResourceKey<@NotNull LootTable>, Builder> map = Maps.newHashMap();
 
 	protected void generate() {
 		add(getKey(PipeUpgradeTypes.ELEMENT_PUMP), createRuneable(PipeUpgradeTypes.ELEMENT_PUMP.get()));
@@ -34,7 +34,7 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 	}
 
 	@Override
-	public void generate(@NotNull BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+	public void generate(@NotNull BiConsumer<ResourceKey<@NotNull LootTable>, LootTable.Builder> consumer) {
 		map.clear();
 		generate();
 		map.forEach(consumer);
@@ -44,22 +44,22 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 		add(getKey(type), createSingleItemTable(type));
 	}
 
-	private ResourceKey<LootTable> getKey(Supplier<? extends PipeUpgradeType<?>> type) {
+	private ResourceKey<@NotNull LootTable> getKey(Supplier<? extends PipeUpgradeType<?>> type) {
 		return getKey(type.get());
 	}
 
 	@Nullable
-	private static ResourceKey<LootTable> getKey(PipeUpgradeType<?> type) {
+	private static ResourceKey<@NotNull LootTable> getKey(PipeUpgradeType<?> type) {
 		var key = PipeUpgradeTypes.REGISTRY.getKey(type);
 
 		return key != null ? ResourceKey.create(Registries.LOOT_TABLE, key.withPrefix(PipeUpgrade.FOLDER)) : null;
 	}
 
-	protected void add(ResourceKey<LootTable> name, Builder builder) {
+	protected void add(ResourceKey<@NotNull LootTable> name, Builder builder) {
 		map.put(name, builder);
 	}
 
-	protected <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ConditionUserBuilder<T> conditionBuilder) {
+	protected <T extends ConditionUserBuilder<@NotNull T>> T applyExplosionCondition(ConditionUserBuilder<@NotNull T> conditionBuilder) {
 		return conditionBuilder.when(ExplosionCondition.survivesExplosion());
 	}
 

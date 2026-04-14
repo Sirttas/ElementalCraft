@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.datagen.loot;
 
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
@@ -26,6 +25,7 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
@@ -114,7 +114,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 			var block = entry.getValue();
 			var key = block.getLootTable();
 
-			if (!ElementalCraft.owns(entry) || map.containsKey(key) || BuiltInLootTables.EMPTY.equals(key)) {
+			if (!ElementalCraft.owns(entry) || map.containsKey(key)) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
@@ -233,7 +233,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 	}
 
 	private static LootPool.Builder createCopyComponentsPool(LootPoolEntryContainer.Builder<?> entry, DataComponentType<?>... components) {
-		CopyComponentsFunction.Builder func = CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY);
+		CopyComponentsFunction.Builder func = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContextParams.BLOCK_ENTITY);
 
 		for (var component : components) {
 			func = func.include(component);
@@ -251,7 +251,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 	}
 
 	@Nonnull
-	private static <T extends Comparable<T> & StringRepresentable> LootItemBlockStatePropertyCondition.Builder createHasStateCondition(Block block, Property<T> property, T value) {
+	private static <T extends Comparable<T> & StringRepresentable> LootItemBlockStatePropertyCondition.Builder createHasStateCondition(Block block, Property<@NotNull T> property, T value) {
 		return LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(property, value));
 	}
 }

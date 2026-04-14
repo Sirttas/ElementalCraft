@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
@@ -35,8 +34,8 @@ public class ECItemModelProvider extends ItemModelProvider {
 	private static final String ITEM_PREFIX = "item/";
 	private static final String BLOCK_PREFIX = "block/";
 
-	public ECItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-		super(output, ElementalCraftApi.MODID, existingFileHelper);
+	public ECItemModelProvider(PackOutput output) {
+		super(output, ElementalCraftApi.MODID);
 	}
 
 	@Override

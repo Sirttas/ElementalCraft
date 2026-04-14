@@ -15,8 +15,8 @@ public class ECLootTableProvider extends LootTableProvider {
     public ECLootTableProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, Collections.emptySet(), List.of(
                 new SubProviderEntry(ECBlockLoot::new, LootContextParamSets.BLOCK),
-                new SubProviderEntry(r -> new ECChestLoot(), LootContextParamSets.CHEST),
-                new SubProviderEntry(r -> new PipeUpgradeLoot(), ECLootContextParamSets.PIPE_UPGRADE)
+                new SubProviderEntry(_ -> new ECChestLoot(), LootContextParamSets.CHEST),
+                new SubProviderEntry(_ -> new PipeUpgradeLoot(), ECLootContextParamSets.PIPE_UPGRADE)
         ), registries);
     }
 }

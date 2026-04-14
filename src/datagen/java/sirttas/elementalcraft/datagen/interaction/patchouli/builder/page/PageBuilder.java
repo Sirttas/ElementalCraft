@@ -7,7 +7,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.List;
@@ -60,5 +59,5 @@ public interface PageBuilder {
 
     PageBuilderType getType();
 
-    default void validate(ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {}
+    default void validate(TranslationKeyValidator translationKeyValidator) {}
 }

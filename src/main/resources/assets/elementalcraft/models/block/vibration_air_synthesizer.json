@@ -6,7 +6,6 @@
 	"textures": {
 		"0": "elementalcraft:block/iron",
 		"1": "elementalcraft:block/whiterock",
-		"tendril": "elementalcraft:block/vibration_air_synthesizer_tendril_inactive",
 		"particle": "elementalcraft:block/iron"
 	},
 	"elements": [

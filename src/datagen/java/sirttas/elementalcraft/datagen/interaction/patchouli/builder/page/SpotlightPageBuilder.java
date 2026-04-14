@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
 import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
@@ -40,7 +39,7 @@ public record SpotlightPageBuilder(
     }
 
     @Override
-    public void validate(ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public void validate(TranslationKeyValidator translationKeyValidator) {
         if (StringUtils.isNotBlank(text)) {
             translationKeyValidator.checkHasKey(text);
         }

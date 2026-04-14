@@ -3,7 +3,6 @@ package sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.custom
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.PageBuilder;
@@ -33,7 +32,7 @@ public record CheckPageBuilder(
     }
 
     @Override
-    public void validate(ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public void validate(TranslationKeyValidator translationKeyValidator) {
         if (StringUtils.isNotBlank(header)) {
             translationKeyValidator.checkHasKey(header);
         }

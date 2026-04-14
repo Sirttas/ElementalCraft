@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -27,7 +28,7 @@ import java.util.function.BiConsumer;
 public class ECChestLoot implements LootTableSubProvider {
 
 	@Override
-	public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+	public void generate(BiConsumer<ResourceKey<@NotNull LootTable>, LootTable.Builder> consumer) {
 		consumer.accept(createKey("inject"), createInject());
 		consumer.accept(createKey("altar/small_fire"), createSmallAltar(ElementType.FIRE));
 		consumer.accept(createKey("altar/medium_fire"), createMediumAltar(ElementType.FIRE));
@@ -40,7 +41,7 @@ public class ECChestLoot implements LootTableSubProvider {
 	}
 
 	@Nonnull
-	private static ResourceKey<LootTable> createKey(String inject) {
+	private static ResourceKey<@NotNull LootTable> createKey(String inject) {
 		return ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/" + inject));
 	}
 
@@ -119,11 +120,11 @@ public class ECChestLoot implements LootTableSubProvider {
 		return LootItem.lootTableItem(ECItems.SCROLL.get()).apply(RandomSpellFunction.builder(type));
 	}
 
-	private static LootPoolSingletonContainer.Builder<?> rune(ResourceKey<Rune> rune) {
+	private static LootPoolSingletonContainer.Builder<?> rune(ResourceKey<@NotNull Rune> rune) {
 		return LootItem.lootTableItem(ECItems.RUNE.get()).apply(SetRuneFunction.builder(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune)));
 	}
 
-	private static ResourceKey<Rune> getSmallRune(ElementType type) {
+	private static ResourceKey<@NotNull Rune> getSmallRune(ElementType type) {
 		return switch (type) {
 			case AIR -> Runes.WII;
 			case EARTH -> Runes.SOARYN;
@@ -133,7 +134,7 @@ public class ECChestLoot implements LootTableSubProvider {
 		};
 	}
 
-	private static ResourceKey<Rune> getMediumRune(ElementType type) {
+	private static ResourceKey<@NotNull Rune> getMediumRune(ElementType type) {
 		return switch (type) {
 			case AIR -> Runes.FUS;
 			case EARTH -> Runes.KAWORU;
@@ -143,7 +144,7 @@ public class ECChestLoot implements LootTableSubProvider {
 		};
 	}
 
-	private static ResourceKey<Rune> getLargeRuneName(ElementType type) {
+	private static ResourceKey<@NotNull Rune> getLargeRuneName(ElementType type) {
 		return switch (type) {
 			case AIR -> Runes.ZOD;
 			case EARTH -> Runes.MEWTWO;

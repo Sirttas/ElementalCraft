@@ -9,7 +9,7 @@ import mekanism.api.recipes.ingredients.creator.IngredientCreatorAccess;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,7 +48,6 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -92,8 +91,6 @@ import java.util.function.UnaryOperator;
 
 public class ECRecipeProvider extends RecipeProvider {
 
-	public static final ExistingFileHelper.ResourceType RECIPE = new ExistingFileHelper.ResourceType(PackType.SERVER_DATA, ".json", "recipe");
-
 	private static final String HAS_INERT_CRYSTAL = "has_inert_crystal";
 	private static final String HAS_CONTAINED_CRYSTAL = "has_contained_crystal";
 	private static final String HAS_PURECRYSTAL = "has_purecrystal";
@@ -109,28 +106,13 @@ public class ECRecipeProvider extends RecipeProvider {
 	private static final String HAS_FIREITE_INGOT = "has_fireite_ingot";
 	public static final String FROM = "_from_";
 
-	private final ExistingFileHelper existingFileHelper;
 
-	public ECRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper exFileHelper) {
+	public ECRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
 		super(output, registries);
-		existingFileHelper = exFileHelper;
 	}
 
 	@Override
-	protected void buildRecipes(@NotNull RecipeOutput oldRecipeOutput, @NotNull HolderLookup.Provider holderLookup) {
-		var recipeOutput = new RecipeOutput() {
-			@Override
-			public void accept(@NotNull Identifier id, @NotNull Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition @NotNull ... conditions) {
-				oldRecipeOutput.accept(id, recipe, advancement, conditions);
-				existingFileHelper.trackGenerated(id, RECIPE);
-			}
-
-			@Override
-			public Advancement.@NotNull Builder advancement() {
-				return oldRecipeOutput.advancement();
-			}
-		};
-
+	protected void buildRecipes(@NotNull RecipeOutput recipeOutput, @NotNull HolderLookup.Provider holderLookup) {
 		registerSlabsStairsWalls(recipeOutput);
 		registerInertCrystal(recipeOutput);
 		registerNuggetIngotBlocks(recipeOutput);

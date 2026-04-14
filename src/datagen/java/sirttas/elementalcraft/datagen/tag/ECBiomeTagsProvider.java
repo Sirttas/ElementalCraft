@@ -6,7 +6,6 @@ import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -15,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ECBiomeTagsProvider extends BiomeTagsProvider {
 
-	public ECBiomeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, ExistingFileHelper existingFileHelper) {
-		super(output, provider, ElementalCraftApi.MODID, existingFileHelper);
+	public ECBiomeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+		super(output, provider, ElementalCraftApi.MODID);
 	}
 
 	@SuppressWarnings("unchecked")

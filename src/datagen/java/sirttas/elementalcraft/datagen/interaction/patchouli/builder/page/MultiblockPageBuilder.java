@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
 import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
@@ -49,7 +48,7 @@ public class MultiblockPageBuilder implements PageBuilder {
     }
 
     @Override
-    public void validate(ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public void validate(TranslationKeyValidator translationKeyValidator) {
         for (List<String> layer : multiblock.pattern) {
             for (String row : layer) {
                 for (char symbol : row.toCharArray()) {

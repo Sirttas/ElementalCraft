@@ -1,13 +1,10 @@
 package sirttas.elementalcraft.datagen.interaction.patchouli.builder;
 
-import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.CreativeModeTab;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,11 +31,8 @@ public class BookBuilder implements PatchouliFile {
         throw new UnsupportedOperationException("Builder deserialization is not supported.");
     }));
 
-    private static final ExistingFileHelper.ResourceType MODEL_RESOURCE_TYPE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models/item");
-
     private final Identifier id;
     private final Map<String, String> macros;
-    final ExistingFileHelper existingFileHelper;
     final TranslationKeyValidator translationKeyValidator;
 
     private final List<CategoryBuilder> categories;
@@ -51,9 +45,8 @@ public class BookBuilder implements PatchouliFile {
     private Identifier creativeTab;
     boolean i18n;
 
-    public BookBuilder(Identifier id, ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public BookBuilder(Identifier id, TranslationKeyValidator translationKeyValidator) {
         this.id = id;
-        this.existingFileHelper = existingFileHelper;
         this.translationKeyValidator = translationKeyValidator;
         this.macros = new HashMap<>();
         this.categories = new ArrayList<>();
@@ -84,7 +77,7 @@ public class BookBuilder implements PatchouliFile {
         return this;
     }
 
-    public BookBuilder creativeTab(Holder<CreativeModeTab> creativeTab) {
+    public BookBuilder creativeTab(Holder<@NotNull CreativeModeTab> creativeTab) {
         this.creativeTab = Objects.requireNonNull(creativeTab.getKey()).identifier();
         return this;
     }
@@ -130,9 +123,6 @@ public class BookBuilder implements PatchouliFile {
         }
         if (StringUtils.isNotBlank(landingText)) {
             translationKeyValidator.checkHasKey(landingText);
-        }
-        if (model != null) {
-            Preconditions.checkState(existingFileHelper.exists(model, MODEL_RESOURCE_TYPE), "Model %s does not exist.", model);
         }
         categories.forEach(CategoryBuilder::validate);
     }

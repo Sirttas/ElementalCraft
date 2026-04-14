@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
@@ -14,7 +13,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -26,7 +26,6 @@ import sirttas.elementalcraft.tag.ECTags;
 import vazkii.botania.api.BotaniaAPI;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -38,13 +37,12 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	public static final String POWAH = "powah";
 	public static final String BLUE_SKIES = "blue_skies";
 
-	public ECItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, CompletableFuture<TagsProvider.TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper) {
-		super(output, registries, blockTags, ElementalCraftApi.MODID, existingFileHelper);
+	public ECItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, CompletableFuture<TagsProvider.TagLookup<@NotNull Block>> blockTags) {
+		super(output, registries, blockTags, ElementalCraftApi.MODID);
 	}
 
 	@Override
 	protected void addTags(@Nonnull HolderLookup.Provider provider) {
-		copy(ECTags.Blocks.STRIPPED_OAK, ECTags.Items.STRIPPED_OAK);
 		copy(ECTags.Blocks.STRIPPED_DARK_OAK, ECTags.Items.STRIPPED_DARK_OAK);
 		copy(ECTags.Blocks.STRIPPED_BIRCH, ECTags.Items.STRIPPED_BIRCH);
 		copy(ECTags.Blocks.STRIPPED_ACACIA, ECTags.Items.STRIPPED_ACACIA);

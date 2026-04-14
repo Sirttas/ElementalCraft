@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -41,13 +40,11 @@ public class BookDataProvider implements DataProvider {
 
     private final PackOutput packOutput;
     private final CompletableFuture<HolderLookup.Provider> registries;
-    private final ExistingFileHelper existingFileHelper;
     private final TranslationKeyValidator translationKeyValidator;
 
-    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper, TranslationKeyValidator translationKeyValidator) {
+    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, TranslationKeyValidator translationKeyValidator) {
         this.packOutput = packOutput;
         this.registries = registries;
-        this.existingFileHelper = existingFileHelper;
         this.translationKeyValidator = translationKeyValidator;
     }
 
@@ -59,7 +56,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     private List<BookBuilder> generate() {
-        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"), existingFileHelper, translationKeyValidator)
+        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"), translationKeyValidator)
                 .landingText("elementalcraft.landing")
                 .creativeTab(ECCreativeModeTabs.ELEMENTAL_CRAFT_CREATIVE_TAB)
                 .i18n()

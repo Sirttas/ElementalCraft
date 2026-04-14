@@ -4,17 +4,19 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
+import net.minecraft.advancements.criterion.ContextAwarePredicate;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.criterion.ItemUsedOnLocationTrigger;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -23,9 +25,7 @@ import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public abstract class AbstractECAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
-
-	protected ExistingFileHelper existingFileHelper;
+public abstract class AbstractECAdvancementGenerator implements AdvancementSubProvider {
 
 	private final TranslationKeyValidator translationKeyValidator;
 
@@ -34,10 +34,8 @@ public abstract class AbstractECAdvancementGenerator implements AdvancementProvi
 	}
 
 	@Override
-	public void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver, @NotNull ExistingFileHelper existingFileHelper) {
-		this.existingFileHelper = existingFileHelper;
-
-		generate(registries, advancementHolder -> {
+	public final void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
+        doGenerate(registries, advancementHolder -> {
 			var advancement = advancementHolder.value();
 
 			try {
@@ -53,24 +51,28 @@ public abstract class AbstractECAdvancementGenerator implements AdvancementProvi
 		});
 	}
 
-	protected abstract void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver);
+	protected abstract void doGenerate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver);
 
-	protected AdvancementHolder itemPickup(ItemLike item, AdvancementHolder parent, Identifier name, @NotNull Consumer<AdvancementHolder> saver) {
+	protected AdvancementHolder itemPickup(@NotNull HolderGetter<@NotNull Item> registry, ItemLike item, AdvancementHolder parent, Identifier name, @NotNull Consumer<AdvancementHolder> saver) {
 		return Advancement.Builder.advancement()
 				.parent(parent)
-				.addCriterion("has_" + name.getPath(), hasItem(item))
-				.save(saver, Identifier.fromNamespaceAndPath(name.getNamespace(), "pickup/" + name.getPath()), existingFileHelper);
+				.addCriterion("has_" + name.getPath(), hasItem(registry, item))
+				.save(saver, Identifier.fromNamespaceAndPath(name.getNamespace(), "pickup/" + name.getPath()));
 	}
 
-	protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemLike... item) {
-		return hasItem(ItemPredicate.Builder.item().of(item).build());
+	protected static Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> hasItem(@NotNull HolderLookup.Provider registries, ItemLike... item) {
+		return hasItem(registries.lookupOrThrow(Registries.ITEM), item);
 	}
 
-	protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemPredicate... predicate) {
+    protected static Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> hasItem(@NotNull HolderGetter<@NotNull Item> registry, ItemLike... item) {
+		return hasItem(ItemPredicate.Builder.item().of(registry, item).build());
+	}
+
+	protected static Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> hasItem(ItemPredicate... predicate) {
 		return InventoryChangeTrigger.TriggerInstance.hasItems(predicate);
 	}
 
-	public static Criterion<ItemUsedOnLocationTrigger.TriggerInstance> useItem(ItemPredicate.Builder predicate) {
+	public static Criterion<ItemUsedOnLocationTrigger.@NotNull TriggerInstance> useItem(ItemPredicate.Builder predicate) {
 		ContextAwarePredicate contextawarepredicate = ContextAwarePredicate.create(
 				MatchTool.toolMatches(predicate).build()
 		);

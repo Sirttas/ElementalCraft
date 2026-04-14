@@ -28,22 +28,18 @@ public class PureOreManager {
 	}
 
 	public ItemStack createPureOre(Identifier id) {
-		if (this.pureOres.containsKey(id)) {
-			ItemStack stack = new ItemStack(ECItems.PURE_ORE);
-	
-			stack.set(ECDataComponents.PURE_ORE, id);
-			return stack;
-		}
-		return ItemStack.EMPTY;
+        var template = createPureOreTemplate(id, 1);
+
+        if (template == null) {
+            return null;
+        }
+        return template.create();
 	}
 
     public ItemStackTemplate createPureOreTemplate(Identifier id, int size) {
-        if (this.pureOres.containsKey(id)) {
-            return new ItemStackTemplate(ECItems.PURE_ORE, size, DataComponentPatch.builder()
-                    .set(ECDataComponents.PURE_ORE.get(), id)
-                    .build());
-        }
-        return null;
+        return this.pureOres.containsKey(id) ? new ItemStackTemplate(ECItems.PURE_ORE, size, DataComponentPatch.builder()
+                .set(ECDataComponents.PURE_ORE.get(), id)
+                .build()) : null;
     }
 
 	void replacePureOres(Map<Identifier, PureOre> pureOres) {

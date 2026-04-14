@@ -18,11 +18,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.container.ElementContainerBlock;
@@ -53,16 +49,13 @@ public class ECBlockStateProvider extends BlockStateProvider {
 
 	private static final String TRANSLUCENT = "translucent";
 	
-	private final ExistingFileHelper existingFileHelper;
-	
 	private ModelFile air;
     private ModelFile airMilUpper;
 	private ModelFile containerConnector;
     ModelFile coverFrame;
 
-	public ECBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
-		super(output, ElementalCraftApi.MODID, exFileHelper);
-		existingFileHelper = exFileHelper;
+	public ECBlockStateProvider(PackOutput output) {
+		super(output, ElementalCraftApi.MODID);
 	}
 
 	@Override

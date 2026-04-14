@@ -275,6 +275,10 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
 
+processInteractionResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 jar {
 	from sourceSets.api.output
     from sourceSets.main.output

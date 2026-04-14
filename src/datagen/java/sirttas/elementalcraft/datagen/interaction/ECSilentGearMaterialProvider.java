@@ -21,6 +21,7 @@ import net.silentchaos512.gear.setup.gear.GearProperties;
 import net.silentchaos512.gear.setup.gear.GearTypes;
 import net.silentchaos512.gear.setup.gear.PartTypes;
 import net.silentchaos512.gear.util.Const;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -204,7 +205,7 @@ public class ECSilentGearMaterialProvider extends MaterialsProvider {
         return values;
     }
 
-    public static MaterialBuilder<SimpleMaterial> createBuilder(List<MaterialBuilder<?>> list, Holder<? extends ItemLike> provider, IMaterialCategory... categories) {
+    public static MaterialBuilder<SimpleMaterial> createBuilder(List<MaterialBuilder<?>> list, Holder<? extends @NotNull ItemLike> provider, IMaterialCategory... categories) {
         var builder = MaterialBuilder.simple(DataResource.material(provider.getKey().identifier()))
                 .crafting(provider.value().asItem(), categories);
 
@@ -212,8 +213,8 @@ public class ECSilentGearMaterialProvider extends MaterialsProvider {
         return builder;
     }
 
-    public static MaterialBuilder<SimpleMaterial> createBuilder(List<MaterialBuilder<?>> list, TagKey<Item> tag, IMaterialCategory... categories) {
-        var builder = MaterialBuilder.simple(DataResource.material(ElementalCraftApi.createRL(tag.identifier().getPath())))
+    public static MaterialBuilder<SimpleMaterial> createBuilder(List<MaterialBuilder<?>> list, TagKey<@NotNull Item> tag, IMaterialCategory... categories) {
+        var builder = MaterialBuilder.simple(DataResource.material(ElementalCraftApi.createRL(tag.location().getPath())))
                 .crafting(tag, categories);
 
         list.add(builder);

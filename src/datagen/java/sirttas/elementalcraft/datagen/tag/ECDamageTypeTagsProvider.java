@@ -5,7 +5,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.DamageTypeTagsProvider;
 import net.minecraft.tags.DamageTypeTags;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.damagesource.ECDamageTypes;
 import sirttas.elementalcraft.tag.ECTags;
@@ -15,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ECDamageTypeTagsProvider extends DamageTypeTagsProvider {
 
-    public ECDamageTypeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, ExistingFileHelper existingFileHelper) {
-        super(output, provider, ElementalCraftApi.MODID, existingFileHelper);
+    public ECDamageTypeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+        super(output, provider, ElementalCraftApi.MODID);
     }
 
     @Override

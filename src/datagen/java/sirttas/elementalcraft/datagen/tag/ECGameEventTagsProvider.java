@@ -5,7 +5,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.GameEventTagsProvider;
 import net.minecraft.tags.GameEventTags;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.tag.ECTags;
@@ -15,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ECGameEventTagsProvider extends GameEventTagsProvider {
 
-    public ECGameEventTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, ExistingFileHelper existingFileHelper) {
-        super(output, provider, ElementalCraftApi.MODID, existingFileHelper);
+    public ECGameEventTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+        super(output, provider, ElementalCraftApi.MODID);
     }
 
     @Override

@@ -5,6 +5,7 @@ import mekanism.common.tags.MekanismTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -16,8 +17,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -37,8 +37,8 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get(),
 			ECBlocks.BURNT_GLASS.get(), ECBlocks.BURNT_GLASS_PANE.get(), ECBlocks.SPRINGALINE_GLASS.get(), ECBlocks.SPRINGALINE_GLASS_PANE.get());
 	
-	public ECBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-		super(output, lookupProvider, ElementalCraftApi.MODID, existingFileHelper);
+	public ECBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(output, lookupProvider, ElementalCraftApi.MODID);
 	}
 
 	private Block[] getBlocksForClass(Class<?> clazz) {
@@ -95,7 +95,8 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.RUNE_AFFECTED_RANGE).add(ECBlocks.DIFFUSER.get(), ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlocks.VIBRATION_SYNTHESIZER.get());
 
 		tag(ECTags.Blocks.USES_SINGLE_SET_FROM_ORDERED_SORTER).addTags(ECTags.Blocks.INSTRUMENTS);
-		tag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS).addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
+		tag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS)
+                .addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
 
 		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).addTag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS);
 		tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
@@ -140,12 +141,12 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	private IntrinsicTagAppender<Block> runeBase(TagKey<Block> tag) {
+	private TagAppender<@NotNull Block, @NotNull Block> runeBase(TagKey<@NotNull Block> tag) {
 		return tag(tag).addTags(ECTags.Blocks.EXTRACTORS, ECTags.Blocks.SYNTHESIZERS, ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS)
 				.add(ECBlocks.PURE_INFUSER.get(), ECBlocks.SOURCE_BREEDER.get());
 	}
 
-	private IntrinsicTagAppender<Block> containerToolsBase(TagKey<Block> tag) {
+	private TagAppender<@NotNull Block, @NotNull Block> containerToolsBase(TagKey<@NotNull Block> tag) {
 		return tag(tag).add(
 				ECBlocks.INFUSER.get(),
 				ECBlocks.BINDER.get(),
