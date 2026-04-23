@@ -30,6 +30,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     public static final MultiVariant PEDESTAL_CONNECTOR = plainVariant(decorateBlockModelLocation("pedestal_connector"));
     public static final MultiVariant AIR_MILL_UPPER = plainVariant(decorateBlockModelLocation("air_mill_upper"));
     public static final MultiVariant AIR_MILL_LOWER = plainVariant(decorateBlockModelLocation("air_mill_ulower"));
+    public static final MultiVariant AIR_MILL_SYNTHESIZER_LOWER = plainVariant(decorateBlockModelLocation("air_mill_synthesizer_lower"));
     public static final MultiVariant COVER_FRAME = plainVariant(decorateBlockModelLocation("cover_frame"));
     public static final MultiVariant SORTER_SOURCE = plainVariant(decorateBlockModelLocation("sorter_source")).with(UV_LOCK);
     public static final MultiVariant SORTER_TARGET = plainVariant(decorateBlockModelLocation("sorter_target")).with(UV_LOCK);
@@ -152,7 +153,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     }
 
     public void createAirMillSynthesizer() {
-        createAirMill(ECBlocks.AIR_MILL_SYNTHESIZER.get(), plainVariant(decorateBlockModelLocation("air_mill_synthesizer_lower")));
+        createAirMill(ECBlocks.AIR_MILL_SYNTHESIZER.get(), AIR_MILL_SYNTHESIZER_LOWER);
     }
 
     public void createAirMill(Block block) {
