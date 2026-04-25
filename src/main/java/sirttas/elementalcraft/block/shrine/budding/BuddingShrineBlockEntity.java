@@ -30,7 +30,7 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
 
 	protected static final List<Direction> UPGRADE_DIRECTIONS = List.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-    public static final Holder<@NotNull BuddingShrineBudType> AMETHYST = ElementalCraftApi.BUD_TYPE_MANAGER.getOrCreateHolder(ElementalCraftApi.createRL("amethyst"));
+	private static final Holder<@NotNull BuddingShrineBudType> AMETHYST = ElementalCraftApi.BUD_TYPE_MANAGER.getOrCreateHolder(BudTypes.AMETHYST);
 
     private Holder<@NotNull BuddingShrineBudType> budType = AMETHYST;
 

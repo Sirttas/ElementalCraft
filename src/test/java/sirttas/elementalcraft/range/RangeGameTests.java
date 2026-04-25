@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.range;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
@@ -40,11 +39,11 @@ public class RangeGameTests {
         var i = 0;
 
         return List.of(
-                createTest(i++, DiffuserGameTests.TEMPLATE_23x23_NAME, helper -> should_haveRange(helper, new BlockPos(11, 3, 11), new AABB(1, -7, 1, 22, 14, 22), DiffuserBlockEntity::getRange)),
-                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(5, 3, 5), new AABB(0, 0, 0, 11, 2,  11), CrackingSynthesizerBlockEntity::getRange)),
-                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(6, 3, 6), new AABB(0, 0, 0, 13, 2,  13), CrackingSynthesizerBlockEntity::getRange)),
-                createTest(i++, VibrationSynthesizerGameTests.TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(10, 3, 10), new AABB(0, -7, 0, 21, 14,  21), VibrationSynthesizerBlockEntity::getRange)),
-                createTest(i++, SculkCrackingSynthesizerGameTests.SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(8, 3, 8), new AABB(0, -5, 0, 17, 12,  17), SculkCrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, DiffuserGameTests.TEMPLATE_23x23_NAME, helper -> should_haveRange(helper, DiffuserBlockEntity.class, new BlockPos(11, 3, 11), new AABB(1, -7, 1, 22, 14, 22), DiffuserBlockEntity::getRange)),
+                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(5, 3, 5), new AABB(0, 0, 0, 11, 2,  11), CrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(6, 3, 6), new AABB(0, 0, 0, 13, 2,  13), CrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, VibrationSynthesizerGameTests.TEMPLATE_NAME, helper -> should_haveRange(helper, VibrationSynthesizerBlockEntity.class, new BlockPos(10, 3, 10), new AABB(0, -7, 0, 21, 14,  21), VibrationSynthesizerBlockEntity::getRange)),
+                createTest(i++, SculkCrackingSynthesizerGameTests.SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, SculkCrackingSynthesizerBlockEntity.class, new BlockPos(8, 3, 8), new AABB(0, -5, 0, 17, 12,  17), SculkCrackingSynthesizerBlockEntity::getRange)),
                 createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
                 createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
                 createTest(i++, CrystalHarvestShrineUpgradeGameTests.TEMPLATE_NAME,helper -> should_haveRange(helper, new BlockPos(11, 2, 11), new AABB(6, -3, 6, 17, 8, 17))),
@@ -65,7 +64,7 @@ public class RangeGameTests {
                 createTest(i++, "growthshrinegametests.should_growcrops", helper -> should_haveRange(helper, new BlockPos(5, 2, 5), new AABB(1, 2, 1, 10, 5, 10))),
                 createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> should_haveRange(helper, new BlockPos(4, 2, 4), new AABB(1, 2, 1, 8, 5, 8))),
                 createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> {
-                    TranslocationShrineUpgradeBlockEntity upgrade = helper.getBlockEntity(new BlockPos(5, 2, 4));
+                    var upgrade = helper.getBlockEntity(new BlockPos(5, 2, 4), TranslocationShrineUpgradeBlockEntity.class);
                     var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));
                     var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
 
@@ -76,11 +75,11 @@ public class RangeGameTests {
         );
     }
 
-    private static void should_haveRange(GameTestHelper helper, BlockPos pos, AABB range) {
+    private static void should_haveRange(ECGameTestHelper helper, BlockPos pos, AABB range) {
         should_haveRange(helper, ShrineGameTestHelper.getShrine(helper, pos), range);
     }
 
-    private static void should_haveRange(GameTestHelper helper, AbstractShrineBlockEntity shrine, AABB range) {
+    private static void should_haveRange(ECGameTestHelper helper, AbstractShrineBlockEntity shrine, AABB range) {
         assertThat(shrine).isNotNull();
 
         shrine.refresh();
@@ -89,15 +88,15 @@ public class RangeGameTests {
         helper.succeed();
     }
 
-    private static <T extends BlockEntity> void should_haveRange(GameTestHelper helper, BlockPos pos, AABB range, Function<T, AABB> rangeGetter) {
-        T blockEntity = helper.getBlockEntity(pos);
+    private static <T extends BlockEntity> void should_haveRange(ECGameTestHelper helper, Class<T> type, BlockPos pos, AABB range, Function<T, AABB> rangeGetter) {
+        T blockEntity = helper.getBlockEntity(pos, type);
 
         assertThat(blockEntity).isNotNull();
         assertThat(moveRange(helper, rangeGetter.apply(blockEntity))).isEqualTo(range);
         helper.succeed();
     }
 
-    private static AABB moveRange(GameTestHelper helper, AABB range) {
+    private static AABB moveRange(ECGameTestHelper helper, AABB range) {
         var absolutePos = helper.absolutePos(BlockPos.ZERO);
 
         return range.move(new BlockPos(-absolutePos.getX(), -absolutePos.getY(), -absolutePos.getZ()));

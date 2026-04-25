@@ -12,12 +12,13 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.rune.Runes;
-import sirttas.elementalcraft.template.StructureTemplateHelper;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 @ForEachTest(groups = CrackingSynthesizerGameTests.GROUP)
 public class CrackingSynthesizerGameTests {
@@ -38,7 +39,7 @@ public class CrackingSynthesizerGameTests {
     public static final Supplier<StructureTemplate> CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(13, 3, 13, builder -> builder
             .fill(0, 0, 0, 12, 0, 12, ECBlocks.WHITE_ROCK_BRICKS.get())
             .set(6, 1, 6, ECBlocks.CONTAINER.get().defaultBlockState())
-            .set(6, 2, 6, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState(), StructureTemplateHelper.addRuneHandler(Runes.TYRIA)));
+            .set(6, 2, 6, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState(), withValue(runeHandler(Runes.TYRIA))));
 
     @TestHolder(description = "Checks if the cracking synthesizer generates earth from the surrounding stones.")
     @GameTest(template = CRACKING_SYNTHESIZER_TEMPLATE_NAME)

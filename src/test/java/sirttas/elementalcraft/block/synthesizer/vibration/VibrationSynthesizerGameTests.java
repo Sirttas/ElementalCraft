@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.block.synthesizer.vibration;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
@@ -15,7 +16,6 @@ import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -74,10 +74,10 @@ public class VibrationSynthesizerGameTests {
                         helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
                     })
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
                     })
                     .thenExecuteAfter(30, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
                     })
                     .thenExecuteAfter(70, () -> {
                         assertThat(storage.getElementType())
@@ -108,12 +108,12 @@ public class VibrationSynthesizerGameTests {
                         helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
                     })
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
-                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, () -> "Vibration synthesizer should be active after receiving vibration");
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
+                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
                     })
                     .thenExecuteAfter(30, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
-                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
+                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
+                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
                     })
                     .thenExecuteAfter(10, () -> {
                         helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));

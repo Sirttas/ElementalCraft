@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.item.source.analysis;
 
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
@@ -31,7 +30,7 @@ public class SourceAnalysisGlassGameTests {
         helper.startSequence().thenExecute(() -> {
                     var result = helper.useItem(player, InteractionHand.OFF_HAND);
 
-                    assertThat(result.getResult()).isEqualTo(InteractionResult.SUCCESS);
+                    assertThat(result).isEqualTo(InteractionResult.SUCCESS);
                 })
                 .thenExecuteAfter(1, () -> {
                     var receptacle = player.getItemInHand(InteractionHand.MAIN_HAND);

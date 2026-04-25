@@ -24,11 +24,11 @@ public class ECContainerHelper {
 
 	private ECContainerHelper() {}
 
-	public static ResourceHandler<@NotNull ItemResource> getItemHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-		return getItemHandlerAt(world, pos, null);
+	public static ResourceHandler<@NotNull ItemResource> getItemResourceHandlerAt(@Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+		return getItemResourceHandlerAt(world, pos, null);
 	}
 
-	public static ResourceHandler<@NotNull ItemResource> getItemHandlerAt(@Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nullable Direction side) {
+	public static ResourceHandler<@NotNull ItemResource> getItemResourceHandlerAt(@Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nullable Direction side) {
 		if (level instanceof Level l) {
 			var handler = l.getCapability(Capabilities.Item.BLOCK, pos, side);
 
@@ -37,12 +37,12 @@ public class ECContainerHelper {
 			}
 		}
 		return BlockEntityHelper.getBlockEntity(level, pos)
-				.map(t -> getItemHandler(t, side))
+				.map(t -> getItemResourceHandler(t, side))
 				.orElseGet(EmptyResourceHandler::instance);
 	}
 
 	@Nonnull
-	public static ResourceHandler<@NotNull ItemResource> getItemHandler(BlockEntity entity, @Nullable Direction side) {
+	public static ResourceHandler<@NotNull ItemResource> getItemResourceHandler(BlockEntity entity, @Nullable Direction side) {
 		var handler = BlockEntityHelper.getCapability(Capabilities.Item.BLOCK, entity, side);
 
 		if (handler != null) {

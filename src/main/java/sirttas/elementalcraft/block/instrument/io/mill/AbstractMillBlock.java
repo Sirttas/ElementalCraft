@@ -62,7 +62,7 @@ public abstract class AbstractMillBlock extends AbstractECContainerBlock impleme
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		var mill = (AbstractMillBlockEntity<?>) level.getBlockEntity(pos);
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
 		if (mill != null && hand == InteractionHand.MAIN_HAND) {
 			if (!mill.getInventory().getItem(1).isEmpty()) {

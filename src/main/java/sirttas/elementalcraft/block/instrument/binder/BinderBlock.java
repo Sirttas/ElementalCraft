@@ -80,7 +80,7 @@ public class BinderBlock extends AbstractECContainerBlock implements IInstrument
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final BinderBlockEntity binder = (BinderBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
 		if (binder != null && hand == InteractionHand.MAIN_HAND) {
 			if ((binder.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !binder.getInventory().isEmpty()) {

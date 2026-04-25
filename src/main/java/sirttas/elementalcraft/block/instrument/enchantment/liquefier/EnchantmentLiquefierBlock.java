@@ -85,7 +85,7 @@ public class EnchantmentLiquefierBlock extends AbstractECContainerBlock implemen
 
         var enchantmentLiquefier = (EnchantmentLiquefierBlockEntity) level.getBlockEntity(pos);
         var heldItem = player.getItemInHand(hand);
-        var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+        var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
         if (enchantmentLiquefier != null && hand == InteractionHand.MAIN_HAND) {
             if ((enchantmentLiquefier.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !enchantmentLiquefier.getInventory().isEmpty()) {

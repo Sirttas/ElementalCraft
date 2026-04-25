@@ -61,8 +61,8 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
         int cooldown = ECConfig.SERVER.sorterCooldown.get();
         var source = state.getValue(ISorterBlock.SOURCE);
         var target = state.getValue(ISorterBlock.TARGET);
-        var sourceInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(source), source.getOpposite());
-        var targetInv = ECContainerHelper.getItemHandlerAt(level, pos.relative(target), target.getOpposite());
+        var sourceInv = ECContainerHelper.getItemResourceHandlerAt(level, pos.relative(source), source.getOpposite());
+        var targetInv = ECContainerHelper.getItemResourceHandlerAt(level, pos.relative(target), target.getOpposite());
 
 		sorter.tick += speed;
 		while (sorter.tick > cooldown) {

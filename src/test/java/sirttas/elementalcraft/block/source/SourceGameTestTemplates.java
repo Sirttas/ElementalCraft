@@ -69,7 +69,7 @@ public class SourceGameTestTemplates {
         return StructureTemplateBuilder.lazy(1, 1, 1, builder -> {
             var sourceTag = new CompoundTag();
 
-            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitHelper.saveTraits(SourceTraitTestHelper.getDefaultTraits()));
+            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
             return builder.set(0, 0, 0, SourceBlock.findSourceBlock(type).defaultBlockState(), sourceTag);
         });
     }
@@ -78,7 +78,7 @@ public class SourceGameTestTemplates {
         return StructureTemplateBuilder.lazy(1, 1, 1, builder -> {
             var sourceTag = new CompoundTag();
 
-            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitHelper.saveTraits(SourceTraitTestHelper.getDefaultTraits()));
+            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
             sourceTag.putBoolean(ECNames.STABILIZED, true);
             return builder.set(0, 0, 0, SourceBlock.findSourceBlock(type).defaultBlockState(), sourceTag);
         });

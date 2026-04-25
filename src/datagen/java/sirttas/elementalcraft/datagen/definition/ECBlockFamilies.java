@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.datagen;
+package sirttas.elementalcraft.datagen.definition;
 
 import com.google.common.collect.Maps;
 import net.minecraft.core.registries.BuiltInRegistries;

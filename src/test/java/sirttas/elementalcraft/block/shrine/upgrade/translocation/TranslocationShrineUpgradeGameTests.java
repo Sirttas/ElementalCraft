@@ -45,7 +45,7 @@ public class TranslocationShrineUpgradeGameTests {
     @TestHolder(description = "Checks if the translocation shrine upgrade grows crops around the anchor")
     @GameTest(template = TEMPLATE)
     public static void should_growCropsAroundAnchor(GameTestHelper helper) {
-        var upgrade = (TranslocationShrineUpgradeBlockEntity) helper.getBlockEntity(new BlockPos(5, 2, 4));
+        var upgrade = helper.getBlockEntity(new BlockPos(5, 2, 4), TranslocationShrineUpgradeBlockEntity.class);
         var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));
         var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
 

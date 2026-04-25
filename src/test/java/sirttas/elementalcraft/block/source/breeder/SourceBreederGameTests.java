@@ -12,6 +12,7 @@ import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.source.breeder.pedestal.SourceBreederPedestalBlockEntity;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
@@ -30,14 +31,14 @@ public class SourceBreederGameTests {
     @TestHolder(description = "Checks if the source breeder can breed sources.")
     @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
     public static void should_breedSource(ECGameTestHelper helper) {
-        var breeder = (SourceBreederBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 2));
+        var breeder = helper.getBlockEntity(new BlockPos(0, 1, 2), SourceBreederBlockEntity.class);
 
         var type = ElementType.AIR;
-        var breederItemHandler = ECContainerHelper.getItemHandler(breeder, null);
-        var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0));
-        var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4));
-        var pedestal1ItemHandler = ECContainerHelper.getItemHandler(pedestal1, null);
-        var pedestal2ItemHandler = ECContainerHelper.getItemHandler(pedestal2, null);
+        var breederItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(breeder, null));
+        var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0), SourceBreederPedestalBlockEntity.class);
+        var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4), SourceBreederPedestalBlockEntity.class);
+        var pedestal1ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal1, null));
+        var pedestal2ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal2, null));
         var pedestal1ElementStorage = ElementStorageGameTestHelper.get(pedestal1);
         var pedestal2ElementStorage = ElementStorageGameTestHelper.get(pedestal2);
 

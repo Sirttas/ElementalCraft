@@ -112,7 +112,7 @@ public class PurifierBlock extends AbstractECContainerBlock implements IInstrume
     @Override
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final PurifierBlockEntity purifier = (PurifierBlockEntity) level.getBlockEntity(pos);
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 		ItemStack heldItem = player.getItemInHand(hand);
 
 		if (purifier != null && hand == InteractionHand.MAIN_HAND) {

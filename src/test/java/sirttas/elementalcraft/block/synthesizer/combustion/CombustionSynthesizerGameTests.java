@@ -30,7 +30,7 @@ public class CombustionSynthesizerGameTests {
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var ticks = new AtomicInteger(0);
-            var inv = ((CombustionSynthesizerBlockEntity) helper.getBlockEntity(new BlockPos(0, 2, 0))).getInventory();
+            var inv = helper.getBlockEntity(new BlockPos(0, 2, 0), CombustionSynthesizerBlockEntity.class).getInventory();
             var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
             helper.startSequence().thenExecute(() -> {

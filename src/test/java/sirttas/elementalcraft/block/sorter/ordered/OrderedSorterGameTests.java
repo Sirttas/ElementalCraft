@@ -14,18 +14,19 @@ import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.container.ContainerGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
-import sirttas.elementalcraft.template.StructureTemplateHelper;
 
 import java.util.List;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.itemList;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 public class OrderedSorterGameTests {
 
@@ -125,15 +126,16 @@ public class OrderedSorterGameTests {
         return createTemplate(sourceStacks, targetStacks, sorterStacks, List.of());
     }
 
+    @SuppressWarnings("unchecked")
     private static StructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks, List<ResourceKey<Rune>> runes) {
         return StructureTemplateBuilder.withSize(2, 2, 3)
                 .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICKS.get())
                 .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
                 .set(0, 1, 1, Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACING, Direction.EAST).setValue(LeverBlock.POWERED, true).setValue(LeverBlock.FACE, AttachFace.FLOOR))
-                .set(1, 1, 0, Blocks.CHEST.defaultBlockState(), StructureTemplateHelper.withContainerContent(sourceStacks.toArray(ItemStack[]::new)))
-                .set(1, 1, 2, Blocks.CHEST.defaultBlockState(), StructureTemplateHelper.withContainerContent(targetStacks.toArray(ItemStack[]::new)))
-                .set(1, 1, 1, ECBlocks.ORDERED_SORTER.get().defaultBlockState().setValue(ISorterBlock.SOURCE, Direction.NORTH).setValue(ISorterBlock.TARGET, Direction.SOUTH), StructureTemplateHelper.withTag(
-                        t -> StructureTemplateHelper.withStackList(t, ECNames.STACKS, sorterStacks.toArray(ItemStack[]::new)),
-                        t -> StructureTemplateHelper.addRuneHandler(t, runes.toArray(ResourceKey[]::new))));
+                .set(1, 1, 0, Blocks.CHEST.defaultBlockState(), withValue(itemList(sourceStacks)))
+                .set(1, 1, 2, Blocks.CHEST.defaultBlockState(), withValue(itemList(targetStacks)))
+                .set(1, 1, 1, ECBlocks.ORDERED_SORTER.get().defaultBlockState().setValue(ISorterBlock.SOURCE, Direction.NORTH).setValue(ISorterBlock.TARGET, Direction.SOUTH), withValue(
+                        itemList(sorterStacks),
+                        runeHandler(runes)));
         }
 }

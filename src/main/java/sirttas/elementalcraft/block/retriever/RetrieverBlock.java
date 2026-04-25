@@ -119,7 +119,7 @@ public class RetrieverBlock extends AbstractECEntityBlock implements ISorterBloc
 	public static ItemStack retrieve(BlockState state, BlockGetter world, BlockPos pos, ItemStack output) {
 		Direction direction = state.getValue(TARGET);
 
-		return ItemUtil.insertItemReturnRemaining(ECContainerHelper.getItemHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false, null);
+		return ItemUtil.insertItemReturnRemaining(ECContainerHelper.getItemResourceHandlerAt(world, pos.relative(direction), direction.getOpposite()), output, false, null);
 	}
 
 }

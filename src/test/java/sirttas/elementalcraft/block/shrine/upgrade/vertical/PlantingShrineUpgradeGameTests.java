@@ -4,15 +4,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
-import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -26,13 +27,13 @@ public class PlantingShrineUpgradeGameTests {
     // elementalcraft:plantingshrineupgradegametests.should_plantwheat
     @TestHolder(description = "Checks if the planting shrine upgrade plants wheat when used with a harvest shrine.")
     @GameTest(template = "elementalcraft:plantingshrineupgradegametests.should_plantwheat")
-    public static void should_plantWheat(GameTestHelper helper) {
+    public static void should_plantWheat(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(3, 3, 3), Direction.UP);
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 4, 3), HarvestShrineGameTests.POSES.size());
         }).thenExecuteAfter(1, () -> {
-            HarvestShrineGameTests.POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.WHEAT) && !((CropBlock) b.getBlock()).isMaxAge(b), () -> "Block has not been harvested or planted back"));
+            HarvestShrineGameTests.POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.WHEAT) && !((CropBlock) b.getBlock()).isMaxAge(b), _ -> Component.literal("Block has not been harvested or planted back")));
             helper.assertItemEntityCountIs(Items.WHEAT, new BlockPos(3, 2, 3), 3, HarvestShrineGameTests.POSES.size());
         }).thenSucceed();
     }
@@ -48,7 +49,7 @@ public class PlantingShrineUpgradeGameTests {
                 .set(5, 1, 5, ECBlocks.LUMBER_SHRINE.get().defaultBlockState())
                 .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, Direction.DOWN)));
 
-        test.onGameTest(helper -> helper.startSequence().thenExecute(() -> {
+        test.onGameTest(ECGameTestHelper.class, helper -> helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(5, 3, 5), Direction.DOWN);
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), 350);
@@ -58,7 +59,7 @@ public class PlantingShrineUpgradeGameTests {
         }).thenSucceed());
     }
 
-    private static void assertSaplingPlanted(ExtendedGameTestHelper helper) {
+    private static void assertSaplingPlanted(ECGameTestHelper helper) {
         for (int x = 1; x < 10; x++) {
             for (int z = 1; z < 10; z++) {
                 if (helper.getBlockState(new BlockPos(x, 2, z)).is(Blocks.OAK_SAPLING)) {
@@ -66,7 +67,7 @@ public class PlantingShrineUpgradeGameTests {
                 }
             }
         }
-        throw new GameTestAssertException("No sapling has been planted.");
+        throw new GameTestAssertException(Component.literal("No sapling has been planted."), (int) helper.getTick());
     }
 
     private static void verifyUpgradeIsPresent(GameTestHelper helper, BlockPos pos, Direction up) {

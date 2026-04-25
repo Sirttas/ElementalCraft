@@ -50,7 +50,7 @@ public class VacuumShrineBlockEntity extends AbstractShrineBlockEntity {
 	
 	@Override
 	protected boolean doPeriod() {
-		var inv = ECContainerHelper.getItemHandlerAt(level, worldPosition.below(), Direction.UP);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, worldPosition.below(), Direction.UP);
 
 		return this.hasUpgrade(ShrineUpgrades.PICKUP) ? pickup(inv) : pull(inv);
 	}

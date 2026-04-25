@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.jewel.effect;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -9,7 +10,6 @@ import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.jewel.Jewels;
@@ -36,7 +36,7 @@ public class SalmonJewelGameTests {
                                 .describedAs("Player should be alive")
                                 .isTrue();
                         assertThat(player.getHealth()).isEqualTo(20);
-                        helper.assertMobEffectPresent(player, MobEffects.WATER_BREATHING, "Water breathing");
+                        helper.assertMobEffectPresent(player, MobEffects.WATER_BREATHING, Component.literal("Water breathing"));
                         helper.assertElementUsed(player, ElementType.WATER);
                     }).thenExecute(player::discard)
                     .thenSucceed();

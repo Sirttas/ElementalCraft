@@ -88,7 +88,7 @@ public class CrystallizerBlock extends AbstractECContainerBlock implements IInst
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final CrystallizerBlockEntity crystallizer = (CrystallizerBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
 		if (crystallizer != null && hand == InteractionHand.MAIN_HAND) {
 			if ((crystallizer.isLocked() || heldItem.isEmpty() || player.isShiftKeyDown()) && !crystallizer.getInventory().isEmpty()) {

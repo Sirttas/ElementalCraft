@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.jewel.effect;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
@@ -29,8 +30,8 @@ public class PhoenixJewelGameTests {
                     .describedAs("Player should be alive")
                     .isTrue();
             assertThat(player.getHealth()).isEqualTo(20);
-            helper.assertMobEffectPresent(player, MobEffects.FIRE_RESISTANCE, "Fire resistance");
-            helper.assertMobEffectPresent(player, MobEffects.REGENERATION, "Regeneration");
+            helper.assertMobEffectPresent(player, MobEffects.FIRE_RESISTANCE, Component.literal("Fire resistance"));
+            helper.assertMobEffectPresent(player, MobEffects.REGENERATION, Component.literal("Regeneration"));
             helper.assertElementUsed(player, ElementType.FIRE);
         }).thenExecute(player::discard)
         .thenSucceed();

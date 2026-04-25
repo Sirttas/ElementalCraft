@@ -1,9 +1,10 @@
 package sirttas.elementalcraft.block.source.breeder.pedestal;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
@@ -18,8 +19,8 @@ public class SourceBreederPedestalGameTests {
     @TestHolder
     @GameTest(template = TEMPLATE)
     public static void should_changeElementType(GameTestHelper helper) {
-        var pedestal = (SourceBreederPedestalBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0));
-        var itemHandler = ECContainerHelper.getItemHandler(pedestal, null);
+        var pedestal = helper.getBlockEntity(new BlockPos(0, 1, 0), SourceBreederPedestalBlockEntity.class);
+        var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal, null));
         var elementStorage = (SourceBreederPedestalElementStorage) ElementStorageGameTestHelper.get(pedestal);
 
         helper.startSequence().thenExecute(() -> {

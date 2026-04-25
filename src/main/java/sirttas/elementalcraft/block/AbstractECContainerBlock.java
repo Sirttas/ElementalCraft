@@ -64,7 +64,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
     }
 
 	protected InteractionResult onSingleSlotActivated(ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand) {
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
 		if (inv != null && hand == InteractionHand.MAIN_HAND) {
 			return this.onSlotActivated(inv, player, stack, 0);
@@ -79,6 +79,6 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
     @Override
     protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Direction direction) {
-        return ResourceHandlerUtil.getRedstoneSignalFromResourceHandler(ECContainerHelper.getItemHandlerAt(level, pos));
+        return ResourceHandlerUtil.getRedstoneSignalFromResourceHandler(ECContainerHelper.getItemResourceHandlerAt(level, pos));
     }
 }

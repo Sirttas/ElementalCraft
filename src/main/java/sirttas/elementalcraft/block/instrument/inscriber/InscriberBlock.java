@@ -146,7 +146,7 @@ public class InscriberBlock extends AbstractECContainerBlock implements IInstrum
 	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
 		final InscriberBlockEntity inscriber = (InscriberBlockEntity) level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
-		var inv = ECContainerHelper.getItemHandlerAt(level, pos, null);
+		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
 
 		if (inscriber != null && hand == InteractionHand.MAIN_HAND) {
 			if (heldItem.canPerformAction(ECItemAbilities.CHISEL_INSCRIBE_RUNE) && !inscriber.isLocked()) {

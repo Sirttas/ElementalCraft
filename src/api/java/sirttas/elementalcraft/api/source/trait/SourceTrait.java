@@ -41,7 +41,7 @@ public class SourceTrait {
 			Codec.INT.fieldOf(ECNames.ORDER).forGetter(SourceTrait::getOrder),
 			ISourceTraitValueProvider.CODEC.fieldOf(ECNames.VALUE).forGetter(t -> t.valueProvider)
 	).apply(builder, SourceTrait::new));
-    private static final Codec<Holder<@NotNull SourceTrait>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, SourceTrait.CODEC, false);
+	public static final Codec<Holder<@NotNull SourceTrait>> HOLDER_CODEC = DataManagerCodecs.holderCodec(ElementalCraftApi.SOURCE_TRAIT_MANAGER_KEY, SourceTrait.CODEC, false);
     public static final Codec<Map<Holder<@NotNull SourceTrait>, ISourceTraitValue>> VALUE_MAP_CODEC = new Codec<>() {
         @Override
         public <T> DataResult<Pair<Map<Holder<@NotNull SourceTrait>, ISourceTraitValue>, T>> decode(DynamicOps<T> ops, T input) {

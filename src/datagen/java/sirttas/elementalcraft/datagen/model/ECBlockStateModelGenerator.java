@@ -1,10 +1,13 @@
 package sirttas.elementalcraft.datagen.model;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
@@ -29,9 +32,14 @@ import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked.OverclockedAccelerationShrineUpgradeBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.silktouch.SilkTouchShrineUpgradeBlock;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
-import sirttas.elementalcraft.datagen.ECBlockFamilies;
+import sirttas.elementalcraft.datagen.definition.ECBlockFamilies;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ECBlockStateModelGenerator extends BlockModelGenerators implements ECModelGenerator {
+
+    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, _, modelOutput) -> new ECBlockStateModelGenerator(blockStateOutput, itemModelOutput, modelOutput);
 
     public static final MultiVariant CONTAINER_CONNECTOR         = plainVariant(decorateBlockModelLocation("container_connector"));
     public static final MultiVariant PEDESTAL_CONNECTOR          = plainVariant(decorateBlockModelLocation("pedestal_connector"));
@@ -42,8 +50,8 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     public static final MultiVariant SORTER_SOURCE               = plainVariant(decorateBlockModelLocation("sorter_source")).with(UV_LOCK);
     public static final MultiVariant SORTER_TARGET               = plainVariant(decorateBlockModelLocation("sorter_target")).with(UV_LOCK);
 
-    public ECBlockStateModelGenerator(BlockModelGenerators blockModelGenerators) {
-        super(blockModelGenerators.blockStateOutput, blockModelGenerators.itemModelOutput, blockModelGenerators.modelOutput);
+    private ECBlockStateModelGenerator(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
+        super(blockStateOutput, itemModelOutput, modelOutput);
     }
 
     @Override

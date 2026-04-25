@@ -13,6 +13,6 @@ public class ReceptacleGameTestHelper {
         if (type == ElementType.NONE) {
             return new ItemStack(ECItems.EMPTY_RECEPTACLE.get());
         }
-        return ReceptacleHelper.create(type, SourceTraitTestHelper.getDefaultTraits(), false);
+        return ReceptacleHelper.create(type, SourceTraitTestHelper.deserializeTraits(SourceTraitTestHelper.createDefaultTraits()), false);
     }
 }

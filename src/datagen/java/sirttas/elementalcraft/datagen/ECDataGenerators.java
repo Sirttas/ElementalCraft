@@ -29,6 +29,9 @@ import sirttas.elementalcraft.datagen.managed.SpellPropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.ToolInfusionProvider;
 import sirttas.elementalcraft.datagen.managed.block.entity.properties.ConfigurableBlockEntityPropertiesProvider;
 import sirttas.elementalcraft.datagen.managed.pure.ore.loader.PureOreLoaderProvider;
+import sirttas.elementalcraft.datagen.model.BuddingShrinePlateModelGenerator;
+import sirttas.elementalcraft.datagen.model.ECBlockStateModelGenerator;
+import sirttas.elementalcraft.datagen.model.ECItemModelGenerator;
 import sirttas.elementalcraft.datagen.model.ECModelProvider;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
 import sirttas.elementalcraft.datagen.registry.ECDamageTypeProvider;
@@ -77,10 +80,10 @@ public class ECDataGenerators {
 				event.addProvider(new ECFrenchLanguageProvider(output))));
 		event.addProvider(new ECSpriteSourceProvider(output, lookupProvider));
 		event.addProvider(new ECLootTableProvider(output, registries));
-		event.addProvider(new ECModelProvider(output));
-		event.addProvider(new ECBlockStateProvider(output));
-		event.addProvider(itemModelProvider);
-        event.addProvider(new ECBlockModelProvider(output));
+		event.addProvider(new ECModelProvider(output, List.of(
+				ECBlockStateModelGenerator.FACTORY,
+				ECItemModelGenerator.FACTORY,
+				BuddingShrinePlateModelGenerator.FACTORY)));
 		var blockTagsProvider = event.addProvider(new ECBlockTagsProvider(output, registries));
 		event.addProvider(new ECItemTagsProvider(output, registries, blockTagsProvider.contentsGetter()));
 		event.addProvider(new ECBiomeTagsProvider(output, registries));

@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.synthesizer.draining;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
@@ -31,7 +30,7 @@ public class DrainingSynthesizerGameTests {
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
-            player.moveTo(helper.absoluteVec(Vec3.ZERO));
+            helper.moveEntityToOrigin(player);
             helper.getLevel().addFreshEntity(player);
 
             var ticks = new AtomicInteger(0);
@@ -47,7 +46,7 @@ public class DrainingSynthesizerGameTests {
                         .isEqualTo(ElementType.WATER);
                 assertThat(storage.getElementAmount())
                         .isEqualTo(t * 5);
-                assertThat(player.getFoodData().getExhaustionLevel())
+                assertThat(player.getFoodData().exhaustionLevel)
                         .isPositive();
             }).thenExecute(player::discard)
             .thenSucceed();

@@ -13,10 +13,10 @@ import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
-import sirttas.elementalcraft.ECGameTestHelper;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -68,7 +68,7 @@ public class ElementExtractorGameTests {
         return StructureTemplateBuilder.lazy(1, 3, 2, builder -> {
             var sourceTag = new CompoundTag();
 
-            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitHelper.saveTraits(SourceTraitTestHelper.getDefaultTraits()));
+            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
 
             var extractorTag = new CompoundTag();
 
@@ -203,7 +203,7 @@ public class ElementExtractorGameTests {
         test.registerGameTestTemplate(() -> {
             var sourceTag = new CompoundTag();
 
-            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitHelper.saveTraits(SourceTraitTestHelper.getDefaultTraits()));
+            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
             sourceTag.putBoolean(ECNames.STABILIZED, true);
             return StructureTemplateBuilder.withSize(1, 3, 2)
                     .placeFloorLever(0, 1, 1, true)
@@ -235,7 +235,7 @@ public class ElementExtractorGameTests {
         test.registerGameTestTemplate(() -> {
             var sourceTag = new CompoundTag();
 
-            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitHelper.saveTraits(SourceTraitTestHelper.getDefaultTraits()));
+            sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
             sourceTag.putBoolean(ECNames.STABILIZED, true);
             return StructureTemplateBuilder.withSize(2, 3, 2)
                     .placeFloorLever(0, 1, 1, true)

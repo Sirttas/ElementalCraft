@@ -12,9 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.rune.Runes;
-import sirttas.elementalcraft.template.StructureTemplateHelper;
 
 import java.util.function.Supplier;
+
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 public class InstrumentTestTemplates {
 
@@ -67,13 +69,13 @@ public class InstrumentTestTemplates {
     private static @NotNull Supplier<StructureTemplate> createInstrumentTemplate(Holder<Block> instrumentBlock, ResourceKey<Rune>...runes) {
         return StructureTemplateBuilder.lazy(1, 2, 1, builder -> builder
                 .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                .set(0, 1, 0, instrumentBlock.value().defaultBlockState(), StructureTemplateHelper.addRuneHandler(runes)));
+                .set(0, 1, 0, instrumentBlock.value().defaultBlockState(), withValue(runeHandler(runes))));
     }
 
     private static @NotNull Supplier<StructureTemplate> createDoubleHalfInstrumentTemplateWithCreativeRune(Holder<Block> instrumentBlock) {
         return  StructureTemplateBuilder.lazy(1, 3, 1, builder -> builder
                         .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                        .set(0, 1, 0, instrumentBlock.value().defaultBlockState().setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER), StructureTemplateHelper.addRuneHandler(Runes.CREATIVE))
+                        .set(0, 1, 0, instrumentBlock.value().defaultBlockState().setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER), withValue(runeHandler(Runes.CREATIVE)))
                         .set(0, 2, 0, instrumentBlock.value().defaultBlockState().setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER)));
     }
 

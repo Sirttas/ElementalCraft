@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -34,7 +35,7 @@ public class ChiselGameTests {
     @GameTest(template = InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME)
     public static void should_craftRune(ECGameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 2, 0));
-        var itemHandler = ECContainerHelper.getItemHandlerAt(helper.getLevel(), pos);
+        var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos));
         var container = ElementPipeGameTests.getElementStorage(helper, 0, 1, 0);
         var player = helper.mockChiselPlayer(new Vec3(0, 2, 0));
 
