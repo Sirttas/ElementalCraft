@@ -13,7 +13,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.datagen.advancement.ECAdvancementGenerator;
 import sirttas.elementalcraft.datagen.advancement.ECPickupAdvancementGenerator;
-import sirttas.elementalcraft.datagen.interaction.ECSilentGearMaterialProvider;
 import sirttas.elementalcraft.datagen.interaction.patchouli.BookDataProvider;
 import sirttas.elementalcraft.datagen.language.ECEnglishLanguageProvider;
 import sirttas.elementalcraft.datagen.language.ECFrenchLanguageProvider;
@@ -64,7 +63,6 @@ public class ECDataGenerators {
 		var output = generator.getPackOutput();
 		var lookupProvider = event.getLookupProvider();
 
-		var itemModelProvider = new ECItemModelProvider(output);
 		var registriesProvider = event.addProvider(new DatapackBuiltinEntriesProvider(output, lookupProvider, new RegistrySetBuilder()
 				.add(Registries.PLACED_FEATURE, new ECFeaturesProvider())
 				.add(Registries.STRUCTURE, new ECStructuresProvider())
@@ -89,13 +87,13 @@ public class ECDataGenerators {
 		event.addProvider(new ECBiomeTagsProvider(output, registries));
 		event.addProvider(new ECDamageTypeTagsProvider(output, registries));
 		event.addProvider(new ECGameEventTagsProvider(output, registries));
-		event.addProvider(new ECRecipeProvider(output, registries));
+		event.addProvider(new ECRecipeProvider.Runner(output, registries));
 		event.addProvider(new AdvancementProvider(output, registries, List.of(
 				new ECAdvancementGenerator(translationKeyValidator),
 				new ECPickupAdvancementGenerator(translationKeyValidator))));
 		event.addProvider(new ECDataMapProvider(output, registries));
 		event.addProvider(new RangesProvider(output, registries));
-		event.addProvider(new RunesProvider(output, registries, itemModelProvider));
+		event.addProvider(new RunesProvider(output, registries));
 		event.addProvider(new ShrineUpgradeProvider(output, registries));
 		event.addProvider(new SpellPropertiesProvider(output, registries));
 		event.addProvider(new ToolInfusionProvider(output, registries));
@@ -106,7 +104,7 @@ public class ECDataGenerators {
 		event.addProvider(new ECRemapKeysProvider(output, registries));
 		event.addProvider(new BookDataProvider(output, registries, translationKeyValidator));
 		if (ElementalCraftInteraction.isSilentGearActive()) {
-			event.addProvider(new ECSilentGearMaterialProvider(generator));
+			// event.addProvider(new ECSilentGearMaterialProvider(generator));
 		}
 	}
 }

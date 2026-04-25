@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -15,7 +14,6 @@ import sirttas.elementalcraft.api.rune.Rune.BonusType;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.data.predicate.block.pipe.HasPipeUpgrade;
 import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
-import sirttas.elementalcraft.datagen.ECItemModelProvider;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -24,7 +22,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune.Builder> {
 
-	private final ECItemModelProvider itemModelProvider;
 
 	private static final IBlockPosPredicate SPEED_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_SPEED).cache();
 	private static final IBlockPosPredicate PRESERVATION_PREDICATE = matchTagOrElementPump(ECTags.Blocks.RUNE_AFFECTED_PRESERVATION).cache();
@@ -43,9 +40,8 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	public static final Identifier SLATE = ElementalCraftApi.createRL("item/rune_slate");
 	public static final Identifier MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
 
-	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ECItemModelProvider itemModelProvider) {
+	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
-		this.itemModelProvider = itemModelProvider;
 	}
 
 	private static IBlockPosPredicate matchTagOrElementPump(TagKey<Block> tag) {
@@ -155,18 +151,9 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 				.max(1);
 	}
 
-	@Nonnull
-	@Override
-	public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
-		itemModelProvider.clear();
-		return super.run(cache).thenCompose(v -> itemModelProvider.generateAll(cache));
-	}
-
 	private Rune.Builder builder(ResourceKey<Rune> key, Identifier slate) {
 		var name = key.identifier().getPath();
-		var path = ElementalCraftApi.RUNE_MANAGER.getFolder() + '/' + name;
-		var runeTexture = ElementalCraftApi.createRL(path);
-		var builder = Rune.Builder.create().model(itemModelProvider.runeTexture(path, slate, runeTexture)).sprite(runeTexture);
+		var builder = Rune.Builder.create();
 
 		add(ElementalCraftApi.createRL(name), builder);
 		return builder;

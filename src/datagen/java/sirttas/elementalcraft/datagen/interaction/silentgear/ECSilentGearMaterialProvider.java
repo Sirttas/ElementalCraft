@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.datagen.interaction;
+package sirttas.elementalcraft.datagen.interaction.silentgear;
 
 import net.minecraft.core.Holder;
 import net.minecraft.data.DataGenerator;

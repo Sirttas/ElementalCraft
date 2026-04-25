@@ -221,8 +221,12 @@ public class ECItems {
     public static final DeferredHolder<@NotNull Item, @NotNull CrystalHarvestShrineUpgradeItem> CRYSTAL_HARVEST_SHRINE_UPGRADE = registerBlock(ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE, b -> new CrystalHarvestShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull CrystalGrowthShrineUpgradeItem> CRYSTAL_GROWTH_SHRINE_UPGRADE = registerBlock(ECBlocks.CRYSTAL_GROWTH_SHRINE_UPGRADE, b -> new CrystalGrowthShrineUpgradeItem(b, new Item.Properties()));
     public static final DeferredHolder<@NotNull Item, @NotNull TranslocationShrineUpgradeItem> TRANSLOCATION_SHRINE_UPGRADE = registerBlock(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE, b -> new TranslocationShrineUpgradeItem(b, new Item.Properties()));
+    public static final DeferredHolder<@NotNull Item, @NotNull BlockItem> SPRINGALINE_CLUSTER = registerBlock(ECBlocks.SPRINGALINE_CLUSTER);
+    public static final DeferredHolder<@NotNull Item, @NotNull BlockItem> LARGE_SPRINGALINE_BUD = registerBlock(ECBlocks.LARGE_SPRINGALINE_BUD);
+    public static final DeferredHolder<@NotNull Item, @NotNull BlockItem> MEDIUM_SPRINGALINE_BUD = registerBlock(ECBlocks.MEDIUM_SPRINGALINE_BUD);
+    public static final DeferredHolder<@NotNull Item, @NotNull BlockItem> SMALL_SPRINGALINE_BUD = registerBlock(ECBlocks.SMALL_SPRINGALINE_BUD);
 
-    public static final DeferredHolder<@NotNull Item, @NotNull SpellEffectItem> REPAIR_HAMMER = register("repair_hammer", () -> new SpellEffectItem(new Item.Properties()));
+	public static final DeferredHolder<@NotNull Item, @NotNull SpellEffectItem> REPAIR_HAMMER = register("repair_hammer", () -> new SpellEffectItem(new Item.Properties()));
 
 	private ECItems() {}
 
@@ -268,7 +272,11 @@ public class ECItems {
 		return register(jewel.getId().getPath(), () -> new JewelItem(jewel::get, new Item.Properties().stacksTo(1)));
 	}
 
-    private static  <B extends Block, T extends BlockItem> DeferredHolder<@NotNull Item, @NotNull T> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block, Function<B, T> item) {
+	private static <B extends Block> DeferredHolder<@NotNull Item, @NotNull BlockItem> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block) {
+		return registerBlock(block, b -> new BlockItem(b, new Item.Properties()));
+	}
+
+    private static <B extends Block, T extends BlockItem> DeferredHolder<@NotNull Item, @NotNull T> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block, Function<B, T> item) {
         return register(block.getId().getPath(), () -> item.apply(block.get()));
     }
 
