@@ -1,11 +1,12 @@
 package sirttas.elementalcraft.block.shrine.ore;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
@@ -45,8 +46,8 @@ public class OreShrineGameTests {
     public static void should_mineInRange(GameTestHelper helper) {
         ShrineGameTestHelper.forcePeriods(helper, new BlockPos(13, 2, 13), IN_RANGE.size() + OUTSIDE_RANGE.size());
         helper.succeedIf(() -> {
-            IN_RANGE.forEach(p -> helper.assertBlockState(p.offset(13, 0, 13), b -> b.is(Blocks.STONE), () -> "Block has not been mined"));
-            OUTSIDE_RANGE.forEach(p -> helper.assertBlockState(p.offset(13, 0, 13), b -> b.is(Blocks.IRON_ORE), () -> "Block has been mined"));
+            IN_RANGE.forEach(p -> helper.assertBlockState(p.offset(13, 0, 13), b -> b.is(Blocks.STONE), _ -> Component.literal("Block has not been mined")));
+            OUTSIDE_RANGE.forEach(p -> helper.assertBlockState(p.offset(13, 0, 13), b -> b.is(Blocks.IRON_ORE), _ -> Component.literal("Block has been mined")));
         });
     }
 }

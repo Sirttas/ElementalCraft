@@ -6,9 +6,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,13 +42,16 @@ public class ECContainerBlockGameTests {
         var pos = holder.pos();
         var slot = holder.slot();
         var player = helper.mockPlayerWithItem(Vec3.ZERO, new ItemStack(item, 64));
-        var container = helper.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP);
-        var size = Math.min(container.getSlotLimit(slot), 64);
+        var container = helper.getCapability(Capabilities.Item.BLOCK, pos, Direction.UP);
+
+        assertThat(container).isNotNull();
+
+        var size = Math.min(container.getCapacityAsInt(slot, ItemResource.of(item)), 64);
 
         helper.startSequence()
                 .thenExecuteAfter(1, () -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
-                    assertThat(container.getStackInSlot(slot))
+                .thenExecuteAfter(1, () -> {
+                    assertThat(container.getResource(slot).toStack())
                             .is(item)
                             .hasCount(size);
                     if (size == 64) {
@@ -57,7 +61,7 @@ public class ECContainerBlockGameTests {
                                 .is(item)
                                 .hasCount(64 - size);
                     }
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
@@ -67,20 +71,25 @@ public class ECContainerBlockGameTests {
         var pos = holder.pos();
         var slot = holder.slot();
         var player = helper.mockPlayerWithItem(Vec3.ZERO, ItemStack.EMPTY);
-        var container = helper.getCapability(Capabilities.ItemHandler.BLOCK, pos, Direction.UP);
-        var size = Math.min(container.getSlotLimit(slot), 64);
+        var container = helper.getCapability(Capabilities.Item.BLOCK, pos, Direction.UP);
 
-        container.insertItem(slot, new ItemStack(item, size), false);
+        assertThat(container).isNotNull();
+
+        var size = Math.min(container.getCapacityAsInt(slot, ItemResource.of(item)), 64);
+
+        try (Transaction rootTransaction = Transaction.openRoot()) {
+            container.insert(slot, ItemResource.of(item), size, rootTransaction);
+        }
         helper.startSequence()
                 .thenExecuteAfter(1, () -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
-                    assertThat(container.getStackInSlot(slot)).isEmpty();
+                .thenExecuteAfter(1, () -> {
+                    assertThat(container.getResource(slot).toStack()).isEmpty();
                     assertThat(helper.getEntities(EntityType.ITEM, BlockPos.ZERO, 1)).hasSize(1)
                             .allSatisfy(i -> assertThat(i.getItem())
                                     .is(item)
                                     .hasCount(size));
 
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

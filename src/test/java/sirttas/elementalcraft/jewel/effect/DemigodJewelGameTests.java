@@ -29,7 +29,7 @@ public class DemigodJewelGameTests {
         player.getInventory().add(1, new ItemStack(Items.TOTEM_OF_UNDYING));
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.hurt(player.damageSources().magic(), 1000);
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             assertThat(player.isAlive())
                     .describedAs("Player should be alive")
                     .isTrue();
@@ -41,7 +41,7 @@ public class DemigodJewelGameTests {
             assertThat(player.getInventory().contains(s -> s.is(Items.TOTEM_OF_UNDYING)))
                     .describedAs("Totem of undying should be consumed")
                     .isFalse();
-        })).thenExecute(player::discard)
+        }).thenExecute(player::discard)
                 .thenSucceed();
     }
 
@@ -53,11 +53,11 @@ public class DemigodJewelGameTests {
 
         helper.startSequence().thenExecuteAfter(2, () -> {
                     player.hurt(player.damageSources().magic(), 1000);
-                }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1, () -> {
                     assertThat(player.isAlive())
                             .describedAs("Player should be dead")
                             .isFalse();
-                })).thenExecute(player::discard)
+                }).thenExecute(player::discard)
                 .thenSucceed();
     }
 }

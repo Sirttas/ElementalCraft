@@ -5,7 +5,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
@@ -45,14 +44,14 @@ public class AirMillGameTests {
 
     }
 
-    private static void should_dropDamagedMill(ECGameTestHelper helper, AirMillTestCaseHolder holder) {
-        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS);
+    private static void should_dropDamagedMill(ECGameTestHelper helper, AirMillTestCaseHolder<?> holder) {
+        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS, holder.blockEntityType());
 
         airMill.setDamage(100);
 
         helper.startSequence().thenExecuteAfter(1, () -> {
             helper.getLevel().destroyBlock(helper.absolutePos(AIR_MILL_POS), true);
-        }).thenExecuteAfter(5, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(5, () -> {
             var items = helper.findEntities(EntityType.ITEM, 0, 0, 0, Double.MAX_VALUE);
             var airMilItemEntity = items.stream()
                     .filter(i -> i.getItem().is(holder.block().get().asItem()))
@@ -62,52 +61,52 @@ public class AirMillGameTests {
                     .is(holder.block())
                     .satisfies(stack -> assertThat(stack.getItem()).isInstanceOf(AirMillBlockItem.class))
                     .hasDataComponentSatisfying(ECDataComponents.AIR_MILL_DAMAGE, damage -> assertThat(damage).isGreaterThanOrEqualTo(100)));
-        }))
+        })
         .thenExecute(() -> helper.discardItems(new BlockPos(0, 1, 0), 2))
         .thenSucceed();
     }
 
-    private static void should_getRepairedByPlayer(ECGameTestHelper helper, AirMillTestCaseHolder holder) {
-        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS);
+    private static void should_getRepairedByPlayer(ECGameTestHelper helper, AirMillTestCaseHolder<?> holder) {
+        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS, holder.blockEntityType());
 
         airMill.setDamage(100);
 
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
-        player.moveTo(helper.absoluteVec(Vec3.ZERO));
+        helper.moveEntityToOrigin(player);
         helper.getLevel().addFreshEntity(player);
 
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.AIR_MILL));
-        helper.startSequence().thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        helper.startSequence().thenExecuteAfter(1, () -> {
             helper.useItemOn(player, AIR_MILL_POS);
 
             assertThat(airMill.getDamage()).isZero();
             assertThat(player.getMainHandItem())
                     .is(ECItems.AIR_MILL)
                     .hasDamageSatisfying(damage -> assertThat(damage).isGreaterThanOrEqualTo(100));
-        }))
+        })
         .thenExecute(player::discard)
         .thenSucceed();
     }
 
-    private static void should_getFullyRepairedByPlayer(ECGameTestHelper helper, AirMillTestCaseHolder holder) {
+    private static void should_getFullyRepairedByPlayer(ECGameTestHelper helper, AirMillTestCaseHolder<?> holder) {
         int maxDamage = AirMill.getMaxDamage();
-        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS);
+        AirMill airMill = helper.getBlockEntity(AIR_MILL_POS, holder.blockEntityType());
 
         airMill.setDamage(maxDamage);
 
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
-        player.moveTo(helper.absoluteVec(Vec3.ZERO));
+        helper.moveEntityToOrigin(player);
         helper.getLevel().addFreshEntity(player);
 
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.AIR_MILL));
-        helper.startSequence().thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        helper.startSequence().thenExecuteAfter(1, () -> {
                     helper.useItemOn(player, AIR_MILL_POS);
 
                     assertThat(airMill.getDamage()).isZero();
                     assertThat(player.getMainHandItem()).isEmpty();
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

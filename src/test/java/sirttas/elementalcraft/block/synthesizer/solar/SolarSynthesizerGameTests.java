@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.block.synthesizer.solar;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -36,7 +35,7 @@ public class SolarSynthesizerGameTests {
 
             helper.startSequence().thenExecute(() -> {
                 inv.setItem(0, new ItemStack(ECItems.FIRE_LENS));
-            }).thenIdle(1).thenExecuteFor(20, ECGameTestUtils.fixAssertions(() -> {
+            }).thenIdle(1).thenExecuteFor(20, () -> {
                 var t = ticks.incrementAndGet();
 
                 assertThat(inv.getItem(0))
@@ -46,7 +45,7 @@ public class SolarSynthesizerGameTests {
                         .isEqualTo(ElementType.FIRE);
                 assertThat(storage.getElementAmount())
                         .isEqualTo(t * 25);
-            })).thenSucceed();
+            }).thenSucceed();
         });
     }
 

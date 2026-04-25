@@ -27,8 +27,8 @@ public class FireInfusionLootModifier extends LootModifier {
 	public static final MapCodec<FireInfusionLootModifier> DIRECT_CODEC = RecordCodecBuilder.mapCodec(i -> codecStart(i).apply(i, FireInfusionLootModifier::new));
 
 	
-	protected FireInfusionLootModifier(LootItemCondition[] conditions) {
-		super(conditions);
+	protected FireInfusionLootModifier(LootItemCondition[] conditions, int priority) {
+		super(conditions, priority);
 	}
 
 	private ItemStack applyAutoSmelt(ItemStack stack, LootContext context) {

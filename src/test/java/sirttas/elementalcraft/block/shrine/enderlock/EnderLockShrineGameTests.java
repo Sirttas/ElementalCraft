@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.block.shrine.enderlock;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
-import sirttas.elementalcraft.ECGameTestUtils;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,15 +40,15 @@ public class EnderLockShrineGameTests {
 
                 TELEPORT.invoke(enderman, to.x, to.y, to.z);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new GameTestAssertException(e.getMessage());
+                throw new GameTestAssertException(Component.literal(e.getMessage()), (int) helper.getTick());
             }
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             assertThat(enderman.getPosition(0)).satisfies(p -> {
                 assertThat(p.x()).isCloseTo(vec.x(), within(0.2));
                 assertThat(p.z()).isCloseTo(vec.z(), within(0.2));
             });
             enderman.discard();
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
 }

@@ -80,12 +80,12 @@ public class ContainerGameTests {
         helper.startSequence().thenExecute(() -> {
             helper.setBlock(pos, ECBlocks.RUDIMENTARY_EXTRACTOR.get());
             updateShape(helper, pos.below());
-        }).thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(10, () -> {
             helper.assertBlockPresent(ECBlocks.RUDIMENTARY_EXTRACTOR.get(), pos);
             assertThat(helper.getBlockState(pos))
                     .as("The rudimentary extractor should be able to survive on top of the container")
                     .satisfies(state -> assertThat(state.canSurvive(helper.getLevel(), helper.absolutePos(pos))).isTrue());
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
     @TestHolder(description = "Check that a small element container does not support an extractor")
@@ -96,9 +96,9 @@ public class ContainerGameTests {
         helper.startSequence().thenExecute(() -> {
             helper.setBlock(pos, ECBlocks.EXTRACTOR.get());
             updateShape(helper, pos.below());
-        }).thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(10, () -> {
             helper.assertBlockNotPresent(ECBlocks.EXTRACTOR.get(), pos);
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
     private static void updateShape(ECGameTestHelper helper, BlockPos pos) {

@@ -1998,13 +1998,13 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("#i#")
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get()))
 				.save(recipeOutput);
-		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ECBlocks.WHITE_ROCK_BRICK.get(), 4)
+		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ECBlocks.WHITE_ROCK_BRICKS.get(), 4)
 				.define('#', ECBlocks.WHITE_ROCK.get())
 				.pattern("##")
 				.pattern("##")
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get()))
 				.save(recipeOutput);
-		SingleItemRecipeBuilder.stonecutting(Ingredient.of(ECBlocks.WHITE_ROCK.get()), RecipeCategory.DECORATIONS, ECBlocks.WHITE_ROCK_BRICK.get())
+		SingleItemRecipeBuilder.stonecutting(Ingredient.of(ECBlocks.WHITE_ROCK.get()), RecipeCategory.DECORATIONS, ECBlocks.WHITE_ROCK_BRICKS.get())
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get()))
 				.save(recipeOutput, ElementalCraftApi.createRL("whiterock_brick_from_whiterock_stonecutting"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ECBlocks.MOSSY_WHITE_ROCK.get(), 8)

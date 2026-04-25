@@ -2,8 +2,6 @@ package sirttas.elementalcraft;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.gametest.framework.GameTestAssertException;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Rotation;
 import net.neoforged.testframework.Test;
@@ -38,41 +36,18 @@ public class ECGameTestUtils {
             id += ":" + template;
         }
 
-        return new ECTest(id, group, description, Either.left(template), rotation, fixAssertions(function));
+        return new ECTest(id, group, description, Either.left(template), rotation, function);
     }
 
     public static Test createTest(String group, String id, String description, Supplier<StructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
-        return new ECTest(id, group, description, Either.right(template), rotation, fixAssertions(function));
+        return new ECTest(id, group, description, Either.right(template), rotation, function);
     }
-
-    public static <T extends GameTestHelper> Consumer<T> fixAssertions(Consumer<T> function) {
-        return helper -> {
-            try {
-                function.accept(helper);
-            } catch (AssertionError e) {
-                logAssertionError(e);
-                helper.fail(e.getMessage());
-            }
-        };
-    }
-
-    public static Runnable fixAssertions(Runnable function) {
-        return () -> {
-            try {
-                function.run();
-            } catch (AssertionError e) {
-                logAssertionError(e);
-                throw new GameTestAssertException(e.getMessage());
-            }
-        };
-    }
-
 
     public static RegistryAccess registryAccess() {
         return ElementalCraftTests.server.registryAccess();
     }
 
-    private static void logAssertionError(AssertionError e) {
+    public static void logAssertionError(AssertionError e) {
         ElementalCraftApi.LOGGER.error("Assertion failed: ", e);
     }
 
@@ -120,9 +95,18 @@ public class ECGameTestUtils {
                     100,
                     0,
                     rotation,
-                    true);
+                    true,
+                    0,
+                    false);
 
-            this.onGameTest(ECGameTestHelper.class, function);
+            this.onGameTest(ECGameTestHelper.class, helper -> {
+                try {
+                    function.accept(helper);
+                } catch (AssertionError e) {
+                    logAssertionError(e);
+                    helper.fail(e.getMessage());
+                }
+            });
             template.right().ifPresent(this::registerGameTestTemplate);
         }
     }

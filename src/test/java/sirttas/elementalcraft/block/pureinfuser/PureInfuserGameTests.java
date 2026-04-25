@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -9,9 +8,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.container.ECContainerHelper;
@@ -30,7 +29,7 @@ public class PureInfuserGameTests {
 
     // elementalcraft:pureinfusergametests.pure_infuser
     @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "pureinfusergametests.pure_infuser")
+    @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
     public static void should_craftPureCrystal(GameTestHelper helper) {
         var pureInfuser = (PureInfuserBlockEntity) helper.getBlockEntity(new BlockPos(3, 1, 3));
 
@@ -186,7 +185,7 @@ public class PureInfuserGameTests {
 
     // elementalcraft:pureinfusergametests.pure_infuser
     @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the emements that were present in the original holders.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "pureinfusergametests.pure_infuser")
+    @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
     public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 1, 3), PureInfuserBlockEntity.class);
 

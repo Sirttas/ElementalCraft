@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.spell;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -9,8 +8,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
@@ -32,12 +31,12 @@ public class RepairSpellGameTests {
         player.lookAt(EntityAnchorArgument.Anchor.EYES, helper.absoluteVec(new Vec3(9, 1, 1)));
         helper.startSequence()
                 .thenExecuteFor(20, () -> helper.useItem(player))
-                .thenExecuteAfter(2, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(2, () -> {
                     assertThat(player.getItemInHand(InteractionHand.OFF_HAND))
                             .is(Items.DIAMOND_PICKAXE)
                             .hasDamage(0);
                     helper.assertElementUsed(player, ElementType.FIRE);
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

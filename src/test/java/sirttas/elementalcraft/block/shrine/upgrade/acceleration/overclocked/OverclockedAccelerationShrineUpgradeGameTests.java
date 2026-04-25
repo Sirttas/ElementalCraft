@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.block.shrine.upgrade.acceleration.overclocked;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
-import sirttas.elementalcraft.ECGameTestUtils;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
@@ -26,10 +26,10 @@ public class OverclockedAccelerationShrineUpgradeGameTests {
 
         helper.startSequence().thenExecute(() -> {
             helper.pullLever(0, 2, 2);
-        }).thenIdle(1).thenExecuteFor(10, ECGameTestUtils.fixAssertions(() -> {
-            var storage = ElementStorageGameTestHelper.get(helper.getBlockEntity(new BlockPos(1, 2, 0)));
+        }).thenIdle(1).thenExecuteFor(10, () -> {
+            var storage = ElementStorageGameTestHelper.get(helper.getBlockEntity(new BlockPos(1, 2, 0), BlockEntity.class));
 
             assertThat(storage.getElementAmount(ElementType.WATER)).isEqualTo(500 * ticks.incrementAndGet());
-        })).thenSucceed();
+        }).thenSucceed();
     }
 }

@@ -2,14 +2,13 @@ package sirttas.elementalcraft.block.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 
@@ -25,20 +24,20 @@ public class ElementPipeGameTests {
     public static final String GROUP = "level.blocks.pipe";
 
     @TestHolder(description = "Checks if the pipe does not transfer above max.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpipegametests.shouldnot_transferabovemax")
-    public static void shouldNot_transferAboveMax(GameTestHelper helper) {
+    @GameTest(template = "elementalcraft:elementpipegametests.shouldnot_transferabovemax")
+    public static void shouldNot_transferAboveMax(ECGameTestHelper helper) {
         var targetStorage = getElementStorage(helper, 1, 2, 0);
         var ticks = new AtomicInteger(0);
 
         helper.startSequence().thenExecute(() -> helper.pullLever(0, 2, 1))
                 .thenIdle(1)
-                .thenExecuteFor(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetStorage.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet())))
+                .thenExecuteFor(10, () -> assertThat(targetStorage.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet()))
                 .thenSucceed();
     }
 
     @TestHolder(description = "Checks if the pipe transfers to multiple storages in the same tick.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "elementpipegametests.should_transfertomultiplestorages")
-    public static void should_transferToMultipleStorages(GameTestHelper helper) {
+    @GameTest(template = "elementalcraft:elementpipegametests.should_transfertomultiplestorages")
+    public static void should_transferToMultipleStorages(ECGameTestHelper helper) {
         var sourceStorage = getElementStorage(helper, 1, 2, 0);
         var targetStorage1 = getElementStorage(helper, 0, 2, 3);
         var targetStorage2 = getElementStorage(helper, 1, 2, 3);
@@ -46,37 +45,37 @@ public class ElementPipeGameTests {
 
         helper.startSequence().thenExecute(() -> helper.pullLever(0, 2, 1))
                 .thenIdle(1)
-                .thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(99500);
                     assertThat(targetStorage1.getElementAmount()).isZero();
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(500);
                     assertThat(targetStorage3.getElementAmount()).isZero();
-                })).thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(99000);
                     assertThat(targetStorage1.getElementAmount()).isZero();
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage3.getElementAmount()).isZero();
-                })).thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(98500);
                     assertThat(targetStorage1.getElementAmount()).isZero();
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage3.getElementAmount()).isEqualTo(500);
-                })).thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(98000);
                     assertThat(targetStorage1.getElementAmount()).isZero();
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage3.getElementAmount()).isEqualTo(1000);
-                })).thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(97500);
                     assertThat(targetStorage1.getElementAmount()).isEqualTo(500);
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage3.getElementAmount()).isEqualTo(1000);
-                })).thenExecuteAfter(1,  ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(97000);
                     assertThat(targetStorage1.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage2.getElementAmount()).isEqualTo(1000);
                     assertThat(targetStorage3.getElementAmount()).isEqualTo(1000);
-                }))
+                })
                 .thenSucceed();
     }
 
@@ -110,18 +109,15 @@ public class ElementPipeGameTests {
     public static void should_disconnectPipeWhenBroken(ECGameTestHelper helper, BlockPos pipePos, Direction direction) {
         helper.startSequence().thenExecute(() -> {
             helper.destroyBlock(pipePos.relative(direction));
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             var pipe = helper.getBlockEntity(pipePos, ElementPipeBlockEntity.class);
 
             assertThat(pipe).isNotNull().satisfies(p -> assertThat(p.getConnection(direction)).isEqualTo(ConnectionType.NONE));
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
     public static ISingleElementStorage getElementStorage(GameTestHelper helper, int x, int y, int z) {
-        var be = helper.getBlockEntity(new BlockPos(x, y, z));
-
-        assertThat(be).isNotNull().isInstanceOf(ElementContainerBlockEntity.class);
-        return ((ElementContainerBlockEntity) be).getElementStorage();
+        return  helper.getBlockEntity(new BlockPos(x, y, z), ElementContainerBlockEntity.class).getElementStorage();
     }
 
     public static Test createTest(String name, String description, String template, Consumer<ECGameTestHelper> function) {

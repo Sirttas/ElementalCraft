@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.block.shrine.lumber;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
@@ -42,14 +42,14 @@ public class LumberShrineGameTests {
 
     // elementalcraft:lumbershrinegametests.should_cutoakblocks
     @TestHolder(description = "Checks if the lumber shrine cuts oak blocks.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "lumbershrinegametests.should_cutoakblocks")
+    @GameTest(template = "elementalcraft:lumbershrinegametests.should_cutoakblocks")
     public static void should_cutOakBlocks(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             POSES.forEach(p -> helper.setBlock(p, Blocks.OAK_LOG));
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size());
         }).thenExecuteAfter(1, () -> {
-            POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), () -> "Block has not been cut"));
+            POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), _ -> Component.literal("Block has not been cut")));
             helper.assertItemEntityCountIs(Blocks.OAK_LOG.asItem(), new BlockPos(3, 2, 3), 3, POSES.size());
         }).thenExecute(() -> helper.discardItems(new BlockPos(3, 2, 3), 3))
         .thenSucceed();

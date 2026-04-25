@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.jewel.defence;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.jewel.attack.KirinJewelGameTests;
@@ -30,7 +29,7 @@ public class TortoiseJewelGameTests {
 
         anvil.setHurtsEntities(2.0F, 40);
         level.addFreshEntity(anvil);
-        helper.startSequence().thenExecuteAfter(100, ECGameTestUtils.fixAssertions(() -> {
+        helper.startSequence().thenExecuteAfter(100, () -> {
             assertThat(player.isAlive())
                     .describedAs("Player should be alive")
                     .isTrue();
@@ -40,7 +39,7 @@ public class TortoiseJewelGameTests {
                     .isFalse();
             helper.assertElementUsed(player, ElementType.EARTH);
             helper.assertBlockNotPresent(Blocks.ANVIL, 1, 2, 1);
-        })).thenExecute(() -> {
+        }).thenExecute(() -> {
             anvil.discard();
             player.discard();
         }).thenSucceed();

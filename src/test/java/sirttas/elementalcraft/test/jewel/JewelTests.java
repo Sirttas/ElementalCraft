@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.test.jewel;
 
+import net.minecraft.world.entity.EntityEquipment;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -25,7 +26,7 @@ public class JewelTests {
     public void should_bePlaceableOnGear(Jewel jewel) {
         // Given
         var mockPlayer = Mockito.mock(Player.class);
-        var inventory = new Inventory(mockPlayer);
+        var inventory = new Inventory(mockPlayer, new EntityEquipment());
         var anvilMenu = new AnvilMenu(0, inventory);
 
         anvilMenu.setItem(0, anvilMenu.getStateId(), new ItemStack(Items.DIAMOND_CHESTPLATE));

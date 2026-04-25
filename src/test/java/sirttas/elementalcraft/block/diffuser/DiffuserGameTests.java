@@ -5,8 +5,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
-import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
+import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -25,7 +25,7 @@ public class DiffuserGameTests {
 
     @RegisterStructureTemplate(TEMPLATE_23x23_NAME)
     public static final Supplier<StructureTemplate> TEMPLATE_23x23 = StructureTemplateBuilder.lazy(23, 4, 23, b -> b
-            .fill(0, 0, 0, 22, 0, 22, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+            .fill(0, 0, 0, 22, 0, 22, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(11, 1, 11, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(11, 2, 11, ECBlocks.DIFFUSER.get().defaultBlockState()));
 
@@ -41,10 +41,10 @@ public class DiffuserGameTests {
                 .toList();
     }
 
-    private static void should_fillHolder(ExtendedGameTestHelper helper, ElementHolderTestCaseHolder holder) {
+    private static void should_fillHolder(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var elementType = holder.type();
         var player = holder.mockPlayer(helper, new Vec3(9, 1, 9));
-        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(11, 2, 11))).getElementStorage();
+        var storage = helper.getBlockEntity(new BlockPos(11, 2, 11), ElementContainerBlockEntity.class).getElementStorage();
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY_FOR_ELEMENT, elementType);
         var ticks = new AtomicInteger(0);
 
@@ -53,12 +53,12 @@ public class DiffuserGameTests {
         helper.startSequence()
                 .thenExecute(() -> storage.fill(elementType))
                 .thenIdle(1)
-                .thenExecuteFor(10, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteFor(10, () -> {
                     var i = ticks.incrementAndGet();
 
                     assertThat(storage.getElementAmount(elementType)).isEqualTo(100000 - (5 * i));
                     assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(5 * i);
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

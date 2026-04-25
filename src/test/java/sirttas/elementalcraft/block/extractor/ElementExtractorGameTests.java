@@ -13,7 +13,7 @@ import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
-import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import sirttas.elementalcraft.ECGameTestHelper;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +78,7 @@ public class ElementExtractorGameTests {
                         .collect(Collectors.toCollection(ListTag::new)));
             }
             return builder.placeFloorLever(0, 1, 1, true)
-                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                     .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(0, 1, 0, extractor.get().defaultBlockState(), extractorTag)
                     .set(0, 2, 0, ECBlocks.FIRE_SOURCE.get().defaultBlockState(), sourceTag);
@@ -166,34 +166,34 @@ public class ElementExtractorGameTests {
         );
     }
 
-    private static void should_extractElementFromSource(ExtendedGameTestHelper helper, int transferRate) {
-        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0))).getElementStorage();
-        var sourceStorage = ((SourceBlockEntity) helper.getBlockEntity(new BlockPos(0, 3, 0))).getElementStorage();
+    private static void should_extractElementFromSource(ECGameTestHelper helper, int transferRate) {
+        var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var sourceStorage = helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
         var ticks = new AtomicInteger(0);
 
         helper.startSequence()
                 .thenExecute(() -> helper.pullLever(0, 2, 1))
                 .thenIdle(1)
-                .thenExecuteFor(10, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteFor(10, () -> {
                     var i = ticks.incrementAndGet();
 
                     assertThat(sourceStorage.getElementAmount(ElementType.FIRE)).isLessThanOrEqualTo(SourceElementStorage.DEFAULT_CAPACITY - (transferRate * i));
                     assertThat(storage.getElementAmount(ElementType.FIRE)).isEqualTo(transferRate * i);
-                }))
+                })
                 .thenSucceed();
     }
 
-    private static void should_exhaustSource(ExtendedGameTestHelper helper, int transferRate) {
-        var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0))).getElementStorage();
-        var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(new BlockPos(0, 3, 0))).getElementStorage();
+    private static void should_exhaustSource(ECGameTestHelper helper, int transferRate) {
+        var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
 
         helper.startSequence()
                 .thenExecute(() -> sourceStorage.setElementAmount(transferRate))
                 .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
-                .thenExecuteAfter(5, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(5, () -> {
                     helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
                     assertThat(storage.getElementAmount(ElementType.FIRE)).isPositive();
-                }))
+                })
                 .thenSucceed();
     }
 
@@ -207,24 +207,24 @@ public class ElementExtractorGameTests {
             sourceTag.putBoolean(ECNames.STABILIZED, true);
             return StructureTemplateBuilder.withSize(1, 3, 2)
                     .placeFloorLever(0, 1, 1, true)
-                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                     .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(0, 1, 0, ECBlocks.IMPROVED_EXTRACTOR.get().defaultBlockState())
                     .set(0, 2, 0, ECBlocks.FIRE_SOURCE.get().defaultBlockState(), sourceTag);
         });
 
-        test.onGameTest(helper -> {
-            var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0))).getElementStorage();
-            var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(new BlockPos(0, 3, 0))).getElementStorage();
+        test.onGameTest(ECGameTestHelper.class, helper -> {
+            var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()
                     .thenExecute(() -> sourceStorage.setElementAmount(100))
                     .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
-                    .thenExecuteAfter(5, ECGameTestUtils.fixAssertions(() -> {
+                    .thenExecuteAfter(5, () -> {
                         helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
                         helper.assertItemEntityPresent(ECItems.SOURCE_STABILIZER.get());
                         assertThat(storage.getElementAmount(ElementType.FIRE)).isGreaterThanOrEqualTo(100);
-                    }))
+                    })
                     .thenSucceed();
         });
     }
@@ -239,7 +239,7 @@ public class ElementExtractorGameTests {
             sourceTag.putBoolean(ECNames.STABILIZED, true);
             return StructureTemplateBuilder.withSize(2, 3, 2)
                     .placeFloorLever(0, 1, 1, true)
-                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+                    .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                     .set(1, 0, 0, Blocks.CHEST.defaultBlockState())
                     .set(1, 1, 0, ECBlocks.RETRIEVER.get().defaultBlockState()
                             .setValue(ISorterBlock.SOURCE, Direction.WEST)
@@ -249,19 +249,19 @@ public class ElementExtractorGameTests {
                     .set(0, 2, 0, ECBlocks.FIRE_SOURCE.get().defaultBlockState(), sourceTag);
         });
 
-        test.onGameTest(helper -> {
-            var storage = ((ElementContainerBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 0))).getElementStorage();
-            var sourceStorage = (SourceElementStorage) ((SourceBlockEntity) helper.getBlockEntity(new BlockPos(0, 3, 0))).getElementStorage();
+        test.onGameTest(ECGameTestHelper.class, helper -> {
+            var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()
                     .thenExecute(() -> sourceStorage.setElementAmount(100))
                     .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
-                    .thenExecuteAfter(5, ECGameTestUtils.fixAssertions(() -> {
+                    .thenExecuteAfter(5, () -> {
                         helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
                         helper.assertItemEntityNotPresent(ECItems.SOURCE_STABILIZER.get());
                         helper.assertContainerContains(1, 1, 0, ECItems.SOURCE_STABILIZER.get());
                         assertThat(storage.getElementAmount(ElementType.FIRE)).isGreaterThanOrEqualTo(100);
-                    }))
+                    })
                     .thenSucceed();
         });
     }

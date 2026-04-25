@@ -55,8 +55,7 @@ public class ECBlockStateProvider extends BlockStateProvider {
     ModelFile coverFrame;
 
 	public ECBlockStateProvider(PackOutput output) {
-		super(output, ElementalCraftApi.MODID);
-	}
+		super(output, ElementalCraftApi.MODID);	}
 
 	@Override
 	protected void registerStatesAndModels() {

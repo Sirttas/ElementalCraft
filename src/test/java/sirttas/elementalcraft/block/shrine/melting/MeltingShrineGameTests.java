@@ -2,8 +2,8 @@ package sirttas.elementalcraft.block.shrine.melting;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -26,13 +27,13 @@ public class MeltingShrineGameTests {
 
     @RegisterStructureTemplate(MELTING_SHRINE_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> MELTING_SHRINE_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, builder -> builder
-            .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+            .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(1, 0, 1, ECBlocks.MELTING_SHRINE.get().defaultBlockState())
             .set(1, 1, 1, Blocks.AIR.defaultBlockState()));
 
     @RegisterStructureTemplate(MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> MELTING_SHRINE_WITH_FILLING_TEMPLATE = StructureTemplateBuilder.lazy(4, 3, 3, builder -> builder
-            .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICK.get().defaultBlockState())
+            .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(1, 0, 1, ECBlocks.MELTING_SHRINE.get().defaultBlockState())
             .set(2, 0, 1, ECBlocks.FILLING_SHRINE_UPGRADE.get().defaultBlockState()
                     .setValue(BlockStateProperties.FACING, Direction.WEST))
@@ -47,7 +48,7 @@ public class MeltingShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.LAVA), () -> "Block has not been melted");
+            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.LAVA), _ -> Component.literal("Block has not been melted"));
         }).thenSucceed();
     }
 
@@ -59,7 +60,7 @@ public class MeltingShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.WATER), () -> "Block has not been melted");
+            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.WATER), _ -> Component.literal("Block has not been melted"));
         }).thenSucceed();
     }
 
@@ -71,8 +72,8 @@ public class MeltingShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.LAVA_CAULDRON), () -> "Cauldron has not been filled");
-            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, () -> "Basalt has not been removed");
+            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.LAVA_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
+            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Basalt has not been removed"));
         }).thenSucceed();
     }
 
@@ -84,8 +85,8 @@ public class MeltingShrineGameTests {
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.WATER_CAULDRON), () -> "Cauldron has not been filled");
-            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, () -> "Ice has not been removed");
+            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.WATER_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
+            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Ice has not been removed"));
         }).thenSucceed();
     }
 

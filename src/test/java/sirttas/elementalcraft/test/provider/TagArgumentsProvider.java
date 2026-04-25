@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.test.provider;
 
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.support.AnnotationConsumer;
+import org.junit.jupiter.params.support.ParameterDeclarations;
 import sirttas.elementalcraft.test.annotation.TagSource;
 
 import java.util.Arrays;
@@ -33,10 +35,11 @@ public class TagArgumentsProvider implements ArgumentsProvider, AnnotationConsum
     }
 
     @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-        return EphemeralTestServerProvider.grabServer().registryAccess().registry(registryKey).stream()
+    public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
+        return EphemeralTestServerProvider.grabServer().registryAccess().get(registryKey).stream()
                 .flatMap(registry -> tagKeys.stream()
-                        .flatMap(tagKey -> registry.getOrCreateTag(tagKey).stream()))
+                        .flatMap(tagKey -> registry.value().get(tagKey).stream()))
+                .flatMap(HolderSet.ListBacked::stream)
                 .distinct()
                 .filter(holder -> excludeKeys.stream().noneMatch(holder::is))
                 .map(holder -> {

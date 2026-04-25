@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.block.shrine.upgrade.fortune.greater;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
-import net.minecraft.gametest.framework.GameTestHelper;
+import sirttas.elementalcraft.ECGameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
@@ -23,13 +24,13 @@ public class GreaterFortuneShrineUpgradeGameTests {
 
     @TestHolder
     @GameTest(template = TEMPLATE, required = false)
-    public static void should_increaseOreLoot(GameTestHelper helper) {
+    public static void should_increaseOreLoot(ECGameTestHelper helper) {
         ShrineGameTestHelper.forcePeriods(helper, new BlockPos(12, 2, 12), 4);
-        helper.succeedIf(ECGameTestUtils.fixAssertions(() -> {
-            helper.assertBlockState(new BlockPos(12, 1, 11), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
-            helper.assertBlockState(new BlockPos(12, 1, 13), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
-            helper.assertBlockState(new BlockPos(11, 1, 12), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
-            helper.assertBlockState(new BlockPos(13, 1, 12), b -> b.is(Blocks.STONE), () -> "Block has not been mined");
+        helper.succeedIf(() -> {
+            helper.assertBlockState(new BlockPos(12, 1, 11), b -> b.is(Blocks.STONE), _ -> Component.literal("Block has not been mined"));
+            helper.assertBlockState(new BlockPos(12, 1, 13), b -> b.is(Blocks.STONE), _ -> Component.literal("Block has not been mined"));
+            helper.assertBlockState(new BlockPos(11, 1, 12), b -> b.is(Blocks.STONE), _ -> Component.literal("Block has not been mined"));
+            helper.assertBlockState(new BlockPos(13, 1, 12), b -> b.is(Blocks.STONE), _ -> Component.literal("Block has not been mined"));
             var count = helper.getEntities(EntityType.ITEM, new BlockPos(12, 1, 12), 2).stream()
                     .map(ItemEntity::getItem)
                     .filter(i -> i.is(Items.RAW_IRON))
@@ -37,7 +38,7 @@ public class GreaterFortuneShrineUpgradeGameTests {
                     .sum();
 
             assertThat(count).isGreaterThan(4);
-        }));
+        });
     }
 
 }

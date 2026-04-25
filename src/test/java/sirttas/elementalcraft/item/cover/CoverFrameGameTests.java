@@ -83,13 +83,13 @@ public class CoverFrameGameTests {
         helper.startSequence()
                 .thenExecute(() -> helper.useBlock(pos, player))
                 .thenIdle(1)
-                .thenExecute(ECGameTestUtils.fixAssertions(() -> {
+                .thenExecute(() -> {
                     var coverable = helper.getCapability(Coverable.CAPABILITY, pos, null);
 
                     assertThat(coverable)
                             .isNotNull()
                             .satisfies(cover -> assertThat(cover.hasFrame()).as("Coverable should has a frame").isTrue());
-                }))
+                })
                 .thenSucceed();
     }
 }

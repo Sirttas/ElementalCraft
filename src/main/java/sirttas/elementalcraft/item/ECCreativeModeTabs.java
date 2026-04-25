@@ -140,7 +140,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECBlocks.WHITE_ROCK_STAIRS.get());
                 o.accept(ECBlocks.WHITE_ROCK_WALL.get());
                 o.accept(ECBlocks.WHITE_ROCK_FENCE.get());
-                o.accept(ECBlocks.WHITE_ROCK_BRICK.get());
+                o.accept(ECBlocks.WHITE_ROCK_BRICKS.get());
                 o.accept(ECBlocks.WHITE_ROCK_BRICK_SLAB.get());
                 o.accept(ECBlocks.WHITE_ROCK_BRICK_STAIRS.get());
                 o.accept(ECBlocks.WHITE_ROCK_BRICK_WALL.get());

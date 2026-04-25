@@ -204,7 +204,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.WHITE_ROCK_STAIRS, "Escaliers de roche blanche");
         addBlock(ECBlocks.WHITE_ROCK_WALL, "Mur de roche blanche");
         addBlock(ECBlocks.WHITE_ROCK_FENCE, "Clôture de roche blanche");
-        addBlock(ECBlocks.WHITE_ROCK_BRICK, "Brique de roche blanche");
+        addBlock(ECBlocks.WHITE_ROCK_BRICKS, "Brique de roche blanche");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_SLAB, "Dalle de brique de roche blanche");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_STAIRS, "Escaliers de brique de roche blanche");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_WALL, "Mur de brique de roche blanche");

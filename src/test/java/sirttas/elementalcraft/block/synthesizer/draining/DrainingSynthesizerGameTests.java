@@ -1,15 +1,14 @@
 package sirttas.elementalcraft.block.synthesizer.draining;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -40,7 +39,7 @@ public class DrainingSynthesizerGameTests {
 
             helper.startSequence().thenExecuteAfter(1, () -> {
                 helper.useBlock(new BlockPos(0, 2, 0), player);
-            }).thenIdle(1).thenExecuteFor(20, ECGameTestUtils.fixAssertions(() -> {
+            }).thenIdle(1).thenExecuteFor(20, () -> {
                 var t = ticks.incrementAndGet();
 
                 helper.useBlock(new BlockPos(0, 2, 0), player);
@@ -50,8 +49,8 @@ public class DrainingSynthesizerGameTests {
                         .isEqualTo(t * 5);
                 assertThat(player.getFoodData().getExhaustionLevel())
                         .isPositive();
-            })).thenExecute(player::discard)
-                    .thenSucceed();
+            }).thenExecute(player::discard)
+            .thenSucceed();
         });
     }
 

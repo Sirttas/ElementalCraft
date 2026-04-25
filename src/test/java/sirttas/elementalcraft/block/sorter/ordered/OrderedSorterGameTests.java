@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.sorter.ordered;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,9 +11,9 @@ import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -48,15 +47,15 @@ public class OrderedSorterGameTests {
             helper.startSequence()
                     .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
                     .thenIdle(1)
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
-                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(1))))
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(1)))
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
-                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(2))))
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(2)))
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
-                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(3))))
+                            .satisfies(0, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(3)))
                     .thenSucceed();
         });
     }
@@ -79,17 +78,17 @@ public class OrderedSorterGameTests {
             helper.startSequence()
                     .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
                     .thenIdle(1)
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
-                            .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(1))))
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                            .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(1)))
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
                             .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(1))
-                            .satisfies(1, s -> assertThat(s).is(Items.COAL_BLOCK).hasCount(1))))
-                    .thenExecuteAfter(10, ECGameTestUtils.fixAssertions(() -> assertThat(targetChest)
+                            .satisfies(1, s -> assertThat(s).is(Items.COAL_BLOCK).hasCount(1)))
+                    .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
                             .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(2))
-                            .satisfies(1, s -> assertThat(s).is(Items.COAL_BLOCK).hasCount(1))))
+                            .satisfies(1, s -> assertThat(s).is(Items.COAL_BLOCK).hasCount(1)))
                     .thenSucceed();
         });
     }
@@ -112,14 +111,13 @@ public class OrderedSorterGameTests {
 
             helper.startSequence()
                     .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
-                    .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                    .thenExecuteAfter(1, () -> {
                         assertThat(targetChest).isNotEmpty()
                                 .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(64))
                                 .satisfies(1, s -> assertThat(s).is(Blocks.COAL_BLOCK).hasCount(64))
                                 .satisfies(2, s -> assertThat(s).is(Blocks.DIAMOND_BLOCK).hasCount(64));
                         assertThat(sourceChest).isEmpty();
-                    }))
-                    .thenSucceed();
+                    }).thenSucceed();
         });
     }
 
@@ -129,7 +127,7 @@ public class OrderedSorterGameTests {
 
     private static StructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks, List<ResourceKey<Rune>> runes) {
         return StructureTemplateBuilder.withSize(2, 2, 3)
-                .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICK.get())
+                .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICKS.get())
                 .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
                 .set(0, 1, 1, Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACING, Direction.EAST).setValue(LeverBlock.POWERED, true).setValue(LeverBlock.FACE, AttachFace.FLOOR))
                 .set(1, 1, 0, Blocks.CHEST.defaultBlockState(), StructureTemplateHelper.withContainerContent(sourceStacks.toArray(ItemStack[]::new)))

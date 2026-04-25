@@ -1,11 +1,12 @@
 package sirttas.elementalcraft.block.shrine.grove;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class GroveShrineGameTests {
     public static void should_generateFlowers(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size()))
-                .thenExecuteAfter(1, () -> POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(BlockTags.FLOWERS), () -> "Flower has not been generated")))
+                .thenExecuteAfter(1, () -> POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(BlockTags.FLOWERS), _ -> Component.literal("Flower has not been generated"))))
                 .thenSucceed();
     }
 

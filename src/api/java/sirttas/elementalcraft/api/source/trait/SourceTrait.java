@@ -147,8 +147,14 @@ public class SourceTrait {
 	
 	@Nullable
 	public ISourceTraitValue roll(ServerLevelAccessor level, BlockPos pos, float luck) {
-		return valueProvider.roll(new SourceTraitRollContext(this, level.getRandom(), luck), level.getLevel(), pos);
+		return roll(level, level.getRandom(), pos, luck);
 	}
+
+	@Nullable
+	public ISourceTraitValue roll(ServerLevelAccessor level, RandomSource random, BlockPos pos, float luck) {
+		return valueProvider.roll(new SourceTraitRollContext(this, random, luck), level.getLevel(), pos);
+	}
+
 
 	@Nullable
 	public ISourceTraitValue breed(RandomSource random, float luck, ISourceTraitValue value1, ISourceTraitValue value2) {

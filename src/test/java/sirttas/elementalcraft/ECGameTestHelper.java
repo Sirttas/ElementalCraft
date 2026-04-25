@@ -5,10 +5,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestInfo;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,6 +24,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
+import net.neoforged.testframework.gametest.ExtendedSequence;
+import org.jspecify.annotations.NonNull;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -54,11 +57,11 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         super(info);
     }
 
-    public InteractionResultHolder<ItemStack> useItem(Player player) {
+    public InteractionResult useItem(Player player) {
         return useItem(player, InteractionHand.MAIN_HAND);
     }
 
-    public InteractionResultHolder<ItemStack> useItem(Player player, InteractionHand hand) {
+    public InteractionResult useItem(Player player, InteractionHand hand) {
         var level = player.level();
         var stack = player.getItemInHand(hand);
 
@@ -94,7 +97,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     public Player mockPlayerWithItem(Vec3 pos, ItemStack itemStack) {
         var player = makeMockPlayer();
 
-        player.moveTo(absoluteVec(pos));
+        moveEntityTo(player, pos);
         player.setItemInHand(InteractionHand.MAIN_HAND, itemStack);
         return player;
     }
@@ -116,12 +119,13 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     public Player mockPlayerWithJewel(Vec3 pos, Supplier<? extends Jewel> jewel) {
         var player = makeMockPlayer(GameType.SURVIVAL);
 
-        player.moveTo(absoluteVec(pos));
+        moveEntityTo(player, pos);
         player.setItemSlot(EquipmentSlot.HEAD, createWithJewel(Items.LEATHER_HELMET, jewel));
         player.addItem(createFullPureHolder());
         getLevel().addFreshEntity(player);
         return player;
     }
+
 
     public Player mockPlayerWithSpell(Vec3 pos, Holder<Spell> spell) {
 
@@ -155,7 +159,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
             receptacle.set(ECDataComponents.ELEMENT_AMOUNT, elementAmount);
         }
 
-        player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
+        moveEntityToOrigin(player);
         player.setItemInHand(InteractionHand.MAIN_HAND, receptacle);
         return player;
     }
@@ -164,10 +168,21 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     public Player mockCoverFramePlayer() {
         var player = makeMockPlayer();
 
-        player.moveTo(Vec3.atLowerCornerOf(this.testInfo.getStructureBlockPos()));
+        moveEntityToOrigin(player);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ECItems.COVER_FRAME));
         return player;
     }
+
+    public void moveEntityToOrigin(Entity entity) {
+        moveEntityTo(entity, Vec3.ZERO);
+    }
+
+    public void moveEntityTo(Entity entity, Vec3 pos) {
+        var abs = absoluteVec(pos);
+
+        entity.snapTo(abs.x, abs.y, abs.z);
+    }
+
 
     public IElementStorage getElementStorage(BlockPos pos) {
         return getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
@@ -181,7 +196,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         var container = getElementContainer(pos);
 
         if (container == null) {
-            throw new GameTestAssertException("Expected ElementContainer at " + pos);
+            throw new GameTestAssertException(Component.literal("Expected ElementContainer at " + pos), (int) getTick());
         }
         return container;
     }
@@ -211,10 +226,10 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(BlockPos pos, List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
-        T instrument = this.getBlockEntity(pos);
+        T instrument = (T) this.getBlockEntity(pos, AbstractInstrumentBlockEntity.class); // TODO: pass the class as method param
         var container = this.requireElementContainer(pos.below());
 
-        this.startSequence().thenExecute(ECGameTestUtils.fixAssertions(() -> {
+        this.startSequence().thenExecute(() -> {
                     var inv = instrument.getInventory();
 
                     for (int i = 0; i < inputs.size(); i++) {
@@ -225,7 +240,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
                     assertThat(instrument.isRecipeAvailable())
                             .withFailMessage(() -> recipeAvailable ? "Recipe is not available but it should be" : "Recipe is available but it should not be")
                             .isEqualTo(recipeAvailable);
-                })).thenExecuteAfter(2, ECGameTestUtils.fixAssertions(() -> consumer.accept(instrument)))
+                }).thenExecuteAfter(2, () -> consumer.accept(instrument))
                 .thenSucceed();
     }
 
@@ -235,7 +250,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
 
     public void assertRuneIs(Holder<Rune> rune, Identifier name) {
         if (!rune.is(IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, name))) {
-            throw new GameTestAssertException("Expected rune " + name + " but got " + rune);
+            throw new GameTestAssertException(Component.literal("Expected rune " + name + " but got " + rune), (int) getTick());
         }
     }
 
@@ -247,7 +262,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         var rune = RuneItem.getRune(stack);
 
         if (rune == null) {
-            throw new GameTestAssertException("Expected rune " + name + " but got " + stack);
+            throw new GameTestAssertException(Component.literal("Expected rune " + name + " but got " + stack), (int) getTick());
         }
         assertRuneIs(rune, name);
     }
@@ -285,4 +300,56 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         getLevel().gameEvent(event, absoluteVec(pos), GameEvent.Context.of(null, null));
     }
 
+    @Override
+    public @NonNull ExtendedSequence startSequence() {
+        return new ECGameTestSequence();
+    }
+
+    public class ECGameTestSequence extends ExtendedSequence {
+
+        private ECGameTestSequence() {
+            super(ECGameTestHelper.this);
+        }
+
+        private Runnable fixAssertions(Runnable function) {
+            return () -> {
+                try {
+                    function.run();
+                } catch (AssertionError e) {
+                    ECGameTestUtils.logAssertionError(e);
+                    throw new GameTestAssertException(Component.literal(e.getMessage()), (int) ECGameTestHelper.this.getTick());
+                }
+            };
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenWaitUntil(@NonNull Runnable assertion) {
+            return (ECGameTestSequence) super.thenWaitUntil(fixAssertions(assertion));
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenWaitUntil(long expectedDelay, @NonNull Runnable assertion) {
+            return (ECGameTestSequence) super.thenWaitUntil(expectedDelay, fixAssertions(assertion));
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenIdle(int delta) {
+            return (ECGameTestSequence) super.thenIdle(delta);
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenExecute(@NonNull Runnable assertion) {
+            return (ECGameTestSequence) super.thenExecute(fixAssertions(assertion));
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenExecuteAfter(int delta, @NonNull Runnable after) {
+            return (ECGameTestSequence) super.thenExecuteAfter(delta, fixAssertions(after));
+        }
+
+        @Override
+        public @NonNull ECGameTestSequence thenExecuteFor(int delta, @NonNull Runnable check) {
+            return (ECGameTestSequence) super.thenExecuteFor(delta, fixAssertions(check));
+        }
+    }
 }

@@ -28,18 +28,18 @@ public class SourceAnalysisGlassGameTests {
 
         player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(ECItems.SOURCE_ANALYSIS_GLASS));
 
-        helper.startSequence().thenExecute(ECGameTestUtils.fixAssertions(() -> {
+        helper.startSequence().thenExecute(() -> {
                     var result = helper.useItem(player, InteractionHand.OFF_HAND);
 
                     assertThat(result.getResult()).isEqualTo(InteractionResult.SUCCESS);
-                }))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                })
+                .thenExecuteAfter(1, () -> {
                     var receptacle = player.getItemInHand(InteractionHand.MAIN_HAND);
 
                     assertThat(receptacle).hasDataComponentSatisfying(ECDataComponents.SOURCE_ANALYZED, analyzed -> assertThat(analyzed)
                             .as("Source receptacle should be analyzed")
                             .isTrue());
-                }))
+                })
                 .thenExecuteAfter(1, player::discard)
                 .thenSucceed();
     }

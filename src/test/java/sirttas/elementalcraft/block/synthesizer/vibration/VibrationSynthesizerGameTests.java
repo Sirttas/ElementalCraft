@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.synthesizer.vibration;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
@@ -13,6 +12,7 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
@@ -33,7 +33,7 @@ public class VibrationSynthesizerGameTests {
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(21, 3, 21,
-            builder -> builder.fill(0, 0, 0, 20, 0, 20, ECBlocks.WHITE_ROCK_BRICK.get())
+            builder -> builder.fill(0, 0, 0, 20, 0, 20, ECBlocks.WHITE_ROCK_BRICKS.get())
                     .set(10, 1, 10, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(10, 2, 10, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
 
@@ -48,12 +48,12 @@ public class VibrationSynthesizerGameTests {
                         helper.spawn(EntityType.CHICKEN, new BlockPos(9, 3, 9));
                     }
                 })
-                .thenExecuteAfter(100, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(100, () -> {
                     assertThat(storage.getElementType())
                             .isEqualTo(ElementType.AIR);
                     assertThat(storage.getElementAmount())
                             .isGreaterThan(100);
-                }))
+                })
                 .thenExecute(() -> helper.getEntities(EntityType.CHICKEN).forEach(Entity::discard))
                 .thenSucceed();
     }
@@ -79,12 +79,12 @@ public class VibrationSynthesizerGameTests {
                     .thenExecuteAfter(30, () -> {
                         helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, () -> "Vibration synthesizer should be in cooldown after 30 ticks");
                     })
-                    .thenExecuteAfter(70, ECGameTestUtils.fixAssertions(() -> {
+                    .thenExecuteAfter(70, () -> {
                         assertThat(storage.getElementType())
                                 .isEqualTo(ElementType.AIR);
                         assertThat(storage.getElementAmount())
                                 .isEqualTo(200);
-                    }))
+                    })
                     .thenSucceed();
         });
     }
@@ -118,7 +118,7 @@ public class VibrationSynthesizerGameTests {
                     .thenExecuteAfter(10, () -> {
                         helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
                     })
-                    .thenExecuteAfter(60, ECGameTestUtils.fixAssertions(() -> {
+                    .thenExecuteAfter(60, () -> {
                         assertThat(storage1.getElementType())
                                 .isEqualTo(ElementType.AIR);
                         assertThat(storage1.getElementAmount())
@@ -127,7 +127,7 @@ public class VibrationSynthesizerGameTests {
                                 .isEqualTo(ElementType.AIR);
                         assertThat(storage2.getElementAmount())
                                 .isEqualTo(200);
-                    }))
+                    })
                     .thenSucceed();
         });
     }

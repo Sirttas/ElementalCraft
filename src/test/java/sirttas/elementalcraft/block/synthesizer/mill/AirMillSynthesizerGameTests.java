@@ -1,15 +1,14 @@
 package sirttas.elementalcraft.block.synthesizer.mill;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -38,7 +37,7 @@ public class AirMillSynthesizerGameTests {
         AirMillSynthesizerBlockEntity synthesizer = helper.getBlockEntity(new BlockPos(0, 2, 0));
         var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
-        helper.startSequence().thenIdle(1).thenExecuteFor(20, ECGameTestUtils.fixAssertions(() -> {
+        helper.startSequence().thenIdle(1).thenExecuteFor(20, () -> {
             var t = ticks.incrementAndGet();
 
             assertThat(synthesizer.getDamage())
@@ -47,7 +46,7 @@ public class AirMillSynthesizerGameTests {
                     .isEqualTo(ElementType.AIR);
             assertThat(storage.getElementAmount())
                     .isEqualTo(t * 25);
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
 }

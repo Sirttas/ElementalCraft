@@ -1,13 +1,12 @@
 package sirttas.elementalcraft.jewel.attack;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.jewel.Jewels;
 
@@ -28,13 +27,13 @@ public class KirinJewelGameTests {
 
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.attack(target);
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             assertThat(target.isAlive())
                     .describedAs("Enderman should be alive")
                     .isTrue();
             assertThat(target.getHealth()).isCloseTo(33, within(1.9F));
             helper.assertElementUsed(player, ElementType.FIRE);
-        })).thenExecute(() -> {
+        }).thenExecute(() -> {
             target.discard();
             player.discard();
         }).thenSucceed();
@@ -49,13 +48,13 @@ public class KirinJewelGameTests {
 
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.attack(target);
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             assertThat(target.isAlive())
                     .describedAs("Zombie should be alive")
                     .isTrue();
             assertThat(target.getHealth()).isCloseTo(8, within(1.9F));
             helper.assertElementUsed(player, ElementType.FIRE);
-        })).thenExecute(() -> {
+        }).thenExecute(() -> {
             target.discard();
             player.discard();
         }).thenSucceed();

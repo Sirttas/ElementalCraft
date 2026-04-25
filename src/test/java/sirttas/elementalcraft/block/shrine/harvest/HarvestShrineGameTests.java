@@ -1,12 +1,13 @@
 package sirttas.elementalcraft.block.shrine.harvest;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class HarvestShrineGameTests {
         helper.startSequence().thenExecute(() -> {
             ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 4, 3), POSES.size());
         }).thenExecuteAfter(1, () -> {
-            POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), () -> "Block has not been harvested"));
+            POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), _ -> Component.literal("Block has not been harvested")));
             helper.assertItemEntityCountIs(Items.WHEAT, new BlockPos(3, 2, 3), 3, POSES.size());
         }).thenSucceed();
     }

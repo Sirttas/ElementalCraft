@@ -1,13 +1,12 @@
 package sirttas.elementalcraft.block.shrine.sweet;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,16 +23,16 @@ public class SweetShrineGameTests {
 
         helper.getLevel().addFreshEntity(player);
         helper.startSequence().thenExecute(() -> {
-            player.moveTo(helper.absoluteVec(new Vec3(0.5, 0.5, 1.5)));
+            helper.moveEntityTo(player, new Vec3(0.5, 0.5, 1.5));
             player.getFoodData().setFoodLevel(5);
             player.getFoodData().setSaturation(0);
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
-        }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+        }).thenExecuteAfter(1, () -> {
             assertThat(player.getFoodData().getFoodLevel()).isEqualTo(6);
             assertThat(player.getFoodData().getSaturationLevel()).isEqualTo(0.2F);
             player.discard();
-        })).thenSucceed();
+        }).thenSucceed();
     }
 
 }

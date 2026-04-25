@@ -36,6 +36,6 @@ public class ShrineGameTestHelper {
 
     @Nonnull
     public static AbstractShrineBlockEntity getShrine(GameTestHelper helper, BlockPos pos) {
-        return helper.getBlockEntity(pos);
+        return helper.getBlockEntity(pos, AbstractShrineBlockEntity.class);
     }
 }

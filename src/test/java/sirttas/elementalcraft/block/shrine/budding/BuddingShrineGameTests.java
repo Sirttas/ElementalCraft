@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.shrine.budding;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -10,6 +9,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -40,9 +40,9 @@ public class BuddingShrineGameTests {
     @GameTest(template = BUDDING_SHRINE_TEMPLATE_NAME)
     public static void should_growAmethyst(GameTestHelper helper) {
         helper.startSequence().thenExecuteAfter(1, () -> {
-            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0));
+            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
 
-            assertThat(shrine.getBudType().requiredUpgrade()).isNull();
+            assertThat(shrine.getBudType().value().requiredUpgrade()).isNull();
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
 
@@ -66,9 +66,9 @@ public class BuddingShrineGameTests {
     @GameTest(template = BUDDING_SHRINE_WITH_SPRINGALINE_UPGRADE_TEMPLATE_NAME)
     public static void should_growSpringalineWhenUpgradedWithSpringalineShrineUpgrade(GameTestHelper helper) {
         helper.startSequence().thenExecuteAfter(1, () -> {
-            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0));
+            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
 
-            assertThat(shrine.getBudType().requiredUpgrade().getKey()).isEqualTo(ShrineUpgrades.SPRINGALINE);
+            assertThat(shrine.getBudType().value().requiredUpgrade().getKey()).isEqualTo(ShrineUpgrades.SPRINGALINE);
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
 

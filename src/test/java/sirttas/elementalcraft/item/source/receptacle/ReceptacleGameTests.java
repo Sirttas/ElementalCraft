@@ -72,7 +72,7 @@ public class ReceptacleGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(1, () -> {
                     helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), pos);
                     assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).hasSize(1)
                             .allSatisfy(item -> assertThat(item.getItem())
@@ -82,7 +82,7 @@ public class ReceptacleGameTests {
                                     .hasDataComponentSatisfying(ECDataComponents.SOURCE_TRAITS_HOLDER, h -> assertThat(h.getTraits()).isNotEmpty())
                                     .satisfies(s -> assertThat(s.getItem()).asInstanceOf(RECEPTACLE_ITEM)
                                             .satisfies(i -> assertThat(i.getElementType()).isEqualTo(elementType))));
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
@@ -93,7 +93,7 @@ public class ReceptacleGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(1, () -> {
                     helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), pos);
                     assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).hasSize(2)
                             .anySatisfy(item -> assertThat(item.getItem())
@@ -106,7 +106,7 @@ public class ReceptacleGameTests {
                                     .hasDataComponentSatisfying(ECDataComponents.SOURCE_TRAITS_HOLDER, h -> assertThat(h.getTraits()).isNotEmpty())
                                     .satisfies(s -> assertThat(s.getItem()).asInstanceOf(RECEPTACLE_ITEM)
                                             .satisfies(i -> assertThat(i.getElementType()).isEqualTo(elementType))));
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
@@ -117,7 +117,7 @@ public class ReceptacleGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(1, () -> {
                     helper.assertBlockPresent(SourceBlock.findSourceBlock(elementType), pos);
 
                     var storage = helper.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
@@ -129,7 +129,7 @@ public class ReceptacleGameTests {
                             .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY);
                     assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).isEmpty();
                     assertThat(player.getItemInHand(InteractionHand.MAIN_HAND)).isEmpty();
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
@@ -140,7 +140,7 @@ public class ReceptacleGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.useItemOn(player, pos))
-                .thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                .thenExecuteAfter(1, () -> {
                     helper.assertBlockPresent(SourceBlock.findSourceBlock(elementType), pos);
 
                     var storage = helper.getCapability(ElementalCraftCapabilities.ElementStorages.BLOCK, pos, null);
@@ -152,7 +152,7 @@ public class ReceptacleGameTests {
                             .isEqualTo(SourceElementStorage.DEFAULT_CAPACITY);
                     assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).isEmpty();
                     assertThat(player.getItemInHand(InteractionHand.MAIN_HAND)).isEmpty();
-                }))
+                })
                 .thenExecute(player::discard)
                 .thenSucceed();
     }

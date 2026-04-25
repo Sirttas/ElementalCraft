@@ -1,15 +1,14 @@
 package sirttas.elementalcraft.block.synthesizer.culinary;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -36,7 +35,7 @@ public class CulinarySynthesizerGameTests {
 
             helper.startSequence().thenExecute(() -> {
                 inv.setItem(0, new ItemStack(Items.COOKED_BEEF));
-            }).thenIdle(1).thenExecuteFor(20, ECGameTestUtils.fixAssertions(() -> {
+            }).thenIdle(1).thenExecuteFor(20, () -> {
                 var t = ticks.incrementAndGet();
 
                 assertThat(inv.getItem(0)).isEmpty();
@@ -44,7 +43,7 @@ public class CulinarySynthesizerGameTests {
                         .isEqualTo(ElementType.WATER);
                 assertThat(storage.getElementAmount())
                         .isEqualTo(t * 25);
-            })).thenSucceed();
+            }).thenSucceed();
         });
     }
 

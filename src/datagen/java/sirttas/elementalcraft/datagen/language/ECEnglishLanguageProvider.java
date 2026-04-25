@@ -204,7 +204,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.WHITE_ROCK_STAIRS, "White Rock Stairs");
         addBlock(ECBlocks.WHITE_ROCK_WALL, "White Rock Wall");
         addBlock(ECBlocks.WHITE_ROCK_FENCE, "White Rock Fence");
-        addBlock(ECBlocks.WHITE_ROCK_BRICK, "White Rock Brick");
+        addBlock(ECBlocks.WHITE_ROCK_BRICKS, "White Rock Brick");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_SLAB, "White Rock Brick Slab");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_STAIRS, "White Rock Brick Stairs");
         addBlock(ECBlocks.WHITE_ROCK_BRICK_WALL, "White Rock Brick Wall");

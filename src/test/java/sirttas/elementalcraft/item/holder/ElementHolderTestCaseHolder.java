@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.item.holder;
 
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,14 +45,14 @@ public record ElementHolderTestCaseHolder(
         return ECGameTestUtils.createTest(GROUP, name, description, template, h -> function.accept(h, this));
     }
 
-    public Player mockPlayer(GameTestHelper helper) {
+    public Player mockPlayer(ECGameTestHelper helper) {
         return mockPlayer(helper, Vec3.ZERO);
     }
 
-    public Player mockPlayer(GameTestHelper helper, Vec3 pos) {
+    public Player mockPlayer(ECGameTestHelper helper, Vec3 pos) {
     	var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
-        player.moveTo(helper.absoluteVec(pos));
+        helper.moveEntityTo(player, pos);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item.get()));
         helper.getLevel().addFreshEntity(player);
         return player;

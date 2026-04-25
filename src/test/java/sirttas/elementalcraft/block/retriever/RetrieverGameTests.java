@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.block.retriever;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -24,7 +24,7 @@ public class RetrieverGameTests {
     @GameTest(template = INFUSER_TEMPLATE)
     @TestHolder
     public static void should_extractFromInfuser(ECGameTestHelper helper) {
-        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0));
+        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0), InfuserBlockEntity.class);
         var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
 
         helper.startSequence().thenExecute(() -> {
@@ -40,7 +40,7 @@ public class RetrieverGameTests {
     @GameTest(template = INFUSER_TEMPLATE)
     @TestHolder
     public static void should_extractFromInfuser_with_activeRetriever(ECGameTestHelper helper) {
-        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0));
+        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0), InfuserBlockEntity.class);
         var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
 
         helper.startSequence().thenExecute(() -> {
@@ -55,7 +55,7 @@ public class RetrieverGameTests {
     @GameTest(template = BINDER_TEMPLATE)
     @TestHolder
     public static void should_extractFromBinder(ECGameTestHelper helper) {
-        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0));
+        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0), BinderBlockEntity.class);
         var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
 
         helper.startSequence().thenExecute(() -> {
@@ -77,7 +77,7 @@ public class RetrieverGameTests {
     @GameTest(template = BINDER_TEMPLATE)
     @TestHolder
     public static void should_extractOutputAndRemainingFromBinder(ECGameTestHelper helper) {
-        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0));
+        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0), BinderBlockEntity.class);
         var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
 
         helper.startSequence().thenExecute(() -> {

@@ -1,16 +1,14 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -30,7 +28,7 @@ public class SourceBreederGameTests {
 
 
     @TestHolder(description = "Checks if the source breeder can breed sources.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "sourcebreedergametests.source_breeder")
+    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
     public static void should_breedSource(ECGameTestHelper helper) {
         var breeder = (SourceBreederBlockEntity) helper.getBlockEntity(new BlockPos(0, 1, 2));
 
@@ -45,7 +43,7 @@ public class SourceBreederGameTests {
 
         helper.startSequence().thenExecute(() -> {
                     breederItemHandler.insertItem(0, new ItemStack(ECItems.AIR_SOURCE_SEED), false);
-                }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1, () -> {
                     assertThat(breeder).isNotNull().satisfies(b -> {
                         assertThat(b.getElementType()).isEqualTo(type);
                         assertThat(b.getPedestalsDirections()).hasSize(2);
@@ -54,16 +52,15 @@ public class SourceBreederGameTests {
                     pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
                     pedestal1ElementStorage.fill();
                     pedestal2ElementStorage.fill();
-                })).thenExecuteFor(10, () -> {
+                }).thenExecuteFor(10, () -> {
                     pedestal1ElementStorage.fill();
                     pedestal2ElementStorage.fill();
 
                     assertThat(breederItemHandler).isNotEmpty();
-                }).thenExecuteAfter(1, ECGameTestUtils.fixAssertions(() -> {
+                }).thenExecuteAfter(1, () -> {
                     assertHasValidReceptacle(breederItemHandler, type);
                     assertHasValidReceptacle(pedestal1ItemHandler, type);
-                    assertHasValidReceptacle(pedestal2ItemHandler, type);
-                }))
+                    assertHasValidReceptacle(pedestal2ItemHandler, type);})
                 .thenSucceed();
     }
 
@@ -88,7 +85,7 @@ public class SourceBreederGameTests {
     }
 
     @TestHolder(description = "Checks if the source breeder drops a source breeder and a rune.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "sourcebreedergametests.source_breeder")
+    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
     public static void should_dropOneSourceBreederAndRune(ECGameTestHelper helper) {
         var pos = new BlockPos(0, 1, 2);
 

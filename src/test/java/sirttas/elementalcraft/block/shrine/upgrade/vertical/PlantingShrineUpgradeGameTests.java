@@ -25,7 +25,7 @@ public class PlantingShrineUpgradeGameTests {
 
     // elementalcraft:plantingshrineupgradegametests.should_plantwheat
     @TestHolder(description = "Checks if the planting shrine upgrade plants wheat when used with a harvest shrine.")
-    @GameTest(templateNamespace = ElementalCraftApi.MODID, template = "plantingshrineupgradegametests.should_plantwheat")
+    @GameTest(template = "elementalcraft:plantingshrineupgradegametests.should_plantwheat")
     public static void should_plantWheat(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(3, 3, 3), Direction.UP);
@@ -41,7 +41,7 @@ public class PlantingShrineUpgradeGameTests {
     @GameTest
     public static void should_plantSaplings(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(11, 5, 11)
-                .fill(0, 0, 0, 10, 0, 10, ECBlocks.WHITE_ROCK_BRICK.get())
+                .fill(0, 0, 0, 10, 0, 10, ECBlocks.WHITE_ROCK_BRICKS.get())
                 .fill(1, 0, 1, 9, 0, 9, Blocks.DIRT)
                 .fill(1, 1, 1, 9, 1, 9, Blocks.OAK_LOG)
                 .fill(1, 2, 1, 9, 4, 9, Blocks.OAK_LEAVES)

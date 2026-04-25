@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.support.AnnotationConsumer;
+import org.junit.jupiter.params.support.ParameterDeclarations;
 import sirttas.elementalcraft.test.annotation.RegistrySource;
 
 import java.util.Arrays;
@@ -28,9 +29,9 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
     }
 
     @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-        return EphemeralTestServerProvider.grabServer().registryAccess().registry(key).stream()
-                .flatMap(registry -> registry.entrySet().stream())
+    public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
+        return EphemeralTestServerProvider.grabServer().registryAccess().get(key).stream()
+                .flatMap(registry -> registry.value().entrySet().stream())
                 .filter(entry -> excludeKeys.stream().noneMatch(excludeKeys -> excludeKeys.equals(entry.getKey())))
                 .map(entry -> Arguments.of(Named.of(entry.getKey().identifier().toString(), entry.getValue())));
     }

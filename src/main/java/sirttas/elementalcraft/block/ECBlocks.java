@@ -211,10 +211,10 @@ public class ECBlocks {
 	public static final DeferredHolder<@NotNull Block, @NotNull WallBlock> WHITE_ROCK_WALL = registerWall(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 
 	public static final DeferredHolder<@NotNull Block, @NotNull FenceBlock> WHITE_ROCK_FENCE = registerFence(WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
-	public static final DeferredHolder<@NotNull Block, @NotNull Block> WHITE_ROCK_BRICK = registerSimple("whiterock_brick", ECProperties.Blocks.WHITEROCK);
-	public static final DeferredHolder<@NotNull Block, @NotNull SlabBlock> WHITE_ROCK_BRICK_SLAB = registerSlab(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
-	public static final DeferredHolder<@NotNull Block, @NotNull StairBlock> WHITE_ROCK_BRICK_STAIRS = registerStairs(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
-	public static final DeferredHolder<@NotNull Block, @NotNull WallBlock> WHITE_ROCK_BRICK_WALL = registerWall(WHITE_ROCK_BRICK, ECProperties.Blocks.WHITEROCK);
+	public static final DeferredHolder<@NotNull Block, @NotNull Block> WHITE_ROCK_BRICKS = registerSimple("whiterock_brick", ECProperties.Blocks.WHITEROCK);
+	public static final DeferredHolder<@NotNull Block, @NotNull SlabBlock> WHITE_ROCK_BRICK_SLAB = registerSlab(WHITE_ROCK_BRICKS, ECProperties.Blocks.WHITEROCK);
+	public static final DeferredHolder<@NotNull Block, @NotNull StairBlock> WHITE_ROCK_BRICK_STAIRS = registerStairs(WHITE_ROCK_BRICKS, ECProperties.Blocks.WHITEROCK);
+	public static final DeferredHolder<@NotNull Block, @NotNull WallBlock> WHITE_ROCK_BRICK_WALL = registerWall(WHITE_ROCK_BRICKS, ECProperties.Blocks.WHITEROCK);
 	public static final DeferredHolder<@NotNull Block, @NotNull Block> MOSSY_WHITE_ROCK = registerSimple("whiterock_mossy", ECProperties.Blocks.WHITEROCK);
 	public static final DeferredHolder<@NotNull Block, @NotNull SlabBlock> MOSSY_WHITE_ROCK_SLAB = registerSlab(MOSSY_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
 	public static final DeferredHolder<@NotNull Block, @NotNull StairBlock> MOSSY_WHITE_ROCK_STAIRS = registerStairs(MOSSY_WHITE_ROCK, ECProperties.Blocks.WHITEROCK);
