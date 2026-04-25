@@ -5,16 +5,18 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.data.tags.VanillaItemTagsProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -37,43 +39,27 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	public static final String POWAH = "powah";
 	public static final String BLUE_SKIES = "blue_skies";
 
-	public ECItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, CompletableFuture<TagsProvider.TagLookup<@NotNull Block>> blockTags) {
-		super(output, registries, blockTags, ElementalCraftApi.MODID);
+	public ECItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+		super(output, registries, ElementalCraftApi.MODID);
 	}
 
 	@Override
 	protected void addTags(@Nonnull HolderLookup.Provider provider) {
-		copy(ECTags.Blocks.STRIPPED_DARK_OAK, ECTags.Items.STRIPPED_DARK_OAK);
-		copy(ECTags.Blocks.STRIPPED_BIRCH, ECTags.Items.STRIPPED_BIRCH);
-		copy(ECTags.Blocks.STRIPPED_ACACIA, ECTags.Items.STRIPPED_ACACIA);
-		copy(ECTags.Blocks.STRIPPED_JUNGLE, ECTags.Items.STRIPPED_JUNGLE);
-		copy(ECTags.Blocks.STRIPPED_SPRUCE, ECTags.Items.STRIPPED_SPRUCE);
-		copy(ECTags.Blocks.STRIPPED_MANGROVE, ECTags.Items.STRIPPED_MANGROVE);
-		copy(ECTags.Blocks.STRIPPED_CRIMSON, ECTags.Items.STRIPPED_CRIMSON);
-		copy(ECTags.Blocks.STRIPPED_WARPED, ECTags.Items.STRIPPED_WARPED);
-		copy(ECTags.Blocks.STRIPPED_CHERRY, ECTags.Items.STRIPPED_CHERRY);
-		copy(ECTags.Blocks.STRIPPED_BAMBOO, ECTags.Items.STRIPPED_BAMBOO);
+		(new ECBlockItemTagsProvider() {
+			@Override
+			protected @NonNull TagAppender<Block, Block> tag(@NonNull TagKey<Block> blockTag, @NonNull TagKey<Item> itemTag) {
+				return new VanillaItemTagsProvider.BlockToItemConverter(ECItemTagsProvider.this.tag(itemTag));
+			}
+		}).run();
 
+		// dynamic tags — content added via getBlocksForClass in ECBlockTagsProvider
 		copy(BlockTags.SLABS, ItemTags.SLABS);
 		copy(BlockTags.STAIRS, ItemTags.STAIRS);
 		copy(BlockTags.WALLS, ItemTags.WALLS);
 		copy(BlockTags.FENCES, ItemTags.FENCES);
 		copy(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES);
-		copy(ECTags.Blocks.ORES_INERT_CRYSTAL, ECTags.Items.ORES_INERT_CRYSTAL);
-		copy(Tags.Blocks.ORES, Tags.Items.ORES);
-		copy(Tags.Blocks.BUDDING_BLOCKS, Tags.Items.BUDDING_BLOCKS);
-		copy(Tags.Blocks.BUDS, Tags.Items.BUDS);
-		copy(Tags.Blocks.CLUSTERS, Tags.Items.CLUSTERS);
-
-		copy(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS);
 		copy(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
 		copy(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES);
-		copy(ECTags.Blocks.INSTRUMENTS, ECTags.Items.INSTRUMENTS);
-
-		copy(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON);
-		copy(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Items.STORAGE_BLOCKS_SWIFT_ALLOY);
-		copy(ECTags.Blocks.STORAGE_BLOCKS_FIREITE, ECTags.Items.STORAGE_BLOCKS_FIREITE);
-		copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
 
 		tag(ECTags.Items.SPELL_CAST_TOOLS).add(ECItems.FOCUS.get(), ECItems.STAFF.get());
 
@@ -105,7 +91,6 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.LENSES).add(ECItems.FIRE_LENS.get());
 
 		tag(ECTags.Items.EMPTY_RECEPTACLES).add(ECItems.EMPTY_RECEPTACLE.get());
-		copy(ECTags.Blocks.SOURCES, ECTags.Items.FULL_RECEPTACLES);
 		tag(ECTags.Items.RECEPTACLES).addTags(ECTags.Items.EMPTY_RECEPTACLES, ECTags.Items.FULL_RECEPTACLES);
 
 		tag(ECTags.Items.INGOTS_DRENCHED_IRON).add(ECItems.DRENCHED_IRON_INGOT.get());
@@ -128,8 +113,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.HARDENED_RODS).add(ECItems.HARDENED_HANDLE.get());
 		tag(Tags.Items.RODS).addTag(ECTags.Items.HARDENED_RODS);
 
-		tag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS)
-				.addTags(Tags.Items.STORAGE_BLOCKS_RAW_COPPER, Tags.Items.STORAGE_BLOCKS_RAW_IRON, Tags.Items.STORAGE_BLOCKS_RAW_GOLD)
+		getOrCreateRawBuilder(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS)
+				.addTag(Tags.Items.STORAGE_BLOCKS_RAW_COPPER.location())
+				.addTag(Tags.Items.STORAGE_BLOCKS_RAW_IRON.location())
+				.addTag(Tags.Items.STORAGE_BLOCKS_RAW_GOLD.location())
 				.addOptionalTag(common("storage_blocks/raw_silver"))
 				.addOptionalTag(common("storage_blocks/raw_lead"))
 				.addOptionalTag(common("storage_blocks/raw_tin"))

@@ -23,7 +23,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -32,9 +31,11 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -215,22 +216,22 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.SWIFT_ALLOY_INGOT.get(), ElementType.AIR)
-				.addIngredient(Tags.Items.INGOTS_GOLD)
-				.addIngredient(ECTags.Items.INGOTS_DRENCHED_IRON)
-				.addIngredient(Tags.Items.INGOTS_COPPER)
-				.addIngredient(Tags.Items.DUSTS_REDSTONE)
+				.addIngredient(tag(Tags.Items.INGOTS_GOLD))
+				.addIngredient(tag(ECTags.Items.INGOTS_DRENCHED_IRON))
+				.addIngredient(tag(Tags.Items.INGOTS_COPPER))
+				.addIngredient(tag(Tags.Items.DUSTS_REDSTONE))
 				.addIngredient(ECItems.AIR_CRYSTAL.get())
 				.withElementAmount(1250)
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIREITE_INGOT.get(), ElementType.FIRE)
-				.addIngredient(Tags.Items.INGOTS_NETHERITE)
-				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.addIngredient(tag(Tags.Items.INGOTS_NETHERITE))
+				.addIngredient(tag(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get())
 				.addIngredient(ECItems.PURE_CRYSTAL.get())
 				.withElementAmount(30000)
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECItems.HARDENED_HANDLE.get(), ElementType.EARTH)
-				.addIngredient(Tags.Items.RODS_WOODEN)
+				.addIngredient(tag(Tags.Items.RODS_WOODEN))
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECItems.AIR_SILK.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
@@ -238,7 +239,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECItems.PURE_CRYSTAL.get())
-				.setIngredient(Tags.Items.GEMS_DIAMOND)
+				.setIngredient(tag(Tags.Items.GEMS_DIAMOND))
 				.setIngredient(ElementType.WATER, ECItems.WATER_CRYSTAL.get())
 				.setIngredient(ElementType.FIRE, ECItems.FIRE_CRYSTAL.get())
 				.setIngredient(ElementType.EARTH, ECItems.EARTH_CRYSTAL.get())
@@ -256,7 +257,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private void generateSpringaline() {
 		BindingRecipeBuilder.bindingRecipe(ECItems.SPRINGALINE_SHARD.get(), ElementType.WATER)
 				.addIngredient(Items.AMETHYST_SHARD)
-				.addIngredient(Tags.Items.GEMS_QUARTZ)
+				.addIngredient(tag(Tags.Items.GEMS_QUARTZ))
 				.addIngredient(ECItems.WATER_CRYSTAL.get())
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRINGALINE_CLUSTER.get(), ElementType.WATER)
@@ -370,22 +371,22 @@ public class ECRecipeProvider extends RecipeProvider {
 		PureInfusionRecipeBuilder.pureInfusionRecipe(ECBlocks.PURE_ROCK.get())
 				.setIngredient(Items.OBSIDIAN)
 				.setIngredient(ElementType.WATER, Items.PRISMARINE)
-				.setIngredient(ElementType.FIRE, ECTags.Items.INGOTS_FIREITE)
+				.setIngredient(ElementType.FIRE, tag(ECTags.Items.INGOTS_FIREITE))
 				.setIngredient(ElementType.EARTH, ECBlocks.WHITE_ROCK.get())
 				.setIngredient(ElementType.AIR, Items.PURPUR_BLOCK)
 				.save(this.output);
 
 		BindingRecipeBuilder.bindingRecipe(ECItems.ELEMENTAL_FIREFUEL.get(), ElementType.FIRE)
 				.addIngredient(ECItems.FIRE_CRYSTAL.get())
-				.addIngredient(ItemTags.COALS)
-				.addIngredient(Tags.Items.RODS_BLAZE)
+				.addIngredient(tag(ItemTags.COALS))
+				.addIngredient(tag(Tags.Items.RODS_BLAZE))
 				.addIngredient(Items.LAVA_BUCKET)
 				.withElementAmount(20000)
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECItems.FIRE_LENS.get(), ElementType.FIRE)
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get())
 				.addIngredient(ECBlocks.SPRINGALINE_GLASS_PANE.get())
-				.addIngredient(Tags.Items.INGOTS_COPPER)
+				.addIngredient(tag(Tags.Items.INGOTS_COPPER))
 				.addIngredient(ECItems.FIRE_CRYSTAL.get())
 				.save(this.output);
 	}
@@ -586,7 +587,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.FIRE_PEDESTAL.get(), ElementType.FIRE)
 				.addIngredient(ECBlocks.INFUSER.get())
 				.addIngredient(ECItems.FINE_FIRE_GEM.get())
-				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.addIngredient(tag(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.withElementAmount(30000)
@@ -594,7 +595,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.WATER_PEDESTAL.get(), ElementType.WATER)
 				.addIngredient(ECBlocks.INFUSER.get())
 				.addIngredient(ECItems.FINE_WATER_GEM.get())
-				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.addIngredient(tag(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.withElementAmount(30000)
@@ -602,7 +603,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.EARTH_PEDESTAL.get(), ElementType.EARTH)
 				.addIngredient(ECBlocks.INFUSER.get())
 				.addIngredient(ECItems.FINE_EARTH_GEM.get())
-				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.addIngredient(tag(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.withElementAmount(30000)
@@ -610,7 +611,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.AIR_PEDESTAL.get(), ElementType.AIR)
 				.addIngredient(ECBlocks.INFUSER.get())
 				.addIngredient(ECItems.FINE_AIR_GEM.get())
-				.addIngredient(ECTags.Items.INGOTS_SWIFT_ALLOY)
+				.addIngredient(tag(ECTags.Items.INGOTS_SWIFT_ALLOY))
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.addIngredient(ECBlocks.WHITE_ROCK.get())
 				.withElementAmount(30000)
@@ -730,10 +731,10 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void generateInertCrystal() {
-		SimpleCookingRecipeBuilder.smelting(tag(ECTags.Items.ORES_INERT_CRYSTAL), RecipeCategory.MISC, ECItems.INERT_CRYSTAL.get(), 0.5F, 200)
+		SimpleCookingRecipeBuilder.smelting(tag(ECTags.Items.ORES_INERT_CRYSTAL), RecipeCategory.MISC, CookingBookCategory.BLOCKS, ECItems.INERT_CRYSTAL.get(), 0.5F, 200)
 				.unlockedBy("has_crystal_ore", has(ECTags.Items.ORES_INERT_CRYSTAL))
 				.save(this.output);
-		SimpleCookingRecipeBuilder.blasting(tag(ECTags.Items.ORES_INERT_CRYSTAL), RecipeCategory.MISC, ECItems.INERT_CRYSTAL.get(), 0.5F, 100)
+		SimpleCookingRecipeBuilder.blasting(tag(ECTags.Items.ORES_INERT_CRYSTAL), RecipeCategory.MISC, CookingBookCategory.BLOCKS, ECItems.INERT_CRYSTAL.get(), 0.5F, 100)
 				.unlockedBy("has_crystal_ore", has(ECTags.Items.ORES_INERT_CRYSTAL))
 				.save(this.output, createRecipeKey("inert_crystal_from_blasting"));
 
@@ -742,9 +743,9 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void generateNuggetIngotBlocks() {
-		createNuggetIngotBlock(ECItems.DRENCHED_IRON_NUGGET.get(), ECTags.Items.NUGGETS_DRENCHED_IRON, ECItems.DRENCHED_IRON_INGOT.get(), ECTags.Items.INGOTS_DRENCHED_IRON, ECBlocks.DRENCHED_IRON_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON, this.output);
-		createNuggetIngotBlock(ECItems.SWIFT_ALLOY_NUGGET.get(), ECTags.Items.NUGGETS_SWIFT_ALLOY, ECItems.SWIFT_ALLOY_INGOT.get(), ECTags.Items.INGOTS_SWIFT_ALLOY, ECBlocks.SWIFT_ALLOY_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_SWIFT_ALLOY, this.output);
-		createNuggetIngotBlock(ECItems.FIREITE_NUGGET.get(), ECTags.Items.NUGGETS_FIREITE, ECItems.FIREITE_INGOT.get(), ECTags.Items.INGOTS_FIREITE, ECBlocks.FIREITE_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_FIREITE, this.output);
+		createNuggetIngotBlock(ECItems.DRENCHED_IRON_NUGGET.get(), ECTags.Items.NUGGETS_DRENCHED_IRON, ECItems.DRENCHED_IRON_INGOT.get(), ECTags.Items.INGOTS_DRENCHED_IRON, ECBlocks.DRENCHED_IRON_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON);
+		createNuggetIngotBlock(ECItems.SWIFT_ALLOY_NUGGET.get(), ECTags.Items.NUGGETS_SWIFT_ALLOY, ECItems.SWIFT_ALLOY_INGOT.get(), ECTags.Items.INGOTS_SWIFT_ALLOY, ECBlocks.SWIFT_ALLOY_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_SWIFT_ALLOY);
+		createNuggetIngotBlock(ECItems.FIREITE_NUGGET.get(), ECTags.Items.NUGGETS_FIREITE, ECItems.FIREITE_INGOT.get(), ECTags.Items.INGOTS_FIREITE, ECBlocks.FIREITE_BLOCK.get(), ECTags.Items.STORAGE_BLOCKS_FIREITE);
 
 		createStorageBlock(ECItems.INERT_CRYSTAL.get(), ECBlocks.INERT_CRYSTAL_BLOCK.get());
 		createStorageBlock(ECItems.FIRE_CRYSTAL.get(), ECBlocks.FIRE_CRYSTAL_BLOCK.get());
@@ -882,14 +883,14 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.FIRE_CRYSTAL.get())
 				.addIngredient(Items.LAVA_BUCKET)
-				.addIngredient(Tags.Items.INGOTS_GOLD)
+				.addIngredient(tag(Tags.Items.INGOTS_GOLD))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.VACUUM_SHRINE.get(), ElementType.AIR)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.AIR_CRYSTAL.get())
 				.addIngredient(Items.ENDER_EYE)
 				.addIngredient(Items.HOPPER)
-				.addIngredient(Tags.Items.GEMS_DIAMOND)
+				.addIngredient(tag(Tags.Items.GEMS_DIAMOND))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.GROWTH_SHRINE.get(), ElementType.WATER)
 				.addIngredient(ECItems.SHRINE_BASE.get())
@@ -897,7 +898,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
 				.addIngredient(Items.WHEAT_SEEDS)
 				.addIngredient(Items.BONE_MEAL)
-				.addIngredient(Tags.Items.GEMS_DIAMOND)
+				.addIngredient(tag(Tags.Items.GEMS_DIAMOND))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.MELTING_SHRINE.get(), ElementType.FIRE)
 				.addIngredient(ECBlocks.FIRE_PYLON.get())
@@ -962,25 +963,25 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.EARTH_CRYSTAL.get())
 				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
-				.addIngredient(Tags.Items.CROPS)
-				.addIngredient(Tags.Items.LEATHERS)
+				.addIngredient(tag(Tags.Items.CROPS))
+				.addIngredient(tag(Tags.Items.LEATHERS))
 				.addIngredient(Items.MILK_BUCKET)
-				.addIngredient(Tags.Items.GEMS_DIAMOND)
+				.addIngredient(tag(Tags.Items.GEMS_DIAMOND))
 				.withElementAmount(5000)
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.GROVE_SHRINE.get(), ElementType.WATER)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.WATER_CRYSTAL.get())
 				.addIngredient(ECItems.CRUDE_EARTH_GEM.get())
-				.addIngredient(ItemTags.FLOWERS)
-				.addIngredient(Tags.Items.SEEDS)
-				.addIngredient(Tags.Items.CROPS)
+				.addIngredient(tag(ItemTags.FLOWERS))
+				.addIngredient(tag(Tags.Items.SEEDS))
+				.addIngredient(tag(Tags.Items.CROPS))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPRING_SHRINE.get(), ElementType.WATER)
 				.addIngredient(ECItems.SHRINE_BASE.get())
 				.addIngredient(ECItems.WATER_CRYSTAL.get())
 				.addIngredient(Items.BUCKET)
-				.addIngredient(ItemTags.FISHES)
+				.addIngredient(tag(ItemTags.FISHES))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.BUDDING_SHRINE.get(), ElementType.EARTH)
 				.addIngredient(ECItems.SHRINE_BASE.get())
@@ -988,7 +989,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
 				.addIngredient(Items.AMETHYST_BLOCK)
 				.addIngredient(ECItems.SPRINGALINE_SHARD.get())
-				.addIngredient(Tags.Items.GEMS_DIAMOND)
+				.addIngredient(tag(Tags.Items.GEMS_DIAMOND))
 				.save(this.output);
 		BindingRecipeBuilder.bindingRecipe(ECBlocks.SPAWNING_SHRINE.get(), ElementType.FIRE)
 				.addIngredient(ECItems.SHRINE_BASE.get())
@@ -1447,7 +1448,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern("ihi")
 				.pattern("si ")
 				.unlockedBy(HAS_FIREITE_INGOT, has(ECTags.Items.INGOTS_FIREITE))
-				.save(mapToStaff(this.output));
+				.save(staffOutput());
 		shaped(RecipeCategory.TOOLS, ECItems.SPELL_BOOK.get())
 				.define('c', ECItems.PURE_CRYSTAL.get())
 				.define('s', ECItems.AIR_SILK.get())
@@ -1545,72 +1546,80 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private void generateToolInfusions() {
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.LOOTING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.FIRE_ASPECT).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.SHARPNESS).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, ElementalCraftApi.createRL("attack_speed")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.FORTUNE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.EFFICIENCY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.FORTUNE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.EFFICIENCY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.FORTUNE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.EFFICIENCY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.LOOTING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.FIRE_ASPECT).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO cleaving ? */).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.EFFICIENCY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.FORTUNE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.EFFICIENCY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAME).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraftApi.createRL(FastDrawToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.MULTISHOT).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.PIERCING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.QUICK_CHARGE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LUCK_OF_THE_SEA).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LURE).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.LOYALTY).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.IMPALING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.UNBREAKING).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.RIPTIDE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.LOOTING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.FIRE_ASPECT).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.SHARPNESS).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, ElementalCraftApi.createRL("attack_speed")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.FORTUNE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.EFFICIENCY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.FORTUNE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.EFFICIENCY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.FORTUNE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.EFFICIENCY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.LOOTING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.FIRE_ASPECT).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO cleaving ? */).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.EFFICIENCY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.FORTUNE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.EFFICIENCY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAME).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraftApi.createRL(FastDrawToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.MULTISHOT).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.PIERCING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.QUICK_CHARGE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LUCK_OF_THE_SEA).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LURE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.LOYALTY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.IMPALING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.UNBREAKING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.RIPTIDE).save(this.output);
 
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.RESPIRATION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.FIRE_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROJECTILE_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.BLAST_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.FIRE_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, ElementalCraftApi.createRL(DodgeToolInfusionEffect.NAME)).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.BLAST_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.FIRE_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, ElementalCraftApi.createRL("movement_speed")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.DEPTH_STRIDER).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FIRE_PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.PROTECTION).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FEATHER_FALLING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.RESPIRATION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.FIRE_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.PROJECTILE_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.BLAST_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.FIRE_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, ElementalCraftApi.createRL(DodgeToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.BLAST_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.FIRE_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, ElementalCraftApi.createRL("movement_speed")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.DEPTH_STRIDER).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FIRE_PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.PROTECTION).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FEATHER_FALLING).save(this.output);
 
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("fire_reduction")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("water_reduction")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("earth_reduction")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("air_reduction")).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("fire_staff")).withElementAmount(5000).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("water_staff")).withElementAmount(5000).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("earth_staff")).withElementAmount(5000).save(this.output);
-		ToolInfusionRecipeBuilder.toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("air_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("fire_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("water_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("earth_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("air_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("fire_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("water_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("earth_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("air_staff")).withElementAmount(5000).save(this.output);
+	}
+
+	public ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, Identifier infusion) {
+		return ToolInfusionRecipeBuilder.toolInfusionRecipe(items, ingredient, infusion);
+	}
+
+	public ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, ResourceKey<Enchantment> enchantment) {
+		return ToolInfusionRecipeBuilder.toolInfusionRecipe(items, ingredient, enchantment);
 	}
 
 	private void generateGrinding() {
@@ -1713,7 +1722,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withCount(2)
 				.withIngredient(from)
 				.withLuckRatio(2)
-				.save(this.output.withConditions(new NotCondition(new TagEmptyCondition(tagName))), createRecipeKey(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
+				.save(this.output.withConditions(new NotCondition(new TagEmptyCondition<>(from))), ElementalCraftApi.createRL(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
 	}
 
 	private void generateSawing() {
@@ -1750,7 +1759,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 		SawingRecipeBuilder.sawingRecipe(planks)
 				.withCount(6)
-				.withIngredient(stripped)
+				.withIngredient(tag(stripped))
 				.withLuckRatio(3)
 				.save(this.output);
 	}
@@ -1791,8 +1800,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.FUS, ElementType.AIR)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(createRuneIngredient(Runes.WII))
-				.addIngredient(Tags.Items.STRINGS)
-				.addIngredient(Tags.Items.STRINGS)
+				.addIngredient(tag(Tags.Items.STRINGS))
+				.addIngredient(tag(Tags.Items.STRINGS))
 				.save(this.output);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.ZOD, ElementType.AIR)
 				.withElementAmount(10000)
@@ -1806,8 +1815,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECItems.CRUDE_FIRE_GEM.get())
-				.addIngredient(ItemTags.COALS)
-				.addIngredient(ItemTags.COALS)
+				.addIngredient(tag(ItemTags.COALS))
+				.addIngredient(tag(ItemTags.COALS))
 				.save(this.output);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.JITA, ElementType.FIRE)
 				.setSlate(ECItems.RUNE_SLATE.get())
@@ -1819,8 +1828,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(createRuneIngredient(Runes.JITA))
-				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
-				.addIngredient(Tags.Items.STORAGE_BLOCKS_COAL)
+				.addIngredient(tag(Tags.Items.STORAGE_BLOCKS_COAL))
+				.addIngredient(tag(Tags.Items.STORAGE_BLOCKS_COAL))
 				.save(this.output);
 
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.KIRBY, ElementType.AIR)
@@ -1833,8 +1842,8 @@ public class ECRecipeProvider extends RecipeProvider {
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.WHALE, ElementType.AIR)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(createRuneIngredient(Runes.KIRBY))
-				.addIngredient(Tags.Items.DUSTS_GLOWSTONE)
-				.addIngredient(Tags.Items.DUSTS_GLOWSTONE)
+				.addIngredient(tag(Tags.Items.DUSTS_GLOWSTONE))
+				.addIngredient(tag(Tags.Items.DUSTS_GLOWSTONE))
 				.save(this.output);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.TYRIA, ElementType.AIR)
 				.withElementAmount(10000)
@@ -1869,21 +1878,21 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withElementAmount(2000)
 				.setSlate(ECItems.MINOR_RUNE_SLATE.get())
 				.addIngredient(ECItems.CRUDE_WATER_GEM.get())
-				.addIngredient(Tags.Items.GEMS_LAPIS)
-				.addIngredient(Tags.Items.GEMS_LAPIS)
+				.addIngredient(tag(Tags.Items.GEMS_LAPIS))
+				.addIngredient(tag(Tags.Items.GEMS_LAPIS))
 				.save(this.output);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.BOMBADIL, ElementType.WATER)
 				.setSlate(ECItems.RUNE_SLATE.get())
 				.addIngredient(createRuneIngredient(Runes.CLAPTRAP))
-				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
-				.addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS)
+				.addIngredient(tag(Tags.Items.STORAGE_BLOCKS_LAPIS))
+				.addIngredient(tag(Tags.Items.STORAGE_BLOCKS_LAPIS))
 				.save(this.output);
 		InscriptionRecipeBuilder.inscriptionRecipe(Runes.TZEENTCH, ElementType.WATER)
 				.withElementAmount(10000)
 				.setSlate(ECItems.MAJOR_RUNE_SLATE.get())
 				.addIngredient(createRuneIngredient(Runes.BOMBADIL))
-				.addIngredient(Tags.Items.GEMS_EMERALD)
-				.addIngredient(Tags.Items.GEMS_EMERALD)
+				.addIngredient(tag(Tags.Items.GEMS_EMERALD))
+				.addIngredient(tag(Tags.Items.GEMS_EMERALD))
 				.save(this.output);
 	}
 
@@ -2117,10 +2126,6 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 	}
 
-	private boolean exists(Block block) {
-		return existingFileHelper.exists(BuiltInRegistries.BLOCK.getKey(block), PackType.SERVER_DATA, ".json", "recipes");
-	}
-
 	private void createNuggetIngotBlock(ItemLike nugget, TagKey<@NotNull Item> nuggetTag, ItemLike ingot, TagKey<@NotNull Item> ingotTag, ItemLike block, TagKey<@NotNull Item> blockTag) {
 		shaped(RecipeCategory.MISC, ingot).define('#', nuggetTag)
 				.pattern("###")
@@ -2191,7 +2196,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 
-	private RecipeOutput mapToStaff() {
+	private RecipeOutput staffOutput() {
 		return new RecipeOutput() {
 			@Override
 			public void accept(@NonNull ResourceKey<Recipe<?>> key, @NonNull Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition @NonNull ... conditions) {
@@ -2225,8 +2230,8 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output, ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(jewelKey.getNamespace(), "jewel/" + jewelKey.getPath())));
 	}
 
-	private Identifier from(ItemLike from, ItemLike to) {
-		return  ElementalCraftApi.createRL(BuiltInRegistries.ITEM.getKey(to.asItem()).getPath() + FROM + BuiltInRegistries.ITEM.getKey(from.asItem()).getPath());
+	private ResourceKey<Recipe<?>> from(ItemLike from, ItemLike to) {
+		return createRecipeKey(BuiltInRegistries.ITEM.getKey(to.asItem()).getPath() + FROM + BuiltInRegistries.ITEM.getKey(from.asItem()).getPath());
 	}
 
 	private String buildHas(ItemLike item) {

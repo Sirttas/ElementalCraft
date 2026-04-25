@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.datagen.definition;
 
-import appeng.api.ids.AEConstants;
-import appeng.core.definitions.AEBlocks;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BudTypes;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.datagen.interaction.DatagenInteraction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BudTypeDataDefinitions {
@@ -25,16 +25,15 @@ public class BudTypeDataDefinitions {
             .then(ECBlocks.SPRINGALINE_CLUSTER)
             .requires(ShrineUpgrades.SPRINGALINE)
             .build();
-    public static final BudTypeDataDefinition CERTUS_QUARTZ = BudTypeDataDefinition.builder(BudTypes.CERTUS_QUARTZ) // TODO move to AE specific package
-            .then(AEBlocks.SMALL_QUARTZ_BUD.block())
-            .then(AEBlocks.MEDIUM_QUARTZ_BUD.block())
-            .then(AEBlocks.LARGE_QUARTZ_BUD.block())
-            .then(AEBlocks.QUARTZ_CLUSTER.block())
-            .requires(ShrineUpgrades.CERTUS_QUARTZ)
-            .when(new ModLoadedCondition(AEConstants.MOD_ID))
-            .build();
 
-    private static final List<BudTypeDataDefinition> ALL = List.of(AMETHYST, SPRINGALINE, CERTUS_QUARTZ);
+    private static final List<BudTypeDataDefinition> ALL = Util.make(() -> {
+        var list = new ArrayList<BudTypeDataDefinition>();
+
+        list.add(AMETHYST);
+        list.add(SPRINGALINE);
+        list.addAll(DatagenInteraction.get().getBudTypeDataDefinitions());
+        return List.copyOf(list);
+    });
 
     private BudTypeDataDefinitions() {}
 

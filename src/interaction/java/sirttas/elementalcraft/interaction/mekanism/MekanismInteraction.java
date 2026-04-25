@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraftInteraction;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactory;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -71,8 +71,7 @@ public class MekanismInteraction implements ElementalCraftInteraction {
 		return wrapper != null && wrapper.matches(recipeInput, level) ? wrapper : null;
 	}
 
-    @Override
-    public void addCraftingStation(BiConsumer<Object, ItemStack> consumer) {
+    public void addCraftingStations(BiConsumer<Object, ItemStack> consumer) {
         consumer.accept(MekanismJEI.holderRecipeType(RecipeViewerRecipeType.CRUSHING), new ItemStack(ECBlocks.WATER_MILL_GRINDSTONE.get()));
         consumer.accept(MekanismJEI.holderRecipeType(RecipeViewerRecipeType.CRUSHING), new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()));
     }

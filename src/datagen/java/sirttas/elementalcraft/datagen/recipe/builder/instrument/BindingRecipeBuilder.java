@@ -2,12 +2,14 @@ package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -37,10 +39,6 @@ public class BindingRecipeBuilder {
 		return this;
 	}
 
-	public BindingRecipeBuilder addIngredient(TagKey<Item> tag) {
-		return this.addIngredient(Ingredient.of(tag));
-	}
-
 	public BindingRecipeBuilder addIngredient(ItemLike item) {
 		return this.addIngredient(Ingredient.of(item));
 	}
@@ -67,6 +65,6 @@ public class BindingRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		recipeOutput.accept(id, new BindingRecipe(elementType, elementAmount, this.ingredients, new ItemStack(this.result)), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new BindingRecipe(new Recipe.CommonInfo(false), elementType, elementAmount, this.ingredients, new ItemStackTemplate(this.result)), null);
 	}
 }

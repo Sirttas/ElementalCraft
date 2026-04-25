@@ -204,7 +204,7 @@ public class ElementalCraftJEIPlugin implements IModPlugin {
 		registry.addCraftingStation(ECJEIRecipeTypes.SOURCE_BREEDING, new ItemStack(ECBlocks.SOURCE_BREEDER.get()));
 		registry.addCraftingStation(ECJEIRecipeTypes.SOURCE_BREEDING, new ItemStack(ECBlocks.SOURCE_BREEDER_PEDESTAL.get()));
 
-        ElementalCraft.interactions().addCraftingStation((o, s) -> {
+        ElementalCraft.interactions().addCraftingStations((o, s) -> {
             if (o instanceof IRecipeType<?> recipeType) {
                 try {
                     registry.addCraftingStation(recipeType, s);

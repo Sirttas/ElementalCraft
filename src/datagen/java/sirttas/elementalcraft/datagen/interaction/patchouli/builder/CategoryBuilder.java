@@ -125,7 +125,7 @@ public class CategoryBuilder implements PatchouliFile {
             book.translationKeyValidator.checkHasKey(description);
         }
         if (icon != null) {
-            icon.validate(book.existingFileHelper);
+            icon.validate();
         }
         entries.forEach(EntryBuilder::validate);
     }

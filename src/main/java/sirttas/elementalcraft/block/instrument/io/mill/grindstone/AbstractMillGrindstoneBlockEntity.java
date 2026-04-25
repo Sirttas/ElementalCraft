@@ -10,6 +10,7 @@ import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractMillBlockEntity;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
@@ -36,7 +37,7 @@ public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBloc
         var recipe = super.lookupRecipe(level, recipeInput);
 
         if (recipe == null) {
-            recipe = ElementalCraft.interactions().lookupRecipe(level, recipeInput);
+            recipe = ElementalCraft.interactions().lookupRecipe(level, ECRecipeTypes.GRINDING.get(), recipeInput);
         }
         return recipe;
     }

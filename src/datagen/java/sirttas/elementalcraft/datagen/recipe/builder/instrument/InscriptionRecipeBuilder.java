@@ -1,12 +1,13 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -44,10 +45,6 @@ public class InscriptionRecipeBuilder {
 		return this;
 	}
 
-	public InscriptionRecipeBuilder setSlate(TagKey<Item> tag) {
-		return this.setSlate(Ingredient.of(tag));
-	}
-
 	public InscriptionRecipeBuilder setSlate(ItemLike item) {
 		return this.setSlate(Ingredient.of(item));
 	}
@@ -55,10 +52,6 @@ public class InscriptionRecipeBuilder {
 	public InscriptionRecipeBuilder setSlate(Ingredient ingredient) {
 		slate = ingredient;
 		return this;
-	}
-
-	public InscriptionRecipeBuilder addIngredient(TagKey<Item> tag) {
-		return this.addIngredient(Ingredient.of(tag));
 	}
 
 	public InscriptionRecipeBuilder addIngredient(ItemLike item) {
@@ -83,6 +76,6 @@ public class InscriptionRecipeBuilder {
 
 		i.add(slate);
 		i.addAll(ingredients);
-		recipeOutput.accept(id, new InscriptionRecipe(elementType, elementAmount, i, ECItems.RUNE.get().getRuneStack(this.output)), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new InscriptionRecipe(new Recipe.CommonInfo(false), elementType, elementAmount, i, ItemStackTemplate.fromNonEmptyStack(ECItems.RUNE.get().getRuneStack(this.output))), null);
 	}
 }

@@ -2,8 +2,8 @@ package sirttas.elementalcraft.test.interaction.mekanism;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 
 public class MekanismPreload implements BeforeAllCallback {
 

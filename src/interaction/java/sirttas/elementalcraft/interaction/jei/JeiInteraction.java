@@ -3,8 +3,8 @@ package sirttas.elementalcraft.interaction.jei;
 import mezz.jei.library.color.ColorGetter;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
-import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 
 import java.util.Comparator;
 import java.util.List;

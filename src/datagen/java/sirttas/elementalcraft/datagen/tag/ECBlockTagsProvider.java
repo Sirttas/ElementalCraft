@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagAppender;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -36,7 +38,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 	private static final List<Block> LOOT_BLACKLIST = List.of(ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get(),
 			ECBlocks.BURNT_GLASS.get(), ECBlocks.BURNT_GLASS_PANE.get(), ECBlocks.SPRINGALINE_GLASS.get(), ECBlocks.SPRINGALINE_GLASS_PANE.get());
-	
+
 	public ECBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 		super(output, lookupProvider, ElementalCraftApi.MODID);
 	}
@@ -52,6 +54,13 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags(@Nonnull HolderLookup.Provider provider) {
+		(new ECBlockItemTagsProvider() {
+			@Override
+			protected @NonNull TagAppender<Block, Block> tag(@NonNull TagKey<Block> blockTag, @NonNull TagKey<Item> itemTag) {
+				return ECBlockTagsProvider.this.tag(blockTag);
+			}
+		}).run();
+
 		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
 		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
 		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
@@ -62,23 +71,10 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.SHRINE_UPGRADES).add(getBlocksForClass(ShrineUpgradeBlock.class));
 		tag(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(PedestalBlock.class)).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 
-		tag(ECTags.Blocks.SOURCES).add(ECBlocks.FIRE_SOURCE.get(), ECBlocks.WATER_SOURCE.get(), ECBlocks.EARTH_SOURCE.get(), ECBlocks.AIR_SOURCE.get());
-
 		tag(ECTags.Blocks.STRIPPED_OAK).add(Blocks.STRIPPED_OAK_LOG, Blocks.STRIPPED_OAK_WOOD);
-		tag(ECTags.Blocks.STRIPPED_DARK_OAK).add(Blocks.STRIPPED_DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_WOOD);
-		tag(ECTags.Blocks.STRIPPED_BIRCH).add(Blocks.STRIPPED_BIRCH_LOG, Blocks.STRIPPED_BIRCH_WOOD);
-		tag(ECTags.Blocks.STRIPPED_ACACIA).add(Blocks.STRIPPED_ACACIA_LOG, Blocks.STRIPPED_ACACIA_WOOD);
-		tag(ECTags.Blocks.STRIPPED_JUNGLE).add(Blocks.STRIPPED_JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_WOOD);
-		tag(ECTags.Blocks.STRIPPED_SPRUCE).add(Blocks.STRIPPED_SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_WOOD);
-		tag(ECTags.Blocks.STRIPPED_MANGROVE).add(Blocks.STRIPPED_MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_WOOD);
-		tag(ECTags.Blocks.STRIPPED_CRIMSON).add(Blocks.STRIPPED_CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_STEM);
-		tag(ECTags.Blocks.STRIPPED_WARPED).add(Blocks.STRIPPED_WARPED_HYPHAE, Blocks.STRIPPED_WARPED_STEM);
-		tag(ECTags.Blocks.STRIPPED_CHERRY).add(Blocks.STRIPPED_CHERRY_LOG, Blocks.STRIPPED_CHERRY_WOOD);
-		tag(ECTags.Blocks.STRIPPED_BAMBOO).add(Blocks.STRIPPED_BAMBOO_BLOCK);
 
 		tag(ECTags.Blocks.EXTRACTORS).add(ECBlocks.RUDIMENTARY_EXTRACTOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.IMPROVED_EXTRACTOR.get());
 		tag(ECTags.Blocks.SYNTHESIZERS).add(ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlocks.COMBUSTION_SYNTHESIZER.get(), ECBlocks.DRAINING_SYNTHESIZER.get(), ECBlocks.VIBRATION_SYNTHESIZER.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.CULINARY_SYNTHESIZER.get(), ECBlocks.SCULK_CRACKING_SYNTHESIZER.get(), ECBlocks.AIR_MILL_SYNTHESIZER.get());
-		tag(ECTags.Blocks.INSTRUMENTS).add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(), ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.BINDER_IMPROVED.get());
 
 		tag(ECTags.Blocks.SMALL_CONTAINER_TOOLS).add(ECBlocks.RUDIMENTARY_EXTRACTOR.get(), ECBlocks.INFUSER.get(), ECBlocks.FIRE_FURNACE.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlocks.COMBUSTION_SYNTHESIZER.get(), ECBlocks.DRAINING_SYNTHESIZER.get(), ECBlocks.VIBRATION_SYNTHESIZER.get());
 		containerToolsBase(ECTags.Blocks.FIRE_CONTAINER_TOOLS).add(ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.COMBUSTION_SYNTHESIZER.get(), ECBlocks.SOLAR_SYNTHESIZER.get());
@@ -117,23 +113,9 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 		tag(ECTags.Blocks.TREE_PARTS).addTags(BlockTags.LOGS, BlockTags.LEAVES).add(Blocks.VINE);
 
-		tag(ECTags.Blocks.ORES_INERT_CRYSTAL).add(ECBlocks.CRYSTAL_ORE.get(), ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
-
-		tag(Tags.Blocks.ORES).addTag(ECTags.Blocks.ORES_INERT_CRYSTAL);
-		tag(Tags.Blocks.BUDDING_BLOCKS).add(Blocks.BUDDING_AMETHYST);
-		tag(Tags.Blocks.BUDS).add(ECBlocks.SMALL_SPRINGALINE_BUD.get(), ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), ECBlocks.LARGE_SPRINGALINE_BUD.get());
-		tag(Tags.Blocks.CLUSTERS).add(ECBlocks.SPRINGALINE_CLUSTER.get());
-
-		tag(ECTags.Blocks.PUREROCKS).add(ECBlocks.PURE_ROCK.get(), ECBlocks.PURE_ROCK_SLAB.get(), ECBlocks.PURE_ROCK_STAIRS.get(), ECBlocks.PURE_ROCK_WALL.get());
 		tag(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
-
 		tag(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.DRENCHED_IRON_BLOCK.get(), ECBlocks.SWIFT_ALLOY_BLOCK.get(), ECBlocks.FIREITE_BLOCK.get());
 
-		tag(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON).add(ECBlocks.DRENCHED_IRON_BLOCK.get());
-		tag(ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY).add(ECBlocks.SWIFT_ALLOY_BLOCK.get());
-		tag(ECTags.Blocks.STORAGE_BLOCKS_FIREITE).add(ECBlocks.FIREITE_BLOCK.get());
-		tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Blocks.STORAGE_BLOCKS_SWIFT_ALLOY, ECTags.Blocks.STORAGE_BLOCKS_FIREITE);
-		
 		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).addTag(ECTags.Blocks.SOURCES);
 		tag(MekanismTags.Blocks.CARDBOARD_BLACKLIST).addTag(ECTags.Blocks.SOURCES);
 

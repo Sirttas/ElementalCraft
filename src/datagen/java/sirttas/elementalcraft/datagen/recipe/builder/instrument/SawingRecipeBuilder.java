@@ -1,12 +1,14 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.recipe.instrument.io.sawing.SawingRecipe;
@@ -35,16 +37,8 @@ public class SawingRecipeBuilder {
 		return this;
 	}
 
-	public SawingRecipeBuilder withIngredient(TagKey<Item> tag) {
-		return this.withIngredient(Ingredient.of(tag));
-	}
-
 	public SawingRecipeBuilder withIngredient(ItemLike item) {
 		return this.withIngredient(Ingredient.of(item));
-	}
-
-	public SawingRecipeBuilder withIngredient(ItemStack stack) {
-		return this.withIngredient(Ingredient.of(stack));
 	}
 	
 	public SawingRecipeBuilder withIngredient(Ingredient ingredient) {
@@ -78,6 +72,6 @@ public class SawingRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		recipeOutput.accept(id, new SawingRecipe(elementAmount, luckRatio, this.ingredient, new ItemStack(this.result, count)), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new SawingRecipe(new Recipe.CommonInfo(false), elementAmount, luckRatio, this.ingredient, 1, new ItemStackTemplate(this.result, count)), null); // TODO input size
 	}
 }

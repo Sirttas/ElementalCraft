@@ -123,12 +123,12 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 				.weight(5)
 				.strength(4);
 		builder(Spells.HEAL, Spell.Type.MIXED, ElementType.WATER)
-				.color(MobEffects.HEAL.value().getColor())
+				.color(MobEffects.INSTANT_HEALTH.value().getColor())
 				.consumeAmount(1000)
 				.cooldown(600)
 				.weight(5);
 		builder(Spells.SPEED, Spell.Type.MIXED, ElementType.AIR)
-				.color(MobEffects.MOVEMENT_SPEED.value().getColor())
+				.color(MobEffects.SPEED.value().getColor())
 				.consumeAmount(4000)
 				.cooldown(2400)
 				.weight(2);

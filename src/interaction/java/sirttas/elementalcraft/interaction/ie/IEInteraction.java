@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.ElementalCraftInteraction;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.interaction.ie.injector.ArcFurnacePureOreRecipeFactory;
@@ -62,8 +62,7 @@ public class IEInteraction implements ElementalCraftInteraction {
         return recipe.matches(recipeInput, level) ? recipe : null;
     }
 
-    @Override
-    public void addCraftingStation(BiConsumer<Object, ItemStack> consumer) {
+    public void addCraftingStations(BiConsumer<Object, ItemStack> consumer) {
         consumer.accept(JEIRecipeTypes.CRUSHER, new ItemStack(ECBlocks.WATER_MILL_GRINDSTONE.get()));
         consumer.accept(JEIRecipeTypes.CRUSHER, new ItemStack(ECBlocks.AIR_MILL_GRINDSTONE.get()));
     }

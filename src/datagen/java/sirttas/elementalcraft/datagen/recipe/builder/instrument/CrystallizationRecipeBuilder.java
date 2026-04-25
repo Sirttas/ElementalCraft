@@ -1,24 +1,24 @@
 package sirttas.elementalcraft.datagen.recipe.builder.instrument;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.recipe.instrument.crystallization.CrystallizationRecipe;
 
-import java.util.List;
-
 public class CrystallizationRecipeBuilder {
 
 	private final Item result;
-	private final List<Ingredient> ingredients = Lists.newArrayList(Ingredient.EMPTY, Ingredient.EMPTY);
+	private Ingredient gem;
+	private Ingredient crystal;
 	private final ElementType elementType;
 	private int elementAmount;
 
@@ -37,40 +37,21 @@ public class CrystallizationRecipeBuilder {
 		return this;
 	}
 
-	public CrystallizationRecipeBuilder setGem(TagKey<Item> tag) {
-		return this.setIngredient(0, tag);
-	}
-
 	public CrystallizationRecipeBuilder setGem(ItemLike item) {
-		return this.setIngredient(0, item);
+		return this.setGem(Ingredient.of(item));
 	}
 
 	public CrystallizationRecipeBuilder setGem(Ingredient ingredient) {
-		return this.setIngredient(0, ingredient);
-	}
-
-	public CrystallizationRecipeBuilder setCrystal(TagKey<Item> tag) {
-		return this.setIngredient(1, tag);
+		this.gem = ingredient;
+		return this;
 	}
 
 	public CrystallizationRecipeBuilder setCrystal(ItemLike item) {
-		return this.setIngredient(1, item);
+		return this.setCrystal(Ingredient.of(item));
 	}
 
 	public CrystallizationRecipeBuilder setCrystal(Ingredient ingredient) {
-		return this.setIngredient(1, ingredient);
-	}
-
-	private CrystallizationRecipeBuilder setIngredient(int index, TagKey<Item> tag) {
-		return this.setIngredient(index, Ingredient.of(tag));
-	}
-
-	private CrystallizationRecipeBuilder setIngredient(int index, ItemLike item) {
-		return this.setIngredient(index, Ingredient.of(item));
-	}
-
-	private CrystallizationRecipeBuilder setIngredient(int index, Ingredient ingredient) {
-		this.ingredients.set(index, ingredient);
+		this.crystal = ingredient;
 		return this;
 	}
 
@@ -90,6 +71,6 @@ public class CrystallizationRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		recipeOutput.accept(id, new CrystallizationRecipe(elementType, elementAmount, this.ingredients, new ItemStack(this.result)), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new CrystallizationRecipe(new Recipe.CommonInfo(false), elementType, elementAmount, this.gem, this.crystal, new ItemStackTemplate(this.result)), null);
 	}
 }

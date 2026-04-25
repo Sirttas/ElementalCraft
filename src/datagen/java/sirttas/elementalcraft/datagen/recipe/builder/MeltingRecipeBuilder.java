@@ -2,11 +2,16 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.recipe.ingredient.BlockHolderSetIngredient;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
 
 public class MeltingRecipeBuilder {
@@ -15,7 +20,7 @@ public class MeltingRecipeBuilder {
     private final Fluid result;
     private int cooldown;
     private int elementAmount;
-    private float fillingAmount;
+    private int fillingAmount;
 
     private MeltingRecipeBuilder(HolderSet<Block> input, Fluid result) {
         this.input = input;
@@ -36,7 +41,7 @@ public class MeltingRecipeBuilder {
         return this;
     }
 
-    public MeltingRecipeBuilder fillingAmount(float fillingAmount) {
+    public MeltingRecipeBuilder fillingAmount(int fillingAmount) {
         this.fillingAmount = fillingAmount;
         return this;
     }
@@ -58,6 +63,6 @@ public class MeltingRecipeBuilder {
     }
 
     public void save(RecipeOutput recipeOutput, Identifier id) {
-        recipeOutput.accept(id, new MeltingRecipe(input, result, cooldown, elementAmount, fillingAmount), null);
+        recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new MeltingRecipe(new Recipe.CommonInfo(false), new BlockHolderSetIngredient(input), new FluidStackTemplate(result, fillingAmount), cooldown, elementAmount), null);
     }
 }

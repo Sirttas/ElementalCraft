@@ -76,7 +76,7 @@ public class ElementalCraft {
 	public static final IDataManager<IConfigurableBlockEntityProperties> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER = IDataManager.builder(IConfigurableBlockEntityProperties.class, CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY)
 			.build();
 
-    private static final ElementalCraftInteraction.Wrapper INTERACTIONS = new ElementalCraftInteraction.Wrapper();
+    private static final ElementalCraftInteractionWrapper INTERACTIONS = new ElementalCraftInteractionWrapper();
 
 	public ElementalCraft(IEventBus modBus, ModContainer container) {
 		container.registerConfig(ModConfig.Type.SERVER, ECConfig.SERVER_SPEC);
@@ -122,7 +122,7 @@ public class ElementalCraft {
         interactions().registerTestFramework(modBus, container);
 	}
 
-    public static synchronized ElementalCraftInteraction interactions() {
+    public static synchronized sirttas.elementalcraft.api.ElementalCraftInteraction interactions() {
         return INTERACTIONS;
     }
 
@@ -160,6 +160,6 @@ public class ElementalCraft {
 	}
 
     private void processIMC(InterModProcessEvent event) {
-        event.getIMCStream(ElementalCraftInteraction.IMC_METHOD::equals).forEach(message -> INTERACTIONS.addInteractionFromIMC(message.messageSupplier()));
+        event.getIMCStream(sirttas.elementalcraft.api.ElementalCraftInteraction.IMC_METHOD::equals).forEach(message -> INTERACTIONS.addInteractionFromIMC(message.messageSupplier()));
     }
 }

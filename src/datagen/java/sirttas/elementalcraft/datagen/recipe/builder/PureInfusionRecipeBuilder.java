@@ -1,12 +1,14 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -34,20 +36,12 @@ public class PureInfusionRecipeBuilder {
 		return this;
 	}
 
-	public PureInfusionRecipeBuilder setIngredient(TagKey<Item> tag) {
-		return this.setIngredient(ElementType.NONE, Ingredient.of(tag));
-	}
-
 	public PureInfusionRecipeBuilder setIngredient(ItemLike item) {
 		return this.setIngredient(ElementType.NONE, Ingredient.of(item));
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(Ingredient ingredient) {
 		return this.setIngredient(ElementType.NONE, ingredient);
-	}
-
-	public PureInfusionRecipeBuilder setIngredient(ElementType type, TagKey<Item> tag) {
-		return this.setIngredient(type, Ingredient.of(tag));
 	}
 
 	public PureInfusionRecipeBuilder setIngredient(ElementType type, ItemLike item) {
@@ -76,6 +70,6 @@ public class PureInfusionRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		recipeOutput.accept(id, new PureInfusionRecipe(elementAmount, this.ingredients, new ItemStack(this.result)), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new PureInfusionRecipe(new Recipe.CommonInfo(false), elementAmount, this.ingredients, new ItemStackTemplate(this.result)), null);
 	}
 }

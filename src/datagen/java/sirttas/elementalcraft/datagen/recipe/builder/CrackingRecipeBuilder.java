@@ -2,14 +2,18 @@ package sirttas.elementalcraft.datagen.recipe.builder;
 
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.recipe.cracking.AbstractCrackingRecipe;
 import sirttas.elementalcraft.recipe.cracking.CrackingRecipe;
 import sirttas.elementalcraft.recipe.cracking.SculkCrackingRecipe;
+import sirttas.elementalcraft.recipe.ingredient.BlockHolderSetIngredient;
 
 public class CrackingRecipeBuilder {
 
@@ -68,6 +72,6 @@ public class CrackingRecipeBuilder {
     }
 
     public void save(RecipeOutput recipeOutput, Identifier id) {
-        recipeOutput.accept(id, factory.create(input, result, elementAmount), null);
+        recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), factory.create(new Recipe.CommonInfo(false), new BlockHolderSetIngredient(input), result, elementAmount), null);
     }
 }

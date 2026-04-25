@@ -8,11 +8,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import sirttas.elementalcraft.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.datagen.advancement.ECAdvancementGenerator;
 import sirttas.elementalcraft.datagen.advancement.ECPickupAdvancementGenerator;
+import sirttas.elementalcraft.datagen.interaction.DatagenInteraction;
 import sirttas.elementalcraft.datagen.interaction.patchouli.BookDataProvider;
 import sirttas.elementalcraft.datagen.language.ECEnglishLanguageProvider;
 import sirttas.elementalcraft.datagen.language.ECFrenchLanguageProvider;
@@ -82,8 +82,8 @@ public class ECDataGenerators {
 				ECBlockStateModelGenerator.FACTORY,
 				ECItemModelGenerator.FACTORY,
 				BuddingShrinePlateModelGenerator.FACTORY)));
-		var blockTagsProvider = event.addProvider(new ECBlockTagsProvider(output, registries));
-		event.addProvider(new ECItemTagsProvider(output, registries, blockTagsProvider.contentsGetter()));
+		event.addProvider(new ECBlockTagsProvider(output, registries));
+		event.addProvider(new ECItemTagsProvider(output, registries));
 		event.addProvider(new ECBiomeTagsProvider(output, registries));
 		event.addProvider(new ECDamageTypeTagsProvider(output, registries));
 		event.addProvider(new ECGameEventTagsProvider(output, registries));
@@ -103,8 +103,7 @@ public class ECDataGenerators {
 		event.addProvider(new BudTypeProvider(output, registries));
 		event.addProvider(new ECRemapKeysProvider(output, registries));
 		event.addProvider(new BookDataProvider(output, registries, translationKeyValidator));
-		if (ElementalCraftInteraction.isSilentGearActive()) {
-			// event.addProvider(new ECSilentGearMaterialProvider(generator));
-		}
+
+		DatagenInteraction.get().getProviders(output, registries).forEach(event::addProvider);
 	}
 }

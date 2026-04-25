@@ -49,7 +49,7 @@ public class CraftingBlockEntityPropertiesBuilder implements IConfigurableBlockE
     }
 
     public CraftingBlockEntityPropertiesBuilder recipeType(ResourceKey<RecipeType<?>> recipeType) {
-        return this.recipeType(BuiltInRegistries.RECIPE_TYPE.getHolderOrThrow(recipeType));
+        return this.recipeType(BuiltInRegistries.RECIPE_TYPE.getOrThrow(recipeType));
     }
 
     public CraftingBlockEntityPropertiesBuilder recipeType(Holder<RecipeType<?>> recipeType) {

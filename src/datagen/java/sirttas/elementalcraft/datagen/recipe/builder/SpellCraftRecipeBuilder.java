@@ -1,11 +1,13 @@
 package sirttas.elementalcraft.datagen.recipe.builder;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -28,10 +30,6 @@ public class SpellCraftRecipeBuilder {
 	public static SpellCraftRecipeBuilder spellCraftRecipe(DeferredHolder<Spell, ? extends Spell> output) {
 		return new SpellCraftRecipeBuilder(output.getId());
 	}
-	
-	public SpellCraftRecipeBuilder setGem(TagKey<Item> tag) {
-		return this.setGem(Ingredient.of(tag));
-	}
 
 	public SpellCraftRecipeBuilder setGem(ItemLike item) {
 		return this.setGem(Ingredient.of(item));
@@ -40,10 +38,6 @@ public class SpellCraftRecipeBuilder {
 	public SpellCraftRecipeBuilder setGem(Ingredient ingredient) {
 		gem = ingredient;
 		return this;
-	}
-
-	public SpellCraftRecipeBuilder setCrystal(TagKey<Item> tag) {
-		return this.setCrystal(Ingredient.of(tag));
 	}
 
 	public SpellCraftRecipeBuilder setCrystal(ItemLike item) {
@@ -64,10 +58,10 @@ public class SpellCraftRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {
-		var spell = Spells.REGISTRY.getHolder(output).orElseThrow();
-		var stack = new ItemStackTemplate(ECItems.SCROLL);
+		var spell = Spells.REGISTRY.get(output).orElseThrow();
+		var stack = new ItemStack(ECItems.SCROLL);
 
 		SpellHelper.setSpell(stack, spell);
-		recipeOutput.accept(id, new SpellCraftRecipe(this.gem, this.crystal, this.stack), null);
+		recipeOutput.accept(ResourceKey.create(Registries.RECIPE, id), new SpellCraftRecipe(new Recipe.CommonInfo(false), this.gem, this.crystal, ItemStackTemplate.fromNonEmptyStack(stack)), null);
 	}
 }

@@ -46,7 +46,7 @@ import sirttas.elementalcraft.rune.RuneGameTests;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-public class ElementalCraftTests implements ElementalCraftInteraction {
+public class ElementalCraftTests implements sirttas.elementalcraft.api.ElementalCraftInteraction {
 
 
     static MinecraftServer server;
