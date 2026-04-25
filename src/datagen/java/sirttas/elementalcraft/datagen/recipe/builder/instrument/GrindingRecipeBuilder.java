@@ -5,9 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -40,16 +38,8 @@ public class GrindingRecipeBuilder {
 		return this;
 	}
 
-	public GrindingRecipeBuilder withIngredient(TagKey<Item> tag) {
-		return this.withIngredient(Ingredient.of(tag));
-	}
-
 	public GrindingRecipeBuilder withIngredient(ItemLike item) {
 		return this.withIngredient(Ingredient.of(item));
-	}
-
-	public GrindingRecipeBuilder withIngredient(ItemStack stack) {
-		return this.withIngredient(Ingredient.of(stack));
 	}
 	
 	public GrindingRecipeBuilder withIngredient(Ingredient ingredient) {

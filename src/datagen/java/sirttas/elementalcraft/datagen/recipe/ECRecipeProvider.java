@@ -3,9 +3,6 @@ package sirttas.elementalcraft.datagen.recipe;
 import appeng.api.ids.AEConstants;
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
-import mekanism.api.MekanismAPI;
-import mekanism.api.datagen.recipe.builder.ItemStackToItemStackRecipeBuilder;
-import mekanism.api.recipes.ingredients.creator.IngredientCreatorAccess;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.Criterion;
@@ -29,7 +26,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -738,8 +734,6 @@ public class ECRecipeProvider extends RecipeProvider {
 				.unlockedBy("has_crystal_ore", has(ECTags.Items.ORES_INERT_CRYSTAL))
 				.save(this.output, createRecipeKey("inert_crystal_from_blasting"));
 
-		ItemStackToItemStackRecipeBuilder.enriching(IngredientCreatorAccess.item().from(ECTags.Items.ORES_INERT_CRYSTAL), new ItemStack(ECItems.INERT_CRYSTAL, 2))
-				.build(this.output.withConditions(new ModLoadedCondition(MekanismAPI.MEKANISM_MODID)), ElementalCraftApi.createRL("inert_crystal_from_mekanism_enriching"));
 	}
 
 	private void generateNuggetIngotBlocks() {
@@ -1624,31 +1618,31 @@ public class ECRecipeProvider extends RecipeProvider {
 
 	private void generateGrinding() {
 		GrindingRecipeBuilder.grindingRecipe(Items.COBBLESTONE)
-				.withIngredient(Tags.Items.STONES)
+				.withIngredient(tag(Tags.Items.STONES))
 				.withLuckRatio(1)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.GRAVEL)
-				.withIngredient(Tags.Items.COBBLESTONES)
+				.withIngredient(tag(Tags.Items.COBBLESTONES))
 				.withLuckRatio(2)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.SAND)
-				.withIngredient(Tags.Items.GRAVELS)
+				.withIngredient(tag(Tags.Items.GRAVELS))
 				.withLuckRatio(5)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.BLAZE_POWDER)
 				.withCount(3)
-				.withIngredient(Tags.Items.RODS_BLAZE)
+				.withIngredient(tag(Tags.Items.RODS_BLAZE))
 				.withLuckRatio(3)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.NETHERITE_SCRAP)
 				.withCount(2)
-				.withIngredient(Tags.Items.ORES_NETHERITE_SCRAP)
+				.withIngredient(tag(Tags.Items.ORES_NETHERITE_SCRAP))
 				.withElementAmount(5000)
 				.withLuckRatio(1)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(ECItems.INERT_CRYSTAL.get())
 				.withCount(2)
-				.withIngredient(ECTags.Items.ORES_INERT_CRYSTAL)
+				.withIngredient(tag(ECTags.Items.ORES_INERT_CRYSTAL))
 				.withLuckRatio(5)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.POINTED_DRIPSTONE)
@@ -1673,12 +1667,12 @@ public class ECRecipeProvider extends RecipeProvider {
                 .save(this.output.withConditions(new ModLoadedCondition(AEConstants.MOD_ID)));
 		GrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL)
 				.withCount(4)
-				.withIngredient(Tags.Items.BONES)
+				.withIngredient(tag(Tags.Items.BONES))
 				.withLuckRatio(3)
 				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.STRING)
 				.withCount(4)
-				.withIngredient(ItemTags.WOOL)
+				.withIngredient(tag(ItemTags.WOOL))
 				.save(this.output);
 
 		grindToDye(Items.GREEN_DYE, Items.CACTUS);
@@ -1720,7 +1714,7 @@ public class ECRecipeProvider extends RecipeProvider {
 
 		GrindingRecipeBuilder.grindingRecipe(dye)
 				.withCount(2)
-				.withIngredient(from)
+				.withIngredient(tag(from))
 				.withLuckRatio(2)
 				.save(this.output.withConditions(new NotCondition(new TagEmptyCondition<>(from))), ElementalCraftApi.createRL(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
 	}
@@ -2187,11 +2181,11 @@ public class ECRecipeProvider extends RecipeProvider {
 				.unlockedBy(HAS_WHITEROCK, has(ECBlocks.WHITE_ROCK.get()));
 	}
 
-	public static ShapedRecipeBuilder shaped(Supplier<? extends ItemLike> item) {
+	public ShapedRecipeBuilder shaped(Supplier<? extends ItemLike> item) {
 		return shaped(RecipeCategory.DECORATIONS, item.get(), 1);
 	}
 
-	public static ShapedRecipeBuilder shaped(Supplier<? extends ItemLike> item, int count) {
+	public ShapedRecipeBuilder shaped(Supplier<? extends ItemLike> item, int count) {
 		return shaped(RecipeCategory.DECORATIONS, item.get(), count);
 	}
 
@@ -2238,7 +2232,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		return "has_" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
 	}
 
-	protected static Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
+	protected Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
 		return has(itemLike.get().asItem());
 	}
 

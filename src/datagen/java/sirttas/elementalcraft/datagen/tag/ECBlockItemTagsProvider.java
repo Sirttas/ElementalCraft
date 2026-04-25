@@ -1,14 +1,35 @@
 package sirttas.elementalcraft.datagen.tag;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.tags.BlockItemTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.common.Tags;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
+import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
+import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.Map;
+
 public abstract class ECBlockItemTagsProvider extends BlockItemTagsProvider {
+
+    public static Block[] getBlocksForClass(Class<?> clazz) {
+        return BuiltInRegistries.BLOCK.entrySet().stream()
+                .filter(e -> ElementalCraft.owns(e) && clazz.isInstance(e.getValue()))
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .toArray(Block[]::new);
+    }
 
     @Override
     protected void run() {
@@ -33,15 +54,22 @@ public abstract class ECBlockItemTagsProvider extends BlockItemTagsProvider {
         tag(ECTags.Blocks.STRIPPED_BAMBOO, ECTags.Items.STRIPPED_BAMBOO)
                 .add(Blocks.STRIPPED_BAMBOO_BLOCK);
 
-        // dynamic content — populated via getBlocksForClass in ECBlockTagsProvider, copied in ECItemTagsProvider
-        tag(BlockTags.SLABS, ItemTags.SLABS);
-        tag(BlockTags.STAIRS, ItemTags.STAIRS);
-        tag(BlockTags.WALLS, ItemTags.WALLS);
-        tag(BlockTags.FENCES, ItemTags.FENCES);
-        tag(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES);
-        tag(ECTags.Blocks.PIPES, ECTags.Items.PIPES);
-        tag(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES);
-        tag(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES);
+        tag(BlockTags.SLABS, ItemTags.SLABS)
+                .add(getBlocksForClass(SlabBlock.class));
+        tag(BlockTags.STAIRS, ItemTags.STAIRS)
+                .add(getBlocksForClass(StairBlock.class));
+        tag(BlockTags.WALLS, ItemTags.WALLS)
+                .add(getBlocksForClass(WallBlock.class));
+        tag(BlockTags.FENCES, ItemTags.FENCES)
+                .add(getBlocksForClass(FenceBlock.class));
+        tag(Tags.Blocks.GLASS_PANES, Tags.Items.GLASS_PANES)
+                .add(getBlocksForClass(IronBarsBlock.class));
+        tag(ECTags.Blocks.PIPES, ECTags.Items.PIPES)
+                .add(getBlocksForClass(ElementPipeBlock.class));
+        tag(ECTags.Blocks.SHRINES, ECTags.Items.SHRINES)
+                .add(getBlocksForClass(AbstractShrineBlock.class));
+        tag(ECTags.Blocks.SHRINE_UPGRADES, ECTags.Items.SHRINE_UPGRADES)
+                .add(getBlocksForClass(ShrineUpgradeBlock.class));
 
         tag(ECTags.Blocks.ORES_INERT_CRYSTAL, ECTags.Items.ORES_INERT_CRYSTAL)
                 .add(ECBlocks.CRYSTAL_ORE.get(), ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
@@ -56,11 +84,12 @@ public abstract class ECBlockItemTagsProvider extends BlockItemTagsProvider {
 
         tag(ECTags.Blocks.PUREROCKS, ECTags.Items.PUREROCKS)
                 .add(ECBlocks.PURE_ROCK.get(), ECBlocks.PURE_ROCK_SLAB.get(), ECBlocks.PURE_ROCK_STAIRS.get(), ECBlocks.PURE_ROCK_WALL.get());
-        tag(ECTags.Blocks.INSTRUMENTS, ECTags.Items.INSTRUMENTS).add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(),
-                ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(), ECBlocks.FIRE_FURNACE.get(),
-                ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(), ECBlocks.WATER_MILL_GRINDSTONE.get(),
-                ECBlocks.AIR_MILL_GRINDSTONE.get(), ECBlocks.WATER_MILL_WOOD_SAW.get(),
-                ECBlocks.AIR_MILL_WOOD_SAW.get(), ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.BINDER_IMPROVED.get());
+        tag(ECTags.Blocks.INSTRUMENTS, ECTags.Items.INSTRUMENTS)
+                .add(ECBlocks.INFUSER.get(), ECBlocks.BINDER.get(), ECBlocks.CRYSTALLIZER.get(), ECBlocks.INSCRIBER.get(),
+                        ECBlocks.FIRE_FURNACE.get(), ECBlocks.FIRE_BLAST_FURNACE.get(), ECBlocks.PURIFIER.get(),
+                        ECBlocks.WATER_MILL_GRINDSTONE.get(), ECBlocks.AIR_MILL_GRINDSTONE.get(),
+                        ECBlocks.WATER_MILL_WOOD_SAW.get(), ECBlocks.AIR_MILL_WOOD_SAW.get(),
+                        ECBlocks.ENCHANTMENT_LIQUEFIER.get(), ECBlocks.BINDER_IMPROVED.get());
 
         tag(ECTags.Blocks.STORAGE_BLOCKS_DRENCHED_IRON, ECTags.Items.STORAGE_BLOCKS_DRENCHED_IRON)
                 .add(ECBlocks.DRENCHED_IRON_BLOCK.get());

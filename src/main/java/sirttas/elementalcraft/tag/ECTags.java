@@ -218,8 +218,6 @@ public class ECTags {
 
 		public static final TagKey<@NotNull Block> ORES_INERT_CRYSTAL = createCommonTag("ores/inert_crystal");
 
-		public static final TagKey<@NotNull Block> BAG_OF_YURTING_BLACKLIST = createTag("bagofyurting", "blacklist");
-
 		public static final TagKey<@NotNull Block> STRIPPED_OAK = createTag("stripped_oak");
 		public static final TagKey<@NotNull Block> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");
 		public static final TagKey<@NotNull Block> STRIPPED_BIRCH = createTag("stripped_birch");

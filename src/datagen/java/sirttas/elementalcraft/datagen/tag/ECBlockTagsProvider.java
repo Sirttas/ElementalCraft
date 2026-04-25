@@ -1,21 +1,15 @@
 package sirttas.elementalcraft.datagen.tag;
 
-import blusunrize.immersiveengineering.common.register.IEBlocks;
-import mekanism.common.tags.MekanismTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagAppender;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +17,7 @@ import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
-import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
-import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -43,14 +34,6 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		super(output, lookupProvider, ElementalCraftApi.MODID);
 	}
 
-	private Block[] getBlocksForClass(Class<?> clazz) {
-		return BuiltInRegistries.BLOCK.entrySet().stream()
-				.filter(e -> ElementalCraft.owns(e) && clazz.isInstance(e.getValue()))
-				.sorted(Map.Entry.comparingByKey())
-				.map(Map.Entry::getValue)
-				.toArray(Block[]::new);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags(@Nonnull HolderLookup.Provider provider) {
@@ -61,15 +44,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 			}
 		}).run();
 
-		tag(BlockTags.SLABS).add(getBlocksForClass(SlabBlock.class));
-		tag(BlockTags.STAIRS).add(getBlocksForClass(StairBlock.class));
-		tag(BlockTags.WALLS).add(getBlocksForClass(WallBlock.class));
-		tag(BlockTags.FENCES).add(getBlocksForClass(FenceBlock.class));
-		tag(Tags.Blocks.GLASS_PANES).add(getBlocksForClass(IronBarsBlock.class));
-		tag(ECTags.Blocks.PIPES).add(getBlocksForClass(ElementPipeBlock.class));
-		tag(ECTags.Blocks.SHRINES).add(getBlocksForClass(AbstractShrineBlock.class));
-		tag(ECTags.Blocks.SHRINE_UPGRADES).add(getBlocksForClass(ShrineUpgradeBlock.class));
-		tag(ECTags.Blocks.PEDESTALS).add(getBlocksForClass(PedestalBlock.class)).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
+		tag(ECTags.Blocks.PEDESTALS).add(ECBlockItemTagsProvider.getBlocksForClass(PedestalBlock.class)).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 
 		tag(ECTags.Blocks.STRIPPED_OAK).add(Blocks.STRIPPED_OAK_LOG, Blocks.STRIPPED_OAK_WOOD);
 
@@ -91,17 +66,17 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(ECTags.Blocks.RUNE_AFFECTED_RANGE).add(ECBlocks.DIFFUSER.get(), ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlocks.VIBRATION_SYNTHESIZER.get());
 
 		tag(ECTags.Blocks.USES_SINGLE_SET_FROM_ORDERED_SORTER).addTags(ECTags.Blocks.INSTRUMENTS);
-		tag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS)
-                .addOptional(IEBlocks.Misc.HEMP_PLANT.getId());
+		tag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SUGAR_CANE, Blocks.BAMBOO, Blocks.KELP, Blocks.KELP_PLANT, Blocks.CACTUS);
+		getOrCreateRawBuilder(ECTags.Blocks.CULTIVABLE_TALL_PLANTS).addOptionalElement(Identifier.fromNamespaceAndPath("immersiveengineering", "hemp"));
 
 		tag(ECTags.Blocks.SHRINES_HARVEST_HARVESTABLE_TALL_PLANTS).addTag(ECTags.Blocks.CULTIVABLE_TALL_PLANTS);
 		tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_LAVA).add(Blocks.BASALT, Blocks.POLISHED_BASALT, Blocks.SMOOTH_BASALT);
 		tag(ECTags.Blocks.SHRINES_MELTING_LIQUIFIABLES_WATER).add(Blocks.SNOW_BLOCK).addTag(BlockTags.ICE);
 		tag(ECTags.Blocks.SHRINES_GROWTH_BLACKLIST).add(Blocks.SHORT_GRASS, Blocks.GRASS_BLOCK, Blocks.TALL_GRASS);
-		tag(ECTags.Blocks.SHRINES_GROWTH_BONELESS).addTags(BlockTags.CROPS, ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SWEET_BERRY_BUSH, Blocks.CAVE_VINES,Blocks.CAVE_VINES_PLANT);
+		tag(ECTags.Blocks.SHRINES_GROWTH_BONELESS).addTags(BlockTags.CROPS, ECTags.Blocks.CULTIVABLE_TALL_PLANTS).add(Blocks.SWEET_BERRY_BUSH, Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT);
 		tag(ECTags.Blocks.SHRINES_ORE_HARVESTABLE_CRYSTALS).addTag(Tags.Blocks.CLUSTERS);
 
-		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.MELTING_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(),  ECBlocks.FIRE_PYLON.get());
+		tag(ECTags.Blocks.SHRINES_UPGRADABLES_ACCELERATION).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.MELTING_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.OVERLOAD_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.SPRING_SHRINE.get(), ECBlocks.BUDDING_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get(), ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_RANGE).add(ECBlocks.GROWTH_SHRINE.get(), ECBlocks.HARVEST_SHRINE.get(), ECBlocks.LUMBER_SHRINE.get(), ECBlocks.ORE_SHRINE.get(), ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get(), ECBlocks.BREEDING_SHRINE.get(), ECBlocks.GROVE_SHRINE.get(), ECBlocks.ENDER_LOCK_SHRINE.get(), ECBlocks.SPAWNING_SHRINE.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_STRENGTH).add(ECBlocks.SWEET_SHRINE.get(), ECBlocks.VACUUM_SHRINE.get(), ECBlocks.FIRE_PYLON.get());
 		tag(ECTags.Blocks.SHRINES_UPGRADABLES_PROTECTION).add(ECBlocks.FIRE_PYLON.get(), ECBlocks.ENDER_LOCK_SHRINE.get());
@@ -116,8 +91,7 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 		tag(BlockTags.WITHER_IMMUNE).addTag(ECTags.Blocks.PUREROCKS);
 		tag(BlockTags.BEACON_BASE_BLOCKS).add(ECBlocks.DRENCHED_IRON_BLOCK.get(), ECBlocks.SWIFT_ALLOY_BLOCK.get(), ECBlocks.FIREITE_BLOCK.get());
 
-		tag(ECTags.Blocks.BAG_OF_YURTING_BLACKLIST).addTag(ECTags.Blocks.SOURCES);
-		tag(MekanismTags.Blocks.CARDBOARD_BLACKLIST).addTag(ECTags.Blocks.SOURCES);
+		tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED).addTag(ECTags.Blocks.SOURCES);
 
 		lootTags();
 	}
