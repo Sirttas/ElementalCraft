@@ -7,6 +7,7 @@ import blusunrize.immersiveengineering.common.util.compat.jei.JEIRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -18,6 +19,7 @@ import sirttas.elementalcraft.interaction.ie.injector.ArcFurnacePureOreRecipeFac
 import sirttas.elementalcraft.interaction.ie.injector.CrusherPureOreRecipeFactory;
 import sirttas.elementalcraft.interaction.ie.recipe.IECrusherRecipeWrapper;
 import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
@@ -41,6 +43,13 @@ public class IEInteraction implements ElementalCraftInteraction {
     }
 
     @Override
+    public <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
+        if (type == ECRecipeTypes.GRINDING.get()) {
+            return (T) lookupGrindingRecipe(level, (SimpleIOInstrumentRecipeInput) recipeInput);
+        }
+        return null;
+    }
+
     public GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
         var recipeHolder = CrusherRecipe.findRecipe(level, recipeInput.getItem(0));
 

@@ -3,6 +3,8 @@ package sirttas.elementalcraft;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -11,8 +13,6 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
-import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
-import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public interface ElementalCraftInteraction {
 
     boolean isActive();
 
-    default GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+    default <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
         return null;
     }
 
@@ -84,9 +84,9 @@ public interface ElementalCraftInteraction {
         }
 
         @Override
-        public GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
+        public <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
             return interactions.stream()
-                    .map(interaction -> interaction.lookupGrindingRecipe(level, recipeInput))
+                    .map(interaction -> interaction.lookupRecipe(level, type, recipeInput))
                     .filter(Objects::nonNull)
                     .findFirst()
                     .orElse(null);

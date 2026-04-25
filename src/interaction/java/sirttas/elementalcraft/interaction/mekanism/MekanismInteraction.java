@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -27,6 +28,7 @@ import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackGasToItemSt
 import sirttas.elementalcraft.interaction.mekanism.injector.ItemStackToItemStackPureOreRecipeFactory;
 import sirttas.elementalcraft.interaction.mekanism.recipe.MekanismCrusherRecipeWrapper;
 import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
+import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.instrument.io.SimpleIOInstrumentRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.io.grinding.GrindingRecipe;
 
@@ -53,7 +55,14 @@ public class MekanismInteraction implements ElementalCraftInteraction {
 		PureOreRecipeFactoryTypes.register(registry, type.getRegistryName(), m -> factory.apply(m, type));
 	}
 
-    @Override
+	@Override
+	public <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
+		if (type == ECRecipeTypes.GRINDING.get()) {
+			return (T) lookupGrindingRecipe(level, (SimpleIOInstrumentRecipeInput) recipeInput);
+		}
+		return null;
+	}
+
 	public GrindingRecipe lookupGrindingRecipe(@NotNull Level level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
 		var stack = recipeInput.getItem(0);
 		var crusherRecipe = MekanismRecipeType.CRUSHING.findFirst(level, recipe -> recipe.test(stack));

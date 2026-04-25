@@ -36,7 +36,7 @@ public abstract class AbstractMillGrindstoneBlockEntity extends AbstractMillBloc
         var recipe = super.lookupRecipe(level, recipeInput);
 
         if (recipe == null) {
-            recipe = ElementalCraft.interactions().lookupGrindingRecipe(level, recipeInput);
+            recipe = ElementalCraft.interactions().lookupRecipe(level, recipeInput);
         }
         return recipe;
     }
