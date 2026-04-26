@@ -166,7 +166,7 @@ public record SpellProperties(
 		}
 		
 		public Builder color(int r, int g, int b) {
-			return color(ARGB.color(r, g, b));
+			return color(ARGB.color(0, r, g, b));
 		}
 	}
 }

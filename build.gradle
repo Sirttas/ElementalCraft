@@ -84,7 +84,14 @@ sourceSets {
             srcDir 'src/datagen/java'
         }
     }
-    test
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
 }
 
 neoForge {
@@ -295,6 +302,9 @@ processResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 processInteractionResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+processTestResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 

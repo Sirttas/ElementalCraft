@@ -32,8 +32,11 @@ public class ECGameTestUtils {
         if (!template.startsWith("elementalcraft:")) {
             template = "elementalcraft:" + template;
         }
-        if (!id.endsWith(":" + template)) {
-            id += ":" + template;
+
+        var suffix = "_" + template.replace(":", "_");
+
+        if (!id.endsWith(suffix)) {
+            id += suffix;
         }
 
         return new ECTest(id, group, description, Either.left(template), rotation, function);

@@ -124,10 +124,10 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
     private BlockState getUpgradeState(BuddingShrineBudType type) {
         var upgrade = type.requiredUpgrade();
 
-        if (upgrade == null) {
+        if (upgrade.isEmpty()) {
             return Blocks.AIR.defaultBlockState();
         }
-        return upgrade.unwrap().map(k -> upgradeStates.computeIfAbsent(k, k2 -> {
+        return upgrade.get().unwrap().map(k -> upgradeStates.computeIfAbsent(k, k2 -> {
             var state = BuiltInRegistries.BLOCK.get(k.identifier()).get().value().defaultBlockState();
 
             if (state.isAir()) {

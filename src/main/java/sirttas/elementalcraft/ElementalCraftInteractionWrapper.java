@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -33,9 +34,29 @@ public class ElementalCraftInteractionWrapper implements ElementalCraftInteracti
                 .map(ServiceLoader.Provider::get) // TODO try catch
                 .filter(ElementalCraftInteraction::isActive)
                 .toList());
+        injectTests();
         ElementalCraftApi.LOGGER.info("Elemental Craft loaded {} interactions loaded: {}", interactions::size, () -> interactions.stream()
                 .map(interaction -> interaction.getClass().getName())
                 .collect(Collectors.joining(", ")));
+    }
+
+    private void injectTests() {
+        if (!ModList.get().isLoaded("testframework")) {
+            return;
+        }
+
+        try {
+            var testInteractionClass = Class.forName("sirttas.elementalcraft.ElementalCraftTests");
+            if (interactions.stream().noneMatch(interaction -> interaction.getClass().equals(testInteractionClass))) {
+                var testInteraction = (ElementalCraftInteraction) testInteractionClass.getConstructor().newInstance();
+
+                if (testInteraction.isActive()) {
+                    interactions.add(testInteraction);
+                }
+            }
+        } catch (Exception e) {
+            ElementalCraftApi.LOGGER.error("Failed to inject tests from interactions", e);
+        }
     }
 
     @Override

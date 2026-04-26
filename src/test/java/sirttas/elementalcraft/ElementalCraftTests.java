@@ -21,6 +21,7 @@ import net.neoforged.testframework.summary.GitHubActionsStepSummaryDumper;
 import net.neoforged.testframework.summary.JUnitSummaryDumper;
 import org.lwjgl.glfw.GLFW;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.block.ECContainerBlockGameTests;
 import sirttas.elementalcraft.block.airmill.AirMillGameTests;
 import sirttas.elementalcraft.block.container.ContainerGameTests;
@@ -46,8 +47,7 @@ import sirttas.elementalcraft.rune.RuneGameTests;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-public class ElementalCraftTests implements sirttas.elementalcraft.api.ElementalCraftInteraction {
-
+public class ElementalCraftTests implements ElementalCraftInteraction {
 
     static MinecraftServer server;
 

@@ -11,13 +11,14 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 
 import java.util.List;
+import java.util.Optional;
 
 public record BuddingShrineBudType(
         List<Block> sequence,
-        Holder<@NotNull ShrineUpgrade> requiredUpgrade
+        Optional<Holder<@NotNull ShrineUpgrade>> requiredUpgrade
 ) {
     public static final Codec<BuddingShrineBudType> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             BuiltInRegistries.BLOCK.byNameCodec().listOf().fieldOf("sequence").forGetter(BuddingShrineBudType::sequence),
-            DataManagerCodecs.holderCodec(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ShrineUpgrade.CODEC, false).fieldOf("requires_upgrade").forGetter(BuddingShrineBudType::requiredUpgrade)
+            DataManagerCodecs.holderCodec(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ShrineUpgrade.CODEC, false).optionalFieldOf("requires_upgrade").forGetter(BuddingShrineBudType::requiredUpgrade)
     ).apply(builder, BuddingShrineBudType::new));
 }

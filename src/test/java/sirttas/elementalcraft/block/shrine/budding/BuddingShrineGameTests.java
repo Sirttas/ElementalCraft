@@ -42,7 +42,7 @@ public class BuddingShrineGameTests {
         helper.startSequence().thenExecuteAfter(1, () -> {
             BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
 
-            assertThat(shrine.getBudType().value().requiredUpgrade()).isNull();
+            assertThat(shrine.getBudType().value().requiredUpgrade()).isEmpty();
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
 
@@ -68,7 +68,8 @@ public class BuddingShrineGameTests {
         helper.startSequence().thenExecuteAfter(1, () -> {
             BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
 
-            assertThat(shrine.getBudType().value().requiredUpgrade().getKey()).isEqualTo(ShrineUpgrades.SPRINGALINE);
+            assertThat(shrine.getBudType().value().requiredUpgrade())
+                    .hasValueSatisfying(u -> assertThat(u.getKey()).isEqualTo(ShrineUpgrades.SPRINGALINE));
         }).thenExecuteAfter(1, () -> {
             ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
 
