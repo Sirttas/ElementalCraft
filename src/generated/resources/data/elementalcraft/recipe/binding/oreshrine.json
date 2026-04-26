@@ -3,21 +3,13 @@
   "element_amount": 20000,
   "element_type": "earth",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "elementalcraft:pristine_earth_gem"
-    },
-    {
-      "item": "minecraft:diamond_pickaxe"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:earthcrystal",
+    "elementalcraft:pristine_earth_gem",
+    "minecraft:diamond_pickaxe"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:oreshrine"
-  }
+  },
+  "show_notification": false
 }

@@ -25,7 +25,6 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
     public PipeUpgradeType(Factory<T> factory) {
         this.factory = factory;
     }
-
     public T create(ElementPipeBlockEntity pipe, Direction direction) {
         return factory.create(pipe, direction);
     }
@@ -56,10 +55,15 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
         if (descriptionId == null) {
             var id = getKey();
 
-            descriptionId = "elementalcraft.pipe_upgrade." + id.getNamespace() + '.' + id.getPath();
+            descriptionId = createDescriptionId(id);
         }
         return descriptionId;
     }
+
+    public static String createDescriptionId(Identifier id) {
+        return "elementalcraft.pipe_upgrade." + id.getNamespace() + '.' + id.getPath();
+    }
+
 
     public ResourceKey<@NotNull LootTable> getLootTable() {
         if (lootTable == null) {

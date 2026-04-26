@@ -4,9 +4,7 @@
     "color": "#644245",
     "translate": "trim_material.elementalcraft.fireite"
   },
-  "ingredient": "elementalcraft:fireite_ingot",
-  "item_model_index": 1.319918,
-  "override_armor_materials": {
+  "override_armor_assets": {
     "minecraft:netherite": "fireite_flame"
   }
 }

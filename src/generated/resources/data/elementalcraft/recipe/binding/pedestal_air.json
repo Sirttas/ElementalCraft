@@ -3,24 +3,14 @@
   "element_amount": 30000,
   "element_type": "air",
   "ingredients": [
-    {
-      "item": "elementalcraft:infuser"
-    },
-    {
-      "item": "elementalcraft:fine_air_gem"
-    },
-    {
-      "tag": "c:ingots/swift_alloy"
-    },
-    {
-      "item": "elementalcraft:whiterock"
-    },
-    {
-      "item": "elementalcraft:whiterock"
-    }
+    "elementalcraft:infuser",
+    "elementalcraft:fine_air_gem",
+    "#c:ingots/swift_alloy",
+    "elementalcraft:whiterock",
+    "elementalcraft:whiterock"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:pedestal_air"
-  }
+  },
+  "show_notification": false
 }

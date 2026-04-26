@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "f": {
-      "item": "elementalcraft:cover_frame"
-    },
-    "r": {
-      "tag": "c:dusts/redstone"
-    }
+    "f": "elementalcraft:cover_frame",
+    "r": "#c:dusts/redstone"
   },
   "pattern": [
     " r ",
@@ -15,7 +11,6 @@
     " r "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_valve"
   }
 }

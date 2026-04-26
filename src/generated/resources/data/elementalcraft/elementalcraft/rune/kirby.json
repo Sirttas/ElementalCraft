@@ -3,8 +3,6 @@
     "element_preservation": -0.05,
     "range": 0.05
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/kirby",
-  "model": "elementalcraft:elementalcraft/rune/kirby",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

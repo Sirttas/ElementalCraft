@@ -77,45 +77,46 @@ import sirttas.elementalcraft.spell.Spells;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public class ECItems {
 	private static final DeferredRegister<@NotNull Item> DEFERRED_REGISTER = DeferredRegister.create(Registries.ITEM, ElementalCraftApi.MODID);
 
-	public static final DeferredHolder<@NotNull Item, @NotNull FocusItem> FOCUS = register(FocusItem.NAME, FocusItem::new, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull FocusItem> FOCUS = register(FocusItem.NAME, FocusItem::new, () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL, Spells.NONE)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY));
-	public static final DeferredHolder<@NotNull Item, @NotNull StaffItem> STAFF = register(StaffItem.NAME, StaffItem::new, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull StaffItem> STAFF = register(StaffItem.NAME, StaffItem::new, () -> new Item.Properties()
 			.durability(2252)
 			.fireResistant()
 			.component(ECDataComponents.SPELL, Spells.NONE)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY)
 			.attributes(StaffItem.ATTRIBUTE_MODIFIERS));
-	public static final DeferredHolder<@NotNull Item, @NotNull ScrollItem> SCROLL = register(ScrollItem.NAME, ScrollItem::new, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ScrollItem> SCROLL = register(ScrollItem.NAME, ScrollItem::new, () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL, Spells.NONE));
-	public static final DeferredHolder<@NotNull Item, @NotNull SpellBookItem> SPELL_BOOK = register(SpellBookItem.NAME, SpellBookItem::new, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull SpellBookItem> SPELL_BOOK = register(SpellBookItem.NAME, SpellBookItem::new, () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.SPELL_LIST, SpellList.EMPTY));
 	public static final DeferredHolder<@NotNull Item, @NotNull EmptyReceptacleItem> EMPTY_RECEPTACLE = register(EmptyReceptacleItem.NAME, EmptyReceptacleItem::new);
 	public static final DeferredHolder<@NotNull Item, @NotNull SourceStabilizerItem> SOURCE_STABILIZER = register(SourceStabilizerItem.NAME, SourceStabilizerItem::new);
 	public static final DeferredHolder<@NotNull Item, @NotNull SourceAnalysisGlassItem> SOURCE_ANALYSIS_GLASS = register(SourceAnalysisGlassItem.NAME, SourceAnalysisGlassItem::new, new Item.Properties()
 			.stacksTo(1));
-	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> FIRE_HOLDER = register(ElementHolderItem.NAME_FIRE, p -> new ElementHolderItem(ElementType.FIRE, p), new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> FIRE_HOLDER = register(ElementHolderItem.NAME_FIRE, p -> new ElementHolderItem(ElementType.FIRE, p), () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNT, 0));
-	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> WATER_HOLDER = register(ElementHolderItem.NAME_WATER, p -> new ElementHolderItem(ElementType.WATER, p), new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> WATER_HOLDER = register(ElementHolderItem.NAME_WATER, p -> new ElementHolderItem(ElementType.WATER, p), () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNT, 0));
-	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> EARTH_HOLDER = register(ElementHolderItem.NAME_EARTH, p -> new ElementHolderItem(ElementType.EARTH, p), new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> EARTH_HOLDER = register(ElementHolderItem.NAME_EARTH, p -> new ElementHolderItem(ElementType.EARTH, p), () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNT, 0));
-	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> AIR_HOLDER = register(ElementHolderItem.NAME_AIR, p -> new ElementHolderItem(ElementType.AIR, p), new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull ElementHolderItem> AIR_HOLDER = register(ElementHolderItem.NAME_AIR, p -> new ElementHolderItem(ElementType.AIR, p), () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNT, 0));
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> PURE_HOLDER_CORE = registerSimple(PureElementHolderItem.NAME + "_core");
-	public static final DeferredHolder<@NotNull Item, @NotNull PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem.NAME, PureElementHolderItem::new, new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull PureElementHolderItem> PURE_HOLDER = register(PureElementHolderItem.NAME, PureElementHolderItem::new, () -> new Item.Properties()
 			.stacksTo(1)
 			.component(ECDataComponents.ELEMENT_AMOUNTS, ElementAmounts.EMPTY));
 	public static final DeferredHolder<@NotNull Item, @NotNull PureOreItem> PURE_ORE = register(PureOreItem.NAME, PureOreItem::new);
@@ -130,7 +131,7 @@ public class ECItems {
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> INERT_CRYSTAL = registerSimple("inert_crystal");
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> CONTAINED_CRYSTAL = registerSimple("contained_crystal");
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> STRONGLY_CONTAINED_CRYSTAL = registerSimple("strongly_contained_crystal");
-	public static final DeferredHolder<@NotNull Item, @NotNull Item> PURE_CRYSTAL = registerSimple("purecrystal", new Item.Properties()
+	public static final DeferredHolder<@NotNull Item, @NotNull Item> PURE_CRYSTAL = registerSimple("purecrystal", () -> new Item.Properties()
 			.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> DRENCHED_IRON_INGOT = registerSimple("drenched_iron_ingot");
 	public static final DeferredHolder<@NotNull Item, @NotNull Item> DRENCHED_IRON_NUGGET = registerSimple("drenched_iron_nugget");
@@ -259,6 +260,7 @@ public class ECItems {
 						case AbstractElementContainerBlock containerBlock -> new ElementContainerBlockItem(containerBlock, new Item.Properties()
                                 .component(ECDataComponents.ELEMENT_TYPE, block instanceof IElementTypeProvider provider ? provider.getElementType() : ElementType.NONE)
                                 .component(ECDataComponents.ELEMENT_AMOUNT, 0)
+								.useBlockDescriptionPrefix()
 								.setId(key));
 						case SourceBlock sourceBlock -> new ReceptacleItem(sourceBlock, new Item.Properties()
 								.stacksTo(1)
@@ -266,9 +268,9 @@ public class ECItems {
 								.component(ECDataComponents.ELEMENT_AMOUNT, SourceElementStorage.DEFAULT_CAPACITY)
 								.component(ECDataComponents.SOURCE_ANALYZED, false)
 								.setId(key));
-						case ShrineUpgradeBlock shrineUpgradeBlock -> new ShrineUpgradeItem(shrineUpgradeBlock, new Item.Properties().setId(key));
-						case AbstractShrineBlock<?> shrineBlock -> new ShrineItem(shrineBlock, new Item.Properties().setId(key));
-						default -> new BlockItem(block, new Item.Properties().setId(key));
+						case ShrineUpgradeBlock shrineUpgradeBlock -> new ShrineUpgradeItem(shrineUpgradeBlock, new Item.Properties().useBlockDescriptionPrefix().setId(key));
+						case AbstractShrineBlock<?> shrineBlock -> new ShrineItem(shrineBlock, new Item.Properties().useBlockDescriptionPrefix().setId(key));
+						default -> new BlockItem(block, new Item.Properties().useBlockDescriptionPrefix().setId(key));
 					});
                     ElementalCraftApi.LOGGER.debug("ElementalCraft Block {} has been automatically registered as item.", registryName);
 				}
@@ -277,11 +279,13 @@ public class ECItems {
 	}
 
 	private static <T extends PipeUpgrade> DeferredHolder<@NotNull Item, @NotNull PipeUpgradeItem> registerPipeUpgrade(DeferredHolder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeType<T>> pipeUpgrade) {
-		return register(pipeUpgrade.getId().getPath(), p -> new PipeUpgradeItem(pipeUpgrade::get, p), new Item.Properties());
+		var id = pipeUpgrade.getId();
+		return register(pipeUpgrade.getId().getPath(), p -> new PipeUpgradeItem(pipeUpgrade::get, p), new Item.Properties().overrideDescription(PipeUpgradeType.createDescriptionId(id)));
 	}
 
 	private static DeferredHolder<@NotNull Item, @NotNull JewelItem> registerJewel(DeferredHolder<@NotNull Jewel, ? extends @NotNull Jewel> jewel) {
-		return register(jewel.getId().getPath(), p -> new JewelItem(jewel::get, p), new Item.Properties().stacksTo(1));
+		var id = jewel.getId();
+		return register(jewel.getId().getPath(), p -> new JewelItem(jewel::get, p), new Item.Properties().stacksTo(1).overrideDescription(Jewel.createDescriptionId(id)));
 	}
 
 	private static <B extends Block> DeferredHolder<@NotNull Item, @NotNull BlockItem> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block) {
@@ -293,7 +297,7 @@ public class ECItems {
 	}
 
     private static <B extends Block, T extends BlockItem> DeferredHolder<@NotNull Item, @NotNull T> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block, BiFunction<B, Item.Properties, T> item, Item.Properties properties) {
-        return register(block.getId().getPath(), p -> item.apply(block.get(), p), properties);
+        return register(block.getId().getPath(), p -> item.apply(block.get(), p.useBlockDescriptionPrefix()), properties);
     }
 
 	private static DeferredHolder<@NotNull Item, @NotNull Item> registerSimple(String name) {
@@ -304,13 +308,21 @@ public class ECItems {
 		return register(name, Item::new, properties);
 	}
 
+	private static DeferredHolder<@NotNull Item, @NotNull Item> registerSimple(String name, Supplier<Item.Properties> properties) {
+		return register(name, Item::new, properties);
+	}
+
 	private static <T extends Item> DeferredHolder<@NotNull Item, @NotNull T> register(String name, Function<Item.Properties, T> itemFactory) {
 		return register(name, itemFactory, new Item.Properties());
 	}
 
 	private static <T extends Item> DeferredHolder<@NotNull Item, @NotNull T> register(String name, Function<Item.Properties, T> itemFactory, Item.Properties properties) {
+		return register(name, itemFactory, () -> properties);
+	}
+
+	private static <T extends Item> DeferredHolder<@NotNull Item, @NotNull T> register(String name, Function<Item.Properties, T> itemFactory, Supplier<Item.Properties> properties) {
 		var id = ResourceKey.create(Registries.ITEM, ElementalCraftApi.createRL(name));
-		return DEFERRED_REGISTER.register(name, () -> itemFactory.apply(properties.setId(id)));
+		return DEFERRED_REGISTER.register(name, () -> itemFactory.apply(properties.get().setId(id)));
 	}
 
 	public static void register(IEventBus bus) {

@@ -4,8 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.PageBuilder;
 
@@ -23,6 +24,7 @@ public class EntryBuilder implements PatchouliFile {
     private Identifier advancement;
     private Identifier turnIn;
     private int sortNum;
+    private boolean ignoreValidation;
 
     protected EntryBuilder(CategoryBuilder category, String name) {
         this.category = category;
@@ -31,6 +33,7 @@ public class EntryBuilder implements PatchouliFile {
         this.name = category.getNamespace() + ".entry." + name;
         this.priority = false;
         this.sortNum = 0;
+        this.ignoreValidation = false;
     }
 
     public static Codec<EntryBuilder> codec(HolderLookup.Provider lookupProvider) {
@@ -67,13 +70,13 @@ public class EntryBuilder implements PatchouliFile {
         return this.icon(Identifier.fromNamespaceAndPath(category.getNamespace(), icon));
     }
 
-    public EntryBuilder icon(ItemStack icon) {
+    public EntryBuilder icon(ItemStackTemplate icon) {
         this.icon = new BookIcon.StackIcon(icon);
         return this;
     }
 
     public EntryBuilder icon(ItemLike icon) {
-        return this.icon(new ItemStack(icon));
+        return this.icon(new ItemStackTemplate(icon.asItem()));
     }
 
     public EntryBuilder priority() {
@@ -96,8 +99,26 @@ public class EntryBuilder implements PatchouliFile {
         return this;
     }
 
+    public EntryBuilder ignoreValidation() {
+        this.ignoreValidation = true;
+        return this;
+    }
+
     @Override
     public @NotNull String getPath() {
         return "assets/" + category.getRadical() + "/en_us/entries/" + category.getFileName() + "/" + fileName + ".json";
+    }
+
+    @Override
+    public void validate() {
+        if (ignoreValidation) {
+            return;
+        }
+        if (StringUtils.isNotBlank(name)) {
+            category.book.translationKeyValidator.checkHasKey(name);
+        }
+        for (PageBuilder page : pages) {
+            page.validate(category.book.translationKeyValidator);
+        }
     }
 }

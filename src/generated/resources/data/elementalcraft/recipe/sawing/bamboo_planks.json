@@ -1,12 +1,11 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 1000,
-  "ingredient": {
-    "item": "minecraft:stripped_bamboo_block"
-  },
+  "input": "minecraft:stripped_bamboo_block",
   "luck_ratio": 3.0,
-  "output": {
+  "result": {
     "count": 6,
     "id": "minecraft:bamboo_planks"
-  }
+  },
+  "show_notification": false
 }

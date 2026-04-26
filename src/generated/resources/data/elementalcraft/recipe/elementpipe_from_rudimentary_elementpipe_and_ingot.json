@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "tag": "c:ingots/drenched_iron"
-    },
-    {
-      "tag": "c:ingots/drenched_iron"
-    }
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "#c:ingots/drenched_iron",
+    "#c:ingots/drenched_iron"
   ],
   "result": {
     "count": 4,

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "c": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "f": {
-      "item": "elementalcraft:crude_fire_gem"
-    },
-    "g": {
-      "tag": "c:ingots/gold"
-    },
-    "p": {
-      "item": "minecraft:porkchop"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "c": "elementalcraft:firecrystal",
+    "f": "elementalcraft:crude_fire_gem",
+    "g": "#c:ingots/gold",
+    "p": "minecraft:porkchop"
   },
   "pattern": [
     "gfg",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:piglin"
   }
 }

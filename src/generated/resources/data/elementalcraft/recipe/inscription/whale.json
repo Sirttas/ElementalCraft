@@ -3,29 +3,23 @@
   "element_amount": 5000,
   "element_type": "air",
   "ingredients": [
+    "elementalcraft:rune_slate",
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:kirby"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "tag": "c:dusts/glowstone"
-    },
-    {
-      "tag": "c:dusts/glowstone"
-    }
+    "#c:dusts/glowstone",
+    "#c:dusts/glowstone"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:whale"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

@@ -1,3 +1,6 @@
 {
-  "parent": "elementalcraft:block/vibration_air_synthesizer"
+  "parent": "elementalcraft:block/vibration_air_synthesizer",
+  "textures": {
+    "tendril": "elementalcraft:block/vibration_air_synthesizer_tendril_inactive"
+  }
 }

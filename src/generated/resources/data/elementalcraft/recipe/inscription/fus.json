@@ -3,29 +3,23 @@
   "element_amount": 5000,
   "element_type": "air",
   "ingredients": [
+    "elementalcraft:rune_slate",
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:wii"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "tag": "c:strings"
-    },
-    {
-      "tag": "c:strings"
-    }
+    "#c:strings",
+    "#c:strings"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:fus"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

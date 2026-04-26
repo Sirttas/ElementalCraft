@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "r": {
-      "tag": "c:dusts/redstone"
-    }
+    "c": "elementalcraft:contained_crystal",
+    "i": "#c:ingots/swift_alloy",
+    "r": "#c:dusts/redstone"
   },
   "pattern": [
     "rir",
@@ -18,7 +12,6 @@
     "rir"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:shrine_upgrade_core"
   }
 }

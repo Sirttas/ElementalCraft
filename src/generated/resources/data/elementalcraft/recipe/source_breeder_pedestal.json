@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "s": {
-      "item": "elementalcraft:strongly_contained_crystal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:purecrystal",
+    "i": "#c:ingots/swift_alloy",
+    "s": "elementalcraft:strongly_contained_crystal",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "wsw",
@@ -21,7 +13,6 @@
     "www"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:source_breeder_pedestal"
   }
 }

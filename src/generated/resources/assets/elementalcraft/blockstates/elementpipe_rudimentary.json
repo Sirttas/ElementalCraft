@@ -5,13 +5,12 @@
         "model": "elementalcraft:block/elementpipe_rudimentary_core"
       },
       "when": {
-        "cover": "none|frame"
+        "cover": "frame|none"
       }
     },
     {
       "apply": {
-        "model": "elementalcraft:block/cover_frame",
-        "uvlock": true
+        "model": "elementalcraft:block/cover_frame"
       },
       "when": {
         "cover": "frame"

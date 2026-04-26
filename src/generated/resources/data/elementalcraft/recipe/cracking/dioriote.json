@@ -1,6 +1,9 @@
 {
   "type": "elementalcraft:cracking",
   "element_amount": 200,
-  "input": "minecraft:diorite",
-  "result": "minecraft:cobblestone"
+  "input": {
+    "blocks": "minecraft:diorite"
+  },
+  "result": "minecraft:cobblestone",
+  "show_notification": false
 }

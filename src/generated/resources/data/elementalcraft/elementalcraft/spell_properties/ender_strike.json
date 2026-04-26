@@ -1,13 +1,13 @@
 {
   "attributes": {
-    "minecraft:generic.attack_damage": [
+    "minecraft:attack_damage": [
       {
         "amount": 1.0,
         "id": "elementalcraft:spell_attack_damage",
         "operation": "add_multiplied_total"
       }
     ],
-    "minecraft:player.block_interaction_range": [
+    "minecraft:block_interaction_range": [
       {
         "amount": 5.0,
         "id": "elementalcraft:spell_reach_distance",
@@ -15,7 +15,7 @@
       }
     ]
   },
-  "color": "#670F69",
+  "color": "#FF670F69",
   "cooldown": 60,
   "element_consumption": 1000,
   "element_type": "air",

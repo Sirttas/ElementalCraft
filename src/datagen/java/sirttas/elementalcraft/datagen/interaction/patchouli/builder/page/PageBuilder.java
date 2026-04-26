@@ -5,8 +5,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.List;
 
@@ -32,15 +33,15 @@ public interface PageBuilder {
         return new CraftingPageBuilder(BuiltInRegistries.ITEM.getKey(item.asItem()), null);
     }
 
-    static SpotlightPageBuilder spotlight(ItemStack stack, String text, boolean linkRecipe) {
+    static SpotlightPageBuilder spotlight(ItemStackTemplate stack, String text, boolean linkRecipe) {
         return new SpotlightPageBuilder(stack, text, linkRecipe);
     }
 
-    static SpotlightPageBuilder spotlight(Item stack, boolean linkRecipe) {
-        return spotlight(new ItemStack(stack), "", linkRecipe);
+    static SpotlightPageBuilder spotlight(Item item, boolean linkRecipe) {
+        return spotlight(new ItemStackTemplate(item), "", linkRecipe);
     }
 
-    static SpotlightPageBuilder spotlight(ItemStack stack) {
+    static SpotlightPageBuilder spotlight(ItemStackTemplate stack) {
         return spotlight(stack, "", false);
     }
 
@@ -58,5 +59,5 @@ public interface PageBuilder {
 
     PageBuilderType getType();
 
-    default void validate() {}
+    default void validate(TranslationKeyValidator translationKeyValidator) {}
 }

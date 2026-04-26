@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "f": {
-      "tag": "c:nuggets/fireite"
-    },
-    "g": {
-      "item": "elementalcraft:pristine_earth_gem"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    }
+    "f": "#c:nuggets/fireite",
+    "g": "elementalcraft:pristine_earth_gem",
+    "s": "elementalcraft:springaline_shard"
   },
   "pattern": [
     "fsf",
@@ -18,7 +12,6 @@
     "fsf"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:earth_source_seed"
   }
 }

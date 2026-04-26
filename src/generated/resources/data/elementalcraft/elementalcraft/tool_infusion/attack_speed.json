@@ -2,7 +2,7 @@
   "effects": [
     {
       "type": "elementalcraft:attribute",
-      "attribute": "minecraft:generic.attack_speed",
+      "attribute": "minecraft:attack_speed",
       "modifier": {
         "amount": 0.8,
         "id": "elementalcraft:tool_infusion_attack_speed",

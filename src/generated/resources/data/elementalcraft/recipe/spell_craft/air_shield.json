@@ -1,16 +1,22 @@
 {
   "type": "elementalcraft:spell_craft",
-  "crystal": {
-    "item": "elementalcraft:aircrystal"
-  },
-  "gem": {
-    "item": "elementalcraft:fine_air_gem"
-  },
-  "output": {
+  "crystal": "elementalcraft:aircrystal",
+  "gem": "elementalcraft:fine_air_gem",
+  "result": {
     "components": {
-      "elementalcraft:spell": "elementalcraft:air_shield"
+      "elementalcraft:spell": "elementalcraft:air_shield",
+      "minecraft:blocks_attacks": {
+        "block_delay_seconds": 0.25,
+        "block_sound": "minecraft:item.shield.block",
+        "disabled_sound": "minecraft:item.shield.break",
+        "item_damage": {
+          "base": 1.0,
+          "factor": 1.0,
+          "threshold": 3.0
+        }
+      }
     },
-    "count": 1,
     "id": "elementalcraft:scroll"
-  }
+  },
+  "show_notification": false
 }

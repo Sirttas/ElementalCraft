@@ -3,6 +3,8 @@ package sirttas.elementalcraft.datagen.interaction.patchouli.builder.page;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.apache.commons.lang3.StringUtils;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 public record TextPageBuilder(String text) implements PageBuilder {
 
@@ -16,5 +18,12 @@ public record TextPageBuilder(String text) implements PageBuilder {
     @Override
     public PageBuilderType getType() {
         return TYPE;
+    }
+
+    @Override
+    public void validate(TranslationKeyValidator translationKeyValidator) {
+        if (StringUtils.isNotBlank(text)) {
+            translationKeyValidator.checkHasKey(text);
+        }
     }
 }

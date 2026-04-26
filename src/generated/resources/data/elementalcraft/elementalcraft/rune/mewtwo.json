@@ -3,9 +3,7 @@
     "element_preservation": 0.1,
     "speed": 0.3
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/mewtwo",
   "max_amount": 1,
-  "model": "elementalcraft:elementalcraft/rune/mewtwo",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

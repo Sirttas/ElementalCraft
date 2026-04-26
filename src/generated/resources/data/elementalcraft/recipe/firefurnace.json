@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "f": {
-      "item": "minecraft:furnace"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:firecrystal",
+    "f": "minecraft:furnace",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "www",
@@ -18,7 +12,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:firefurnace"
   }
 }

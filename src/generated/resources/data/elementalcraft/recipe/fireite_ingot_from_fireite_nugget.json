@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:nuggets/fireite"
-    }
+    "#": "#c:nuggets/fireite"
   },
   "pattern": [
     "###",
@@ -12,7 +10,6 @@
     "###"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:fireite_ingot"
   }
 }

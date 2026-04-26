@@ -3,14 +3,10 @@
   "element_amount": 5000,
   "element_type": "earth",
   "ingredients": [
+    "elementalcraft:minor_rune_slate",
+    "elementalcraft:crude_earth_gem",
     {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_earth_gem"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:wii"
       },
@@ -18,7 +14,7 @@
       "strict": true
     },
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:manx"
       },
@@ -26,11 +22,11 @@
       "strict": true
     }
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:soaryn"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

@@ -3,27 +3,15 @@
   "element_amount": 2500,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:watercrystal"
-    },
-    {
-      "item": "elementalcraft:crude_earth_gem"
-    },
-    {
-      "tag": "minecraft:flowers"
-    },
-    {
-      "tag": "c:seeds"
-    },
-    {
-      "tag": "c:crops"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:watercrystal",
+    "elementalcraft:crude_earth_gem",
+    "#minecraft:flowers",
+    "#c:seeds",
+    "#c:crops"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:groveshrine"
-  }
+  },
+  "show_notification": false
 }

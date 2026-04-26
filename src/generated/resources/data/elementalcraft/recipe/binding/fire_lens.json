@@ -3,21 +3,13 @@
   "element_amount": 2500,
   "element_type": "fire",
   "ingredients": [
-    {
-      "item": "elementalcraft:springaline_shard"
-    },
-    {
-      "item": "elementalcraft:springaline_glass_pane"
-    },
-    {
-      "tag": "c:ingots/copper"
-    },
-    {
-      "item": "elementalcraft:firecrystal"
-    }
+    "elementalcraft:springaline_shard",
+    "elementalcraft:springaline_glass_pane",
+    "#c:ingots/copper",
+    "elementalcraft:firecrystal"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:fire_lens"
-  }
+  },
+  "show_notification": false
 }

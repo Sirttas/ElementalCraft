@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "g": {
-      "item": "elementalcraft:springaline_glass"
-    },
-    "h": {
-      "tag": "c:rods/hardened"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "s": {
-      "item": "elementalcraft:air_silk"
-    }
+    "g": "elementalcraft:springaline_glass",
+    "h": "#c:rods/hardened",
+    "i": "#c:ingots/swift_alloy",
+    "s": "elementalcraft:air_silk"
   },
   "pattern": [
     " sg",
@@ -21,7 +13,6 @@
     "h  "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:source_analysis_glass"
   }
 }

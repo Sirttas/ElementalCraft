@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "elementalcraft:air_mill"
-    },
-    "c": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "s": {
-      "item": "minecraft:grindstone"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "a": "elementalcraft:air_mill",
+    "c": "elementalcraft:aircrystal",
+    "i": "#c:ingots/swift_alloy",
+    "s": "minecraft:grindstone",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     " a ",
@@ -24,7 +14,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:air_mill_wood_saw"
   }
 }

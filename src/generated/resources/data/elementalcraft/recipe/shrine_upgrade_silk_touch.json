@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "s": {
-      "item": "elementalcraft:air_silk"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "C": "elementalcraft:shrine_upgrade_core",
+    "c": "elementalcraft:purecrystal",
+    "s": "elementalcraft:air_silk",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "sss",
@@ -21,7 +13,6 @@
     " c "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:shrine_upgrade_silk_touch"
   }
 }

@@ -1,32 +1,17 @@
 {
   "variants": {
-    "facing=east,waterlogged=false": {
+    "facing=east": {
       "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
       "y": 90
     },
-    "facing=east,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
-      "y": 90
-    },
-    "facing=north,waterlogged=false": {
+    "facing=north": {
       "model": "elementalcraft:block/shrine_upgrade_certus_quartz"
     },
-    "facing=north,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_certus_quartz"
-    },
-    "facing=south,waterlogged=false": {
+    "facing=south": {
       "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
       "y": 180
     },
-    "facing=south,waterlogged=true": {
-      "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
-      "y": 180
-    },
-    "facing=west,waterlogged=false": {
-      "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
-      "y": 270
-    },
-    "facing=west,waterlogged=true": {
+    "facing=west": {
       "model": "elementalcraft:block/shrine_upgrade_certus_quartz",
       "y": 270
     }

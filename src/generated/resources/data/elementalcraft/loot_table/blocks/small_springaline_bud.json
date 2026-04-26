@@ -1,4 +1,21 @@
 {
   "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "elementalcraft:small_springaline_bud"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
   "random_sequence": "elementalcraft:blocks/small_springaline_bud"
 }

@@ -3,21 +3,13 @@
   "element_amount": 30000,
   "element_type": "fire",
   "ingredients": [
-    {
-      "tag": "c:ingots/netherite"
-    },
-    {
-      "tag": "c:ingots/swift_alloy"
-    },
-    {
-      "item": "elementalcraft:springaline_shard"
-    },
-    {
-      "item": "elementalcraft:purecrystal"
-    }
+    "#c:ingots/netherite",
+    "#c:ingots/swift_alloy",
+    "elementalcraft:springaline_shard",
+    "elementalcraft:purecrystal"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:fireite_ingot"
-  }
+  },
+  "show_notification": false
 }

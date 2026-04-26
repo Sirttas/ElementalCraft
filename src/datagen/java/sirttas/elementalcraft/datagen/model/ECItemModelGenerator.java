@@ -12,7 +12,7 @@ import java.util.function.BiConsumer;
 
 public class ECItemModelGenerator extends ItemModelGenerators implements ECModelGenerator {
 
-    public static final ECModelGenerator.Factory FACTORY = (_, itemModelOutput, _, modelOutput) -> new ECItemModelGenerator(itemModelOutput, modelOutput);
+    public static final ECModelGenerator.Factory FACTORY = (_, itemModelOutput, _, _, modelOutput) -> new ECItemModelGenerator(itemModelOutput, modelOutput);
 
     public ECItemModelGenerator(ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(itemModelOutput, modelOutput);
@@ -130,6 +130,7 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.declareCustomModelItem(ECItems.LARGE_SPRINGALINE_BUD.get());
         this.declareCustomModelItem(ECItems.MEDIUM_SPRINGALINE_BUD.get());
         this.declareCustomModelItem(ECItems.SMALL_SPRINGALINE_BUD.get());
+        this.declareCustomModelItem(ECItems.COVER_FRAME.get());
     }
 
     public void generateScroll(Item item) {

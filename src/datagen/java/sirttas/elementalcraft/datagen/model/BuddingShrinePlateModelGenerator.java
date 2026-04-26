@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 
 public class BuddingShrinePlateModelGenerator implements ECModelGenerator {
 
-    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, buddingShrinePlateModelOutput, modelOutput) -> new BuddingShrinePlateModelGenerator(buddingShrinePlateModelOutput, modelOutput);
+    public static final ECModelGenerator.Factory FACTORY = (_, _, _, buddingShrinePlateModelOutput, modelOutput) -> new BuddingShrinePlateModelGenerator(buddingShrinePlateModelOutput, modelOutput);
 
     public final BiConsumer<BudTypeDataDefinition, BuddingShrinePlateModel.Unbaked> buddingShrinePlateModelOutput;
     public final BiConsumer<Identifier, ModelInstance> modelOutput;

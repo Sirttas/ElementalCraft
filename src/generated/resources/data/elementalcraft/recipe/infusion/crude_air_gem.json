@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 1000,
   "element_type": "air",
-  "input": {
-    "tag": "c:gems/diamond"
-  },
-  "output": {
-    "count": 1,
+  "input": "#c:gems/diamond",
+  "result": {
     "id": "elementalcraft:crude_air_gem"
-  }
+  },
+  "show_notification": false
 }

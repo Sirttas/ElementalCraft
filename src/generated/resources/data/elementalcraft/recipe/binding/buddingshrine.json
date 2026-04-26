@@ -3,27 +3,15 @@
   "element_amount": 2500,
   "element_type": "earth",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "elementalcraft:crude_water_gem"
-    },
-    {
-      "item": "minecraft:amethyst_block"
-    },
-    {
-      "item": "elementalcraft:springaline_shard"
-    },
-    {
-      "tag": "c:gems/diamond"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:earthcrystal",
+    "elementalcraft:crude_water_gem",
+    "minecraft:amethyst_block",
+    "elementalcraft:springaline_shard",
+    "#c:gems/diamond"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:buddingshrine"
-  }
+  },
+  "show_notification": false
 }

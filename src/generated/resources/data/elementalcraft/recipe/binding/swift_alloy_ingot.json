@@ -3,24 +3,14 @@
   "element_amount": 1250,
   "element_type": "air",
   "ingredients": [
-    {
-      "tag": "c:ingots/gold"
-    },
-    {
-      "tag": "c:ingots/drenched_iron"
-    },
-    {
-      "tag": "c:ingots/copper"
-    },
-    {
-      "tag": "c:dusts/redstone"
-    },
-    {
-      "item": "elementalcraft:aircrystal"
-    }
+    "#c:ingots/gold",
+    "#c:ingots/drenched_iron",
+    "#c:ingots/copper",
+    "#c:dusts/redstone",
+    "elementalcraft:aircrystal"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:swift_alloy_ingot"
-  }
+  },
+  "show_notification": false
 }

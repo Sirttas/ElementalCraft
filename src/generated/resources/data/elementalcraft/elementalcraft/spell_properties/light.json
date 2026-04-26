@@ -1,6 +1,6 @@
 {
   "attributes": {
-    "minecraft:player.block_interaction_range": [
+    "minecraft:block_interaction_range": [
       {
         "amount": 15.0,
         "id": "elementalcraft:spell_reach_distance",
@@ -8,7 +8,7 @@
       }
     ]
   },
-  "color": "#F2FF40",
+  "color": "#FFF2FF40",
   "cooldown": 10,
   "element_consumption": 100,
   "element_type": "fire",

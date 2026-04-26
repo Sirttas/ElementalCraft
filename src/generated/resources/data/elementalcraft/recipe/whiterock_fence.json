@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "elementalcraft:whiterock"
-    },
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    }
+    "#": "elementalcraft:whiterock",
+    "i": "#c:ingots/drenched_iron"
   },
   "pattern": [
     "#i#",

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": {
-      "tag": "c:ingots/fireite"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "i": "#c:ingots/fireite",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "www",

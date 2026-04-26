@@ -1,3 +1,6 @@
 {
-  "parent": "elementalcraft:item/template_element_holder"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementalcraft:item/element_holder_earth"
+  }
 }

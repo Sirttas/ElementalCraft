@@ -1,17 +1,11 @@
 {
   "type": "elementalcraft:crystallization",
+  "crystal": "elementalcraft:pristine_shard",
   "element_amount": 10000,
   "element_type": "fire",
-  "ingredients": {
-    "crystal": {
-      "item": "elementalcraft:pristine_shard"
-    },
-    "gem": {
-      "item": "elementalcraft:fine_fire_gem"
-    }
-  },
+  "gem": "elementalcraft:fine_fire_gem",
   "result": {
-    "count": 1,
     "id": "elementalcraft:pristine_fire_gem"
-  }
+  },
+  "show_notification": false
 }

@@ -2,7 +2,7 @@
   "effects": [
     {
       "type": "elementalcraft:attribute",
-      "attribute": "minecraft:generic.movement_speed",
+      "attribute": "minecraft:movement_speed",
       "modifier": {
         "amount": 0.01,
         "id": "elementalcraft:tool_infusion_movement_speed",

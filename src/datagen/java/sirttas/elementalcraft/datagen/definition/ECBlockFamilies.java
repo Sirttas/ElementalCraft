@@ -2,6 +2,7 @@ package sirttas.elementalcraft.datagen.definition;
 
 import com.google.common.collect.Maps;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.BlockFamilies;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
@@ -53,14 +54,13 @@ public class ECBlockFamilies {
     private ECBlockFamilies() { }
 
     private static BlockFamily.Builder familyBuilder(Block base) {
-        BlockFamily.Builder builder = new BlockFamily.Builder(base);
+        BlockFamily.Builder builder = BlockFamilies.familyBuilder(base);
         BlockFamily blockFamily = MAP.put(base, builder.getFamily());
 
         if (blockFamily != null) {
             throw new IllegalStateException("Duplicate family definition for " + BuiltInRegistries.BLOCK.getKey(base));
-        } else {
-            return builder;
         }
+        return builder;
     }
 
     public static Stream<BlockFamily> getAllFamilies() {

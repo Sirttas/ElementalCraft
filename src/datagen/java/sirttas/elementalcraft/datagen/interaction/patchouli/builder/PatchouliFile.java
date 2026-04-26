@@ -13,7 +13,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import org.jetbrains.annotations.NotNull;
@@ -23,12 +23,12 @@ import java.util.stream.Stream;
 
 public interface PatchouliFile {
 
-    static Codec<ItemStack> stackCodec(HolderLookup.Provider lookupProvider) {
+    static Codec<ItemStackTemplate> stackCodec(HolderLookup.Provider lookupProvider) {
         return new Codec<>() {
 
             @Override
-            public <T> DataResult<T> encode(ItemStack input, DynamicOps<T> ops, T prefix) {
-                var itemInput = new ItemInput(input.typeHolder(), input.getComponentsPatch());
+            public <T> DataResult<T> encode(ItemStackTemplate input, DynamicOps<T> ops, T prefix) {
+                var itemInput = new ItemInput(input.typeHolder(), input.components());
 
                 return DataResult.success(ops.createString(serialize(itemInput, lookupProvider)));
             }
@@ -74,7 +74,7 @@ public interface PatchouliFile {
             }
 
             @Override
-            public <T> DataResult<Pair<ItemStack, T>> decode(DynamicOps<T> ops, T input) {
+            public <T> DataResult<Pair<ItemStackTemplate, T>> decode(DynamicOps<T> ops, T input) {
                 throw new UnsupportedOperationException("Deserialization not supported");
             }
         };

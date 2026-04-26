@@ -1,7 +1,7 @@
 {
   "advancement": "elementalcraft:pickup/spell_desk",
   "category": "elementalcraft:spells",
-  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:air_shield\"]",
+  "icon": "elementalcraft:scroll[elementalcraft:spell=\"elementalcraft:air_shield\",minecraft:blocks_attacks={block_delay_seconds:0.25f,block_sound:\"minecraft:item.shield.block\",disabled_sound:\"minecraft:item.shield.break\",item_damage:{base:1.0f,factor:1.0f,threshold:3.0f}}]",
   "name": "elementalcraft_spell.elementalcraft.air_shield",
   "pages": [
     {

@@ -1,11 +1,9 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 250,
-  "ingredient": {
-    "item": "minecraft:mangrove_log"
-  },
-  "output": {
-    "count": 1,
+  "input": "minecraft:mangrove_log",
+  "result": {
     "id": "minecraft:stripped_mangrove_log"
-  }
+  },
+  "show_notification": false
 }

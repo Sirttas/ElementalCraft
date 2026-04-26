@@ -6,28 +6,12 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
-        },
-        {
-          "block": "elementalcraft:air_mill_wood_saw",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "half": "lower"
-          }
         }
       ],
       "entries": [
         {
           "type": "minecraft:item",
           "name": "elementalcraft:air_mill_wood_saw"
-        }
-      ],
-      "functions": [
-        {
-          "function": "minecraft:copy_components",
-          "include": [
-            "elementalcraft:air_mill_damage"
-          ],
-          "source": "block_entity"
         }
       ],
       "rolls": 1.0
@@ -37,13 +21,6 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
-        },
-        {
-          "block": "elementalcraft:air_mill_wood_saw",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "half": "lower"
-          }
         }
       ],
       "entries": [

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:firecrystal_block"
-    }
+    "elementalcraft:firecrystal_block"
   ],
   "result": {
     "count": 9,

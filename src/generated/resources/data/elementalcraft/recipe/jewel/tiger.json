@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "a": {
-      "item": "elementalcraft:pristine_air_gem"
-    },
-    "c": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "f": {
-      "item": "elementalcraft:fine_air_gem"
-    },
-    "s": {
-      "item": "minecraft:sugar"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "a": "elementalcraft:pristine_air_gem",
+    "c": "elementalcraft:aircrystal",
+    "f": "elementalcraft:fine_air_gem",
+    "s": "minecraft:sugar"
   },
   "pattern": [
     "sas",
@@ -24,7 +14,6 @@
     "sfs"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:tiger"
   }
 }

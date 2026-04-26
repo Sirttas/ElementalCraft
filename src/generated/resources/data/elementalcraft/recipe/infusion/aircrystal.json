@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 1000,
   "element_type": "air",
-  "input": {
-    "item": "elementalcraft:inert_crystal"
-  },
-  "output": {
-    "count": 1,
+  "input": "elementalcraft:inert_crystal",
+  "result": {
     "id": "elementalcraft:aircrystal"
-  }
+  },
+  "show_notification": false
 }

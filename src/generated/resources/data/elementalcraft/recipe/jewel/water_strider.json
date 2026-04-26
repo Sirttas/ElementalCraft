@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "b": {
-      "item": "minecraft:water_bucket"
-    },
-    "w": {
-      "item": "elementalcraft:fine_water_gem"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "b": "minecraft:water_bucket",
+    "w": "elementalcraft:fine_water_gem"
   },
   "pattern": [
     " w ",
@@ -18,7 +12,6 @@
     " w "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:water_strider"
   }
 }

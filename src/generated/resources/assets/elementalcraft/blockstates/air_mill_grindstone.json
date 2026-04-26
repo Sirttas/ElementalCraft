@@ -1,12 +1,15 @@
 {
   "variants": {
     "broken=false,half=lower": {
-      "model": "elementalcraft:block/air_mill_lower"
+      "model": "elementalcraft:block/air_mill_ulower"
+    },
+    "broken=false,half=upper": {
+      "model": "elementalcraft:block/air_mill_upper"
     },
     "broken=true,half=lower": {
       "model": "elementalcraft:block/air_mill_grindstone_broken"
     },
-    "half=upper": {
+    "broken=true,half=upper": {
       "model": "elementalcraft:block/air_mill_upper"
     }
   }

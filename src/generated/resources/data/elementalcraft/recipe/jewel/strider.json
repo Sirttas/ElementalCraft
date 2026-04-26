@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "b": {
-      "item": "minecraft:lava_bucket"
-    },
-    "f": {
-      "item": "elementalcraft:fine_fire_gem"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "b": "minecraft:lava_bucket",
+    "f": "elementalcraft:fine_fire_gem"
   },
   "pattern": [
     " f ",
@@ -18,7 +12,6 @@
     " f "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:strider"
   }
 }

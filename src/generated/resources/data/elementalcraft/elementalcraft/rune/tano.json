@@ -3,8 +3,6 @@
     "element_preservation": 0.15,
     "speed": -0.1
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/tano",
-  "model": "elementalcraft:elementalcraft/rune/tano",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

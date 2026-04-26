@@ -3,11 +3,9 @@
   "element_amount": 20000,
   "element_type": "earth",
   "ingredients": [
+    "elementalcraft:major_rune_slate",
     {
-      "item": "elementalcraft:major_rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:kaworu"
       },
@@ -15,7 +13,7 @@
       "strict": true
     },
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:zod"
       },
@@ -23,7 +21,7 @@
       "strict": true
     },
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:tano"
       },
@@ -31,11 +29,11 @@
       "strict": true
     }
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:mewtwo"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "elementalcraft:block/template_elementpipe",
+  "textures": {
+    "texture": "elementalcraft:block/pure_iron"
+  }
+}

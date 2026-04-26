@@ -2,18 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "elementalcraft:block/reservoir_top"
-      },
-      "when": {
-        "half": "upper"
-      }
-    },
-    {
-      "apply": {
         "model": "elementalcraft:block/reservoir_earth"
-      },
-      "when": {
-        "half": "lower"
       }
     },
     {

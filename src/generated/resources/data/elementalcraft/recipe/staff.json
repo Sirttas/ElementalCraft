@@ -1,19 +1,11 @@
 {
-  "type": "elementalcraft:staff",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "f": {
-      "item": "elementalcraft:focus"
-    },
-    "h": {
-      "tag": "c:rods/hardened"
-    },
-    "i": {
-      "tag": "c:ingots/fireite"
-    },
-    "s": {
-      "tag": "elementalcraft:staff_craft_sword"
-    }
+    "f": "elementalcraft:focus",
+    "h": "#c:rods/hardened",
+    "i": "#c:ingots/fireite",
+    "s": "#elementalcraft:staff_craft_sword"
   },
   "pattern": [
     " if",
@@ -21,7 +13,6 @@
     "si "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:staff"
   }
 }

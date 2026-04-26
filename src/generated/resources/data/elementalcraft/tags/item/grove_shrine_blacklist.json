@@ -5,11 +5,11 @@
     "minecraft:spore_blossom",
     "#elementalcraft:mystical_grove_flowers",
     {
-      "id": "#botania:special_flowers",
+      "id": "#bortania:special_flowers",
       "required": false
     },
     {
-      "id": "#botania:floating_flowers",
+      "id": "#bortania:floating_flowers",
       "required": false
     }
   ]

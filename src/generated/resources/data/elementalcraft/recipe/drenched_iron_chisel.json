@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "h": {
-      "tag": "c:rods/wooden"
-    },
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    },
-    "s": {
-      "item": "elementalcraft:air_silk"
-    }
+    "h": "#c:rods/wooden",
+    "i": "#c:ingots/drenched_iron",
+    "s": "elementalcraft:air_silk"
   },
   "pattern": [
     " i ",
@@ -18,7 +12,6 @@
     "h  "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:drenched_iron_chisel"
   }
 }

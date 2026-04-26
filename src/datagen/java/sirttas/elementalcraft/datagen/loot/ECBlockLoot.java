@@ -43,7 +43,6 @@ import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.block.shrine.AbstractPylonShrineBlock;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.breeding.BreedingShrineBlock;
-import sirttas.elementalcraft.block.source.SourceBlock;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.loot.entry.LootRunes;
@@ -114,7 +113,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 			var block = entry.getValue();
 			var key = block.getLootTable();
 
-			if (!ElementalCraft.owns(entry) || map.containsKey(key)) {
+			if (!ElementalCraft.owns(entry) || map.containsKey(key) || block.getLootTable().isEmpty()) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {
@@ -133,8 +132,6 @@ public class ECBlockLoot extends BlockLootSubProvider {
 				add(block, this::createPipe);
 			} else if (block instanceof ReservoirBlock) {
 				add(block, ECBlockLoot::createDoubleHalfElementStorage);
-			} else if (block instanceof SourceBlock) {
-				add(block, noDrop());
 			} else if (block.defaultBlockState().hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
 				add(block, b -> createSinglePropConditionTable(b, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
 			} else {

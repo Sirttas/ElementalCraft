@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "c:storage_blocks/swift_alloy"
-    }
+    "#c:storage_blocks/swift_alloy"
   ],
   "result": {
     "count": 9,

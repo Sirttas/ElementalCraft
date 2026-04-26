@@ -3,29 +3,23 @@
   "element_amount": 10000,
   "element_type": "fire",
   "ingredients": [
+    "elementalcraft:major_rune_slate",
     {
-      "item": "elementalcraft:major_rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:jita"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "tag": "c:storage_blocks/coal"
-    },
-    {
-      "tag": "c:storage_blocks/coal"
-    }
+    "#c:storage_blocks/coal",
+    "#c:storage_blocks/coal"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:tano"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

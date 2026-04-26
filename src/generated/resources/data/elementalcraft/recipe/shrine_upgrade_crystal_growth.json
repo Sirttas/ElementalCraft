@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "c": {
-      "item": "elementalcraft:watercrystal"
-    },
-    "e": {
-      "item": "elementalcraft:pristine_earth_gem"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_block"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "C": "elementalcraft:shrine_upgrade_core",
+    "c": "elementalcraft:watercrystal",
+    "e": "elementalcraft:pristine_earth_gem",
+    "s": "elementalcraft:springaline_block",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "ses",
@@ -24,7 +14,6 @@
     " c "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:shrine_upgrade_crystal_growth"
   }
 }

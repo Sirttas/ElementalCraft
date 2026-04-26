@@ -5,8 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -64,13 +65,13 @@ public class CategoryBuilder implements PatchouliFile {
         return this.icon(Identifier.fromNamespaceAndPath(book.getNamespace(), icon));
     }
 
-    public CategoryBuilder icon(ItemStack icon) {
+    public CategoryBuilder icon(ItemStackTemplate icon) {
         this.icon = new BookIcon.StackIcon(icon);
         return this;
     }
 
     public CategoryBuilder icon(ItemLike icon) {
-        return this.icon(new ItemStack(icon));
+        return this.icon(new ItemStackTemplate(icon.asItem()));
     }
 
     public CategoryBuilder sortNum(int sortNum) {
@@ -117,6 +118,12 @@ public class CategoryBuilder implements PatchouliFile {
 
     @Override
     public void validate() {
+        if (StringUtils.isNotBlank(name)) {
+            book.translationKeyValidator.checkHasKey(name);
+        }
+        if (StringUtils.isNotBlank(description)) {
+            book.translationKeyValidator.checkHasKey(description);
+        }
         if (icon != null) {
             icon.validate();
         }

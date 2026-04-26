@@ -3,9 +3,7 @@
     "element_preservation": -0.1,
     "luck": 2.0
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/bombadil",
   "max_amount": 1,
-  "model": "elementalcraft:elementalcraft/rune/bombadil",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

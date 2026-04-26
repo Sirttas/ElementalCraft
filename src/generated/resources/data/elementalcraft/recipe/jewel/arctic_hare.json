@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "a": {
-      "item": "elementalcraft:crude_air_gem"
-    },
-    "f": {
-      "item": "minecraft:rabbit_foot"
-    },
-    "w": {
-      "item": "elementalcraft:fine_water_gem"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "a": "elementalcraft:crude_air_gem",
+    "f": "minecraft:rabbit_foot",
+    "w": "elementalcraft:fine_water_gem"
   },
   "pattern": [
     " w ",
@@ -21,7 +13,6 @@
     " a "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:arctic_hare"
   }
 }

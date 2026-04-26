@@ -3,21 +3,13 @@
   "element_amount": 2500,
   "element_type": "fire",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:firecrystal"
-    },
-    {
-      "item": "minecraft:lava_bucket"
-    },
-    {
-      "tag": "c:ingots/gold"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:firecrystal",
+    "minecraft:lava_bucket",
+    "#c:ingots/gold"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:firepylon"
-  }
+  },
+  "show_notification": false
 }

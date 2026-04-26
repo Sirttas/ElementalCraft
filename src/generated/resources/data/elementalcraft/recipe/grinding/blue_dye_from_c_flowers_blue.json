@@ -10,12 +10,11 @@
   ],
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "ingredient": {
-    "tag": "c:flowers/blue"
-  },
+  "input": "#c:flowers/blue",
   "luck_ratio": 2.0,
-  "output": {
+  "result": {
     "count": 2,
     "id": "minecraft:blue_dye"
-  }
+  },
+  "show_notification": false
 }

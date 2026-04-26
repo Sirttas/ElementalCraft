@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:element_holder_water"
-    }
+    "elementalcraft:element_holder_water"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_holder_water"
   }
 }

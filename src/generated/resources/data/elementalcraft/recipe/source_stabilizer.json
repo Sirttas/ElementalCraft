@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_glass_pane"
-    }
+    "i": "#c:ingots/swift_alloy",
+    "s": "elementalcraft:springaline_glass_pane"
   },
   "pattern": [
     "sis",

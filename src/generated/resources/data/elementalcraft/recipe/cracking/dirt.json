@@ -1,6 +1,9 @@
 {
   "type": "elementalcraft:cracking",
   "element_amount": 75,
-  "input": "#minecraft:dirt",
-  "result": "minecraft:sand"
+  "input": {
+    "blocks": "#minecraft:dirt"
+  },
+  "result": "minecraft:sand",
+  "show_notification": false
 }

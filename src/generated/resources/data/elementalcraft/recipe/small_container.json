@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "g": {
-      "tag": "c:glass_blocks"
-    },
-    "p": {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    }
+    "g": "#c:glass_blocks",
+    "p": "elementalcraft:elementpipe_rudimentary"
   },
   "pattern": [
     " p ",
@@ -15,7 +11,6 @@
     " p "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:small_container"
   }
 }

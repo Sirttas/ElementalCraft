@@ -3,8 +3,6 @@
     "element_preservation": -0.05,
     "speed": 0.3
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/fus",
-  "model": "elementalcraft:elementalcraft/rune/fus",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

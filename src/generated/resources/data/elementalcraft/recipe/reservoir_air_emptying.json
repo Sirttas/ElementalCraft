@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:reservoir_air"
-    }
+    "elementalcraft:reservoir_air"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:reservoir_air"
   }
 }

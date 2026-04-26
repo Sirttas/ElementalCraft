@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:reservoir_earth"
-    }
+    "elementalcraft:reservoir_earth"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:reservoir_earth"
   }
 }

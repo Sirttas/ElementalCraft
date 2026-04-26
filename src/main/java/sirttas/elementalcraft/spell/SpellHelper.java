@@ -25,14 +25,14 @@ public class SpellHelper {
 
         if (oldSpell.is(spell)) {
             return;
-        } else if (oldSpell.value() instanceof DataComponentSpell oldDataComponentSpell) {
-            oldDataComponentSpell.unpatch(stack);
         }
+		for (var component : oldSpell.value().getDataComponents()) {
+			stack.remove(component.type());
+		}
 		stack.set(ECDataComponents.SPELL, spell);
-        if (spell.value() instanceof DataComponentSpell dataComponentSpell) {
-            dataComponentSpell.patch(stack);
-        }
+		stack.applyComponents(spell.value().getDataComponents());
 	}
+
 
 	public static void removeSpell(ItemStack stack, Holder<@NotNull Spell> spell) {
 		var list = getSpellList(stack);

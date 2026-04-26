@@ -3,21 +3,13 @@
   "element_amount": 2500,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:watercrystal"
-    },
-    {
-      "item": "minecraft:bucket"
-    },
-    {
-      "tag": "minecraft:fishes"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:watercrystal",
+    "minecraft:bucket",
+    "#minecraft:fishes"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:springshrine"
-  }
+  },
+  "show_notification": false
 }

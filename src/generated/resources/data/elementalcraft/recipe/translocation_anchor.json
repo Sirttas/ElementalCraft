@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "e": {
-      "item": "minecraft:ender_eye"
-    },
-    "f": {
-      "tag": "c:nuggets/fireite"
-    },
-    "g": {
-      "item": "elementalcraft:pristine_air_gem"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "e": "minecraft:ender_eye",
+    "f": "#c:nuggets/fireite",
+    "g": "elementalcraft:pristine_air_gem",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     " e ",
@@ -21,7 +13,6 @@
     "www"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:translocation_anchor"
   }
 }

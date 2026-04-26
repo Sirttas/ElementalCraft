@@ -3,11 +3,9 @@
   "element_amount": 10000,
   "element_type": "earth",
   "ingredients": [
+    "elementalcraft:rune_slate",
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:soaryn"
       },
@@ -15,7 +13,7 @@
       "strict": true
     },
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:fus"
       },
@@ -23,7 +21,7 @@
       "strict": true
     },
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:jita"
       },
@@ -31,11 +29,11 @@
       "strict": true
     }
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:kaworu"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

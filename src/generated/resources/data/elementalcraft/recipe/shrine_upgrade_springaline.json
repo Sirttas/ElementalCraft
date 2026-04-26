@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "elementalcraft:shrine_upgrade_core"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "p": {
-      "item": "minecraft:prismarine_crystals"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_block"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "C": "elementalcraft:shrine_upgrade_core",
+    "c": "elementalcraft:purecrystal",
+    "p": "minecraft:prismarine_crystals",
+    "s": "elementalcraft:springaline_block",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "sps",
@@ -24,7 +14,6 @@
     " c "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:shrine_upgrade_springaline"
   }
 }

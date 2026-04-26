@@ -14,31 +14,6 @@
           "name": "elementalcraft:sculk_cracking_earth_synthesizer"
         }
       ],
-      "functions": [
-        {
-          "function": "minecraft:copy_components",
-          "include": [
-            "elementalcraft:element_type",
-            "elementalcraft:element_amount"
-          ],
-          "source": "block_entity"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
-      "entries": [
-        {
-          "type": "elementalcraft:runes"
-        }
-      ],
-      "name": "elementalcraft:runes",
       "rolls": 1.0
     }
   ],

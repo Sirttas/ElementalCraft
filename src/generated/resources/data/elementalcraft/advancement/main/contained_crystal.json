@@ -17,7 +17,6 @@
       "translate": "advancements.elementalcraft.contained_crystal.description"
     },
     "icon": {
-      "count": 1,
       "id": "elementalcraft:contained_crystal"
     },
     "title": {

@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 
 public class ECBlockStateModelGenerator extends BlockModelGenerators implements ECModelGenerator {
 
-    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, _, modelOutput) -> new ECBlockStateModelGenerator(blockStateOutput, itemModelOutput, modelOutput);
+    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, _, _, modelOutput) -> new ECBlockStateModelGenerator(blockStateOutput, itemModelOutput, modelOutput);
 
     public static final MultiVariant CONTAINER_CONNECTOR         = plainVariant(decorateBlockModelLocation("container_connector"));
     public static final MultiVariant PEDESTAL_CONNECTOR          = plainVariant(decorateBlockModelLocation("pedestal_connector"));
@@ -252,7 +252,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
         blockStateOutput.accept(MultiVariantGenerator.dispatch(block)
                 .with(PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_AXIS)
                         .select(Direction.Axis.X, model)
-                        .select(Direction.Axis.Y, model.with(BlockModelGenerators.Y_ROT_90))));
+                        .select(Direction.Axis.Z, model.with(BlockModelGenerators.Y_ROT_90))));
     }
 
     public void createVibrationSynthesizer() {
@@ -436,8 +436,8 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
                 new TextureMapping().put(TextureSlot.TEXTURE, new Material(decorateBlockModelLocation(texture))),
                 modelOutput));
 
-        registerSimpleItemModel(block, ECModelTemplates.PIPE_ITEM.createWithSuffix(
-                block, "_core",
+        registerSimpleItemModel(block, ECModelTemplates.PIPE_ITEM.create(
+                block,
                 new TextureMapping().put(TextureSlot.TEXTURE, new Material(decorateBlockModelLocation(texture))),
                 modelOutput));
         blockStateOutput.accept(createCoverable(block, core));
@@ -472,7 +472,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
         var post = plainVariant(ModelTemplates.FENCE_POST.create(block, new TextureMapping().put(TextureSlot.TEXTURE, TextureMapping.getBlockTexture(ECBlocks.WHITE_ROCK.get())), modelOutput));
         var side = plainVariant(ModelTemplates.FENCE_SIDE.create(block, new TextureMapping().put(TextureSlot.TEXTURE, new Material(decorateBlockModelLocation("iron"))), modelOutput));
 
-        createFence(block, post, side);
+        blockStateOutput.accept(createFence(block, post, side));
     }
 
     public static Identifier decorateBlockModelLocation(String id) {

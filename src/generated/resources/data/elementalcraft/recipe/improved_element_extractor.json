@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "e": {
-      "item": "elementalcraft:element_extractor"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "r": {
-      "item": "elementalcraft:rudimentary_element_extractor"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:purecrystal",
+    "e": "elementalcraft:element_extractor",
+    "i": "#c:ingots/swift_alloy",
+    "r": "elementalcraft:rudimentary_element_extractor",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     " r ",
@@ -24,7 +14,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:improved_element_extractor"
   }
 }

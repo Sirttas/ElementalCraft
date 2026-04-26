@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    },
-    "n": {
-      "tag": "c:nuggets/drenched_iron"
-    },
-    "r": {
-      "tag": "c:ingots/iron"
-    }
+    "i": "#c:ingots/drenched_iron",
+    "n": "#c:nuggets/drenched_iron",
+    "r": "#c:ingots/iron"
   },
   "pattern": [
     "nin",
@@ -18,7 +12,6 @@
     "nin"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:drenched_saw_blade"
   }
 }

@@ -1,5 +1,8 @@
 {
   "type": "elementalcraft:sculk_cracking",
   "element_amount": 1000,
-  "input": "minecraft:sculk"
+  "input": {
+    "blocks": "minecraft:sculk"
+  },
+  "show_notification": false
 }

@@ -1,6 +1,6 @@
 {
   "attributes": {
-    "minecraft:generic.attack_damage": [
+    "minecraft:attack_damage": [
       {
         "amount": 0.5,
         "id": "elementalcraft:spell_attack_damage",
@@ -8,7 +8,7 @@
       }
     ]
   },
-  "color": "#9C2D0B",
+  "color": "#FF9C2D0B",
   "cooldown": 60,
   "element_consumption": 1000,
   "element_type": "fire",

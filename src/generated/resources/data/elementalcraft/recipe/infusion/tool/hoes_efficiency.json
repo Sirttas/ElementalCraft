@@ -1,8 +1,7 @@
 {
   "type": "elementalcraft:tool_infusion",
   "element_amount": 2000,
-  "input": {
-    "tag": "elementalcraft:infusable/hoes"
-  },
+  "input": "#elementalcraft:infusable/hoes",
+  "show_notification": false,
   "tool_infusion": "elementalcraft:efficiency"
 }

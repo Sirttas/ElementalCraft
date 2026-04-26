@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "a": {
-      "item": "elementalcraft:pristine_air_gem"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "f": {
-      "item": "elementalcraft:pristine_fire_gem"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "a": "elementalcraft:pristine_air_gem",
+    "c": "elementalcraft:purecrystal",
+    "f": "elementalcraft:pristine_fire_gem",
+    "s": "elementalcraft:springaline_shard"
   },
   "pattern": [
     "sfs",
@@ -24,7 +14,6 @@
     "sas"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:kirin"
   }
 }

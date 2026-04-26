@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:strongly_contained_crystal"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "n": {
-      "item": "elementalcraft:infuser"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:strongly_contained_crystal",
+    "i": "#c:ingots/swift_alloy",
+    "n": "elementalcraft:infuser",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "wnw",
@@ -21,7 +13,6 @@
     "www"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:pure_infuser"
   }
 }

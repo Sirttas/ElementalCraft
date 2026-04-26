@@ -4,6 +4,8 @@ import com.google.common.collect.Multimap;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -17,15 +19,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
+import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
@@ -65,6 +70,19 @@ public class Spell implements IElementTypeProvider {
 
 	public Component getDisplayName() {
 		return Component.translatable(getDescriptionId());
+	}
+
+	public @NonNull ItemStackTemplate createItemStackTemplate() {
+		var patchBuilder = DataComponentPatch.builder();
+
+		patchBuilder.set(ECDataComponents.SPELL.get(), Spells.REGISTRY.wrapAsHolder(this));
+
+		getDataComponents().forEach(patchBuilder::set);
+		return new ItemStackTemplate(ECItems.SCROLL, patchBuilder.build());
+	}
+
+	protected DataComponentMap getDataComponents() {
+		return DataComponentMap.EMPTY;
 	}
 
     public boolean is(@NotNull Holder<@NotNull Spell> spell) {

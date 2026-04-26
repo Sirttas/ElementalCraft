@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "e": {
-      "item": "elementalcraft:rudimentary_element_extractor"
-    },
-    "g": {
-      "tag": "c:ingots/gold"
-    },
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    },
-    "t": {
-      "item": "elementalcraft:small_container"
-    }
+    "c": "elementalcraft:aircrystal",
+    "e": "elementalcraft:rudimentary_element_extractor",
+    "g": "#c:ingots/gold",
+    "i": "#c:ingots/drenched_iron",
+    "t": "elementalcraft:small_container"
   },
   "pattern": [
     "geg",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_holder_air"
   }
 }

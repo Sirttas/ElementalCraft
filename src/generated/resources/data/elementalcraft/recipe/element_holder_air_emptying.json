@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:element_holder_air"
-    }
+    "elementalcraft:element_holder_air"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_holder_air"
   }
 }

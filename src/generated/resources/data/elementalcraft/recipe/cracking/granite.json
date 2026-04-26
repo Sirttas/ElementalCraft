@@ -1,6 +1,9 @@
 {
   "type": "elementalcraft:cracking",
   "element_amount": 200,
-  "input": "minecraft:granite",
-  "result": "minecraft:cobblestone"
+  "input": {
+    "blocks": "minecraft:granite"
+  },
+  "result": "minecraft:cobblestone",
+  "show_notification": false
 }

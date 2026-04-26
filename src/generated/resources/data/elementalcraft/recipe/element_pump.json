@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "f": {
-      "item": "elementalcraft:cover_frame"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "n": {
-      "tag": "c:nuggets/fireite"
-    }
+    "c": "elementalcraft:purecrystal",
+    "f": "elementalcraft:cover_frame",
+    "i": "#c:ingots/swift_alloy",
+    "n": "#c:nuggets/fireite"
   },
   "pattern": [
     "in ",
@@ -21,7 +13,6 @@
     "in "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_pump"
   }
 }

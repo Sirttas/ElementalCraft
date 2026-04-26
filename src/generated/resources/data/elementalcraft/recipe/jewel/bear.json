@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "c": {
-      "item": "elementalcraft:earthcrystal"
-    },
-    "e": {
-      "item": "elementalcraft:pristine_earth_gem"
-    },
-    "f": {
-      "item": "elementalcraft:fine_earth_gem"
-    },
-    "h": {
-      "item": "minecraft:honey_bottle"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "c": "elementalcraft:earthcrystal",
+    "e": "elementalcraft:pristine_earth_gem",
+    "f": "elementalcraft:fine_earth_gem",
+    "h": "minecraft:honey_bottle"
   },
   "pattern": [
     "heh",
@@ -24,7 +14,6 @@
     "hfh"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:bear"
   }
 }

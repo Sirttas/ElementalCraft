@@ -2,25 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "elementalcraft:air_mill"
-    },
-    "c": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "a": "elementalcraft:air_mill",
+    "c": "elementalcraft:aircrystal",
+    "i": "#c:ingots/swift_alloy",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "iai",
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:air_mill_synthesizer"
   }
 }

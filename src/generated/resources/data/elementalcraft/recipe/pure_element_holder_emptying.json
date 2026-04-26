@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:pure_element_holder"
-    }
+    "elementalcraft:pure_element_holder"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:pure_element_holder"
   }
 }

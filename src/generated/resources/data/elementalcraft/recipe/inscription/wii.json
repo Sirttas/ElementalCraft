@@ -3,24 +3,16 @@
   "element_amount": 2000,
   "element_type": "air",
   "ingredients": [
-    {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_air_gem"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    }
+    "elementalcraft:minor_rune_slate",
+    "elementalcraft:crude_air_gem",
+    "minecraft:sugar",
+    "minecraft:sugar"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:wii"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

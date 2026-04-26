@@ -1,12 +1,10 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "ingredient": {
-    "tag": "c:gravels"
-  },
+  "input": "#c:gravels",
   "luck_ratio": 5.0,
-  "output": {
-    "count": 1,
+  "result": {
     "id": "minecraft:sand"
-  }
+  },
+  "show_notification": false
 }

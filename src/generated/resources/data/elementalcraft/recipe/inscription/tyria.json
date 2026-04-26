@@ -3,29 +3,23 @@
   "element_amount": 10000,
   "element_type": "air",
   "ingredients": [
+    "elementalcraft:major_rune_slate",
     {
-      "item": "elementalcraft:major_rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:tyria"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "item": "minecraft:glowstone"
-    },
-    {
-      "item": "minecraft:glowstone"
-    }
+    "minecraft:glowstone",
+    "minecraft:glowstone"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:tyria"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

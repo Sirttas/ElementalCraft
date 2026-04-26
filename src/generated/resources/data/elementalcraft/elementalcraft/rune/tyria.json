@@ -3,8 +3,6 @@
     "element_preservation": -0.05,
     "range": 0.15
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/tyria",
-  "model": "elementalcraft:elementalcraft/rune/tyria",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

@@ -1,12 +1,11 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "ingredient": {
-    "tag": "c:bones"
-  },
+  "input": "#c:bones",
   "luck_ratio": 3.0,
-  "output": {
+  "result": {
     "count": 4,
     "id": "minecraft:bone_meal"
-  }
+  },
+  "show_notification": false
 }

@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class MultiblockPageBuilder implements PageBuilder {
     }
 
     @Override
-    public void validate() {
+    public void validate(TranslationKeyValidator translationKeyValidator) {
         for (List<String> layer : multiblock.pattern) {
             for (String row : layer) {
                 for (char symbol : row.toCharArray()) {

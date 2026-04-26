@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 1000,
   "element_type": "water",
-  "input": {
-    "item": "elementalcraft:inert_crystal"
-  },
-  "output": {
-    "count": 1,
+  "input": "elementalcraft:inert_crystal",
+  "result": {
     "id": "elementalcraft:watercrystal"
-  }
+  },
+  "show_notification": false
 }

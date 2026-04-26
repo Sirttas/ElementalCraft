@@ -3,7 +3,5 @@
   "description": {
     "color": "#EEB961",
     "translate": "trim_material.elementalcraft.swift_alloy"
-  },
-  "ingredient": "elementalcraft:swift_alloy_ingot",
-  "item_model_index": 1.219918
+  }
 }

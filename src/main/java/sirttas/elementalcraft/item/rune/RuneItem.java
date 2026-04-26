@@ -1,11 +1,14 @@
 package sirttas.elementalcraft.item.rune;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
@@ -70,8 +73,14 @@ public class RuneItem extends Item implements IPipeInteractingItem {
 		return stack.get(ECDataComponents.RUNE);
 	}
 
-	public ItemStack getRuneStack(Identifier rune) {
-		return getRuneStack(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
+	public ItemStackTemplate getRuneStackTemplate(ResourceKey<Rune> rune) {
+		return getRuneStackTemplate(rune.identifier());
+	}
+
+	public ItemStackTemplate getRuneStackTemplate(Identifier rune) {
+		return new ItemStackTemplate(this, DataComponentPatch.builder()
+				.set(ECDataComponents.RUNE.get(), ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune))
+				.build());
 	}
 
 	public ItemStack getRuneStack(Holder<@NotNull Rune> rune) {

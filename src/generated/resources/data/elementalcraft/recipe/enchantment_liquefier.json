@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "e": {
-      "tag": "c:gems/emerald"
-    },
-    "g": {
-      "item": "elementalcraft:pristine_water_gem"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "t": {
-      "item": "minecraft:enchanting_table"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:purecrystal",
+    "e": "#c:gems/emerald",
+    "g": "elementalcraft:pristine_water_gem",
+    "i": "#c:ingots/swift_alloy",
+    "t": "minecraft:enchanting_table",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "ege",
@@ -27,7 +15,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:enchantment_liquefier"
   }
 }

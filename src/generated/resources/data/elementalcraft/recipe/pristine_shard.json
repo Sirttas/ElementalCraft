@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:purecrystal"
-    },
-    {
-      "tag": "elementalcraft:chisels"
-    }
+    "elementalcraft:purecrystal",
+    "#elementalcraft:chisels"
   ],
   "result": {
     "count": 8,

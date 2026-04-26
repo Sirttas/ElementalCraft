@@ -1,5 +1,8 @@
 {
   "type": "elementalcraft:sculk_cracking",
   "element_amount": 5000,
-  "input": "minecraft:sculk_catalyst"
+  "input": {
+    "blocks": "minecraft:sculk_catalyst"
+  },
+  "show_notification": false
 }

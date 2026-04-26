@@ -1,11 +1,9 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 250,
-  "ingredient": {
-    "item": "minecraft:acacia_log"
-  },
-  "output": {
-    "count": 1,
+  "input": "minecraft:acacia_log",
+  "result": {
     "id": "minecraft:stripped_acacia_log"
-  }
+  },
+  "show_notification": false
 }

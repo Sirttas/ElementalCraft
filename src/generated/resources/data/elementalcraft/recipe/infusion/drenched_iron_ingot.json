@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 500,
   "element_type": "water",
-  "input": {
-    "tag": "c:ingots/iron"
-  },
-  "output": {
-    "count": 1,
+  "input": "#c:ingots/iron",
+  "result": {
     "id": "elementalcraft:drenched_iron_ingot"
-  }
+  },
+  "show_notification": false
 }

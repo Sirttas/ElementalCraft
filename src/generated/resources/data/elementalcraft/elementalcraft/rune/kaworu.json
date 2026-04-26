@@ -3,9 +3,7 @@
     "element_preservation": 0.05,
     "speed": 0.1
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/kaworu",
   "max_amount": 1,
-  "model": "elementalcraft:elementalcraft/rune/kaworu",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

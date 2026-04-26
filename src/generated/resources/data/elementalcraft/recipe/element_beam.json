@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "f": {
-      "item": "elementalcraft:cover_frame"
-    },
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    },
-    "n": {
-      "tag": "c:nuggets/swift_alloy"
-    }
+    "c": "elementalcraft:contained_crystal",
+    "f": "elementalcraft:cover_frame",
+    "i": "#c:ingots/drenched_iron",
+    "n": "#c:nuggets/swift_alloy"
   },
   "pattern": [
     "in ",

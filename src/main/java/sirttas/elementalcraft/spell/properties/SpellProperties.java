@@ -8,6 +8,7 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jetbrains.annotations.NotNull;
@@ -165,7 +166,7 @@ public record SpellProperties(
 		}
 		
 		public Builder color(int r, int g, int b) {
-			return color(r, g, b);
+			return color(ARGB.color(r, g, b));
 		}
 	}
 }

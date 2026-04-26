@@ -1,17 +1,11 @@
 {
   "type": "elementalcraft:crystallization",
+  "crystal": "elementalcraft:aircrystal",
   "element_amount": 5000,
   "element_type": "air",
-  "ingredients": {
-    "crystal": {
-      "item": "elementalcraft:aircrystal"
-    },
-    "gem": {
-      "item": "elementalcraft:crude_air_gem"
-    }
-  },
+  "gem": "elementalcraft:crude_air_gem",
   "result": {
-    "count": 1,
     "id": "elementalcraft:fine_air_gem"
-  }
+  },
+  "show_notification": false
 }

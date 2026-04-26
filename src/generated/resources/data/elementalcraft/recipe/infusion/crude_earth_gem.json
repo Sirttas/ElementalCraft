@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 1000,
   "element_type": "earth",
-  "input": {
-    "tag": "c:gems/diamond"
-  },
-  "output": {
-    "count": 1,
+  "input": "#c:gems/diamond",
+  "result": {
     "id": "elementalcraft:crude_earth_gem"
-  }
+  },
+  "show_notification": false
 }

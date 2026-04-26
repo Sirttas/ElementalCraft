@@ -15,21 +15,6 @@
         }
       ],
       "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
-      "entries": [
-        {
-          "type": "elementalcraft:runes"
-        }
-      ],
-      "name": "elementalcraft:runes",
-      "rolls": 1.0
     }
   ],
   "random_sequence": "elementalcraft:blocks/source_breeder_pedestal"

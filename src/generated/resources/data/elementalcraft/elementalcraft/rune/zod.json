@@ -3,8 +3,6 @@
     "element_preservation": -0.05,
     "speed": 0.5
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/zod",
-  "model": "elementalcraft:elementalcraft/rune/zod",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

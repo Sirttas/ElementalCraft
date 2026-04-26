@@ -2,22 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "i": {
-      "tag": "c:ingots/iron"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:contained_crystal",
+    "i": "#c:ingots/iron",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "i i",
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:combustion_fire_synthesizer"
   }
 }

@@ -1,11 +1,10 @@
 {
   "type": "elementalcraft:grinding",
   "element_amount": 1000,
-  "ingredient": {
-    "tag": "minecraft:wool"
-  },
-  "output": {
+  "input": "#minecraft:wool",
+  "result": {
     "count": 4,
     "id": "minecraft:string"
-  }
+  },
+  "show_notification": false
 }

@@ -1,17 +1,11 @@
 {
   "type": "elementalcraft:crystallization",
+  "crystal": "elementalcraft:firecrystal",
   "element_amount": 5000,
   "element_type": "fire",
-  "ingredients": {
-    "crystal": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "gem": {
-      "item": "elementalcraft:crude_fire_gem"
-    }
-  },
+  "gem": "elementalcraft:crude_fire_gem",
   "result": {
-    "count": 1,
     "id": "elementalcraft:fine_fire_gem"
-  }
+  },
+  "show_notification": false
 }

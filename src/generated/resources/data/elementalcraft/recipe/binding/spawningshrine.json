@@ -3,30 +3,16 @@
   "element_amount": 2500,
   "element_type": "fire",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:firecrystal"
-    },
-    {
-      "item": "elementalcraft:fine_earth_gem"
-    },
-    {
-      "item": "minecraft:rotten_flesh"
-    },
-    {
-      "item": "minecraft:spider_eye"
-    },
-    {
-      "item": "minecraft:ender_eye"
-    },
-    {
-      "item": "minecraft:diamond"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:firecrystal",
+    "elementalcraft:fine_earth_gem",
+    "minecraft:rotten_flesh",
+    "minecraft:spider_eye",
+    "minecraft:ender_eye",
+    "minecraft:diamond"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:spawningshrine"
-  }
+  },
+  "show_notification": false
 }

@@ -3,7 +3,5 @@
   "description": {
     "color": "#CDDFF2",
     "translate": "trim_material.elementalcraft.drenched_iron"
-  },
-  "ingredient": "elementalcraft:drenched_iron_ingot",
-  "item_model_index": 1.119918
+  }
 }

@@ -4,7 +4,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -15,20 +14,19 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlock;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeBlock;
-import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.BookBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.CategoryBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.EntryBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.PageBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.custom.CheckPageBuilder;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
 import java.nio.file.Path;
@@ -39,10 +37,12 @@ public class BookDataProvider implements DataProvider {
 
     private final PackOutput packOutput;
     private final CompletableFuture<HolderLookup.Provider> registries;
+    private final TranslationKeyValidator translationKeyValidator;
 
-    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, TranslationKeyValidator translationKeyValidator) {
         this.packOutput = packOutput;
         this.registries = registries;
+        this.translationKeyValidator = translationKeyValidator;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     private List<BookBuilder> generate() {
-        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"))
+        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"), translationKeyValidator)
                 .landingText("elementalcraft.landing")
                 .creativeTab(ECCreativeModeTabs.ELEMENTAL_CRAFT_CREATIVE_TAB)
                 .i18n()
@@ -542,12 +542,8 @@ public class BookDataProvider implements DataProvider {
                 .advancement(ElementalCraftApi.createRL("main/element_holders"))
                 .turnIn(ElementalCraftApi.createRL("main/pure_element_holder"))
                 .page(PageBuilder.text("elementalcraft.page.pure_element_holder0"));
-
-        var runeItem = new ItemStack(ECItems.RUNE);
-
-        runeItem.set(ECDataComponents.RUNE, ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(Runes.TANO));
         advanced.entry("runes")
-                .icon(runeItem)
+                .icon(ECItems.RUNE.get().getRuneStackTemplate(Runes.TANO))
                 .advancement(ElementalCraftApi.createRL("main/inscriber"))
                 .turnIn(ElementalCraftApi.createRL("pickup/rune"))
                 .page(PageBuilder.text("elementalcraft.page.runes0"))
@@ -624,7 +620,8 @@ public class BookDataProvider implements DataProvider {
         shrineUpgrade(shrineUpgrades, ECBlocks.EFFICIENCY_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.FILLING_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.FORTUNE_SHRINE_UPGRADE);
-        shrineUpgrade(shrineUpgrades, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
+        shrineUpgrade(shrineUpgrades, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE)
+                .ignoreValidation();
         shrineUpgrade(shrineUpgrades, ECBlocks.NECTAR_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.OPTIMIZATION_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.PICKUP_SHRINE_UPGRADE);
@@ -633,7 +630,8 @@ public class BookDataProvider implements DataProvider {
         shrineUpgrade(shrineUpgrades, ECBlocks.RANGE_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SILK_TOUCH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SPRINGALINE_SHRINE_UPGRADE);
-        shrineUpgrade(shrineUpgrades, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE);
+        shrineUpgrade(shrineUpgrades, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE)
+                .ignoreValidation();
         shrineUpgrade(shrineUpgrades, ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.STRENGTH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.VORTEX_SHRINE_UPGRADE);
@@ -753,13 +751,10 @@ public class BookDataProvider implements DataProvider {
 
     private static void spell(CategoryBuilder category, DeferredHolder<@NotNull Spell, ? extends @NotNull Spell> spell) {
         var name = spell.getId().getPath();
-        var stack = new ItemStack(ECItems.SCROLL);
-
-        SpellHelper.setSpell(stack, spell);
 
         category.entry(name)
                 .name(spell.get().getDescriptionId())
-                .icon(stack)
+                .icon(spell.get().createItemStackTemplate())
                 .advancement(ElementalCraftApi.createRL("pickup/spell_desk"))
                 .turnIn(ElementalCraftApi.createRL("pickup/scroll"))
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
@@ -781,9 +776,9 @@ public class BookDataProvider implements DataProvider {
         var entryCodec = EntryBuilder.codec(registries);
 
         return DataProvider.saveStable(cache, registries, BookBuilder.CODEC, book, getPath(book))
-                .thenCompose(f -> CompletableFuture.allOf(book.getCategories().stream()
+                .thenCompose(_ -> CompletableFuture.allOf(book.getCategories().stream()
                         .map(category -> DataProvider.saveStable(cache, registries, categoryCodec, category, getPath(category))
-                                .thenCompose(f2 -> CompletableFuture.allOf(category.getEntries().stream()
+                                .thenCompose(_ -> CompletableFuture.allOf(category.getEntries().stream()
                                         .map(entry -> DataProvider.saveStable(cache, registries, entryCodec, entry, getPath(entry)))
                                         .toArray(CompletableFuture[]::new))))
                         .toArray(CompletableFuture[]::new)));

@@ -3,21 +3,13 @@
   "element_amount": 2500,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "minecraft:amethyst_block"
-    },
-    {
-      "item": "minecraft:quartz_block"
-    },
-    {
-      "item": "elementalcraft:springaline_shard"
-    },
-    {
-      "item": "elementalcraft:watercrystal"
-    }
+    "minecraft:amethyst_block",
+    "minecraft:quartz_block",
+    "elementalcraft:springaline_shard",
+    "elementalcraft:watercrystal"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:springaline_cluster"
-  }
+  },
+  "show_notification": false
 }

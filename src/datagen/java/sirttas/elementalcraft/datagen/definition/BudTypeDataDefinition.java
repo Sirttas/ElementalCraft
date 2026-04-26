@@ -75,6 +75,7 @@ public class BudTypeDataDefinition {
             this.key = key;
             this.sequence = new ArrayList<>();
             this.conditions = new ArrayList<>();
+            this.texture = null;
         }
 
         public Builder then(Holder<Block> block) {
@@ -106,8 +107,12 @@ public class BudTypeDataDefinition {
         }
 
         public BudTypeDataDefinition build() {
-            assert !this.sequence.isEmpty() : "A bud type must have at least one block in its sequence.";
-            assert this.texture != null : "A bud type must have a texture.";
+            if (this.sequence.isEmpty()) {
+                throw new IllegalStateException("Cannot build BudTypeDataDefinition with empty sequence");
+            }
+            if (this.texture == null) {
+                throw new IllegalStateException("Cannot build BudTypeDataDefinition without texture");
+            }
 
             return new BudTypeDataDefinition(key, sequence, Optional.ofNullable(requiredUpgrade), conditions, texture);
         }

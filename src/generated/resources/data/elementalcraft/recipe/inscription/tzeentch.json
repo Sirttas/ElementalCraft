@@ -3,29 +3,23 @@
   "element_amount": 10000,
   "element_type": "water",
   "ingredients": [
+    "elementalcraft:major_rune_slate",
     {
-      "item": "elementalcraft:major_rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:bombadil"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "tag": "c:gems/emerald"
-    },
-    {
-      "tag": "c:gems/emerald"
-    }
+    "#c:gems/emerald",
+    "#c:gems/emerald"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:tzeentch"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "i": {
-      "tag": "c:ingots/drenched_iron"
-    }
+    "c": "elementalcraft:contained_crystal",
+    "i": "#c:ingots/drenched_iron"
   },
   "pattern": [
     "ici"

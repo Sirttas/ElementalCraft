@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "g": {
-      "item": "minecraft:glowstone"
-    },
-    "p": {
-      "tag": "c:gems/prismarine"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    }
+    "g": "minecraft:glowstone",
+    "p": "#c:gems/prismarine",
+    "s": "elementalcraft:springaline_shard"
   },
   "pattern": [
     "psp",
@@ -18,7 +12,6 @@
     "psp"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:springaline_lantern"
   }
 }

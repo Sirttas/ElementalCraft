@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "elementalcraft:earthcrystal"
-    }
+    "#": "elementalcraft:earthcrystal"
   },
   "pattern": [
     "###",
@@ -12,7 +10,6 @@
     "###"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:earthcrystal_block"
   }
 }

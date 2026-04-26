@@ -3,18 +3,12 @@
   "element_amount": 2500,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "minecraft:amethyst_shard"
-    },
-    {
-      "tag": "c:gems/quartz"
-    },
-    {
-      "item": "elementalcraft:watercrystal"
-    }
+    "minecraft:amethyst_shard",
+    "#c:gems/quartz",
+    "elementalcraft:watercrystal"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:springaline_shard"
-  }
+  },
+  "show_notification": false
 }

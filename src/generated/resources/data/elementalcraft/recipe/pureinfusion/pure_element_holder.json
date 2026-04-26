@@ -2,24 +2,14 @@
   "type": "elementalcraft:pureinfusion",
   "element_amount": 100000,
   "ingredients": {
-    "air": {
-      "item": "elementalcraft:element_holder_air"
-    },
-    "earth": {
-      "item": "elementalcraft:element_holder_earth"
-    },
-    "fire": {
-      "item": "elementalcraft:element_holder_fire"
-    },
-    "pure_infuser": {
-      "item": "elementalcraft:pure_element_holder_core"
-    },
-    "water": {
-      "item": "elementalcraft:element_holder_water"
-    }
+    "air": "elementalcraft:element_holder_air",
+    "earth": "elementalcraft:element_holder_earth",
+    "fire": "elementalcraft:element_holder_fire",
+    "pure_infuser": "elementalcraft:pure_element_holder_core",
+    "water": "elementalcraft:element_holder_water"
   },
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:pure_element_holder"
-  }
+  },
+  "show_notification": false
 }

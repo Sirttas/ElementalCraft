@@ -3,24 +3,16 @@
   "element_amount": 2000,
   "element_type": "fire",
   "ingredients": [
-    {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_fire_gem"
-    },
-    {
-      "tag": "minecraft:coals"
-    },
-    {
-      "tag": "minecraft:coals"
-    }
+    "elementalcraft:minor_rune_slate",
+    "elementalcraft:crude_fire_gem",
+    "#minecraft:coals",
+    "#minecraft:coals"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:manx"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

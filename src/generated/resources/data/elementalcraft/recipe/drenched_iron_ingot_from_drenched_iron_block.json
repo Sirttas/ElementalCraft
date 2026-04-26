@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "c:storage_blocks/drenched_iron"
-    }
+    "#c:storage_blocks/drenched_iron"
   ],
   "result": {
     "count": 9,

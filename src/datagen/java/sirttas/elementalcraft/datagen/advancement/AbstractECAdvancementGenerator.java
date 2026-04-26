@@ -17,11 +17,38 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class AbstractECAdvancementGenerator implements AdvancementSubProvider {
+
+	private final TranslationKeyValidator translationKeyValidator;
+
+	protected AbstractECAdvancementGenerator(TranslationKeyValidator translationKeyValidator) {
+		this.translationKeyValidator = translationKeyValidator;
+	}
+
+	@Override
+	public final void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
+        doGenerate(registries, advancementHolder -> {
+			var advancement = advancementHolder.value();
+
+			try {
+				advancement.name().ifPresent(translationKeyValidator::checkHasComponent);
+				advancement.display().ifPresent(displayInfo -> {
+					translationKeyValidator.checkHasComponent(displayInfo.getTitle());
+					translationKeyValidator.checkHasComponent(displayInfo.getDescription());
+				});
+			} catch (Exception e) {
+				throw new IllegalStateException("Language check failed for " + advancementHolder.id(), e);
+			}
+			saver.accept(advancementHolder);
+		});
+	}
+
+	protected abstract void doGenerate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver);
 
 	protected AdvancementHolder itemPickup(@NotNull HolderGetter<@NotNull Item> registry, ItemLike item, AdvancementHolder parent, Identifier name, @NotNull Consumer<AdvancementHolder> saver) {
 		return Advancement.Builder.advancement()

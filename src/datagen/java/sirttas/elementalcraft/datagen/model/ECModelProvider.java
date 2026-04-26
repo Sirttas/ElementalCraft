@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
+import sirttas.elementalcraft.block.pipe.upgrade.render.model.PipeUpgradeModel;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModel;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModelResolver;
 import sirttas.elementalcraft.datagen.definition.BudTypeDataDefinition;
@@ -31,6 +33,7 @@ public class ECModelProvider extends ModelProvider {
 
     private final List<ECModelGenerator.Factory> generatorFactories;
 
+    private PipeUpgradeModelCollector pipeUpgradeModelCollector;
     private BuddingShrinePlateModelCollector buddingShrinePlateModelCollector;
 
     public ECModelProvider(PackOutput output, List<ECModelGenerator.Factory> generatorFactories) {
@@ -42,16 +45,21 @@ public class ECModelProvider extends ModelProvider {
     }
 
     public CompletableFuture<?> run(@NonNull CachedOutput output) {
+        var pipeUpgradeModelCollector = new PipeUpgradeModelCollector();
+        this.pipeUpgradeModelCollector = pipeUpgradeModelCollector;
         var buddingShrinePlateModelCollector = new BuddingShrinePlateModelCollector();
-        this.buddingShrinePlateModelCollector = new BuddingShrinePlateModelCollector();
+        this.buddingShrinePlateModelCollector = buddingShrinePlateModelCollector;
 
         CompletableFuture<?> future;
         try {
             future = super.run(output);
         } finally {
+            this.pipeUpgradeModelCollector = null;
             this.buddingShrinePlateModelCollector = null;
         }
-        return CompletableFuture.allOf(future, buddingShrinePlateModelCollector.save(output, buddingShrinePlateMoelPathProvider));
+        return CompletableFuture.allOf(future,
+                pipeUpgradeModelCollector.save(output, pipeUpgradePathProvider),
+                buddingShrinePlateModelCollector.save(output, buddingShrinePlateMoelPathProvider));
     }
 
 
@@ -59,8 +67,26 @@ public class ECModelProvider extends ModelProvider {
         generatorFactories.forEach(factory -> factory.create(
                 blockModels.blockStateOutput,
                 itemModels.itemModelOutput,
+                pipeUpgradeModelCollector,
                 buddingShrinePlateModelCollector,
                 blockModels.modelOutput).run());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static class PipeUpgradeModelCollector implements BiConsumer<PipeUpgradeType<?>, PipeUpgradeModel.Unbaked> {
+        private final Map<Identifier, PipeUpgradeModel.Unbaked> models = new HashMap<>();
+
+        public void accept(PipeUpgradeType<?> type, PipeUpgradeModel.Unbaked model) {
+            var prev = this.models.put(type.getKey(), model);
+
+            if (prev != null) {
+                throw new IllegalStateException("Duplicate model definition for " + type.getKey());
+            }
+        }
+
+        public CompletableFuture<?> save(CachedOutput cache, PackOutput.PathProvider pathProvider) {
+            return DataProvider.saveAll(cache, PipeUpgradeModel.Unbaked.CODEC, pathProvider::json, this.models);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

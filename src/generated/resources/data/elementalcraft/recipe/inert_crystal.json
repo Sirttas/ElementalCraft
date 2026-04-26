@@ -1,13 +1,10 @@
 {
   "type": "minecraft:smelting",
-  "category": "misc",
+  "category": "blocks",
   "cookingtime": 200,
   "experience": 0.5,
-  "ingredient": {
-    "tag": "c:ores/inert_crystal"
-  },
+  "ingredient": "#c:ores/inert_crystal",
   "result": {
-    "count": 1,
     "id": "elementalcraft:inert_crystal"
   }
 }

@@ -2,12 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:element_holder_fire"
-    }
+    "elementalcraft:element_holder_fire"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_holder_fire"
   }
 }

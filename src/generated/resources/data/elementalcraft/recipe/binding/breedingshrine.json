@@ -3,30 +3,16 @@
   "element_amount": 5000,
   "element_type": "earth",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "elementalcraft:crude_water_gem"
-    },
-    {
-      "tag": "c:crops"
-    },
-    {
-      "tag": "c:leathers"
-    },
-    {
-      "item": "minecraft:milk_bucket"
-    },
-    {
-      "tag": "c:gems/diamond"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:earthcrystal",
+    "elementalcraft:crude_water_gem",
+    "#c:crops",
+    "#c:leathers",
+    "minecraft:milk_bucket",
+    "#c:gems/diamond"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:breedingshrine"
-  }
+  },
+  "show_notification": false
 }

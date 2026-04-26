@@ -8,12 +8,12 @@ import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStackTemplate;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.advancements.LookAtSourceTrigger;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 
@@ -21,8 +21,12 @@ import java.util.function.Consumer;
 
 public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 
+	public ECAdvancementGenerator(TranslationKeyValidator translationKeyValidator) {
+		super(translationKeyValidator);
+	}
+
 	@Override
-	public void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
+	protected void doGenerate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
         var itemRegistry = registries.lookupOrThrow(Registries.ITEM);
 
 		AdvancementHolder root = Advancement.Builder.advancement()
@@ -69,7 +73,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 		Advancement.Builder.advancement()
 				.parent(emptyReceptacle)
 				.display(
-						ItemStackTemplate.fromNonEmptyStack(ReceptacleHelper.create(ElementType.FIRE)),
+						ReceptacleHelper.createTemplate(ElementType.FIRE),
 						Component.translatable("advancements.elementalcraft.receptacles.title"),
 						Component.translatable("advancements.elementalcraft.receptacles.description"),
 						null,

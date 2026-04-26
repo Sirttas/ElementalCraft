@@ -1,6 +1,6 @@
 {
   "attributes": {
-    "minecraft:generic.attack_knockback": [
+    "minecraft:attack_knockback": [
       {
         "amount": 1.0,
         "id": "elementalcraft:spell_attack_knockback",
@@ -8,7 +8,7 @@
       }
     ]
   },
-  "color": "#BDBCB6",
+  "color": "#FFBDBCB6",
   "cooldown": 120,
   "element_consumption": 250,
   "element_type": "air",

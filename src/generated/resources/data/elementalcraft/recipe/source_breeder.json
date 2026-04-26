@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "f": {
-      "tag": "c:ingots/fireite"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "p": {
-      "item": "elementalcraft:source_breeder_pedestal"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:purecrystal",
+    "f": "#c:ingots/fireite",
+    "i": "#c:ingots/swift_alloy",
+    "p": "elementalcraft:source_breeder_pedestal",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "iwi",
@@ -24,7 +14,6 @@
     "wpw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:source_breeder"
   }
 }

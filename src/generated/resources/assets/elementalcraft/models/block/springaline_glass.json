@@ -1,7 +1,9 @@
 {
   "parent": "minecraft:block/cube_all",
-  "render_type": "minecraft:translucent",
   "textures": {
-    "all": "elementalcraft:block/springaline_glass"
+    "all": {
+      "force_translucent": true,
+      "sprite": "elementalcraft:block/springaline_glass"
+    }
   }
 }

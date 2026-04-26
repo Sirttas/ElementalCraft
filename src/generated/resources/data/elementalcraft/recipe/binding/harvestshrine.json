@@ -3,24 +3,14 @@
   "element_amount": 5000,
   "element_type": "earth",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "elementalcraft:crude_earth_gem"
-    },
-    {
-      "item": "minecraft:diamond_hoe"
-    },
-    {
-      "item": "minecraft:shears"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:earthcrystal",
+    "elementalcraft:crude_earth_gem",
+    "minecraft:diamond_hoe",
+    "minecraft:shears"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:harvestshrine"
-  }
+  },
+  "show_notification": false
 }

@@ -1,5 +1,8 @@
 {
   "type": "elementalcraft:sculk_cracking",
   "element_amount": 100,
-  "input": "minecraft:sculk_vein"
+  "input": {
+    "blocks": "minecraft:sculk_vein"
+  },
+  "show_notification": false
 }

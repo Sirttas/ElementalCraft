@@ -53,20 +53,18 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 		return key;
 	}
 
-	public Identifier getModelName() {
-		var id = this.getKey();
-
-		return Identifier.fromNamespaceAndPath(id.getNamespace(), "elementalcraft/jewels/" + id.getPath());
-	}
-
 	@Nonnull
 	public String getDescriptionId() {
 		if (descriptionId == null) {
 			var id = getKey();
 
-			descriptionId = "elementalcraft.jewel." + id.getNamespace() + '.' + id.getPath();
+			descriptionId = createDescriptionId(id);
 		}
 		return descriptionId;
+	}
+
+	public static String createDescriptionId(Identifier id) {
+		return "elementalcraft.jewel." + id.getNamespace() + '.' + id.getPath();
 	}
 
 	public Component getDisplayName() {

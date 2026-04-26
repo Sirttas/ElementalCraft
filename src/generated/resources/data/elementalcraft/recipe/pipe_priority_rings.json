@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "f": {
-      "item": "elementalcraft:cover_frame"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    }
+    "f": "elementalcraft:cover_frame",
+    "i": "#c:ingots/swift_alloy"
   },
   "pattern": [
     " i ",

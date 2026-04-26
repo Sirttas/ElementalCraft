@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "item": "elementalcraft:elementpipe_rudimentary"
-    },
-    {
-      "tag": "c:ingots/swift_alloy"
-    },
-    {
-      "tag": "c:ingots/swift_alloy"
-    }
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "elementalcraft:elementpipe_rudimentary",
+    "#c:ingots/swift_alloy",
+    "#c:ingots/swift_alloy"
   ],
   "result": {
     "count": 4,

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "tag": "c:ingots/copper"
-    },
-    "d": {
-      "tag": "c:gems/diamond"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    }
+    "c": "#c:ingots/copper",
+    "d": "#c:gems/diamond",
+    "s": "elementalcraft:springaline_shard"
   },
   "pattern": [
     " s ",
@@ -18,7 +12,6 @@
     " s "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:solar_prism"
   }
 }

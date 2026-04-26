@@ -36,16 +36,9 @@ class DatagenInteractionWrapper implements DatagenInteraction {
     }
 
     @Override
-    public List<DataProvider> getClientProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public List<DataProvider> getProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         return interactions.stream()
-                .flatMap(interaction -> interaction.getClientProviders(output, lookupProvider).stream())
-                .toList();
-    }
-
-    @Override
-    public List<DataProvider> getServerProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        return interactions.stream()
-                .flatMap(interaction -> interaction.getServerProviders(output, lookupProvider).stream())
+                .flatMap(interaction -> interaction.getProviders(output, lookupProvider).stream())
                 .toList();
     }
 }

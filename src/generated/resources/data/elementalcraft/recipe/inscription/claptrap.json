@@ -3,24 +3,16 @@
   "element_amount": 2000,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "elementalcraft:minor_rune_slate"
-    },
-    {
-      "item": "elementalcraft:crude_water_gem"
-    },
-    {
-      "tag": "c:gems/lapis"
-    },
-    {
-      "tag": "c:gems/lapis"
-    }
+    "elementalcraft:minor_rune_slate",
+    "elementalcraft:crude_water_gem",
+    "#c:gems/lapis",
+    "#c:gems/lapis"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:claptrap"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

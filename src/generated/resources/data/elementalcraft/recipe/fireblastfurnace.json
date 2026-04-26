@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:blast_furnace"
-    },
-    "c": {
-      "item": "elementalcraft:firecrystal"
-    },
-    "g": {
-      "item": "elementalcraft:burnt_glass"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "F": "minecraft:blast_furnace",
+    "c": "elementalcraft:firecrystal",
+    "g": "elementalcraft:burnt_glass",
+    "i": "#c:ingots/swift_alloy",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "www",
@@ -24,7 +14,6 @@
     "ici"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:fireblastfurnace"
   }
 }

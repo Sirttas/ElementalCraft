@@ -1,11 +1,9 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 250,
-  "ingredient": {
-    "item": "minecraft:cherry_wood"
-  },
-  "output": {
-    "count": 1,
+  "input": "minecraft:cherry_wood",
+  "result": {
     "id": "minecraft:stripped_cherry_wood"
-  }
+  },
+  "show_notification": false
 }

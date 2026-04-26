@@ -1,33 +1,18 @@
 {
   "variants": {
-    "facing=east,waterlogged=false": {
-      "model": "elementalcraft:block/water_mill",
+    "facing=east": {
+      "model": "elementalcraft:block/water_mill_grindstone",
       "y": 90
     },
-    "facing=east,waterlogged=true": {
-      "model": "elementalcraft:block/water_mill",
-      "y": 90
+    "facing=north": {
+      "model": "elementalcraft:block/water_mill_grindstone"
     },
-    "facing=north,waterlogged=false": {
-      "model": "elementalcraft:block/water_mill"
-    },
-    "facing=north,waterlogged=true": {
-      "model": "elementalcraft:block/water_mill"
-    },
-    "facing=south,waterlogged=false": {
-      "model": "elementalcraft:block/water_mill",
+    "facing=south": {
+      "model": "elementalcraft:block/water_mill_grindstone",
       "y": 180
     },
-    "facing=south,waterlogged=true": {
-      "model": "elementalcraft:block/water_mill",
-      "y": 180
-    },
-    "facing=west,waterlogged=false": {
-      "model": "elementalcraft:block/water_mill",
-      "y": 270
-    },
-    "facing=west,waterlogged=true": {
-      "model": "elementalcraft:block/water_mill",
+    "facing=west": {
+      "model": "elementalcraft:block/water_mill_grindstone",
       "y": 270
     }
   }

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "elementalcraft:contained_crystal"
-    },
-    "d": {
-      "tag": "c:ingots/drenched_iron"
-    },
-    "e": {
-      "item": "elementalcraft:rudimentary_element_extractor"
-    },
-    "i": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "c": "elementalcraft:contained_crystal",
+    "d": "#c:ingots/drenched_iron",
+    "e": "elementalcraft:rudimentary_element_extractor",
+    "i": "#c:ingots/swift_alloy",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "e e",
@@ -24,7 +14,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:element_extractor"
   }
 }

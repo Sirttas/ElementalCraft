@@ -1,6 +1,6 @@
 {
   "attributes": {
-    "minecraft:player.block_interaction_range": [
+    "minecraft:block_interaction_range": [
       {
         "amount": 5.0,
         "id": "elementalcraft:spell_reach_distance",
@@ -8,7 +8,7 @@
       }
     ]
   },
-  "color": "#AFB3B3",
+  "color": "#FFAFB3B3",
   "cooldown": 40,
   "element_consumption": 250,
   "element_type": "earth",

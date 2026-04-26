@@ -3,7 +3,5 @@
   "description": {
     "color": "#9ACCFC",
     "translate": "trim_material.elementalcraft.springaline"
-  },
-  "ingredient": "elementalcraft:springaline_shard",
-  "item_model_index": 1.4199181
+  }
 }

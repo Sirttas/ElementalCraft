@@ -8,18 +8,13 @@
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
   "ingredients": [
-    {
-      "item": "elementalcraft:inert_crystal"
-    },
-    {
-      "item": "minecraft:book"
-    }
+    "elementalcraft:inert_crystal",
+    "minecraft:book"
   ],
   "result": {
     "components": {
       "patchouli:book": "elementalcraft:element_book"
     },
-    "count": 1,
     "id": "patchouli:guide_book"
   }
 }

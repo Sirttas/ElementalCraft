@@ -3,27 +3,15 @@
   "element_amount": 20000,
   "element_type": "fire",
   "ingredients": [
-    {
-      "item": "elementalcraft:firepylon"
-    },
-    {
-      "item": "elementalcraft:firecrystal"
-    },
-    {
-      "item": "elementalcraft:pristine_fire_gem"
-    },
-    {
-      "item": "minecraft:obsidian"
-    },
-    {
-      "item": "minecraft:lava_bucket"
-    },
-    {
-      "item": "minecraft:blaze_rod"
-    }
+    "elementalcraft:firepylon",
+    "elementalcraft:firecrystal",
+    "elementalcraft:pristine_fire_gem",
+    "minecraft:obsidian",
+    "minecraft:lava_bucket",
+    "minecraft:blaze_rod"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:melting_shrine"
-  }
+  },
+  "show_notification": false
 }

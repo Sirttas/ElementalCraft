@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "elementalcraft:binder"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "d": {
-      "tag": "c:gems/diamond"
-    },
-    "i": {
-      "item": "elementalcraft:infuser"
-    },
-    "s": {
-      "tag": "c:ingots/swift_alloy"
-    },
-    "w": {
-      "item": "elementalcraft:whiterock"
-    }
+    "b": "elementalcraft:binder",
+    "c": "elementalcraft:purecrystal",
+    "d": "#c:gems/diamond",
+    "i": "elementalcraft:infuser",
+    "s": "#c:ingots/swift_alloy",
+    "w": "elementalcraft:whiterock"
   },
   "pattern": [
     "did",
@@ -27,7 +15,6 @@
     "wcw"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:binder_improved"
   }
 }

@@ -2,11 +2,9 @@
   "type": "elementalcraft:infusion",
   "element_amount": 500,
   "element_type": "air",
-  "input": {
-    "tag": "c:strings"
-  },
-  "output": {
-    "count": 1,
+  "input": "#c:strings",
+  "result": {
     "id": "elementalcraft:air_silk"
-  }
+  },
+  "show_notification": false
 }

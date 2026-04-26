@@ -3,8 +3,6 @@
     "element_preservation": 0.1,
     "speed": -0.1
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/jita",
-  "model": "elementalcraft:elementalcraft/rune/jita",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

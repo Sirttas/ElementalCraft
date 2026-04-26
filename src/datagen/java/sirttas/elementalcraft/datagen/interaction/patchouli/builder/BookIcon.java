@@ -6,7 +6,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
 interface BookIcon {
 
@@ -46,6 +46,6 @@ interface BookIcon {
     }
 
     record StackIcon(
-            ItemStack stack
+            ItemStackTemplate stack
     ) implements BookIcon {}
 }

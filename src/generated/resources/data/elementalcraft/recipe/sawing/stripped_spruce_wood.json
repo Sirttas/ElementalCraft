@@ -1,11 +1,9 @@
 {
   "type": "elementalcraft:sawing",
   "element_amount": 250,
-  "ingredient": {
-    "item": "minecraft:spruce_wood"
-  },
-  "output": {
-    "count": 1,
+  "input": "minecraft:spruce_wood",
+  "result": {
     "id": "minecraft:stripped_spruce_wood"
-  }
+  },
+  "show_notification": false
 }

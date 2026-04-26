@@ -2,24 +2,14 @@
   "type": "elementalcraft:pureinfusion",
   "element_amount": 60000,
   "ingredients": {
-    "air": {
-      "item": "minecraft:purpur_block"
-    },
-    "earth": {
-      "item": "elementalcraft:whiterock"
-    },
-    "fire": {
-      "tag": "c:ingots/fireite"
-    },
-    "pure_infuser": {
-      "item": "minecraft:obsidian"
-    },
-    "water": {
-      "item": "minecraft:prismarine"
-    }
+    "air": "minecraft:purpur_block",
+    "earth": "elementalcraft:whiterock",
+    "fire": "#c:ingots/fireite",
+    "pure_infuser": "minecraft:obsidian",
+    "water": "minecraft:prismarine"
   },
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:purerock"
-  }
+  },
+  "show_notification": false
 }

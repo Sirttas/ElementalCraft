@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "U": {
-      "item": "elementalcraft:unset_jewel"
-    },
-    "a": {
-      "item": "elementalcraft:pristine_air_gem"
-    },
-    "c": {
-      "item": "elementalcraft:purecrystal"
-    },
-    "e": {
-      "item": "elementalcraft:pristine_earth_gem"
-    },
-    "t": {
-      "item": "minecraft:totem_of_undying"
-    }
+    "U": "elementalcraft:unset_jewel",
+    "a": "elementalcraft:pristine_air_gem",
+    "c": "elementalcraft:purecrystal",
+    "e": "elementalcraft:pristine_earth_gem",
+    "t": "minecraft:totem_of_undying"
   },
   "pattern": [
     "tat",
@@ -24,7 +14,6 @@
     "tet"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:demigod"
   }
 }

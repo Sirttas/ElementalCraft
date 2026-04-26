@@ -3,29 +3,23 @@
   "element_amount": 5000,
   "element_type": "fire",
   "ingredients": [
+    "elementalcraft:rune_slate",
     {
-      "item": "elementalcraft:rune_slate"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:manx"
       },
       "items": "elementalcraft:rune",
       "strict": true
     },
-    {
-      "item": "minecraft:blaze_rod"
-    },
-    {
-      "item": "minecraft:blaze_rod"
-    }
+    "minecraft:blaze_rod",
+    "minecraft:blaze_rod"
   ],
-  "output": {
+  "result": {
     "components": {
       "elementalcraft:rune": "elementalcraft:jita"
     },
-    "count": 1,
     "id": "elementalcraft:rune"
-  }
+  },
+  "show_notification": false
 }

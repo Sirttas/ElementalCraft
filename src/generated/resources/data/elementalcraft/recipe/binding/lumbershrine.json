@@ -3,27 +3,15 @@
   "element_amount": 5000,
   "element_type": "earth",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "elementalcraft:crude_earth_gem"
-    },
-    {
-      "item": "elementalcraft:drenched_saw_blade"
-    },
-    {
-      "item": "minecraft:diamond_axe"
-    },
-    {
-      "item": "minecraft:shears"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:earthcrystal",
+    "elementalcraft:crude_earth_gem",
+    "elementalcraft:drenched_saw_blade",
+    "minecraft:diamond_axe",
+    "minecraft:shears"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:lumbershrine"
-  }
+  },
+  "show_notification": false
 }

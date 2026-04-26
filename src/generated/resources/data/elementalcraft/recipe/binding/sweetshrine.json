@@ -3,27 +3,15 @@
   "element_amount": 5000,
   "element_type": "water",
   "ingredients": [
-    {
-      "item": "elementalcraft:shrinebase"
-    },
-    {
-      "item": "elementalcraft:watercrystal"
-    },
-    {
-      "item": "elementalcraft:earthcrystal"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:honey_bottle"
-    },
-    {
-      "item": "minecraft:milk_bucket"
-    }
+    "elementalcraft:shrinebase",
+    "elementalcraft:watercrystal",
+    "elementalcraft:earthcrystal",
+    "minecraft:sugar",
+    "minecraft:honey_bottle",
+    "minecraft:milk_bucket"
   ],
-  "output": {
-    "count": 1,
+  "result": {
     "id": "elementalcraft:sweetshrine"
-  }
+  },
+  "show_notification": false
 }

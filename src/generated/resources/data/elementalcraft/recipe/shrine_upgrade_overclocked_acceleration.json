@@ -2,20 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "elementalcraft:advanced_shrine_upgrade_core"
-    },
-    "i": {
-      "item": "minecraft:clock"
-    },
-    "p": {
-      "item": "elementalcraft:elementpipe_improved"
-    },
-    "u": {
-      "item": "elementalcraft:shrine_upgrade_acceleration"
-    },
+    "C": "elementalcraft:advanced_shrine_upgrade_core",
+    "i": "minecraft:clock",
+    "p": "elementalcraft:elementpipe_improved",
+    "u": "elementalcraft:shrine_upgrade_acceleration",
     "z": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "elementalcraft:rune": "elementalcraft:zod"
       },
@@ -29,7 +21,6 @@
     " u "
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:shrine_upgrade_overclocked_acceleration"
   }
 }

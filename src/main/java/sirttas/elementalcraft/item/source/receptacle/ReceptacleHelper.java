@@ -2,6 +2,7 @@ package sirttas.elementalcraft.item.source.receptacle;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.source.trait.SourceTrait;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
@@ -30,6 +31,16 @@ public class ReceptacleHelper {
 			case EARTH -> new ItemStack(ECBlocks.EARTH_SOURCE.get());
 			case AIR -> new ItemStack(ECBlocks.AIR_SOURCE.get());
 			case NONE ->  ItemStack.EMPTY;
+		};
+	}
+
+	public static ItemStackTemplate createTemplate(ElementType elementType) {
+		return switch (elementType) {
+			case FIRE -> new ItemStackTemplate(ECBlocks.FIRE_SOURCE.get().asItem());
+			case WATER -> new ItemStackTemplate(ECBlocks.WATER_SOURCE.get().asItem());
+			case EARTH -> new ItemStackTemplate(ECBlocks.EARTH_SOURCE.get().asItem());
+			case AIR -> new ItemStackTemplate(ECBlocks.AIR_SOURCE.get().asItem());
+			case NONE ->  null;
 		};
 	}
 

@@ -4,6 +4,8 @@ import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.resources.Identifier;
+import sirttas.elementalcraft.block.pipe.upgrade.render.model.PipeUpgradeModel;
+import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModel;
 import sirttas.elementalcraft.datagen.definition.BudTypeDataDefinition;
 
@@ -18,6 +20,7 @@ public interface ECModelGenerator {
     interface Factory {
         ECModelGenerator create(Consumer<BlockModelDefinitionGenerator> blockStateOutput,
                                 ItemModelOutput itemModelOutput,
+                                BiConsumer<PipeUpgradeType<?>, PipeUpgradeModel.Unbaked> pipeUpgradeModelOutput,
                                 BiConsumer<BudTypeDataDefinition, BuddingShrinePlateModel.Unbaked> buddingShrinePlateModelOutput,
                                 BiConsumer<Identifier, ModelInstance> modelOutput);
     }

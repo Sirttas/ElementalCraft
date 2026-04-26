@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "g": {
-      "item": "elementalcraft:burnt_glass"
-    },
-    "s": {
-      "item": "elementalcraft:springaline_shard"
-    }
+    "g": "elementalcraft:burnt_glass",
+    "s": "elementalcraft:springaline_shard"
   },
   "pattern": [
     " s ",

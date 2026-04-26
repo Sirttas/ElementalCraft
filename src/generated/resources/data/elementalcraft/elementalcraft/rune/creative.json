@@ -3,9 +3,7 @@
     "element_preservation": 1000000.0,
     "speed": 1000000.0
   },
-  "effect_sprite": "elementalcraft:elementalcraft/rune/creative",
   "max_amount": 1,
-  "model": "elementalcraft:elementalcraft/rune/creative",
   "predicate": {
     "type": "dpanvil:cache",
     "value": {

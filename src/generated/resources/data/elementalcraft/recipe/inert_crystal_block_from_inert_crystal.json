@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "elementalcraft:inert_crystal"
-    }
+    "#": "elementalcraft:inert_crystal"
   },
   "pattern": [
     "###",
@@ -12,7 +10,6 @@
     "###"
   ],
   "result": {
-    "count": 1,
     "id": "elementalcraft:inert_crystal_block"
   }
 }
