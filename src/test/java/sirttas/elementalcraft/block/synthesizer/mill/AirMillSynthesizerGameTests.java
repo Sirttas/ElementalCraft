@@ -34,8 +34,8 @@ public class AirMillSynthesizerGameTests {
     @GameTest(template = TEMPLATE_NAME)
     public static void should_generateAir(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);
-        var synthesizer = helper.getBlockEntity(new BlockPos(0, 2, 0), AirMillSynthesizerBlockEntity.class);
-        var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
+        var synthesizer = helper.getBlockEntity(new BlockPos(0, 1, 0), AirMillSynthesizerBlockEntity.class);
+        var storage = helper.requireElementContainer(new BlockPos(0, 0, 0));
 
         helper.startSequence().thenIdle(1).thenExecuteFor(20, () -> {
             var t = ticks.incrementAndGet();

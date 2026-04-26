@@ -53,10 +53,9 @@ public class ElementHolderGameTests {
     }
 
     private static void should_fillHolder(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
-        var pos = new BlockPos(0, 1, 0);
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
-        var storage = helper.requireElementContainer(pos);
+        var storage = helper.requireElementContainer(BlockPos.ZERO);
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(storage).isNotNull();
@@ -65,7 +64,7 @@ public class ElementHolderGameTests {
                 .thenExecute(() -> storage.fill(elementType))
                 .thenExecuteAfter(1, () -> {
                     player.setShiftKeyDown(true);
-                    helper.useItemOn(player, pos);
+                    helper.useItemOn(player, BlockPos.ZERO);
                 })
                 .thenExecuteAfter(10, () -> assertThat(playerStorage.getElementAmount(elementType)).isEqualTo(holder.getTransferAmount() * 11))
                 .thenExecute(player::discard)
@@ -73,10 +72,9 @@ public class ElementHolderGameTests {
     }
 
     private static void should_emptyHolder(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
-        var pos = new BlockPos(0, 1, 0);
         var elementType = holder.type();
         var player = holder.mockPlayer(helper);
-        var storage = helper.requireElementContainer(pos);
+        var storage = helper.requireElementContainer(BlockPos.ZERO);
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(storage).isNotNull();
@@ -86,41 +84,39 @@ public class ElementHolderGameTests {
                     playerStorage.fill(elementType);
                     storage.insertElement(100, elementType, false);
                 })
-                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
+                .thenExecuteAfter(1, () -> helper.useBlock(BlockPos.ZERO, player))
                 .thenExecuteAfter(10, () -> assertThat(storage.getElementAmount(elementType)).isEqualTo(100 + (holder.getTransferAmount() * 11)))
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
 
     private static void should_exhaustSource(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
-        var pos = new BlockPos(0, 1, 0);
         var player = holder.mockPlayer(helper);
-        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(pos, SourceBlockEntity.class).getElementStorage();
+        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(BlockPos.ZERO, SourceBlockEntity.class).getElementStorage();
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(sourceStorage).isNotNull();
         assertThat(playerStorage).isNotNull();
         helper.startSequence()
                 .thenExecute(() -> sourceStorage.setElementAmount(10))
-                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
-                .thenExecuteAfter(10, () -> helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), pos))
+                .thenExecuteAfter(1, () -> helper.useBlock(BlockPos.ZERO, player))
+                .thenExecuteAfter(10, () -> helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), BlockPos.ZERO))
                 .thenExecute(player::discard)
                 .thenSucceed();
     }
 
     private static void should_dropStabilizer_when_sourceGetExhausted(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
-        var pos = new BlockPos(0, 1, 0);
         var player = holder.mockPlayer(helper);
-        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(pos, SourceBlockEntity.class).getElementStorage();
+        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(BlockPos.ZERO, SourceBlockEntity.class).getElementStorage();
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY);
 
         assertThat(sourceStorage).isNotNull();
         assertThat(playerStorage).isNotNull();
         helper.startSequence()
                 .thenExecute(() -> sourceStorage.setElementAmount(10))
-                .thenExecuteAfter(1, () -> helper.useBlock(pos, player))
+                .thenExecuteAfter(1, () -> helper.useBlock(BlockPos.ZERO, player))
                 .thenExecuteAfter(10, () -> {
-                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), pos);
+                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), BlockPos.ZERO);
                     assertThat(IItemHandler.of(player.getCapability(Capabilities.Item.ENTITY))).contains(ECItems.SOURCE_STABILIZER);
                     assertThat(playerStorage.getElementAmount(holder.type())).isGreaterThanOrEqualTo(10);
                 })

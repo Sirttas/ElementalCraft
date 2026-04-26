@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 public class GrowthShrineGameTests {
 
     private static final List<BlockPos> CROPS = IntStream.rangeClosed(1, 9)
-            .mapToObj(z -> IntStream.rangeClosed(1, 9).mapToObj(x -> new BlockPos(x, 2, z)))
+            .mapToObj(z -> IntStream.rangeClosed(1, 9).mapToObj(x -> new BlockPos(x, 1, z)))
             .flatMap(s -> s)
             .filter(p -> p.getX() != 5 || p.getZ() != 5)
             .toList();
@@ -26,7 +26,7 @@ public class GrowthShrineGameTests {
     @GameTest(template = TEMPLATE)
     public static void should_growCrops(ECGameTestHelper helper) {
         helper.startSequence()
-                .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), CROPS.size() * 7))
+                .thenExecuteAfter(1, () -> ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 1, 5), CROPS.size() * 7))
                 .thenExecuteAfter(1, () -> CROPS.forEach(pos -> helper.assertBlockState(pos, b -> b.getValue(CropBlock.AGE) == 7, _ -> Component.literal("Crop has not been grown"))))
                 .thenSucceed();
     }

@@ -222,7 +222,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
-        runInstrument(new BlockPos(0, 2, 0), inputs, elementType, recipeAvailable, consumer);
+        runInstrument(new BlockPos(0, 1, 0), inputs, elementType, recipeAvailable, consumer);
     }
 
     public <T extends AbstractInstrumentBlockEntity<?, ?>> void runInstrument(BlockPos pos, List<ItemStack> inputs, ElementType elementType, boolean recipeAvailable, Consumer<T> consumer) {
@@ -301,8 +301,11 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     @Override
-    public @NonNull ExtendedSequence startSequence() {
-        return new ECGameTestSequence();
+    public @NonNull ECGameTestSequence startSequence() {
+        var seq = new ECGameTestSequence();
+
+        testInfo.sequences.add(seq);
+        return seq;
     }
 
     public class ECGameTestSequence extends ExtendedSequence {

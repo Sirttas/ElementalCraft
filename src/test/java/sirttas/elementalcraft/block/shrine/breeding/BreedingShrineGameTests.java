@@ -20,9 +20,9 @@ public class BreedingShrineGameTests {
     @GameTest(template = TEMPLATE)
     public static void should_breedCows(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 2, 3));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 3));
         }).thenExecuteAfter(1, () -> {
-            var entities = helper.getEntities(EntityType.COW, new BlockPos(3, 2, 3), 3);
+            var entities = helper.getEntities(EntityType.COW, new BlockPos(3, 1, 3), 3);
 
             assertThat(entities).hasSize(2).allSatisfy(c -> {
                 assertThat(c.isAlive())

@@ -40,12 +40,12 @@ public class VibrationSynthesizerGameTests {
     @TestHolder(description = "Checks if the vibration air synthesizer generates air from wandering chickens.")
     @GameTest(template = TEMPLATE_NAME, timeoutTicks = 200, required = false)
     public static void should_generateAirFromSurroundingEntityMovement(ECGameTestHelper helper) {
-        var storage = helper.requireElementContainer(new BlockPos(10, 2, 10));
+        var storage = helper.requireElementContainer(new BlockPos(10, 1, 10));
 
         helper.startSequence()
                 .thenExecuteAfter(1, () -> {
                     for (int i = 0; i < 5; i++) {
-                        helper.spawn(EntityType.CHICKEN, new BlockPos(9, 3, 9));
+                        helper.spawn(EntityType.CHICKEN, new BlockPos(9, 2, 9));
                     }
                 })
                 .thenExecuteAfter(100, () -> {
@@ -67,17 +67,17 @@ public class VibrationSynthesizerGameTests {
                 .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.requireElementContainer(new BlockPos(1, 1, 1));
+            var storage = helper.requireElementContainer(new BlockPos(1, 0, 1));
 
             helper.startSequence()
                     .thenExecute(() -> {
-                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 0, 1));
                     })
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
+                        helper.assertBlockState(new BlockPos(1, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
                     })
                     .thenExecuteAfter(30, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
+                        helper.assertBlockState(new BlockPos(1, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
                     })
                     .thenExecuteAfter(70, () -> {
                         assertThat(storage.getElementType())
@@ -100,23 +100,23 @@ public class VibrationSynthesizerGameTests {
                 .set(2, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage1 = helper.requireElementContainer(new BlockPos(1, 1, 1));
-            var storage2 = helper.requireElementContainer(new BlockPos(2, 1, 1));
+            var storage1 = helper.requireElementContainer(new BlockPos(1, 0, 1));
+            var storage2 = helper.requireElementContainer(new BlockPos(2, 0, 1));
 
             helper.startSequence()
                     .thenExecute(() -> {
-                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 0, 1));
                     })
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
-                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
+                        helper.assertBlockState(new BlockPos(1, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
+                        helper.assertBlockState(new BlockPos(2, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.ACTIVE, _ -> Component.literal("Vibration synthesizer should be active after receiving vibration"));
                     })
                     .thenExecuteAfter(30, () -> {
-                        helper.assertBlockState(new BlockPos(1, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
-                        helper.assertBlockState(new BlockPos(2, 2, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
+                        helper.assertBlockState(new BlockPos(1, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
+                        helper.assertBlockState(new BlockPos(2, 1, 1), state -> state.getValue(VibrationSynthesizerBlock.PHASE) == SculkSensorPhase.COOLDOWN, _ -> Component.literal("Vibration synthesizer should be in cooldown after 30 ticks"));
                     })
                     .thenExecuteAfter(10, () -> {
-                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 1, 1));
+                        helper.fireGameEvent(GameEvent.STEP, new Vec3(1, 0, 1));
                     })
                     .thenExecuteAfter(60, () -> {
                         assertThat(storage1.getElementType())

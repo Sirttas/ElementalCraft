@@ -44,11 +44,11 @@ public class MeltingShrineGameTests {
     @GameTest(template = MELTING_SHRINE_TEMPLATE_NAME)
     public static void should_meltBasaltIntoLava(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            helper.setBlock(new BlockPos(1, 2, 1), Blocks.BASALT);
+            helper.setBlock(new BlockPos(1, 1, 1), Blocks.BASALT);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 0, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.LAVA), _ -> Component.literal("Block has not been melted"));
+            helper.assertBlockState(new BlockPos(1, 1, 1), b -> b.is(Blocks.LAVA), _ -> Component.literal("Block has not been melted"));
         }).thenSucceed();
     }
 
@@ -56,11 +56,11 @@ public class MeltingShrineGameTests {
     @GameTest(template = MELTING_SHRINE_TEMPLATE_NAME)
     public static void should_meltIceIntoWater(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            helper.setBlock(new BlockPos(1, 2, 1), Blocks.PACKED_ICE);
+            helper.setBlock(new BlockPos(1, 1, 1), Blocks.PACKED_ICE);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 0, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(1, 2, 1), b -> b.is(Blocks.WATER), _ -> Component.literal("Block has not been melted"));
+            helper.assertBlockState(new BlockPos(1, 1, 1), b -> b.is(Blocks.WATER), _ -> Component.literal("Block has not been melted"));
         }).thenSucceed();
     }
 
@@ -68,12 +68,12 @@ public class MeltingShrineGameTests {
     @GameTest(template = MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME)
     public static void should_fillCauldronWithLava(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            helper.setBlock(new BlockPos(1, 2, 1), Blocks.BASALT);
+            helper.setBlock(new BlockPos(1, 1, 1), Blocks.BASALT);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 0, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.LAVA_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
-            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Basalt has not been removed"));
+            helper.assertBlockState(new BlockPos(3, 0, 1), b -> b.is(Blocks.LAVA_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
+            helper.assertBlockState(new BlockPos(1, 1, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Basalt has not been removed"));
         }).thenSucceed();
     }
 
@@ -81,12 +81,12 @@ public class MeltingShrineGameTests {
     @GameTest(template = MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME)
     public static void should_fillCauldronWithWater(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            helper.setBlock(new BlockPos(1, 2, 1), Blocks.PACKED_ICE);
+            helper.setBlock(new BlockPos(1, 1, 1), Blocks.PACKED_ICE);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 1, 1));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(1, 0, 1));
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockState(new BlockPos(3, 1, 1), b -> b.is(Blocks.WATER_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
-            helper.assertBlockState(new BlockPos(1, 2, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Ice has not been removed"));
+            helper.assertBlockState(new BlockPos(3, 0, 1), b -> b.is(Blocks.WATER_CAULDRON), _ -> Component.literal("Cauldron has not been filled"));
+            helper.assertBlockState(new BlockPos(1, 1, 1), BlockBehaviour.BlockStateBase::isAir, _ -> Component.literal("Ice has not been removed"));
         }).thenSucceed();
     }
 

@@ -167,12 +167,12 @@ public class ElementExtractorGameTests {
     }
 
     private static void should_extractElementFromSource(ECGameTestHelper helper, int transferRate) {
-        var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
-        var sourceStorage = helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
+        var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var sourceStorage = helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
         var ticks = new AtomicInteger(0);
 
         helper.startSequence()
-                .thenExecute(() -> helper.pullLever(0, 2, 1))
+                .thenExecute(() -> helper.pullLever(0, 1, 1))
                 .thenIdle(1)
                 .thenExecuteFor(10, () -> {
                     var i = ticks.incrementAndGet();
@@ -184,14 +184,14 @@ public class ElementExtractorGameTests {
     }
 
     private static void should_exhaustSource(ECGameTestHelper helper, int transferRate) {
-        var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
-        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
+        var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
         helper.startSequence()
                 .thenExecute(() -> sourceStorage.setElementAmount(transferRate))
-                .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                .thenExecuteAfter(1, () -> helper.pullLever(0, 21, 1))
                 .thenExecuteAfter(5, () -> {
-                    helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
+                    helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                     assertThat(storage.getElementAmount(ElementType.FIRE)).isPositive();
                 })
                 .thenSucceed();
@@ -214,14 +214,14 @@ public class ElementExtractorGameTests {
         });
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
-            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
+            var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()
                     .thenExecute(() -> sourceStorage.setElementAmount(100))
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 0, 1))
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
+                        helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                         helper.assertItemEntityPresent(ECItems.SOURCE_STABILIZER.get());
                         assertThat(storage.getElementAmount(ElementType.FIRE)).isGreaterThanOrEqualTo(100);
                     })
@@ -250,14 +250,14 @@ public class ElementExtractorGameTests {
         });
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.getBlockEntity(new BlockPos(0, 1, 0), ElementContainerBlockEntity.class).getElementStorage();
-            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 3, 0), SourceBlockEntity.class).getElementStorage();
+            var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()
                     .thenExecute(() -> sourceStorage.setElementAmount(100))
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                     .thenExecuteAfter(5, () -> {
-                        helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 3, 0);
+                        helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                         helper.assertItemEntityNotPresent(ECItems.SOURCE_STABILIZER.get());
                         helper.assertContainerContains(1, 1, 0, ECItems.SOURCE_STABILIZER.get());
                         assertThat(storage.getElementAmount(ElementType.FIRE)).isGreaterThanOrEqualTo(100);

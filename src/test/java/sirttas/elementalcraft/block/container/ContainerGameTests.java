@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.block.container;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
@@ -43,37 +43,37 @@ public class ContainerGameTests {
                         "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a small element container",
                         EMPTY_SMALL_CONTAINER_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 1, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an element container",
                         EMPTY_CONTAINER_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 1, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a fire reservoir",
                         ReservoirGameTests.FIRE_RESERVOIR_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a water reservoir",
                         ReservoirGameTests.WATER_RESERVOIR_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an earth reservoir",
                         ReservoirGameTests.EARTH_RESERVOIR_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of an air reservoir",
                         ReservoirGameTests.AIR_RESERVOIR_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 3, 0))),
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))),
                 ECGameTestUtils.createTest(
                         GROUP, "should_supportARudimentaryExtractor_" + i++,
                         "Check if a rudimentary extractor can be placed on top of a creative element container",
                         EMPTY_CREATIVE_CONTAINER_TEMPLATE_NAME,
-                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 2, 0))));
+                        h -> should_supportARudimentaryExtractor(h, new BlockPos(0, 1, 0))));
     }
 
     private static void should_supportARudimentaryExtractor(ECGameTestHelper helper, BlockPos pos) {
@@ -91,7 +91,7 @@ public class ContainerGameTests {
     @TestHolder(description = "Check that a small element container does not support an extractor")
     @GameTest(template = EMPTY_SMALL_CONTAINER_TEMPLATE_NAME)
     private static void shouldNot_supportAnExtractor(ECGameTestHelper helper) {
-        var pos = new BlockPos(0, 2, 0);
+        var pos = new BlockPos(0, 1, 0);
 
         helper.startSequence().thenExecute(() -> {
             helper.setBlock(pos, ECBlocks.EXTRACTOR.get());

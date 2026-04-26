@@ -24,17 +24,17 @@ public record ECContainerBlockTestCaseHolder(
     public static final String GROUP = "level.blocks.container";
 
     public static final List<ECContainerBlockTestCaseHolder> HOLDERS = Stream.concat(Stream.of(
-            of(InstrumentTestTemplates.INFUSER_TEMPLATE_NAME, ECItems.INERT_CRYSTAL, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.BINDER_TEMPLATE_NAME, ECItems.FIRE_CRYSTAL, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, ECItems.CRUDE_FIRE_GEM, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, ECItems.FIRE_CRYSTAL, new BlockPos(0, 2, 0), 1),
-            of(InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME, ECItems.RUNE_SLATE, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, Items.DIAMOND_SWORD, new BlockPos(0, 2, 0), 1),
-            of(InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 2, 0), 0),
-            of(InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 2, 0), 0)
+            of(InstrumentTestTemplates.INFUSER_TEMPLATE_NAME, ECItems.INERT_CRYSTAL, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.BINDER_TEMPLATE_NAME, ECItems.FIRE_CRYSTAL, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, ECItems.CRUDE_FIRE_GEM, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.CRYSTALLIZER_TEMPLATE_NAME, ECItems.FIRE_CRYSTAL, new BlockPos(0, 1, 0), 1),
+            of(InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME, ECItems.RUNE_SLATE, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, Items.DIAMOND_SWORD, new BlockPos(0, 1, 0), 1),
+            of(InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 1, 0), 0),
+            of(InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME, Items.DIAMOND_ORE, new BlockPos(0, 1, 0), 0)
     ), MillTestCaseHolder.HOLDERS.stream()
-            .map(t -> of(t.template(), t.input(), new BlockPos(0, 2, 0), 0))
+            .map(t -> of(t.template(), t.input(), new BlockPos(0, 1, 0), 0))
     ).toList();
 
 

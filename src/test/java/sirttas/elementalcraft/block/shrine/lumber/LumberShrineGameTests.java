@@ -47,11 +47,11 @@ public class LumberShrineGameTests {
         helper.startSequence().thenExecute(() -> {
             POSES.forEach(p -> helper.setBlock(p, Blocks.OAK_LOG));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 2, 3), POSES.size());
+            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 1, 3), POSES.size());
         }).thenExecuteAfter(1, () -> {
             POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.AIR), _ -> Component.literal("Block has not been cut")));
-            helper.assertItemEntityCountIs(Blocks.OAK_LOG.asItem(), new BlockPos(3, 2, 3), 3, POSES.size());
-        }).thenExecute(() -> helper.discardItems(new BlockPos(3, 2, 3), 3))
+            helper.assertItemEntityCountIs(Blocks.OAK_LOG.asItem(), new BlockPos(3, 1, 3), 3, POSES.size());
+        }).thenExecute(() -> helper.discardItems(new BlockPos(3, 1, 3), 3))
         .thenSucceed();
     }
 }

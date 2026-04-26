@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -81,23 +80,28 @@ public class ChiselGameTests {
         var runes = holder.runes();
         var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, helper.absolutePos(pos), side);
 
-        assertThat(runeHandler).isNotNull();
+        assertThat(runeHandler)
+                .as("RuneHandler should not be null")
+                .isNotNull();
+
         var player = helper.mockChiselPlayer(pos);
 
-        player.setShiftKeyDown(true);
-        helper.useItemOn(player, pos, side);
+        helper.startSequence()
+                .thenExecute(() -> {
+                    player.setShiftKeyDown(true);
+                    helper.useItemOn(player, pos, side);
+                }).thenExecuteAfter(1, () -> {
+                    var items = helper.getEntities(EntityType.ITEM, pos, 1);
 
-        assertThat(runeHandler.getRunes()).isEmpty();
-        player.discard();
-
-        var items = helper.getEntities(EntityType.ITEM, pos, 1);
-
-        assertThat(items).hasSize(runes.size())
-                .allSatisfy(item -> assertThat(item.getItem())
-                        .is(ECItems.RUNE)
-                        .satisfies(stack -> helper.assertRuneIs(stack, runes.get(items.indexOf(item)))));
-        items.forEach(Entity::discard);
-        helper.succeed();
+                    assertThat(runeHandler.getRunes()).isEmpty();
+                    assertThat(items).hasSize(runes.size())
+                            .allSatisfy(item -> assertThat(item.getItem())
+                                    .is(ECItems.RUNE)
+                                    .satisfies(stack -> helper.assertRuneIs(stack, runes.get(items.indexOf(item)))));
+                }).thenExecute(() -> {
+                    player.discard();
+                    helper.discardItems(pos, 1);
+                }).thenSucceed();
     }
 
     private static void shouldNot_removeRunes(ECGameTestHelper helper, RuneTestCaseHolder holder) {
@@ -105,14 +109,17 @@ public class ChiselGameTests {
         var side = holder.side();
         var runeHandler = helper.getLevel().getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, helper.absolutePos(pos), side);
 
-        assertThat(runeHandler).isNotNull();
+        assertThat(runeHandler)
+                .as("RuneHandler should not be null")
+                .isNotNull();
 
         var player = helper.mockChiselPlayer(pos);
 
-        helper.useItemOn(player, pos, side);
-
-        assertThat(runeHandler.getRunes()).hasSize(holder.runes().size())
-                .allSatisfy(rune -> helper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune))));
-        helper.succeed();
+        helper.startSequence()
+                .thenExecute(() -> helper.useItemOn(player, pos, side))
+                .thenExecute(() -> assertThat(runeHandler.getRunes()).hasSize(holder.runes().size())
+                        .allSatisfy(rune -> helper.assertRuneIs(rune, holder.runes().get(runeHandler.getRunes().indexOf(rune)))))
+                .thenExecute(player::discard)
+                .thenSucceed();
     }
 }
