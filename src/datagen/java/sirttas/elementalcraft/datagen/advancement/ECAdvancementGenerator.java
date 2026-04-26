@@ -14,7 +14,6 @@ import sirttas.elementalcraft.advancements.LookAtSourceTrigger;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 
@@ -22,12 +21,8 @@ import java.util.function.Consumer;
 
 public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 
-	public ECAdvancementGenerator(TranslationKeyValidator translationKeyValidator) {
-		super(translationKeyValidator);
-	}
-
 	@Override
-	protected void doGenerate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
+	public void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
         var itemRegistry = registries.lookupOrThrow(Registries.ITEM);
 
 		AdvancementHolder root = Advancement.Builder.advancement()

@@ -7,7 +7,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -118,12 +117,6 @@ public class CategoryBuilder implements PatchouliFile {
 
     @Override
     public void validate() {
-        if (StringUtils.isNotBlank(name)) {
-            book.translationKeyValidator.checkHasKey(name);
-        }
-        if (StringUtils.isNotBlank(description)) {
-            book.translationKeyValidator.checkHasKey(description);
-        }
         if (icon != null) {
             icon.validate();
         }

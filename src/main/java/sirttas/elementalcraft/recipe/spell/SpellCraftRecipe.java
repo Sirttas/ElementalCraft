@@ -30,7 +30,6 @@ import java.util.List;
 public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
 
 	public static final String NAME = "spell_craft";
-	private static final Ingredient SCROLL_PAPER = Ingredient.of(ECItems.SCROLL_PAPER.get());
     public static final MapCodec<SpellCraftRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
             CommonInfo.MAP_CODEC.forGetter(r -> r.commonInfo),
             Ingredient.CODEC.fieldOf(ECNames.GEM).forGetter(r -> r.gem),
@@ -45,20 +44,22 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
             SpellCraftRecipe::new);
 
     private final Recipe.CommonInfo commonInfo;
+    private final Ingredient scrollPaper;
 	private final Ingredient gem;
 	private final Ingredient crystal;
 	private final ItemStackTemplate result;
-	
+
 	public SpellCraftRecipe(Recipe.CommonInfo commonInfo, Ingredient gem, Ingredient crystal, ItemStackTemplate result) {
 		this.commonInfo = commonInfo;
         this.result = result;
+        this.scrollPaper = Ingredient.of(ECItems.SCROLL_PAPER.get());
 		this.gem = gem;
 		this.crystal = crystal;
 	}
 	
 	@Override
 	public boolean matches(RecipeInput inv, @Nonnull Level level) {
-		return SCROLL_PAPER.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
+		return scrollPaper.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
 	}
 
     @Override
@@ -90,7 +91,7 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
 
     @Override
     public @NotNull PlacementInfo placementInfo() {
-        return PlacementInfo.create(List.of(SCROLL_PAPER, gem, crystal));
+        return PlacementInfo.create(List.of(scrollPaper, gem, crystal));
     }
 
     @Override

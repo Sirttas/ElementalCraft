@@ -22,7 +22,6 @@ import sirttas.elementalcraft.datagen.interaction.patchouli.builder.EntryBuilder
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.PageBuilder;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.page.custom.CheckPageBuilder;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 import sirttas.elementalcraft.item.ECCreativeModeTabs;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.jewel.Jewel;
@@ -40,12 +39,10 @@ public class BookDataProvider implements DataProvider {
 
     private final PackOutput packOutput;
     private final CompletableFuture<HolderLookup.Provider> registries;
-    private final TranslationKeyValidator translationKeyValidator;
 
-    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, TranslationKeyValidator translationKeyValidator) {
+    public BookDataProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
         this.packOutput = packOutput;
         this.registries = registries;
-        this.translationKeyValidator = translationKeyValidator;
     }
 
     @Override
@@ -56,7 +53,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     private List<BookBuilder> generate() {
-        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"), translationKeyValidator)
+        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"))
                 .landingText("elementalcraft.landing")
                 .creativeTab(ECCreativeModeTabs.ELEMENTAL_CRAFT_CREATIVE_TAB)
                 .i18n()
@@ -627,8 +624,7 @@ public class BookDataProvider implements DataProvider {
         shrineUpgrade(shrineUpgrades, ECBlocks.EFFICIENCY_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.FILLING_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.FORTUNE_SHRINE_UPGRADE);
-        shrineUpgrade(shrineUpgrades, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE)
-                .ignoreValidation();
+        shrineUpgrade(shrineUpgrades, ECBlocks.MYSTICAL_GROVE_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.NECTAR_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.OPTIMIZATION_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.PICKUP_SHRINE_UPGRADE);
@@ -637,8 +633,7 @@ public class BookDataProvider implements DataProvider {
         shrineUpgrade(shrineUpgrades, ECBlocks.RANGE_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SILK_TOUCH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.SPRINGALINE_SHRINE_UPGRADE);
-        shrineUpgrade(shrineUpgrades, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE)
-                .ignoreValidation();
+        shrineUpgrade(shrineUpgrades, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.STEM_POLLINATION_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.STRENGTH_SHRINE_UPGRADE);
         shrineUpgrade(shrineUpgrades, ECBlocks.VORTEX_SHRINE_UPGRADE);

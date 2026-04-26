@@ -1,8 +1,5 @@
 package sirttas.elementalcraft.datagen.recipe;
 
-import appeng.api.ids.AEConstants;
-import appeng.core.definitions.AEBlocks;
-import appeng.core.definitions.AEItems;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.Criterion;
@@ -1191,17 +1188,6 @@ public class ECRecipeProvider extends RecipeProvider {
 				.pattern(" c ")
 				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
 				.save(this.output);
-        shaped(RecipeCategory.MISC, ECBlocks.CERTUS_QUARTZ_SHRINE_UPGRADE.get())
-				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
-				.define('f', AEItems.FLUIX_CRYSTAL)
-				.define('q', AEBlocks.QUARTZ_BLOCK)
-				.define('w', ECBlocks.WHITE_ROCK.get())
-				.define('c', ECItems.PURE_CRYSTAL.get())
-				.pattern("qfq")
-				.pattern("wCw")
-				.pattern(" c ")
-				.unlockedBy(HAS_SHRINE_UPGRADE_CORE, has(ECItems.SHRINE_UPGRADE_CORE))
-				.save(this.output.withConditions(new ModLoadedCondition(AEConstants.MOD_ID)));
 		shaped(RecipeCategory.MISC, ECBlocks.CRYSTAL_HARVEST_SHRINE_UPGRADE.get())
 				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
 				.define('p', Items.DIAMOND_PICKAXE)
@@ -1660,11 +1646,6 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withIngredient(ECBlocks.SPRINGALINE_CLUSTER.get())
 				.withLuckRatio(5)
 				.save(this.output);
-        GrindingRecipeBuilder.grindingRecipe(AEItems.CERTUS_QUARTZ_CRYSTAL)
-                .withCount(6)
-                .withIngredient(AEBlocks.QUARTZ_CLUSTER)
-                .withLuckRatio(5)
-                .save(this.output.withConditions(new ModLoadedCondition(AEConstants.MOD_ID)));
 		GrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL)
 				.withCount(4)
 				.withIngredient(tag(Tags.Items.BONES))

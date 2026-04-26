@@ -18,7 +18,11 @@ public interface DatagenInteraction {
         return List.of();
     }
 
-    default List<DataProvider> getProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    default List<DataProvider> getClientProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        return List.of();
+    }
+
+    default List<DataProvider> getServerProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         return List.of();
     }
 

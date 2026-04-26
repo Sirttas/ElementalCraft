@@ -18,7 +18,6 @@ import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.source.SourceBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
-import sirttas.elementalcraft.property.ECProperties;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -29,8 +28,8 @@ public class SourceAnalysisGlassItem extends Item {
 	public static final String NAME = "source_analysis_glass";
 
 	
-	public SourceAnalysisGlassItem() {
-		super(ECProperties.Items.ITEM_UNSTACKABLE);
+	public SourceAnalysisGlassItem(Item.Properties properties) {
+		super(properties);
 	}
 
 	@Nonnull

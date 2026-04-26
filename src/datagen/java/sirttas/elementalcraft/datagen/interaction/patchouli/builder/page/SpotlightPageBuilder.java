@@ -5,9 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.datagen.interaction.patchouli.builder.PatchouliFile;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 public record SpotlightPageBuilder(
         ItemStack item,
@@ -36,12 +34,5 @@ public record SpotlightPageBuilder(
     @Override
     public PageBuilderType getType() {
         return TYPE;
-    }
-
-    @Override
-    public void validate(TranslationKeyValidator translationKeyValidator) {
-        if (StringUtils.isNotBlank(text)) {
-            translationKeyValidator.checkHasKey(text);
-        }
     }
 }

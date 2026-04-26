@@ -8,7 +8,6 @@ modId="elementalcraft"
 version="${elementalcraft_version}"
 displayName="ElementalCraft"
 description='''ElementalCraft is a magic mod based around the 4 elements: fire, water, earth and air.'''
-enumExtensions="META-INF/enumextensions.json"
 
 [[mixins]]
     config = "elementalcraft.mixins.json"

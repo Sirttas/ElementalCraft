@@ -5,10 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +31,6 @@ public class BookBuilder implements PatchouliFile {
 
     private final Identifier id;
     private final Map<String, String> macros;
-    final TranslationKeyValidator translationKeyValidator;
 
     private final List<CategoryBuilder> categories;
 
@@ -45,9 +42,8 @@ public class BookBuilder implements PatchouliFile {
     private Identifier creativeTab;
     boolean i18n;
 
-    public BookBuilder(Identifier id, TranslationKeyValidator translationKeyValidator) {
+    public BookBuilder(Identifier id) {
         this.id = id;
-        this.translationKeyValidator = translationKeyValidator;
         this.macros = new HashMap<>();
         this.categories = new ArrayList<>();
         this.name = "item." + id.getNamespace() + "." + id.getPath();
@@ -118,12 +114,6 @@ public class BookBuilder implements PatchouliFile {
 
     @Override
     public void validate() {
-        if (StringUtils.isNotBlank(name)) {
-            translationKeyValidator.checkHasKey(name);
-        }
-        if (StringUtils.isNotBlank(landingText)) {
-            translationKeyValidator.checkHasKey(landingText);
-        }
         categories.forEach(CategoryBuilder::validate);
     }
 }

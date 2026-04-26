@@ -3,7 +3,6 @@ package sirttas.elementalcraft.datagen.interaction.patchouli.builder.page;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.Identifier;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 public record CraftingPageBuilder(
     Identifier recipeId,
@@ -22,9 +21,5 @@ public record CraftingPageBuilder(
     @Override
     public PageBuilderType getType() {
         return TYPE;
-    }
-
-    @Override
-    public void validate(TranslationKeyValidator translationKeyValidator) {
     }
 }

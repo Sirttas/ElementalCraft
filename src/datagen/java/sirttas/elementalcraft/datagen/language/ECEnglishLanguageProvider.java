@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.datagen.language;
 
-import appeng.api.ids.AEConstants;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -442,7 +441,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPureOre(ElementalCraftApi.createRL("uraninite"), "Uraninite Ore Chunk");
         addPureOre(Identifier.withDefaultNamespace("amethyst"), "Pure Amethyst Ore Chunk");
         addPureOre(ElementalCraftApi.createRL("springaline"), "Pure Springaline Ore Chunk");
-        addPureOre(Identifier.fromNamespaceAndPath(AEConstants.MOD_ID, "quartz"), "Pure Certus Quartz Ore Chunk");
+        addPureOre(Identifier.fromNamespaceAndPath("ae2", "quartz"), "Pure Certus Quartz Ore Chunk");
 
         addTooltip("element_amount.0", "Tiny Amount");
         addTooltip("element_amount.1", "Low Amount");

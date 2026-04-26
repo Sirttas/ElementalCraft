@@ -138,8 +138,7 @@ neoForge {
             programArguments.addAll '--mod', 'elementalcraft',
                     '--all',
                     '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath(),
-                    '--existing-mod', 'ae2'
+                    '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
     }

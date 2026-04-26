@@ -10,18 +10,13 @@ import net.minecraft.core.registries.Registries;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.datagen.language.TranslationKeyValidator;
 
 import java.util.function.Consumer;
 
 public class ECPickupAdvancementGenerator extends AbstractECAdvancementGenerator {
 
-	public ECPickupAdvancementGenerator(TranslationKeyValidator translationKeyValidator) {
-		super(translationKeyValidator);
-	}
-
 	@Override
-	protected void doGenerate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
+	public void generate(@NotNull HolderLookup.Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
         var itemRegistry = registries.lookupOrThrow(Registries.ITEM);
 		var root = Advancement.Builder.advancement()
 				.addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
