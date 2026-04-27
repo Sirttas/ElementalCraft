@@ -67,14 +67,13 @@ public class ReceptacleGameTests {
     }
 
     public static void should_pickupReceptacle(ECGameTestHelper helper, ElementType elementType) {
-        var pos = new BlockPos(0, 1, 0);
         var player = helper.mockReceptaclePlayer();
 
         helper.startSequence()
-                .thenExecute(() -> helper.useItemOn(player, pos))
+                .thenExecute(() -> helper.useItemOn(player, BlockPos.ZERO))
                 .thenExecuteAfter(1, () -> {
-                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), pos);
-                    assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).hasSize(1)
+                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), BlockPos.ZERO);
+                    assertThat(helper.getEntities(EntityType.ITEM, BlockPos.ZERO, 1)).hasSize(1)
                             .allSatisfy(item -> assertThat(item.getItem())
                                     .is(ECTags.Items.RECEPTACLES)
                                     .hasCount(1)
@@ -88,14 +87,13 @@ public class ReceptacleGameTests {
     }
 
     public static void should_pickupReceptacleAndDropStabilizer(ECGameTestHelper helper, ElementType elementType) {
-        var pos = new BlockPos(0, 1, 0);
         var player = helper.mockReceptaclePlayer();
 
         helper.startSequence()
-                .thenExecute(() -> helper.useItemOn(player, pos))
+                .thenExecute(() -> helper.useItemOn(player, BlockPos.ZERO))
                 .thenExecuteAfter(1, () -> {
-                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), pos);
-                    assertThat(helper.getEntities(EntityType.ITEM, pos, 1)).hasSize(2)
+                    helper.assertBlockNotPresent(SourceBlock.findSourceBlock(elementType), BlockPos.ZERO);
+                    assertThat(helper.getEntities(EntityType.ITEM, BlockPos.ZERO, 1)).hasSize(2)
                             .anySatisfy(item -> assertThat(item.getItem())
                                     .is(ECItems.SOURCE_STABILIZER)
                                     .hasCount(1))
@@ -112,7 +110,7 @@ public class ReceptacleGameTests {
     }
 
     public static void should_placeDownNewSource(ECGameTestHelper helper, ElementType elementType) {
-        var pos = new BlockPos(0, 2, 0);
+        var pos = new BlockPos(0, 1, 0);
         var player = helper.mockReceptaclePlayer(elementType);
 
         helper.startSequence()
@@ -135,7 +133,7 @@ public class ReceptacleGameTests {
     }
 
     public static void should_placeDownUsedSource(ECGameTestHelper helper, ElementType elementType) {
-        var pos = new BlockPos(0, 2, 0);
+        var pos = new BlockPos(0, 1, 0);
         var player = helper.mockReceptaclePlayer(elementType, SourceElementStorage.DEFAULT_CAPACITY / 2);
 
         helper.startSequence()

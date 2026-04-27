@@ -7,7 +7,6 @@ import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
@@ -43,8 +42,8 @@ public class DiffuserGameTests {
 
     private static void should_fillHolder(ECGameTestHelper helper, ElementHolderTestCaseHolder holder) {
         var elementType = holder.type();
-        var player = holder.mockPlayer(helper, new Vec3(9, 1, 9));
-        var storage = helper.getBlockEntity(new BlockPos(11, 2, 11), ElementContainerBlockEntity.class).getElementStorage();
+        var player = holder.mockPlayer(helper, new Vec3(9, 0, 9));
+        var storage = helper.getBlockEntity(new BlockPos(11, 1, 11), ElementContainerBlockEntity.class).getElementStorage();
         var playerStorage = player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY_FOR_ELEMENT, elementType);
         var ticks = new AtomicInteger(0);
 

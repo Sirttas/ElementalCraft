@@ -101,30 +101,30 @@ public class PureInfuserGameTests {
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
-                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 1, 3))),
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 0, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
-                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 0))),
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 0, 0))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
-                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 1, 3))),
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 0, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
                         "elementalcraft:pureinfusergametests.pure_infuser",
-                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 1, 6)))
+                        h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 0, 6)))
         );
     }
 
     public static void shouldNot_craftWhenAPedestalIsBroken(GameTestHelper helper, BlockPos pos) {
-        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 1, 3), PureInfuserBlockEntity.class);
+        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();
 
@@ -188,7 +188,7 @@ public class PureInfuserGameTests {
     @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the emements that were present in the original holders.")
     @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
     public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {
-        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 1, 3), PureInfuserBlockEntity.class);
+        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();
 

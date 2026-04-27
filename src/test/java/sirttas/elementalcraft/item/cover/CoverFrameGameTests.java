@@ -77,18 +77,18 @@ public class CoverFrameGameTests {
     }
 
     private static void should_addCoverToCoverable(ECGameTestHelper helper) {
+        var pos = new BlockPos(0, 0, 2);
         var player = helper.mockCoverFramePlayer();
 
         helper.startSequence()
-                .thenExecute(() -> helper.useBlock(BlockPos.ZERO, player))
+                .thenExecute(() -> helper.useBlock(pos, player))
                 .thenIdle(1)
                 .thenExecute(() -> {
-                    var coverable = helper.getCapability(Coverable.CAPABILITY, BlockPos.ZERO, null);
+                    var coverable = helper.getCapability(Coverable.CAPABILITY, pos, null);
 
                     assertThat(coverable)
                             .isNotNull()
                             .satisfies(cover -> assertThat(cover.hasFrame()).as("Coverable should has a frame").isTrue());
-                })
-                .thenSucceed();
+                }).thenSucceed();
     }
 }

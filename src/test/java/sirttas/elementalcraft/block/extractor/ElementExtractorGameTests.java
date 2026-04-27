@@ -167,7 +167,7 @@ public class ElementExtractorGameTests {
     }
 
     private static void should_extractElementFromSource(ECGameTestHelper helper, int transferRate) {
-        var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var storage = helper.getBlockEntity(BlockPos.ZERO, ElementContainerBlockEntity.class).getElementStorage();
         var sourceStorage = helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
         var ticks = new AtomicInteger(0);
 
@@ -184,7 +184,7 @@ public class ElementExtractorGameTests {
     }
 
     private static void should_exhaustSource(ECGameTestHelper helper, int transferRate) {
-        var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+        var storage = helper.getBlockEntity(BlockPos.ZERO, ElementContainerBlockEntity.class).getElementStorage();
         var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
         helper.startSequence()
@@ -214,7 +214,7 @@ public class ElementExtractorGameTests {
         });
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var storage = helper.getBlockEntity(BlockPos.ZERO, ElementContainerBlockEntity.class).getElementStorage();
             var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()
@@ -250,7 +250,7 @@ public class ElementExtractorGameTests {
         });
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var storage = helper.getBlockEntity(new BlockPos(0, 0, 0), ElementContainerBlockEntity.class).getElementStorage();
+            var storage = helper.getBlockEntity(BlockPos.ZERO, ElementContainerBlockEntity.class).getElementStorage();
             var sourceStorage = (SourceElementStorage) helper.getBlockEntity(new BlockPos(0, 2, 0), SourceBlockEntity.class).getElementStorage();
 
             helper.startSequence()

@@ -26,10 +26,10 @@ public class ElementPipeGameTests {
     @TestHolder(description = "Checks if the pipe does not transfer above max.")
     @GameTest(template = "elementalcraft:elementpipegametests.shouldnot_transferabovemax")
     public static void shouldNot_transferAboveMax(ECGameTestHelper helper) {
-        var targetStorage = getElementStorage(helper, 1, 2, 0);
+        var targetStorage = getElementStorage(helper, 1, 1, 0);
         var ticks = new AtomicInteger(0);
 
-        helper.startSequence().thenExecute(() -> helper.pullLever(0, 2, 1))
+        helper.startSequence().thenExecute(() -> helper.pullLever(0, 1, 1))
                 .thenIdle(1)
                 .thenExecuteFor(10, () -> assertThat(targetStorage.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet()))
                 .thenSucceed();
@@ -38,12 +38,12 @@ public class ElementPipeGameTests {
     @TestHolder(description = "Checks if the pipe transfers to multiple storages in the same tick.")
     @GameTest(template = "elementalcraft:elementpipegametests.should_transfertomultiplestorages")
     public static void should_transferToMultipleStorages(ECGameTestHelper helper) {
-        var sourceStorage = getElementStorage(helper, 1, 2, 0);
-        var targetStorage1 = getElementStorage(helper, 0, 2, 3);
-        var targetStorage2 = getElementStorage(helper, 1, 2, 3);
-        var targetStorage3 = getElementStorage(helper, 2, 2, 3);
+        var sourceStorage = getElementStorage(helper, 1, 1, 0);
+        var targetStorage1 = getElementStorage(helper, 0, 1, 3);
+        var targetStorage2 = getElementStorage(helper, 1, 1, 3);
+        var targetStorage3 = getElementStorage(helper, 2, 1, 3);
 
-        helper.startSequence().thenExecute(() -> helper.pullLever(0, 2, 1))
+        helper.startSequence().thenExecute(() -> helper.pullLever(0, 1, 1))
                 .thenIdle(1)
                 .thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(99500);
@@ -87,22 +87,22 @@ public class ElementPipeGameTests {
                         "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
-                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 1), Direction.NORTH)),
+                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 1, 1), Direction.NORTH)),
                 createTest(
                         "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
-                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.NORTH)),
+                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 1, 2), Direction.NORTH)),
                 createTest(
                         "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "elementpipegametests.shouldnot_transferabovemax",
-                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.SOUTH)),
+                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 1, 2), Direction.SOUTH)),
                 createTest(
                         "should_disconnectWhenBroken_" + i++,
                         "Check if a pipe disconnects when the connected block is broken.",
                         "overclockedaccelerationshrineupgradegametests.should_allowselementtransfer",
-                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 2, 2), Direction.NORTH))
+                        h -> should_disconnectPipeWhenBroken(h, new BlockPos(1, 1, 2), Direction.NORTH))
         );
     }
 

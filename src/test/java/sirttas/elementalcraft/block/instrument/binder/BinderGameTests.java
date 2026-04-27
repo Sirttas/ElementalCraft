@@ -69,7 +69,7 @@ public class BinderGameTests {
     @GameTest(template = "elementalcraft:bindergametests.should_autocraftswiftalloys")
     public static void should_autoCraftSwiftAlloys(GameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            helper.pullLever(0, 3, 0);
+            helper.pullLever(0, 2, 0);
         }).thenExecuteAfter(2, () -> {
             helper.assertContainerContains(new BlockPos(1, 2, 2), ECItems.SWIFT_ALLOY_INGOT.get());
         }).thenSucceed();

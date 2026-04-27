@@ -39,39 +39,39 @@ public class RangeGameTests {
         var i = 0;
 
         return List.of(
-                createTest(i++, DiffuserGameTests.TEMPLATE_23x23_NAME, helper -> should_haveRange(helper, DiffuserBlockEntity.class, new BlockPos(11, 3, 11), new AABB(1, -7, 1, 22, 14, 22), DiffuserBlockEntity::getRange)),
-                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(5, 3, 5), new AABB(0, 0, 0, 11, 2,  11), CrackingSynthesizerBlockEntity::getRange)),
-                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(6, 3, 6), new AABB(0, 0, 0, 13, 2,  13), CrackingSynthesizerBlockEntity::getRange)),
-                createTest(i++, VibrationSynthesizerGameTests.TEMPLATE_NAME, helper -> should_haveRange(helper, VibrationSynthesizerBlockEntity.class, new BlockPos(10, 3, 10), new AABB(0, -7, 0, 21, 14,  21), VibrationSynthesizerBlockEntity::getRange)),
-                createTest(i++, SculkCrackingSynthesizerGameTests.SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, SculkCrackingSynthesizerBlockEntity.class, new BlockPos(8, 3, 8), new AABB(0, -5, 0, 17, 12,  17), SculkCrackingSynthesizerBlockEntity::getRange)),
-                createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
-                createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 1, 1), new AABB(1, 2, 1, 2, 3, 2))),
-                createTest(i++, CrystalHarvestShrineUpgradeGameTests.TEMPLATE_NAME,helper -> should_haveRange(helper, new BlockPos(11, 2, 11), new AABB(6, -3, 6, 17, 8, 17))),
-                createTest(i++, "oreshrinegametests.should_mineinrange", helper -> should_haveRange(helper, new BlockPos(13, 2, 13), new AABB(1, -4, 1, 26, 2, 26))),
-                createTest(i++, "crystalgrowthshrineupgradegametests.should_growamethyst", helper -> should_haveRange(helper, new BlockPos(1, 2, 3), new AABB(-3, -2, -1, 6, 7, 8))),
-                createTest(i++, "vacuumshrinegametests.should_pullandpickup", helper -> should_haveRange(helper, new BlockPos(2, 2, 2), new AABB(-8, -4 /* TODO -8 */, -8, 13, 13, 13))),
-                createTest(i++, "lumbershrinegametests.should_cutoakblocks", helper -> should_haveRange(helper, new BlockPos(3, 2, 3), new AABB(-1, 2, -1, 8, 11, 8))),
-                createTest(i++, "harvestshrinegametests.should_harvestwheat", helper -> should_haveRange(helper, new BlockPos(3, 4, 3), new AABB(-1, 1, -1, 8, 4, 8))),
-                createTest(i++, "groveshrinegametests.should_generateflowers", helper -> should_haveRange(helper, new BlockPos(3, 2, 3), new AABB(-2, 1, -2, 9, 4, 9))),
-                createTest(i++, "sweetshrinegametests.should_feedplayer", helper -> should_haveRange(helper, new BlockPos(0, 1, 0), new AABB(-10, -4 /* TODO -9 */, -10, 11, 12, 11))),
-                createTest(i++, "overloadshrinegametests.should_speedupfurnace", helper -> should_haveRange(helper, new BlockPos(0, 1, 0), new AABB(0, 2, 0, 1, 3, 1))),
-                createTest(i++, "spawningshrinegametests.should_spawnmobs", helper -> should_haveRange(helper, new BlockPos(5, 2, 5), new AABB(1, 2, 1, 10, 3, 10))),
-                createTest(i++, "enderlockshrinegametests.should_preventendermanfromteleporting", helper -> should_haveRange(helper, new BlockPos(0, 1, 0), new AABB(-10, 1, -10, 11, 4, 11))),
-                createTest(i++, "breedingshrinegametests.should_breedcows", helper -> should_haveRange(helper, new BlockPos(0, 2, 3), new AABB(0, -4 /* TODO -8 */, -7, 21, 13, 14))),
-                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_90, helper -> should_haveRange(helper, new BlockPos(0, 2, 3), new AABB(- 13, -4 /* TODO -8 */, 0, 8, 13, 21))),
-                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_180, helper -> should_haveRange(helper, new BlockPos(0, 2, 3), new AABB(-20, -4 /* TODO -8 */, -13, 1, 13, 8))),
-                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.COUNTERCLOCKWISE_90, helper -> should_haveRange(helper, new BlockPos(0, 2, 3), new AABB(-7, -4 /* TODO -8 */, -20, 14, 13, 1))),
-                createTest(i++, "growthshrinegametests.should_growcrops", helper -> should_haveRange(helper, new BlockPos(5, 2, 5), new AABB(1, 2, 1, 10, 5, 10))),
-                createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> should_haveRange(helper, new BlockPos(4, 2, 4), new AABB(1, 2, 1, 8, 5, 8))),
+                createTest(i++, DiffuserGameTests.TEMPLATE_23x23_NAME, helper -> should_haveRange(helper, DiffuserBlockEntity.class, new BlockPos(11, 2, 11), new AABB(1, -8, 1, 22, 13, 22), DiffuserBlockEntity::getRange)),
+                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(5, 2, 5), new AABB(0, -1, 0, 11, 1,  11), CrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, CrackingSynthesizerGameTests.CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME, helper -> should_haveRange(helper, CrackingSynthesizerBlockEntity.class, new BlockPos(6, 2, 6), new AABB(0, -1, 0, 13, 1,  13), CrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, VibrationSynthesizerGameTests.TEMPLATE_NAME, helper -> should_haveRange(helper, VibrationSynthesizerBlockEntity.class, new BlockPos(10, 2, 10), new AABB(0, -8, 0, 21, 13,  21), VibrationSynthesizerBlockEntity::getRange)),
+                createTest(i++, SculkCrackingSynthesizerGameTests.SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME, helper -> should_haveRange(helper, SculkCrackingSynthesizerBlockEntity.class, new BlockPos(8, 2, 8), new AABB(0, -6, 0, 17, 11,  17), SculkCrackingSynthesizerBlockEntity::getRange)),
+                createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 0, 1), new AABB(1, 1, 1, 2, 2, 2))),
+                createTest(i++, MeltingShrineGameTests.MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(1, 0, 1), new AABB(1, 1, 1, 2, 2, 2))),
+                createTest(i++, CrystalHarvestShrineUpgradeGameTests.TEMPLATE_NAME,helper -> should_haveRange(helper, new BlockPos(11, 1, 11), new AABB(6, -4, 6, 17, 7, 17))),
+                createTest(i++, "oreshrinegametests.should_mineinrange", helper -> should_haveRange(helper, new BlockPos(13, 1, 13), new AABB(1, -5, 1, 26, 1, 26))),
+                createTest(i++, "crystalgrowthshrineupgradegametests.should_growamethyst", helper -> should_haveRange(helper, new BlockPos(1, 1, 3), new AABB(-3, -3, -1, 6, 6, 8))),
+                createTest(i++, "vacuumshrinegametests.should_pullandpickup", helper -> should_haveRange(helper, new BlockPos(2, 1, 2), new AABB(-8, -5 /* TODO -9 */, -8, 13, 12, 13))),
+                createTest(i++, "lumbershrinegametests.should_cutoakblocks", helper -> should_haveRange(helper, new BlockPos(3, 1, 3), new AABB(-1, 1, -1, 8, 10, 8))),
+                createTest(i++, "harvestshrinegametests.should_harvestwheat", helper -> should_haveRange(helper, new BlockPos(3, 3, 3), new AABB(-1, 0, -1, 8, 3, 8))),
+                createTest(i++, "groveshrinegametests.should_generateflowers", helper -> should_haveRange(helper, new BlockPos(3, 1, 3), new AABB(-2, 0, -2, 9, 3, 9))),
+                createTest(i++, "sweetshrinegametests.should_feedplayer", helper -> should_haveRange(helper, BlockPos.ZERO, new AABB(-10, -5 /* TODO -10 */, -10, 11, 11, 11))),
+                createTest(i++, "overloadshrinegametests.should_speedupfurnace", helper -> should_haveRange(helper, BlockPos.ZERO, new AABB(0, 1, 0, 1, 2, 1))),
+                createTest(i++, "spawningshrinegametests.should_spawnmobs", helper -> should_haveRange(helper, new BlockPos(5, 1, 5), new AABB(1, 1, 1, 10, 2, 10))),
+                createTest(i++, "enderlockshrinegametests.should_preventendermanfromteleporting", helper -> should_haveRange(helper, BlockPos.ZERO, new AABB(-10, 0, -10, 11, 3, 11))),
+                createTest(i++, "breedingshrinegametests.should_breedcows", helper -> should_haveRange(helper, new BlockPos(0, 1, 3), new AABB(0, -5 /* TODO -9 */, -7, 21, 12, 14))),
+                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_90, helper -> should_haveRange(helper, new BlockPos(0, 1, 3), new AABB(- 13, -5 /* TODO -9 */, 0, 8, 12, 21))),
+                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.CLOCKWISE_180, helper -> should_haveRange(helper, new BlockPos(0, 1, 3), new AABB(-20, -5 /* TODO -9 */, -13, 1, 12, 8))),
+                createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.COUNTERCLOCKWISE_90, helper -> should_haveRange(helper, new BlockPos(0, 1, 3), new AABB(-7, -5 /* TODO -9 */, -20, 14, 12, 1))),
+                createTest(i++, "growthshrinegametests.should_growcrops", helper -> should_haveRange(helper, new BlockPos(5, 1, 5), new AABB(1, 1, 1, 10, 4, 10))),
+                createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> should_haveRange(helper, new BlockPos(4, 1, 4), new AABB(1, 1, 1, 8, 4, 8))),
                 createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> {
-                    var upgrade = helper.getBlockEntity(new BlockPos(5, 2, 4), TranslocationShrineUpgradeBlockEntity.class);
-                    var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));
-                    var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
+                    var upgrade = helper.getBlockEntity(new BlockPos(5, 1, 4), TranslocationShrineUpgradeBlockEntity.class);
+                    var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
+                    var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
                     upgrade.setTarget(targetPos);
-                    should_haveRange(helper, shrine, new AABB(6, 2, 1, 13, 5, 8));
+                    should_haveRange(helper, shrine, new AABB(6, 1, 1, 13, 4, 8));
                 }),
-                createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(0, 2, 0), new AABB(-7, -1, -7, 8, 2, 8)))
+                createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(0, 1, 0), new AABB(-7, -2, -7, 8, 1, 8)))
         );
     }
 

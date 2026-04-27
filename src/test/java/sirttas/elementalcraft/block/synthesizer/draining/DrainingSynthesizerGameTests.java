@@ -34,7 +34,7 @@ public class DrainingSynthesizerGameTests {
             helper.getLevel().addFreshEntity(player);
 
             var ticks = new AtomicInteger(0);
-            var storage = helper.requireElementContainer(new BlockPos(0, 0, 0));
+            var storage = helper.requireElementContainer(BlockPos.ZERO);
 
             helper.startSequence().thenExecuteAfter(1, () -> {
                 helper.useBlock(new BlockPos(0, 1, 0), player);
