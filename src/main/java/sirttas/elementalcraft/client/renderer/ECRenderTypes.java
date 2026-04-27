@@ -3,6 +3,7 @@ package sirttas.elementalcraft.client.renderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.AddressMode;
 import com.mojang.blaze3d.textures.FilterMode;
+import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -22,16 +23,19 @@ public class ECRenderTypes {
 
     public static final RenderType GHOST = RenderType.create(GHOST_NAME, RenderSetup.builder(ECRenderPipelines.GHOST)
             .useLightmap()
-            .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS, () -> RenderSystem.getSamplerCache()
-                    .getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.NEAREST, true))
+            .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS, () -> RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.NEAREST, true))
             .affectsCrumbling()
             .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
             .createRenderSetup());
 
 
 	private static final Function<Identifier, RenderType> SOURCE = Util.memoize(location -> RenderType.create(SOURCE_NAME, RenderSetup.builder(ECRenderPipelines.SOURCE)
-            .withTexture("Sampler0", location)
-            .sortOnUpload()
+			.useLightmap()
+            .withTexture("Sampler0", location, () -> RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.NEAREST, true))
+			.affectsCrumbling()
+			.setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
+			.sortOnUpload()
+			.setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
             .createRenderSetup()));
 
 	public static RenderType source(Identifier location) {
