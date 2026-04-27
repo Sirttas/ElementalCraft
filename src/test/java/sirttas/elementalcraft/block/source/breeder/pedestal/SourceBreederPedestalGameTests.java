@@ -19,7 +19,7 @@ public class SourceBreederPedestalGameTests {
     @TestHolder
     @GameTest(template = TEMPLATE)
     public static void should_changeElementType(GameTestHelper helper) {
-        var pedestal = helper.getBlockEntity(new BlockPos(0, 1, 0), SourceBreederPedestalBlockEntity.class);
+        var pedestal = helper.getBlockEntity(BlockPos.ZERO, SourceBreederPedestalBlockEntity.class);
         var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal, null));
         var elementStorage = (SourceBreederPedestalElementStorage) ElementStorageGameTestHelper.get(pedestal);
 

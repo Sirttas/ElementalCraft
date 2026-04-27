@@ -25,10 +25,12 @@ public class AirMillSynthesizerGameTests {
     public static final String TEMPLATE_NAME = "elementalcraft:air_mill_synthesizer";
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(1, 3, 1, builder -> builder
+    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(1, 3, 2, builder -> builder
             .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(0, 1, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.LOWER))
-            .set(0, 2, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.UPPER)));
+            .set(0, 2, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.UPPER))
+            .set(0, 0, 1, ECBlocks.WHITE_ROCK.get().defaultBlockState())
+            .placeFloorLever(0, 1, 1, true));
 
     @TestHolder(description = "Checks if the air mill synthesizer generates air.")
     @GameTest(template = TEMPLATE_NAME)
@@ -37,16 +39,21 @@ public class AirMillSynthesizerGameTests {
         var synthesizer = helper.getBlockEntity(new BlockPos(0, 1, 0), AirMillSynthesizerBlockEntity.class);
         var storage = helper.requireElementContainer(BlockPos.ZERO);
 
-        helper.startSequence().thenIdle(1).thenExecuteFor(20, () -> {
-            var t = ticks.incrementAndGet();
+        helper.startSequence()
+                .thenExecute(() -> helper.pullLever(new BlockPos(0, 1, 1)))
+                .thenIdle(1)
+                .thenExecuteFor(20, () -> {
+                    var t = ticks.incrementAndGet();
 
-            assertThat(synthesizer.getDamage())
-                    .isEqualTo((int) Math.ceil(t / 2F)); // 2 ticks per damage, the air mill synthesizer generate by ticks of 50 but only transfer 25
-            assertThat(storage.getElementType())
-                    .isEqualTo(ElementType.AIR);
-            assertThat(storage.getElementAmount())
-                    .isEqualTo(t * 25);
-        }).thenSucceed();
+                    assertThat(synthesizer.getDamage())
+                            .as("Air mill synthesizer should take damage over time (at a rate of 1 every two ticks)")
+                            .isEqualTo((int) Math.ceil(t / 2F));
+                    assertThat(storage.getElementType())
+                            .isEqualTo(ElementType.AIR);
+                    assertThat(storage.getElementAmount())
+                            .as("Air mill synthesizer should generate air over time (at a rate of 25 every tick)")
+                            .isEqualTo(t * 25);
+                }).thenSucceed();
     }
 
 }

@@ -30,7 +30,7 @@ public class SourceAnalysisGlassGameTests {
         helper.startSequence().thenExecute(() -> {
                     var result = helper.useItem(player, InteractionHand.OFF_HAND);
 
-                    assertThat(result).isEqualTo(InteractionResult.SUCCESS);
+                    assertThat(result).isInstanceOf(InteractionResult.Success.class);
                 })
                 .thenExecuteAfter(1, () -> {
                     var receptacle = player.getItemInHand(InteractionHand.MAIN_HAND);

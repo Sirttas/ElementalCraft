@@ -3,8 +3,6 @@ package sirttas.elementalcraft.block.extractor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -30,14 +28,14 @@ import sirttas.elementalcraft.block.source.trait.SourceTraitTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 @ForEachTest(groups = ElementExtractorGameTests.GROUP)
 public class ElementExtractorGameTests {
@@ -70,17 +68,10 @@ public class ElementExtractorGameTests {
 
             sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
 
-            var extractorTag = new CompoundTag();
-
-            if (runes.length > 0) {
-                extractorTag.put(ECNames.RUNE_HANDLER, Arrays.stream(runes)
-                        .map(rune -> StringTag.valueOf(rune.identifier().toString()))
-                        .collect(Collectors.toCollection(ListTag::new)));
-            }
             return builder.placeFloorLever(0, 1, 1, true)
                     .set(0, 0, 1, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                     .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                    .set(0, 1, 0, extractor.get().defaultBlockState(), extractorTag)
+                    .set(0, 1, 0, extractor.get().defaultBlockState(), withValue(runeHandler(runes)))
                     .set(0, 2, 0, ECBlocks.FIRE_SOURCE.get().defaultBlockState(), sourceTag);
         });
     }
@@ -189,7 +180,7 @@ public class ElementExtractorGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> sourceStorage.setElementAmount(transferRate))
-                .thenExecuteAfter(1, () -> helper.pullLever(0, 21, 1))
+                .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                 .thenExecuteAfter(5, () -> {
                     helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                     assertThat(storage.getElementAmount(ElementType.FIRE)).isPositive();

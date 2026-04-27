@@ -84,6 +84,10 @@ public abstract class AbstractSynthesizerBlockEntity extends AbstractECBlockEnti
     }
 
     protected void handleSynthesis() {
+        if (this.isPowered()) {
+            return;
+        }
+
         var container = getContainer();
         var type = getElementType();
 

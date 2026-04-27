@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
 
@@ -18,7 +17,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
 public class AirMillGameTests {
 
-    private static final BlockPos AIR_MILL_POS = new BlockPos(0, 2, 0);
+    private static final BlockPos AIR_MILL_POS = new BlockPos(0, 1, 0);
 
     public static List<Test> collectTests() {
         var index = new AtomicInteger(0);

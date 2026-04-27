@@ -43,7 +43,7 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 	public OrderedSorterBlockEntity(BlockPos pos, BlockState state) {
 		super(ECBlockEntityTypes.SORTER, pos, state);
 		runeHandler = new RuneHandler(ECConfig.SERVER.sorterMaxRunes.get(), this::setChanged);
-		stacks = NonNullList.of(ItemStack.EMPTY);
+		stacks = NonNullList.withSize(ECConfig.SERVER.sorterMaxItem.get(), ItemStack.EMPTY);
 		index = 0;
 		tick = 0;
 	}
@@ -83,13 +83,16 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 			index = 0;
 			this.setChanged();
 			return InteractionResult.SUCCESS;
-		} else if (stacks.size() < ECConfig.SERVER.sorterMaxItem.get()) {
-			ItemStack copy = stack.copy();
+		}
+		for (var i = 0; i < stacks.size(); i++) {
+			if (stacks.get(i).isEmpty()) {
+				ItemStack copy = stack.copy();
 
-			copy.setCount(1);
-			stacks.add(copy);
-			this.setChanged();
-			return InteractionResult.SUCCESS;
+				copy.setCount(1);
+				stacks.set(i, copy);
+				this.setChanged();
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return InteractionResult.PASS;
 	}

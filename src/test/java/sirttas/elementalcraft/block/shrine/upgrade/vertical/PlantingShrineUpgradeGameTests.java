@@ -29,12 +29,12 @@ public class PlantingShrineUpgradeGameTests {
     @GameTest(template = "elementalcraft:plantingshrineupgradegametests.should_plantwheat")
     public static void should_plantWheat(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            verifyUpgradeIsPresent(helper, new BlockPos(3, 3, 3), Direction.UP);
+            verifyUpgradeIsPresent(helper, new BlockPos(3, 2, 3), Direction.UP);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 4, 3), HarvestShrineGameTests.POSES.size());
+            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(3, 3, 3), HarvestShrineGameTests.POSES.size());
         }).thenExecuteAfter(1, () -> {
             HarvestShrineGameTests.POSES.forEach(p -> helper.assertBlockState(p, b -> b.is(Blocks.WHEAT) && !((CropBlock) b.getBlock()).isMaxAge(b), _ -> Component.literal("Block has not been harvested or planted back")));
-            helper.assertItemEntityCountIs(Items.WHEAT, new BlockPos(3, 2, 3), 3, HarvestShrineGameTests.POSES.size());
+            helper.assertItemEntityCountIs(Items.WHEAT, new BlockPos(3, 1, 3), 3, HarvestShrineGameTests.POSES.size());
         }).thenSucceed();
     }
 
@@ -50,19 +50,19 @@ public class PlantingShrineUpgradeGameTests {
                 .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, Direction.DOWN)));
 
         test.onGameTest(ECGameTestHelper.class, helper -> helper.startSequence().thenExecute(() -> {
-            verifyUpgradeIsPresent(helper, new BlockPos(5, 3, 5), Direction.DOWN);
+            verifyUpgradeIsPresent(helper, new BlockPos(5, 2, 5), Direction.DOWN);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 2, 5), 350);
+            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(5, 1, 5), 350);
         }).thenExecuteAfter(1, () -> {
             assertSaplingPlanted(helper);
-            helper.assertItemEntityCountIs(Items.OAK_LOG, new BlockPos(5, 2, 5), 6, 80);
+            helper.assertItemEntityCountIs(Items.OAK_LOG, new BlockPos(5, 1, 5), 6, 80);
         }).thenSucceed());
     }
 
     private static void assertSaplingPlanted(ECGameTestHelper helper) {
         for (int x = 1; x < 10; x++) {
             for (int z = 1; z < 10; z++) {
-                if (helper.getBlockState(new BlockPos(x, 2, z)).is(Blocks.OAK_SAPLING)) {
+                if (helper.getBlockState(new BlockPos(x, 1, z)).is(Blocks.OAK_SAPLING)) {
                     return;
                 }
             }

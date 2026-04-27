@@ -20,34 +20,34 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class TranslocationShrineUpgradeGameTests {
 
     private static final List<BlockPos> CROPS = List.of(
-            new BlockPos(9, 2, 1),
-            new BlockPos(9, 2, 2),
-            new BlockPos(9, 2, 3),
-            new BlockPos(9, 2, 5),
-            new BlockPos(9, 2, 6),
-            new BlockPos(9, 2, 7),
-            new BlockPos(10, 2, 1),
-            new BlockPos(10, 2, 2),
-            new BlockPos(10, 2, 3),
-            new BlockPos(10, 2, 5),
-            new BlockPos(10, 2, 6),
-            new BlockPos(10, 2, 7),
-            new BlockPos(11, 2, 1),
-            new BlockPos(11, 2, 2),
-            new BlockPos(11, 2, 3),
-            new BlockPos(11, 2, 4),
-            new BlockPos(11, 2, 5),
-            new BlockPos(11, 2, 6),
-            new BlockPos(11, 2, 7)
+            new BlockPos(9, 1, 1),
+            new BlockPos(9, 1, 2),
+            new BlockPos(9, 1, 3),
+            new BlockPos(9, 1, 5),
+            new BlockPos(9, 1, 6),
+            new BlockPos(9, 1, 7),
+            new BlockPos(10, 1, 1),
+            new BlockPos(10, 1, 2),
+            new BlockPos(10, 1, 3),
+            new BlockPos(10, 1, 5),
+            new BlockPos(10, 1, 6),
+            new BlockPos(10, 1, 7),
+            new BlockPos(11, 1, 1),
+            new BlockPos(11, 1, 2),
+            new BlockPos(11, 1, 3),
+            new BlockPos(11, 1, 4),
+            new BlockPos(11, 1, 5),
+            new BlockPos(11, 1, 6),
+            new BlockPos(11, 1, 7)
     );
     public static final String TEMPLATE = "elementalcraft:translocationshrineupgradegametests.should_growcropsaroundanchor";
 
     @TestHolder(description = "Checks if the translocation shrine upgrade grows crops around the anchor")
     @GameTest(template = TEMPLATE)
     public static void should_growCropsAroundAnchor(GameTestHelper helper) {
-        var upgrade = helper.getBlockEntity(new BlockPos(5, 2, 4), TranslocationShrineUpgradeBlockEntity.class);
-        var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 2, 4));
-        var targetPos = helper.absolutePos(new BlockPos(9, 2, 4));
+        var upgrade = helper.getBlockEntity(new BlockPos(5, 1, 4), TranslocationShrineUpgradeBlockEntity.class);
+        var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
+        var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
         upgrade.setTarget(targetPos);
         shrine.refresh();

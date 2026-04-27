@@ -33,10 +33,10 @@ public class ChiselGameTests {
     @TestHolder(description = "Checks if the inscriber can craft a rune.")
     @GameTest(template = InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME)
     public static void should_craftRune(ECGameTestHelper helper) {
-        var pos = helper.absolutePos(new BlockPos(0, 2, 0));
+        var pos = helper.absolutePos(new BlockPos(0, 1, 0));
         var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos));
-        var container = ElementPipeGameTests.getElementStorage(helper, 0, 1, 0);
-        var player = helper.mockChiselPlayer(new Vec3(0, 2, 0));
+        var container = ElementPipeGameTests.getElementStorage(helper, 0, 0, 0);
+        var player = helper.mockChiselPlayer(new Vec3(0, 1, 0));
 
         itemHandler.insertItem(0, new ItemStack(ECItems.MINOR_RUNE_SLATE), false);
         itemHandler.insertItem(1, new ItemStack(Items.COAL), false);
@@ -45,7 +45,7 @@ public class ChiselGameTests {
         container.fill(ElementType.FIRE);
 
         for (int i = 0; i < 3; i++) {
-            helper.useBlock(new BlockPos(0, 2, 0), player);
+            helper.useBlock(new BlockPos(0, 1, 0), player);
         }
 
         var stack = itemHandler.getStackInSlot(0);

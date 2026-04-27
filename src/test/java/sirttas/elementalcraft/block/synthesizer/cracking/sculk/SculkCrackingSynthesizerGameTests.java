@@ -29,22 +29,28 @@ public class SculkCrackingSynthesizerGameTests {
             .fill(0, 0, 0, 16, 0, 16, ECBlocks.WHITE_ROCK_BRICKS.get())
             .fill(1, 0, 1, 15, 0, 15, Blocks.SCULK)
             .set(8, 1, 8, ECBlocks.CONTAINER.get().defaultBlockState())
-            .set(8, 2, 8, ECBlocks.SCULK_CRACKING_SYNTHESIZER.get().defaultBlockState()));
+            .set(8, 2, 8, ECBlocks.SCULK_CRACKING_SYNTHESIZER.get().defaultBlockState())
+            .set(8, 1, 9, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
+            .placeFloorLever(8, 2, 9, true));
 
     @TestHolder(description = "Checks if the sculk cracking synthesizer generates earth from the surrounding sculk.")
     @GameTest(template = SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME)
     public static void should_generateEarthFromSculk(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);
-        var storage = helper.requireElementContainer(new BlockPos(8, 2, 8));
+        var storage = helper.requireElementContainer(new BlockPos(8, 1, 8));
 
-        helper.startSequence().thenIdle(1).thenExecuteFor(20, () -> {
-            var t = ticks.incrementAndGet();
+        helper.startSequence()
+                .thenExecute(() -> helper.pullLever(new BlockPos(8, 2, 9)))
+                .thenIdle(1)
+                .thenExecuteFor(20, () -> {
+                    var t = ticks.incrementAndGet();
 
-            assertThat(storage.getElementType())
-                    .isEqualTo(ElementType.EARTH);
-            assertThat(storage.getElementAmount())
-                    .isEqualTo(t * 25);
-        }).thenSucceed();
+                    assertThat(storage.getElementType())
+                            .isEqualTo(ElementType.EARTH);
+                    assertThat(storage.getElementAmount())
+                            .as("Sculk cracking synthesizer should generate earth over time (at a rate of 25 every tick)")
+                            .isEqualTo(t * 25);
+                }).thenSucceed();
     }
 
 }

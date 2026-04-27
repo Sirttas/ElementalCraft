@@ -33,7 +33,9 @@ public class CrackingSynthesizerGameTests {
             .fill(0, 0, 0, 10, 0, 10, ECBlocks.WHITE_ROCK_BRICKS.get())
             .fill(1, 0, 1, 9, 0, 9, Blocks.STONE)
             .set(5, 1, 5, ECBlocks.CONTAINER.get().defaultBlockState())
-            .set(5, 2, 5, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState()));
+            .set(5, 2, 5, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState())
+            .set(5, 1, 6, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
+            .placeFloorLever(5, 2, 6, true));
 
     @RegisterStructureTemplate(CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(13, 3, 13, builder -> builder
@@ -45,16 +47,20 @@ public class CrackingSynthesizerGameTests {
     @GameTest(template = CRACKING_SYNTHESIZER_TEMPLATE_NAME)
     public static void should_generateEarthFromStone(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);
-        var storage = helper.requireElementContainer(new BlockPos(5, 2, 5));
+        var storage = helper.requireElementContainer(new BlockPos(5, 1, 5));
 
-        helper.startSequence().thenIdle(1).thenExecuteFor(20, () -> {
-            var t = ticks.incrementAndGet();
+        helper.startSequence()
+                .thenExecute(() -> helper.pullLever(new BlockPos(5, 2, 6)))
+                .thenIdle(1)
+                .thenExecuteFor(20, () -> {
+                    var t = ticks.incrementAndGet();
 
-            assertThat(storage.getElementType())
-                    .isEqualTo(ElementType.EARTH);
-            assertThat(storage.getElementAmount())
-                    .isEqualTo(t * 5);
-        }).thenSucceed();
+                    assertThat(storage.getElementType())
+                            .isEqualTo(ElementType.EARTH);
+                    assertThat(storage.getElementAmount())
+                            .as("Cracking synthesizer should generate earth over time (at a rate of 25 every tick)")
+                            .isEqualTo(t * 5);
+                }).thenSucceed();
     }
 
 }

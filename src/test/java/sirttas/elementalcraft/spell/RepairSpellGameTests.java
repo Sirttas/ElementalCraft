@@ -23,12 +23,12 @@ public class RepairSpellGameTests {
     @EmptyTemplate(floor = true)
     @TestHolder(description = "Checks that repair spell repair spell in other hand.")
     public static void should_repairItemInOtherHand(ECGameTestHelper helper) {
-        var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.REPAIR);
+        var player = helper.mockPlayerWithSpell(new Vec3(1, 0, 1), Spells.REPAIR);
         var damagedItem = new ItemStack(Items.DIAMOND_PICKAXE);
 
         damagedItem.setDamageValue(10);
         player.setItemInHand(InteractionHand.OFF_HAND, damagedItem);
-        player.lookAt(EntityAnchorArgument.Anchor.EYES, helper.absoluteVec(new Vec3(9, 1, 1)));
+        player.lookAt(EntityAnchorArgument.Anchor.EYES, helper.absoluteVec(new Vec3(9, 0, 1)));
         helper.startSequence()
                 .thenExecuteFor(20, () -> helper.useItem(player))
                 .thenExecuteAfter(2, () -> {

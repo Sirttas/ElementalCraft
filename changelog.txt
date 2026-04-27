@@ -1,6 +1,7 @@
 - port to 26.1.1
 - add a facing property for fire furnace and fire blast furnace
 - purification spell now only consumes if it successfully removes a negative effect
+- synthesizers now turn off when powered by redstone
 
 
 7.1.3:

@@ -4,10 +4,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -21,22 +26,36 @@ import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
 
+import java.util.function.Supplier;
+
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 @ForEachTest(groups = SourceBreederGameTests.GROUP)
 public class SourceBreederGameTests {
     public static final String GROUP = "level.blocks.sources.breeders";
+    public static final String SOURCE_BREEDER_TEMPLATE_NAME = "elementalcraft:sourcebreedergametests.source_breeder";
+
+    @RegisterStructureTemplate(SOURCE_BREEDER_TEMPLATE_NAME)
+    public static final Supplier<StructureTemplate> SOURCE_BREEDER_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 5, builder -> builder
+            .set(0, 0, 0, ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState())
+            .set(0, 0, 2, ECBlocks.SOURCE_BREEDER.get().defaultBlockState()
+                    .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER), withValue(runeHandler(Runes.CREATIVE)))
+            .set(0, 1, 2, ECBlocks.SOURCE_BREEDER.get().defaultBlockState()
+                    .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER))
+            .set(0, 0, 4, ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState()));
 
 
     @TestHolder(description = "Checks if the source breeder can breed sources.")
-    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
+    @GameTest(template = SOURCE_BREEDER_TEMPLATE_NAME)
     public static void should_breedSource(ECGameTestHelper helper) {
-        var breeder = helper.getBlockEntity(new BlockPos(0, 1, 2), SourceBreederBlockEntity.class);
+        var breeder = helper.getBlockEntity(new BlockPos(0, 0, 2), SourceBreederBlockEntity.class);
 
         var type = ElementType.AIR;
         var breederItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(breeder, null));
-        var pedestal1 = helper.getBlockEntity(new BlockPos(0, 1, 0), SourceBreederPedestalBlockEntity.class);
-        var pedestal2 = helper.getBlockEntity(new BlockPos(0, 1, 4), SourceBreederPedestalBlockEntity.class);
+        var pedestal1 = helper.getBlockEntity(new BlockPos(0, 0, 0), SourceBreederPedestalBlockEntity.class);
+        var pedestal2 = helper.getBlockEntity(new BlockPos(0, 0, 4), SourceBreederPedestalBlockEntity.class);
         var pedestal1ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal1, null));
         var pedestal2ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal2, null));
         var pedestal1ElementStorage = ElementStorageGameTestHelper.get(pedestal1);
@@ -86,9 +105,9 @@ public class SourceBreederGameTests {
     }
 
     @TestHolder(description = "Checks if the source breeder drops a source breeder and a rune.")
-    @GameTest(template = "elementalcraft:sourcebreedergametests.source_breeder")
+    @GameTest(template = SOURCE_BREEDER_TEMPLATE_NAME)
     public static void should_dropOneSourceBreederAndRune(ECGameTestHelper helper) {
-        var pos = new BlockPos(0, 1, 2);
+        var pos = new BlockPos(0, 0, 2);
 
         helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null);
 

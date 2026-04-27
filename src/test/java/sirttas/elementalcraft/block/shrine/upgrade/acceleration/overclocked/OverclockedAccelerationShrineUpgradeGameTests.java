@@ -25,9 +25,9 @@ public class OverclockedAccelerationShrineUpgradeGameTests {
         var ticks = new AtomicInteger(0);
 
         helper.startSequence().thenExecute(() -> {
-            helper.pullLever(0, 2, 2);
+            helper.pullLever(0, 1, 2);
         }).thenIdle(1).thenExecuteFor(10, () -> {
-            var storage = ElementStorageGameTestHelper.get(helper.getBlockEntity(new BlockPos(1, 2, 0), BlockEntity.class));
+            var storage = ElementStorageGameTestHelper.get(helper.getBlockEntity(new BlockPos(1, 1, 0), BlockEntity.class));
 
             assertThat(storage.getElementAmount(ElementType.WATER)).isEqualTo(500 * ticks.incrementAndGet());
         }).thenSucceed();

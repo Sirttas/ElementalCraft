@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.shrine.upgrade.horizontal;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -10,6 +9,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -34,10 +34,10 @@ public class CrystalHarvestShrineUpgradeGameTests {
     @GameTest(template =  TEMPLATE_NAME)
     public static void should_harvestAmethystClusters(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
-            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(11, 2, 11), 1);
+            ShrineGameTestHelper.forcePeriods(helper, new BlockPos(11, 1, 11), 1);
         }).thenExecuteAfter(1, () -> {
-            helper.assertBlockNotPresent(Blocks.AMETHYST_CLUSTER, new BlockPos(13, 2, 11));
-            helper.assertItemEntityPresent(Items.AMETHYST_SHARD, new BlockPos(13, 2, 11), 3);
+            helper.assertBlockNotPresent(Blocks.AMETHYST_CLUSTER, new BlockPos(13, 1, 11));
+            helper.assertItemEntityPresent(Items.AMETHYST_SHARD, new BlockPos(13, 1, 11), 3);
         }).thenSucceed();
     }
 }
