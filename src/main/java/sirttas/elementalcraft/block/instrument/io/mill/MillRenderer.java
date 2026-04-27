@@ -9,8 +9,6 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.airmill.AirMill;
@@ -18,7 +16,6 @@ import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-@OnlyIn(Dist.CLIENT)
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> extends IOInstrumentRenderer<T, MillRenderState> {
 
 	public static final SimpleStandaloneModelSupplier WATER_MILL_GRINDSTONE_SHAFT = new SimpleStandaloneModelSupplier("water_mill_grindstone_shaft");

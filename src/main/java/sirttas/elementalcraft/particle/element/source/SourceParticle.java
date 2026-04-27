@@ -7,15 +7,12 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.element.AbstractElementParticle;
 import sirttas.elementalcraft.particle.element.ElementParticleType;
 
-@OnlyIn(Dist.CLIENT)
 public class SourceParticle extends AbstractElementParticle {
 	
 	protected SourceParticle(ClientLevel level, Vec3 coord, TextureAtlasSprite sprite, ElementType type) {
@@ -49,7 +46,6 @@ public class SourceParticle extends AbstractElementParticle {
 		}
 	}
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<@NotNull ElementParticleType> {
 
         private final SpriteSet sprites;

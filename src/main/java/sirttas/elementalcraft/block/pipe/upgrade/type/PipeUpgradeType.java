@@ -69,7 +69,7 @@ public class PipeUpgradeType<T extends PipeUpgrade> implements ItemLike {
         if (lootTable == null) {
             var k = getKey();
 
-            lootTable = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(k.getNamespace(), PipeUpgrade.FOLDER + k.getPath()));
+            lootTable = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(k.getNamespace(), PipeUpgrade.FOLDER + '/' + k.getPath()));
         }
         return lootTable;
     }

@@ -13,8 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.PlaceholderLookupProvider;
 import net.minecraft.util.StrictJsonParser;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import net.neoforged.neoforge.client.model.standalone.UnbakedStandaloneModel;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-@OnlyIn(Dist.CLIENT)
 public class ECModelResolver<T> {
 
     private static final Map<Identifier, ECModelResolver<?>> RESOLVERS = new HashMap<>();

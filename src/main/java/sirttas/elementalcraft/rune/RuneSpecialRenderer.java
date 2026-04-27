@@ -9,8 +9,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -20,7 +18,6 @@ import sirttas.elementalcraft.component.ECDataComponents;
 
 import java.util.function.Consumer;
 
-@OnlyIn(Dist.CLIENT)
 public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder<@NotNull Rune>> {
 
     public static final Identifier IDENTIFIER = ElementalCraftApi.RUNE_MANAGER_KEY.identifier();
@@ -51,7 +48,6 @@ public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder
 
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Unbaked implements SpecialModelRenderer.Unbaked<@NotNull Holder<@NotNull Rune>> {
 
         private static final Unbaked INSTANCE = new Unbaked();

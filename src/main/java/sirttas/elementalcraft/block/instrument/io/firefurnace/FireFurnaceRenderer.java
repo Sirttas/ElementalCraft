@@ -6,14 +6,11 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-@OnlyIn(Dist.CLIENT)
 public class FireFurnaceRenderer<T extends AbstractFireFurnaceBlockEntity<?>> extends IOInstrumentRenderer<@NotNull T, @NotNull IOInstrumentRenderState> {
 
     public FireFurnaceRenderer(BlockEntityRendererProvider.Context context) {

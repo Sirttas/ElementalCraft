@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -22,7 +20,6 @@ import sirttas.elementalcraft.tag.ECTags;
 
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S extends ShrineRenderState> implements BlockEntityRenderer<@NotNull T, @NotNull S> {
 
     private final BlockModelResolver blockModelResolver;

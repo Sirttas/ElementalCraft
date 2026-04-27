@@ -12,15 +12,12 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.rune.RuneModelResolver;
 
-@OnlyIn(Dist.CLIENT)
 public class CrystallizerRenderer implements BlockEntityRenderer<@NotNull CrystallizerBlockEntity, @NotNull CrystallizerRenderState> {
 
     private final ItemModelResolver itemModelResolver;

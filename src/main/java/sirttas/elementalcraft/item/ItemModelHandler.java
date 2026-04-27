@@ -1,11 +1,9 @@
 package sirttas.elementalcraft.item;
 
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.common.EventBusSubscriber;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-@OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ItemModelHandler {
 

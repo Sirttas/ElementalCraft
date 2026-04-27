@@ -8,14 +8,11 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderState;
 import sirttas.elementalcraft.block.instrument.io.IOInstrumentRenderer;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-@OnlyIn(Dist.CLIENT)
 public class PurifierRenderer extends IOInstrumentRenderer<PurifierBlockEntity, IOInstrumentRenderState> {
 
     private static final AABB INPUT_SLOT = new AABB(0, 0, 1, 1, 1, 1);

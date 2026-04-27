@@ -5,12 +5,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-@OnlyIn(Dist.CLIENT)
 public class MillModelRenderState {
 
     private float animationTime;

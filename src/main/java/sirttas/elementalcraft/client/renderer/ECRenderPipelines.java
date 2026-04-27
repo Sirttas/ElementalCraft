@@ -25,7 +25,7 @@ public class ECRenderPipelines {
             .build();
 
     public static final RenderPipeline SOURCE = RenderPipelines.SOLID_BLOCK.toBuilder()
-            .withLocation(ElementalCraftApi.createRL("pipeline/ghost"))
+            .withLocation(ElementalCraftApi.createRL("pipeline/source"))
             .withColorTargetState(new ColorTargetState(new BlendFunction(SourceFactor.CONSTANT_ALPHA, DestFactor.ONE)))
             .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
             .withCull(false)

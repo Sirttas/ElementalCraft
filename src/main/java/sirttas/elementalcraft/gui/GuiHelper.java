@@ -4,13 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.config.ECConfig;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiHelper {
 
 	private static final Identifier GAUGE = ElementalCraftApi.createRL("textures/gui/element_gauge.png");

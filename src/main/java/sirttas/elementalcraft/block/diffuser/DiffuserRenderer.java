@@ -9,8 +9,6 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.util.Util;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.Nullable;
@@ -19,7 +17,6 @@ import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.rune.RuneModelResolver;
 
-@OnlyIn(Dist.CLIENT)
 public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
 	
 	public static final SimpleStandaloneModelSupplier CUBE = new SimpleStandaloneModelSupplier("diffuser_cube");

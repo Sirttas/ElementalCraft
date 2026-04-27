@@ -12,14 +12,11 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class SingleItemBlockEntityRenderer<T extends BlockEntity, S extends SingleItemBlockEntityRenderState> extends RuneBlockEntityRenderer<@NotNull T, @NotNull S> {
 
     protected final ItemModelResolver itemModelResolver;

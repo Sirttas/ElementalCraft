@@ -6,8 +6,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -17,7 +15,6 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public class RunesRenderState {
 
     private float animationTime;

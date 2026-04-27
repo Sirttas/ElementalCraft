@@ -6,8 +6,6 @@ import net.minecraft.client.multiplayer.SessionSearchTrees;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.pureore.PureOre;
 
@@ -16,7 +14,6 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public class PureOreDisplayManager {
 
     private static final SessionSearchTrees.Key SEARCH_TREE_RELOAD_KEY = new SessionSearchTrees.Key();

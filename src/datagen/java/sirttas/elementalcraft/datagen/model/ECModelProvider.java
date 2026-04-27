@@ -7,8 +7,6 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -72,7 +70,6 @@ public class ECModelProvider extends ModelProvider {
                 blockModels.modelOutput).run());
     }
 
-    @OnlyIn(Dist.CLIENT)
     private static class PipeUpgradeModelCollector implements BiConsumer<PipeUpgradeType<?>, PipeUpgradeModel.Unbaked> {
         private final Map<Identifier, PipeUpgradeModel.Unbaked> models = new HashMap<>();
 
@@ -89,7 +86,6 @@ public class ECModelProvider extends ModelProvider {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private static class BuddingShrinePlateModelCollector implements BiConsumer<BudTypeDataDefinition, BuddingShrinePlateModel.Unbaked> {
         private final Map<Identifier, BuddingShrinePlateModel.Unbaked> models = new HashMap<>();
 

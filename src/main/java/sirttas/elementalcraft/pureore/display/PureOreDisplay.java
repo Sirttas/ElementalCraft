@@ -8,15 +8,12 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.pureore.PureOre;
 
 import java.util.Comparator;
 
-@OnlyIn(Dist.CLIENT)
 public record PureOreDisplay(
         Component name,
         int[] colors

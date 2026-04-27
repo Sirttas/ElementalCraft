@@ -52,7 +52,7 @@ public class PipeUpgradeLoot implements LootTableSubProvider {
 	private static ResourceKey<@NotNull LootTable> getKey(PipeUpgradeType<?> type) {
 		var key = PipeUpgradeTypes.REGISTRY.getKey(type);
 
-		return key != null ? ResourceKey.create(Registries.LOOT_TABLE, key.withPrefix(PipeUpgrade.FOLDER)) : null;
+		return key != null ? ResourceKey.create(Registries.LOOT_TABLE, key.withPrefix(PipeUpgrade.FOLDER + '/')) : null;
 	}
 
 	protected void add(ResourceKey<@NotNull LootTable> name, Builder builder) {

@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -109,20 +108,22 @@ public class SourceBreederGameTests {
     public static void should_dropOneSourceBreederAndRune(ECGameTestHelper helper) {
         var pos = new BlockPos(0, 0, 2);
 
-        helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null);
+        helper.startSequence()
+                .thenExecute(() -> helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null))
+                .thenExecuteAfter(1, () -> {
+                    var items = helper.getEntities(EntityType.ITEM, pos, 1);
 
-        var items = helper.getEntities(EntityType.ITEM, pos, 1);
+                    assertThat(items).hasSize(2)
+                            .allSatisfy(e -> {
+                                var stack = e.getItem();
 
-        assertThat(items).hasSize(2)
-                        .allSatisfy(e -> {
-                            var stack = e.getItem();
-
-                            assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
-                                    s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
-                                    s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> helper.assertRuneIs(s2, Runes.CREATIVE))
-                            );
-                        });
-        items.forEach(Entity::discard);
-        helper.succeed();
+                                assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
+                                        s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
+                                        s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> helper.assertRuneIs(s2, Runes.CREATIVE))
+                                );
+                            });
+                })
+                .thenExecute(() -> helper.discardItems(pos, 1))
+                .thenSucceed();
     }
 }
