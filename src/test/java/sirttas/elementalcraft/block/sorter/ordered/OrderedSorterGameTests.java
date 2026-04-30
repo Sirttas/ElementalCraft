@@ -39,14 +39,14 @@ public class OrderedSorterGameTests {
                 List.of(new ItemStack(Blocks.COAL_BLOCK))));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 0));
-            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 2));
+            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 0));
+            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 2));
 
             assertThat(sourceChest).isNotEmpty();
             assertThat(targetChest).isEmpty();
 
             helper.startSequence()
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                     .thenIdle(1)
                     .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
@@ -70,14 +70,14 @@ public class OrderedSorterGameTests {
                 List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get()), new ItemStack(Blocks.COAL_BLOCK))));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 0));
-            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 2));
+            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 0));
+            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 2));
 
             assertThat(sourceChest).isNotEmpty();
             assertThat(targetChest).isEmpty();
 
             helper.startSequence()
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                     .thenIdle(1)
                     .thenExecuteAfter(10, () -> assertThat(targetChest)
                             .isNotEmpty()
@@ -104,14 +104,14 @@ public class OrderedSorterGameTests {
                 List.of(Runes.CREATIVE)));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 0));
-            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 2, 2));
+            var sourceChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 0));
+            var targetChest = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(1, 1, 2));
 
             assertThat(sourceChest).isNotEmpty();
             assertThat(targetChest).isEmpty();
 
             helper.startSequence()
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 2, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                     .thenExecuteAfter(1, () -> {
                         assertThat(targetChest).isNotEmpty()
                                 .satisfies(0, s -> assertThat(s).is(ECItems.PRISTINE_FIRE_GEM).hasCount(64))

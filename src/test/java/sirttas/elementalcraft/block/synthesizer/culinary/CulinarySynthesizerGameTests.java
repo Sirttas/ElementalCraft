@@ -30,8 +30,8 @@ public class CulinarySynthesizerGameTests {
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var ticks = new AtomicInteger(0);
-            var inv = helper.getBlockEntity(new BlockPos(0, 2, 0), CulinarySynthesizerBlockEntity.class).getInventory();
-            var storage = helper.requireElementContainer(new BlockPos(0, 1, 0));
+            var inv = helper.getBlockEntity(new BlockPos(0, 1, 0), CulinarySynthesizerBlockEntity.class).getInventory();
+            var storage = helper.requireElementContainer(BlockPos.ZERO);
 
             helper.startSequence().thenExecute(() -> {
                 inv.setItem(0, new ItemStack(Items.COOKED_BEEF));

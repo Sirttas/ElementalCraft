@@ -17,7 +17,7 @@ import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 @Deprecated
 public class VortexShrineUpgradeRenderer implements BlockEntityRenderer<@NotNull VortexShrineUpgradeBlockEntity, @NotNull ECBlockEntityRenderState> {
 
-	public static final SimpleStandaloneModelSupplier RING = new SimpleStandaloneModelSupplier("shrine_upgrade_vortex_ring");
+	public static final SimpleStandaloneModelSupplier RING = SimpleStandaloneModelSupplier.block("shrine_upgrade_vortex_ring");
 
     private final BlockStateModelPart ringModel;
 

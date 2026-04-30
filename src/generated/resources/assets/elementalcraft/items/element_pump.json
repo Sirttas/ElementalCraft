@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:element_pump"
+    "model": "elementalcraft:item/element_pump"
   }
 }

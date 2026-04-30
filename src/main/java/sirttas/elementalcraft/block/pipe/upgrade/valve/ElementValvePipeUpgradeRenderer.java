@@ -12,8 +12,8 @@ import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 public class ElementValvePipeUpgradeRenderer implements PipeUpgradeRenderer<ElementValvePipeUpgrade, ElementValvePipeUpgradeRenderState> {
 
-    public static final SimpleStandaloneModelSupplier OPEN = new SimpleStandaloneModelSupplier("element_valve_open");
-    public static final SimpleStandaloneModelSupplier CLOSE = new SimpleStandaloneModelSupplier("element_valve_close");
+    public static final SimpleStandaloneModelSupplier OPEN = SimpleStandaloneModelSupplier.pipeUpgrade("element_valve_open");
+    public static final SimpleStandaloneModelSupplier CLOSE = SimpleStandaloneModelSupplier.pipeUpgrade("element_valve_close");
 
     private final BlockStateModelPart openModel;
     private final BlockStateModelPart closeModel;

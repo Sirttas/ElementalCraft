@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SourceRenderer implements BlockEntityRenderer<@NotNull SourceBlockEntity, @NotNull SourceBlockEntityRenderState> {
 
-	public static final SimpleStandaloneModelSupplier STABILIZER = new SimpleStandaloneModelSupplier("source_stabilizer");
+	public static final SimpleStandaloneModelSupplier STABILIZER = SimpleStandaloneModelSupplier.block("source_stabilizer");
 	
 	private final BlockStateModelPart stabilizerModel;
 

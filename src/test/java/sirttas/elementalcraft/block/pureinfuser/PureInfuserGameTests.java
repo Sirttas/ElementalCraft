@@ -30,7 +30,7 @@ public class PureInfuserGameTests {
 
     @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
     @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
-    public static void should_craftPureCrystal(GameTestHelper helper) {
+    public static void should_craftPureCrystal(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();

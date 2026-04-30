@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.instrument.binder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;
@@ -67,11 +66,11 @@ public class BinderGameTests {
 
     @TestHolder(description = "Checks if the binder can automaticaly craft multiple swift alloys with a sorter/retriever setup.")
     @GameTest(template = "elementalcraft:bindergametests.should_autocraftswiftalloys")
-    public static void should_autoCraftSwiftAlloys(GameTestHelper helper) {
+    public static void should_autoCraftSwiftAlloys(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
             helper.pullLever(0, 2, 0);
         }).thenExecuteAfter(2, () -> {
-            helper.assertContainerContains(new BlockPos(1, 2, 2), ECItems.SWIFT_ALLOY_INGOT.get());
+            helper.assertContainerContains(new BlockPos(1, 1, 2), ECItems.SWIFT_ALLOY_INGOT.get());
         }).thenSucceed();
     }
 }

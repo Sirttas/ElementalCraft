@@ -18,10 +18,10 @@ import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 public class MillRenderer<T extends AbstractMillBlockEntity<?>> extends IOInstrumentRenderer<T, MillRenderState> {
 
-	public static final SimpleStandaloneModelSupplier WATER_MILL_GRINDSTONE_SHAFT = new SimpleStandaloneModelSupplier("water_mill_grindstone_shaft");
-	public static final SimpleStandaloneModelSupplier AIR_MILL_GRINDSTONE_SHAFT = new SimpleStandaloneModelSupplier("air_mill_grindstone_shaft");
-	public static final SimpleStandaloneModelSupplier WATER_MILL_WOOD_SAW_SHAFT = new SimpleStandaloneModelSupplier("water_mill_wood_saw_shaft");
-	public static final SimpleStandaloneModelSupplier AIR_MILL_WOOD_SAW_SHAFT = new SimpleStandaloneModelSupplier("air_mill_wood_saw_shaft");
+	public static final SimpleStandaloneModelSupplier WATER_MILL_GRINDSTONE_SHAFT = SimpleStandaloneModelSupplier.block("water_mill_grindstone_shaft");
+	public static final SimpleStandaloneModelSupplier AIR_MILL_GRINDSTONE_SHAFT = SimpleStandaloneModelSupplier.block("air_mill_grindstone_shaft");
+	public static final SimpleStandaloneModelSupplier WATER_MILL_WOOD_SAW_SHAFT = SimpleStandaloneModelSupplier.block("water_mill_wood_saw_shaft");
+	public static final SimpleStandaloneModelSupplier AIR_MILL_WOOD_SAW_SHAFT = SimpleStandaloneModelSupplier.block("air_mill_wood_saw_shaft");
 
     private final BlockStateModelPart model;
 

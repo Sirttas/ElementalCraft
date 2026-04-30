@@ -30,7 +30,6 @@ public class VibrationSynthesizerGameTests {
 
     public static final String TEMPLATE_NAME = "elementalcraft:vibration_synthesizer";
 
-
     @RegisterStructureTemplate(TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(21, 3, 21,
             builder -> builder.fill(0, 0, 0, 20, 0, 20, ECBlocks.WHITE_ROCK_BRICKS.get())

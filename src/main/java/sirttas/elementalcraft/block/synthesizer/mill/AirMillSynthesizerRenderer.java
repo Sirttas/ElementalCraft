@@ -15,7 +15,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class AirMillSynthesizerRenderer implements BlockEntityRenderer<@NotNull AirMillSynthesizerBlockEntity, @NotNull AirMillSynthesizerRenderState> {
 
-    public static final SimpleStandaloneModelSupplier SHAFT = new SimpleStandaloneModelSupplier("air_mill_synthesizer_shaft");
+    public static final SimpleStandaloneModelSupplier SHAFT = SimpleStandaloneModelSupplier.block("air_mill_synthesizer_shaft");
 
     private final BlockStateModelPart shaft;
     private final RuneModelResolver runeModelResolver;

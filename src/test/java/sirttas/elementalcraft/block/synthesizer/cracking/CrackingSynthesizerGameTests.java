@@ -2,6 +2,7 @@ package sirttas.elementalcraft.block.synthesizer.cracking;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
@@ -30,12 +31,12 @@ public class CrackingSynthesizerGameTests {
 
     @RegisterStructureTemplate(CRACKING_SYNTHESIZER_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> CRACKING_SYNTHESIZER_TEMPLATE = StructureTemplateBuilder.lazy(11, 3, 11, builder -> builder
+            .placeFloorLever(5, 2, 6, true)
             .fill(0, 0, 0, 10, 0, 10, ECBlocks.WHITE_ROCK_BRICKS.get())
             .fill(1, 0, 1, 9, 0, 9, Blocks.STONE)
             .set(5, 1, 5, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(5, 2, 5, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState())
-            .set(5, 1, 6, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
-            .placeFloorLever(5, 2, 6, true));
+            .set(5, 1, 6, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true)));
 
     @RegisterStructureTemplate(CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> CRACKING_SYNTHESIZER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(13, 3, 13, builder -> builder

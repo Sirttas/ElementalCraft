@@ -11,6 +11,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.api.element.storage.single.SingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.api.rune.handler.RuneHandler;
@@ -44,7 +46,7 @@ public class StructureTemplateHelper {
             for (var rune : runes) {
                 handler.addRune(ElementalCraftApi.RUNE_MANAGER.getOrCreateHolder(rune));
             }
-            handler.serialize(output.child(ECNames.RUNE_HANDLER));
+            output.putChild(ECNames.RUNE_HANDLER, handler);
         };
     }
 
@@ -54,5 +56,14 @@ public class StructureTemplateHelper {
 
     public static @NotNull Consumer<ValueOutput> itemList(ItemStack... stacks) {
         return output -> ContainerHelper.saveAllItems(output, NonNullList.of(ItemStack.EMPTY, stacks), false);
+    }
+
+
+    public static @NotNull Consumer<ValueOutput> elementStorage(ElementType type, int amount) {
+        return elementStorage(type, amount, amount);
+    }
+
+    public static @NotNull Consumer<ValueOutput> elementStorage(ElementType type, int amount, int capacity) {
+        return output -> output.putChild(ECNames.ELEMENT_STORAGE, new SingleElementStorage(type, amount, capacity, null));
     }
 }

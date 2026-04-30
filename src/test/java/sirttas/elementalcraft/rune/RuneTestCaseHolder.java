@@ -11,6 +11,7 @@ import sirttas.elementalcraft.block.extractor.ElementExtractorGameTests;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.instrument.io.mill.MillTestCaseHolder;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerGameTests;
+import sirttas.elementalcraft.item.chisel.ChiselGameTests;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -35,7 +36,7 @@ public record RuneTestCaseHolder(
             of(InstrumentTestTemplates.ORE_PURIFIER_TEMPLATE_NAME, Runes.CREATIVE),
             of(InstrumentTestTemplates.FIRE_FURNACE_TEMPLATE_NAME, Runes.CREATIVE),
             of(InstrumentTestTemplates.FIRE_BLAST_FURNACE_TEMPLATE_NAME, Runes.CREATIVE),
-            of("chiselgametests.sorter_with_rune", new BlockPos(0, 0, 0), Runes.ZOD),
+            of(ChiselGameTests.SORTER_WITH_RUNE_TEMPLATE_NAME, new BlockPos(0, 0, 0), Runes.ZOD),
             of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, Runes.CREATIVE),
             of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, new BlockPos(0, 2, 0), Runes.CREATIVE),
             of("sourcebreedergametests.source_breeder", new BlockPos(0, 0, 2), Runes.CREATIVE),

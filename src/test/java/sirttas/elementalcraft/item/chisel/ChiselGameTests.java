@@ -1,20 +1,26 @@
 package sirttas.elementalcraft.item.chisel;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.pipe.ElementPipeGameTests;
+import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.RuneTestCaseHolder;
@@ -22,13 +28,26 @@ import sirttas.elementalcraft.rune.Runes;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 @ForEachTest(groups = ChiselGameTests.GROUP_NAME)
 public class ChiselGameTests {
 
     public static final String GROUP_NAME = "stacks.chisel";
+
+    public static final String SORTER_WITH_RUNE_TEMPLATE_NAME = "elementalcraft:sorter_with_rune";
+
+    @RegisterStructureTemplate(SORTER_WITH_RUNE_TEMPLATE_NAME)
+    public static final Supplier<StructureTemplate> SORTER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(1, 1, 1, builder ->
+            builder.set(0, 0, 0,
+                    ECBlocks.ORDERED_SORTER.get().defaultBlockState()
+                            .setValue(ISorterBlock.SOURCE, Direction.DOWN)
+                            .setValue(ISorterBlock.TARGET, Direction.UP),
+                    withValue(runeHandler(Runes.ZOD))));
 
     @TestHolder(description = "Checks if the inscriber can craft a rune.")
     @GameTest(template = InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME)

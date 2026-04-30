@@ -17,7 +17,7 @@ import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 @Deprecated
 public class TranslocationShrineUpgradeRenderer implements BlockEntityRenderer<@NotNull TranslocationShrineUpgradeBlockEntity, @NotNull TranslocationShrineUpgradeRenderState> {
 
-    public static final SimpleStandaloneModelSupplier RING = new SimpleStandaloneModelSupplier("shrine_upgrade_translocation_ring");
+    public static final SimpleStandaloneModelSupplier RING = SimpleStandaloneModelSupplier.block("shrine_upgrade_translocation_ring");
 
     private final BlockStateModelPart ringModel;
 

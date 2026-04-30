@@ -17,9 +17,9 @@ import java.util.List;
 
 public class ElementBeamPipeUpgradeRenderer implements PipeUpgradeRenderer<ElementBeamPipeUpgrade, ElementBeamPipeUpgradeRenderState> {
 
-    public static final SimpleStandaloneModelSupplier RING_1 = new SimpleStandaloneModelSupplier("element_beam_ring_1");
-    public static final SimpleStandaloneModelSupplier RING_2 = new SimpleStandaloneModelSupplier("element_beam_ring_2");
-    public static final SimpleStandaloneModelSupplier RING_3 = new SimpleStandaloneModelSupplier("element_beam_ring_3");
+    public static final SimpleStandaloneModelSupplier RING_1 = SimpleStandaloneModelSupplier.pipeUpgrade("element_beam_ring_1");
+    public static final SimpleStandaloneModelSupplier RING_2 = SimpleStandaloneModelSupplier.pipeUpgrade("element_beam_ring_2");
+    public static final SimpleStandaloneModelSupplier RING_3 = SimpleStandaloneModelSupplier.pipeUpgrade("element_beam_ring_3");
 
     private final BlockStateModelPart ring1Model;
     private final BlockStateModelPart ring2Model;

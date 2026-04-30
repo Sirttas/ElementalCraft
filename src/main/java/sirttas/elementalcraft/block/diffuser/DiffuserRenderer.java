@@ -19,7 +19,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class DiffuserRenderer implements BlockEntityRenderer<@NotNull DiffuserBlockEntity, @NotNull DiffuserRenderState> {
 	
-	public static final SimpleStandaloneModelSupplier CUBE = new SimpleStandaloneModelSupplier("diffuser_cube");
+	public static final SimpleStandaloneModelSupplier CUBE = SimpleStandaloneModelSupplier.block("diffuser_cube");
 
 	private static final Quaternionf ROTATION = Util.make(() -> {
         var axis = Axis.XP.rotationDegrees(45);

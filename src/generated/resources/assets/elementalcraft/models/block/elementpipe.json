@@ -1,5 +1,5 @@
 {
-  "parent": "elementalcraft:block/template_elementpipe",
+  "parent": "elementalcraft:item/template_elementpipe",
   "textures": {
     "texture": "elementalcraft:block/brass"
   }

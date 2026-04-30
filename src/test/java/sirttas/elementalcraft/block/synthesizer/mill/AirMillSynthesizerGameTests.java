@@ -1,6 +1,8 @@
 package sirttas.elementalcraft.block.synthesizer.mill;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;
@@ -26,11 +28,11 @@ public class AirMillSynthesizerGameTests {
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(1, 3, 2, builder -> builder
+            .placeFloorLever(0, 1, 1, true)
             .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(0, 1, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.LOWER))
             .set(0, 2, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.UPPER))
-            .set(0, 0, 1, ECBlocks.WHITE_ROCK.get().defaultBlockState())
-            .placeFloorLever(0, 1, 1, true));
+            .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true)));
 
     @TestHolder(description = "Checks if the air mill synthesizer generates air.")
     @GameTest(template = TEMPLATE_NAME)

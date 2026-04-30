@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:element_valve"
+    "model": "elementalcraft:item/element_valve"
   }
 }

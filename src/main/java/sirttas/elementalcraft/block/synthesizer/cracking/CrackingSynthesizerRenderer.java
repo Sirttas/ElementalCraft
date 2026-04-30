@@ -17,7 +17,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class CrackingSynthesizerRenderer<T extends AbstractCrackingSynthesizerBlockEntity<?>> implements BlockEntityRenderer<@NotNull T, @NotNull CrackingSynthesizerRenderState> {
 
-	public static final SimpleStandaloneModelSupplier HEAD = new SimpleStandaloneModelSupplier("cracking_earth_synthesizer_head");
+	public static final SimpleStandaloneModelSupplier HEAD = SimpleStandaloneModelSupplier.block("cracking_earth_synthesizer_head");
 
 	private final BlockStateModelPart headModel;
     private final RuneModelResolver runeModelResolver;

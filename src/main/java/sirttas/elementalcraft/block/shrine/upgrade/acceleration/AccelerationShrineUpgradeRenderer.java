@@ -20,7 +20,7 @@ public class AccelerationShrineUpgradeRenderer implements BlockEntityRenderer<@N
 
 	private static final Vector3f POSITION = new Vector3f(0, 2F / 16, 0);
 
-    public static final SimpleStandaloneModelSupplier CLOCK = new SimpleStandaloneModelSupplier("shrine_upgrade_acceleration_clock");
+    public static final SimpleStandaloneModelSupplier CLOCK = SimpleStandaloneModelSupplier.block("shrine_upgrade_acceleration_clock");
 
 	private final BlockStateModelPart clockModel;
 

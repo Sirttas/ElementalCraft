@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:pipe_priority_rings"
+    "model": "elementalcraft:elementalcraft/pipe_upgrades/pipe_priority_rings"
   }
 }

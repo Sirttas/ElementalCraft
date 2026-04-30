@@ -21,7 +21,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull SolarSynthesizerBlockEntity, @NotNull SolarSynthesizerRenderState> {
 
 	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_fire_synthesizer_beam");
-    public static final SimpleStandaloneModelSupplier LENS = new SimpleStandaloneModelSupplier("solar_fire_synthesizer_lens");
+    public static final SimpleStandaloneModelSupplier LENS = SimpleStandaloneModelSupplier.block("solar_fire_synthesizer_lens");
 
 	private static final float RED = ElementType.FIRE.getRed();
 	private static final float GREEN = ElementType.FIRE.getGreen();

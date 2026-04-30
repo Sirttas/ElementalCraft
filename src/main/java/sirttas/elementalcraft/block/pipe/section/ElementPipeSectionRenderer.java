@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class ElementPipeSectionRenderer {
 
-    public static final SimpleStandaloneModelSupplier SIDE = new SimpleStandaloneModelSupplier("elementpipe_side");
-    public static final SimpleStandaloneModelSupplier EXTRACT = new SimpleStandaloneModelSupplier("elementpipe_extract");
+    public static final SimpleStandaloneModelSupplier SIDE = SimpleStandaloneModelSupplier.block("elementpipe_side");
+    public static final SimpleStandaloneModelSupplier EXTRACT = SimpleStandaloneModelSupplier.block("elementpipe_extract");
 
     private final BlockStateModelPart sideModel;
     private final BlockStateModelPart extractModel;
@@ -56,6 +56,7 @@ public class ElementPipeSectionRenderer {
     public ElementPipeSectionRenderState createSectionState(ElementPipeBlockEntity pipe, Direction side, float partialTicks, Vec3 cameraPosition, ElementPipeRenderState pipeRenderState) {
         var renderState = new ElementPipeSectionRenderState();
 
+        renderState.side = side;
         renderState.connectionType = pipe.getConnection(side);
         renderState.lightCoords = pipeRenderState.lightCoords;
 
@@ -103,10 +104,12 @@ public class ElementPipeSectionRenderer {
             ECRendererHelper.submitModel(renderState.parts, poseStack, nodeCollector, renderState.lightCoords);
         }
 
-        var upgradeRenderer = getRenderer(renderState.upgradeState);
+        if (renderState.upgradeState != null) {
+            var upgradeRenderer = getRenderer(renderState.upgradeState);
 
-        if (upgradeRenderer != null) {
-            upgradeRenderer.submit(renderState.upgradeState, poseStack, nodeCollector, cameraRenderState);
+            if (upgradeRenderer != null) {
+                upgradeRenderer.submit(renderState.upgradeState, poseStack, nodeCollector, cameraRenderState);
+            }
         }
         poseStack.popPose();
     }

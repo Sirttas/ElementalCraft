@@ -14,7 +14,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class ElementPumpPipeUpgradeRenderer implements PipeUpgradeRenderer<ElementPumpPipeUpgrade, ElementPumpPipeUpgradeRenderState> {
 
-    public static final SimpleStandaloneModelSupplier PUMP = new SimpleStandaloneModelSupplier("element_pump_pump");
+    public static final SimpleStandaloneModelSupplier PUMP = SimpleStandaloneModelSupplier.pipeUpgrade("element_pump_pump");
 
     private final BlockStateModelPart pumpModel;
     private final RuneModelResolver runeModelResolver;
