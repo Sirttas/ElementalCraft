@@ -28,11 +28,10 @@ public class PureInfuserGameTests {
 
     public static final String GROUP = "level.blocks.pureInfuser";
 
-    // elementalcraft:pureinfusergametests.pure_infuser
     @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
     @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
     public static void should_craftPureCrystal(GameTestHelper helper) {
-        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 1, 3), PureInfuserBlockEntity.class);
+        var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();
 
@@ -184,7 +183,6 @@ public class PureInfuserGameTests {
         }).thenSucceed();
     }
 
-    // elementalcraft:pureinfusergametests.pure_infuser
     @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the emements that were present in the original holders.")
     @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
     public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {

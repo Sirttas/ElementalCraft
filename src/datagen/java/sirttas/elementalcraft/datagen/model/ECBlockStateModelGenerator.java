@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 
 public class ECBlockStateModelGenerator extends BlockModelGenerators implements ECModelGenerator {
 
-    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, _, _, modelOutput) -> new ECBlockStateModelGenerator(blockStateOutput, itemModelOutput, modelOutput);
+    public static final ECModelGenerator.Factory FACTORY = (blockStateOutput, itemModelOutput, _, _, _, modelOutput) -> new ECBlockStateModelGenerator(blockStateOutput, itemModelOutput, modelOutput);
 
     public static final MultiVariant CONTAINER_CONNECTOR         = plainVariant(decorateBlockModelLocation("container_connector"));
     public static final MultiVariant PEDESTAL_CONNECTOR          = plainVariant(decorateBlockModelLocation("pedestal_connector"));

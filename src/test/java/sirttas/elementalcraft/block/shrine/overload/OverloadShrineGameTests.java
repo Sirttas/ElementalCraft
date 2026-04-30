@@ -1,12 +1,12 @@
 package sirttas.elementalcraft.block.shrine.overload;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.container.ContainerGameTestHelper;
 
@@ -20,8 +20,8 @@ public class OverloadShrineGameTests {
     @TestHolder
     @GameTest(template = TEMPLATE, timeoutTicks = 200)
     public static void should_speedupFurnace(GameTestHelper helper) {
-        var furnace = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(0, 2, 0));
-        var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(0, 1, 0)).getElementStorage();
+        var furnace = ContainerGameTestHelper.getItemHandler(helper, new BlockPos(0, 1, 0));
+        var shrine = ShrineGameTestHelper.getShrine(helper, BlockPos.ZERO).getElementStorage();
 
         helper.startSequence()
                 .thenExecute(() -> {

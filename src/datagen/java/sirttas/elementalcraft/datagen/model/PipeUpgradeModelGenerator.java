@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 public class PipeUpgradeModelGenerator implements ECModelGenerator {
 
-    public static final Factory FACTORY = (_, itemModelOutput, pipeUpgradeModelOutput, _, modelOutput) -> new PipeUpgradeModelGenerator(itemModelOutput, pipeUpgradeModelOutput, modelOutput);
+    public static final Factory FACTORY = (_, itemModelOutput, _, pipeUpgradeModelOutput, _, modelOutput) -> new PipeUpgradeModelGenerator(itemModelOutput, pipeUpgradeModelOutput, modelOutput);
 
     public final ItemModelOutput itemModelOutput;
     public final BiConsumer<PipeUpgradeType<?>, PipeUpgradeModel.Unbaked> pipeUpgradeModelOutput;

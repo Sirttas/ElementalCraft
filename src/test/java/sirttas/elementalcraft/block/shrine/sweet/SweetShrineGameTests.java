@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.shrine.sweet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
@@ -21,9 +20,9 @@ public class SweetShrineGameTests {
     public static void should_feedPlayer(ECGameTestHelper helper) {
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
 
+        helper.moveEntityToOrigin(player);
         helper.getLevel().addFreshEntity(player);
         helper.startSequence().thenExecute(() -> {
-            helper.moveEntityTo(player, new Vec3(0.5, 0.5, 1.5));
             player.getFoodData().setFoodLevel(5);
             player.getFoodData().setSaturation(0);
         }).thenExecuteAfter(1, () -> {

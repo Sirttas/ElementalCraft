@@ -27,14 +27,15 @@ public class ECSpriteSourceProvider extends SpriteSourceProvider {
     @Override
     protected void gather() {
         atlas(AtlasIds.BLOCKS)
-                .addSource(directory("elementalcraft/jewels"))
-                .addSource(manager(ElementalCraftApi.RUNE_MANAGER))
                 .addSource(single(SolarSynthesizerRenderer.BEAM))
                 .addSource(single(AirShieldSpellRenderer.BACKGROUND))
                 .addSource(single(AirShieldSpellRenderer.BLADE))
                 .addSource(single(SourceRenderState.OUTER))
                 .addSource(single(SourceRenderState.MIDDLE))
                 .addSource(single(GuiHandler.TRANSLOCATION_ANCHOR_MARKER));
+        atlas(AtlasIds.ITEMS)
+                .addSource(directory("elementalcraft/jewels"))
+                .addSource(manager(ElementalCraftApi.RUNE_MANAGER));
     }
 
     private SingleFile single(Material material) {

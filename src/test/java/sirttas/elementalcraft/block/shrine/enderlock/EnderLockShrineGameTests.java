@@ -28,12 +28,12 @@ public class EnderLockShrineGameTests {
     @TestHolder
     @GameTest(template = TEMPLATE)
     public static void should_preventEnderManFromTeleporting(GameTestHelper helper) {
-        var relativeVec = new Vec3(2.5, 1.5, -2.5);
+        var relativeVec = new Vec3(2.5, 0.5, -2.5);
         var enderman = helper.spawn(EntityType.ENDERMAN, relativeVec);
         var vec = helper.absoluteVec(relativeVec);
 
         helper.startSequence().thenExecute(() -> {
-            ShrineGameTestHelper.getShrine(helper, new BlockPos(0, 1, 0)).getElementStorage().fill();
+            ShrineGameTestHelper.getShrine(helper, BlockPos.ZERO).getElementStorage().fill();
         }).thenExecuteAfter(1, () -> {
             try {
                 var to = vec.add(10, 0, 0);

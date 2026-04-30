@@ -33,6 +33,7 @@ import sirttas.elementalcraft.datagen.model.ECBlockStateModelGenerator;
 import sirttas.elementalcraft.datagen.model.ECItemModelGenerator;
 import sirttas.elementalcraft.datagen.model.ECModelProvider;
 import sirttas.elementalcraft.datagen.model.PipeUpgradeModelGenerator;
+import sirttas.elementalcraft.datagen.model.RuneModelGenerator;
 import sirttas.elementalcraft.datagen.recipe.ECRecipeProvider;
 import sirttas.elementalcraft.datagen.registry.ECDamageTypeProvider;
 import sirttas.elementalcraft.datagen.registry.ECTrimMaterialProvider;
@@ -82,6 +83,7 @@ public class ECDataGenerators {
 		event.addProvider(new ECModelProvider(output, List.of(
 				ECBlockStateModelGenerator.FACTORY,
 				ECItemModelGenerator.FACTORY,
+				RuneModelGenerator.FACTORY,
 				PipeUpgradeModelGenerator.FACTORY,
 				BuddingShrinePlateModelGenerator.FACTORY)));
 		event.addProvider(new ECBlockTagsProvider(output, registries));

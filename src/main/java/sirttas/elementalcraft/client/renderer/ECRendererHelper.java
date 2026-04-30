@@ -48,10 +48,10 @@ public class ECRendererHelper {
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material.Baked renderMaterial, int width, int height, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().atlasLocation()), 0, 0, width, height, 1F, 1F, 1F, light);
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().contents().name()), 0, 0, width, height, 1F, 1F, 1F, light);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector,  Material renderMaterial, int width, int height, int light) {
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material renderMaterial, int width, int height, int light) {
         submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), 0, 0, width, height, 1, 1, 1, light);
     }
 

@@ -210,7 +210,7 @@ public class ElementExtractorGameTests {
 
             helper.startSequence()
                     .thenExecute(() -> sourceStorage.setElementAmount(100))
-                    .thenExecuteAfter(1, () -> helper.pullLever(0, 0, 1))
+                    .thenExecuteAfter(1, () -> helper.pullLever(0, 1, 1))
                     .thenExecuteAfter(5, () -> {
                         helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                         helper.assertItemEntityPresent(ECItems.SOURCE_STABILIZER.get());
@@ -250,7 +250,7 @@ public class ElementExtractorGameTests {
                     .thenExecuteAfter(5, () -> {
                         helper.assertBlockNotPresent(ECBlocks.FIRE_SOURCE.get(), 0, 2, 0);
                         helper.assertItemEntityNotPresent(ECItems.SOURCE_STABILIZER.get());
-                        helper.assertContainerContains(1, 1, 0, ECItems.SOURCE_STABILIZER.get());
+                        helper.assertContainerContains(1, 0, 0, ECItems.SOURCE_STABILIZER.get());
                         assertThat(storage.getElementAmount(ElementType.FIRE)).isGreaterThanOrEqualTo(100);
                     })
                     .thenSucceed();

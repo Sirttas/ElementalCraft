@@ -40,25 +40,25 @@ public class BuddingShrineGameTests {
     @GameTest(template = BUDDING_SHRINE_TEMPLATE_NAME)
     public static void should_growAmethyst(GameTestHelper helper) {
         helper.startSequence().thenExecuteAfter(1, () -> {
-            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
+            BuddingShrineBlockEntity shrine = helper.getBlockEntity(BlockPos.ZERO, BuddingShrineBlockEntity.class);
 
             assertThat(shrine.getBudType().value().requiredUpgrade()).isEmpty();
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(Blocks.SMALL_AMETHYST_BUD, new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(Blocks.SMALL_AMETHYST_BUD, new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(Blocks.MEDIUM_AMETHYST_BUD, new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(Blocks.MEDIUM_AMETHYST_BUD, new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(Blocks.LARGE_AMETHYST_BUD, new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(Blocks.LARGE_AMETHYST_BUD, new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(Blocks.AMETHYST_CLUSTER, new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(Blocks.AMETHYST_CLUSTER, new BlockPos(0, 1, 0));
         }).thenSucceed();
     }
 
@@ -66,26 +66,26 @@ public class BuddingShrineGameTests {
     @GameTest(template = BUDDING_SHRINE_WITH_SPRINGALINE_UPGRADE_TEMPLATE_NAME)
     public static void should_growSpringalineWhenUpgradedWithSpringalineShrineUpgrade(GameTestHelper helper) {
         helper.startSequence().thenExecuteAfter(1, () -> {
-            BuddingShrineBlockEntity shrine = helper.getBlockEntity(new BlockPos(0, 1, 0), BuddingShrineBlockEntity.class);
+            BuddingShrineBlockEntity shrine = helper.getBlockEntity(BlockPos.ZERO, BuddingShrineBlockEntity.class);
 
             assertThat(shrine.getBudType().value().requiredUpgrade())
                     .hasValueSatisfying(u -> assertThat(u.getKey()).isEqualTo(ShrineUpgrades.SPRINGALINE));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(ECBlocks.SMALL_SPRINGALINE_BUD.get(), new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(ECBlocks.SMALL_SPRINGALINE_BUD.get(), new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(ECBlocks.MEDIUM_SPRINGALINE_BUD.get(), new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(ECBlocks.LARGE_SPRINGALINE_BUD.get(), new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(ECBlocks.LARGE_SPRINGALINE_BUD.get(), new BlockPos(0, 1, 0));
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, BlockPos.ZERO);
 
-            helper.assertBlockPresent(ECBlocks.SPRINGALINE_CLUSTER.get(), new BlockPos(0, 2, 0));
+            helper.assertBlockPresent(ECBlocks.SPRINGALINE_CLUSTER.get(), new BlockPos(0, 1, 0));
         }).thenSucceed();
     }
 }

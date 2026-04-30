@@ -24,7 +24,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 @ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class PlantingShrineUpgradeGameTests {
 
-    // elementalcraft:plantingshrineupgradegametests.should_plantwheat
     @TestHolder(description = "Checks if the planting shrine upgrade plants wheat when used with a harvest shrine.")
     @GameTest(template = "elementalcraft:plantingshrineupgradegametests.should_plantwheat")
     public static void should_plantWheat(ECGameTestHelper helper) {

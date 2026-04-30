@@ -12,6 +12,7 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.client.model.standalone.UnbakedStandaloneModel;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import javax.annotation.Nonnull;
@@ -69,7 +70,7 @@ public class RuneModel {
         ).apply(builder, Unbaked::new));
 
         @Override
-        public RuneModel bake(ModelBaker baker, @NotNull ModelDebugName name) {
+        public @NonNull RuneModel bake(ModelBaker baker, @NotNull ModelDebugName name) {
             var backedSprite = baker.materials().get(sprite, name);
             var builder = new QuadCollection.Builder();
 

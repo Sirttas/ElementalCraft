@@ -2,7 +2,6 @@ package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -36,10 +35,6 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	private static final IBlockPosPredicate LUCK_PREDICATE = createLuckPredicate(ECTags.Blocks.RUNE_AFFECTED_LUCK);
 	private static final IBlockPosPredicate TZEENTCH_PREDICATE = createLuckPredicate(ECTags.Blocks.RUNE_AFFECTED_TZEENTCH);
 
-	public static final Identifier MINOR_SLATE = ElementalCraftApi.createRL("item/minor_rune_slate");
-	public static final Identifier SLATE = ElementalCraftApi.createRL("item/rune_slate");
-	public static final Identifier MAJOR_SLATE = ElementalCraftApi.createRL("item/major_rune_slate");
-
 	public RunesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraftApi.RUNE_MANAGER, Rune.Builder.ENCODER);
 	}
@@ -64,7 +59,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		generateOptimizationRunes();
 		generateLuckRunes();
 
-		builder(Runes.CREATIVE, MAJOR_SLATE)
+		builder(Runes.CREATIVE)
 				.predicate(SPEED_PREDICATE)
 				.addBonus(BonusType.SPEED, 1000000F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 1000000F)
@@ -72,61 +67,61 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	}
 
 	private void generateSpeedRunes() {
-		builder(Runes.WII, MINOR_SLATE)
+		builder(Runes.WII)
 				.predicate(SPEED_PREDICATE)
 				.addBonus(BonusType.SPEED, 0.1F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.FUS, SLATE)
+		builder(Runes.FUS)
 				.predicate(SPEED_PREDICATE)
 				.addBonus(BonusType.SPEED, 0.3F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.ZOD, MAJOR_SLATE)
+		builder(Runes.ZOD)
 				.predicate(SPEED_PREDICATE)
 				.addBonus(BonusType.SPEED, 0.5F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
 	}
 
 	private void generatePreservationRunes() {
-		builder(Runes.MANX, MINOR_SLATE)
+		builder(Runes.MANX)
 				.predicate(PRESERVATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F)
 				.addBonus(BonusType.SPEED, -0.1F);
-		builder(Runes.JITA, SLATE)
+		builder(Runes.JITA)
 				.predicate(PRESERVATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F)
 				.addBonus(BonusType.SPEED, -0.1F);
-		builder(Runes.TANO, MAJOR_SLATE)
+		builder(Runes.TANO)
 				.predicate(PRESERVATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.15F)
 				.addBonus(BonusType.SPEED, -0.1F);
 	}
 
 	private void generateRangeRunes() {
-		builder(Runes.KIRBY, MINOR_SLATE)
+		builder(Runes.KIRBY)
 				.predicate(RANGE_PREDICATE)
 				.addBonus(BonusType.RANGE, 0.05F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.WHALE, SLATE)
+		builder(Runes.WHALE)
 				.predicate(RANGE_PREDICATE)
 				.addBonus(BonusType.RANGE, 0.1F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
-		builder(Runes.TYRIA, MAJOR_SLATE)
+		builder(Runes.TYRIA)
 				.predicate(RANGE_PREDICATE)
 				.addBonus(BonusType.RANGE, 0.15F)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.05F);
 	}
 
 	private void generateOptimizationRunes() {
-		builder(Runes.SOARYN, MINOR_SLATE)
+		builder(Runes.SOARYN)
 				.predicate(OPTIMIZATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.03F)
 				.addBonus(BonusType.SPEED, 0.05F).max(1);
-		builder(Runes.KAWORU, SLATE)
+		builder(Runes.KAWORU)
 				.predicate(OPTIMIZATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.05F)
 				.addBonus(BonusType.SPEED, 0.1F)
 				.max(1);
-		builder(Runes.MEWTWO, MAJOR_SLATE)
+		builder(Runes.MEWTWO)
 				.predicate(OPTIMIZATION_PREDICATE)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, 0.1F)
 				.addBonus(BonusType.SPEED, 0.3F)
@@ -134,24 +129,24 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 	}
 
 	private void generateLuckRunes() {
-		builder(Runes.CLAPTRAP, MINOR_SLATE)
+		builder(Runes.CLAPTRAP)
 				.predicate(LUCK_PREDICATE)
 				.addBonus(BonusType.LUCK, 1)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
 				.max(1);
-		builder(Runes.BOMBADIL, SLATE)
+		builder(Runes.BOMBADIL)
 				.predicate(LUCK_PREDICATE)
 				.addBonus(BonusType.LUCK, 2)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
 				.max(1);
-		builder(Runes.TZEENTCH, MAJOR_SLATE)
+		builder(Runes.TZEENTCH)
 				.predicate(TZEENTCH_PREDICATE)
 				.addBonus(BonusType.LUCK, 3)
 				.addBonus(BonusType.ELEMENT_PRESERVATION, -0.1F)
 				.max(1);
 	}
 
-	private Rune.Builder builder(ResourceKey<Rune> key, Identifier slate) {
+	private Rune.Builder builder(ResourceKey<Rune> key) {
 		var name = key.identifier().getPath();
 		var builder = Rune.Builder.create();
 

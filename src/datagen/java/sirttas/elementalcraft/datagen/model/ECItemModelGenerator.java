@@ -2,17 +2,22 @@ package sirttas.elementalcraft.datagen.model;
 
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.rune.RuneModel;
+import sirttas.elementalcraft.rune.RuneSpecialRenderer;
 
 import java.util.function.BiConsumer;
 
 public class ECItemModelGenerator extends ItemModelGenerators implements ECModelGenerator {
 
-    public static final ECModelGenerator.Factory FACTORY = (_, itemModelOutput, _, _, modelOutput) -> new ECItemModelGenerator(itemModelOutput, modelOutput);
+    public static final ECModelGenerator.Factory FACTORY = (_, itemModelOutput, _, _, _, modelOutput) -> new ECItemModelGenerator(itemModelOutput, modelOutput);
 
     public ECItemModelGenerator(ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(itemModelOutput, modelOutput);
@@ -142,6 +147,8 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
     }
 
     public void generateRune(Item item) {
-        this.generateFlatItem(item, ModelTemplates.FLAT_ITEM); // TODO
+        var slate = ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(RuneModel.Slate.STANDARD.getMaterial()), this.modelOutput);
+
+        this.itemModelOutput.accept(item, ItemModelUtils.specialModel(slate, RuneSpecialRenderer.Unbaked.get()));
     }
 }

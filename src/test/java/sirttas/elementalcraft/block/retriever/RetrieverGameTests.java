@@ -24,39 +24,39 @@ public class RetrieverGameTests {
     @GameTest(template = INFUSER_TEMPLATE)
     @TestHolder
     public static void should_extractFromInfuser(ECGameTestHelper helper) {
-        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0), InfuserBlockEntity.class);
-        var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
+        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 2, 0), InfuserBlockEntity.class);
+        var container = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
         helper.startSequence().thenExecute(() -> {
                     infuser.getInventory().setItem(0, new ItemStack(Items.IRON_INGOT));
                     container.fill(ElementType.WATER);
                 }).thenExecuteAfter(2, () -> {
-                    helper.pullLever(1, 3, 1);
+                    helper.pullLever(1, 2, 1);
                 }).thenExecuteAfter(1, () -> {
-                    helper.assertContainerContains(new BlockPos(0, 2, 1), ECItems.DRENCHED_IRON_INGOT.get());
+                    helper.assertContainerContains(new BlockPos(0, 1, 1), ECItems.DRENCHED_IRON_INGOT.get());
                 }).thenSucceed();
     }
 
     @GameTest(template = INFUSER_TEMPLATE)
     @TestHolder
     public static void should_extractFromInfuser_with_activeRetriever(ECGameTestHelper helper) {
-        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 3, 0), InfuserBlockEntity.class);
-        var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
+        InfuserBlockEntity infuser = helper.getBlockEntity(new BlockPos(0, 2, 0), InfuserBlockEntity.class);
+        var container = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
         helper.startSequence().thenExecute(() -> {
             infuser.getInventory().setItem(0, new ItemStack(Items.IRON_INGOT));
             container.fill(ElementType.WATER);
-            helper.pullLever(1, 3, 1);
+            helper.pullLever(1, 2, 1);
         }).thenExecuteAfter(2, () -> {
-            helper.assertContainerContains(new BlockPos(0, 2, 1), ECItems.DRENCHED_IRON_INGOT.get());
+            helper.assertContainerContains(new BlockPos(0, 1, 1), ECItems.DRENCHED_IRON_INGOT.get());
         }).thenSucceed();
     }
 
     @GameTest(template = BINDER_TEMPLATE)
     @TestHolder
     public static void should_extractFromBinder(ECGameTestHelper helper) {
-        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0), BinderBlockEntity.class);
-        var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
+        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 2, 0), BinderBlockEntity.class);
+        var container = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
         helper.startSequence().thenExecute(() -> {
             var inv = binder.getInventory();
@@ -68,17 +68,17 @@ public class RetrieverGameTests {
             inv.setItem(4, new ItemStack(ECItems.AIR_CRYSTAL));
             container.fill(ElementType.AIR);
         }).thenExecuteAfter(2, () -> {
-            helper.pullLever(1, 3, 1);
+            helper.pullLever(1, 2, 1);
         }).thenExecuteAfter(1, () -> {
-            helper.assertContainerContains(new BlockPos(0, 2, 1), ECItems.SWIFT_ALLOY_INGOT.get());
+            helper.assertContainerContains(new BlockPos(0, 1, 1), ECItems.SWIFT_ALLOY_INGOT.get());
         }).thenSucceed();
     }
 
     @GameTest(template = BINDER_TEMPLATE)
     @TestHolder
     public static void should_extractOutputAndRemainingFromBinder(ECGameTestHelper helper) {
-        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 3, 0), BinderBlockEntity.class);
-        var container = helper.requireElementContainer(new BlockPos(0, 2, 0));
+        BinderBlockEntity binder = helper.getBlockEntity(new BlockPos(0, 2, 0), BinderBlockEntity.class);
+        var container = helper.requireElementContainer(new BlockPos(0, 1, 0));
 
         helper.startSequence().thenExecute(() -> {
             var inv = binder.getInventory();
@@ -89,10 +89,10 @@ public class RetrieverGameTests {
             inv.setItem(3, new ItemStack(Items.GOLD_INGOT));
             container.fill(ElementType.FIRE);
         }).thenExecuteAfter(2, () -> {
-            helper.pullLever(1, 3, 1);
+            helper.pullLever(1, 2, 1);
         }).thenExecuteAfter(1, () -> {
-            helper.assertContainerContains(new BlockPos(0, 2, 1), ECBlocks.FIRE_PYLON.get().asItem());
-            helper.assertContainerContains(new BlockPos(0, 2, 1), Items.BUCKET);
+            helper.assertContainerContains(new BlockPos(0, 1, 1), ECBlocks.FIRE_PYLON.get().asItem());
+            helper.assertContainerContains(new BlockPos(0, 1, 1), Items.BUCKET);
         }).thenSucceed();
     }
 

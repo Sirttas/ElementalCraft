@@ -1,5 +1,5 @@
 {
-  "parent": "elementalcraft:block/elementalcraft/budding_shrine_plates//budding_shrine_plate",
+  "parent": "elementalcraft:block/elementalcraft/budding_shrine_plates/budding_shrine_plate",
   "textures": {
     "texture": "minecraft:block/amethyst"
   }

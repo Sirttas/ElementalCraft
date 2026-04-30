@@ -51,10 +51,13 @@ public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder
     public static class Unbaked implements SpecialModelRenderer.Unbaked<@NotNull Holder<@NotNull Rune>> {
 
         private static final Unbaked INSTANCE = new Unbaked();
+        public static final MapCodec<RuneSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
 
         private Unbaked() {}
 
-        public static final MapCodec<RuneSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
+        public static Unbaked get() {
+            return INSTANCE;
+        }
 
         @Override
         public @NotNull RuneSpecialRenderer bake(@NotNull BakingContext context) {

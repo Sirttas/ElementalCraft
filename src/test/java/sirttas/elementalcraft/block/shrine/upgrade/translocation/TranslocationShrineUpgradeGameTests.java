@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -49,6 +50,7 @@ public class TranslocationShrineUpgradeGameTests {
         var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
         var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
+        TranslocationAnchorsSaveData.get(helper.getLevel()).addAnchor(targetPos);
         upgrade.setTarget(targetPos);
         shrine.refresh();
 

@@ -22,11 +22,11 @@ public class ElementBeamGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> {
-                    helper.pullLever(1, 2, 0);
+                    helper.pullLever(1, 1, 0);
                 })
                 .thenIdle(2)
                 .thenExecuteFor(10, () -> {
-                    var targetStorage = helper.getBlockEntity(new BlockPos(12, 2, 1), ElementContainerBlockEntity.class).getElementStorage();
+                    var targetStorage = helper.getBlockEntity(new BlockPos(12, 1, 1), ElementContainerBlockEntity.class).getElementStorage();
 
                     assertThat(targetStorage.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet());
                 })
@@ -38,11 +38,11 @@ public class ElementBeamGameTests {
     public static void shouldNot_transferElements_when_outOfRange(GameTestHelper helper) {
         helper.startSequence()
                 .thenExecute(() -> {
-                    helper.pullLever(1, 2, 0);
+                    helper.pullLever(1, 1, 0);
                 })
                 .thenIdle(1)
                 .thenExecuteFor(10, () -> {
-                    var targetStorage = helper.getBlockEntity(new BlockPos(13, 2, 1), ElementContainerBlockEntity.class).getElementStorage();
+                    var targetStorage = helper.getBlockEntity(new BlockPos(13, 1, 1), ElementContainerBlockEntity.class).getElementStorage();
 
                     assertThat(targetStorage.getElementAmount()).isZero();
                 })
