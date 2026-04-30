@@ -38,8 +38,7 @@ public class ElementValveGameTests {
 
             StructureTemplatePipeLine.builder()
                     .extract(Direction.WEST)
-                    .insert(Direction.EAST)
-                    .upgrade(Direction.WEST, PipeUpgradeTypes.ELEMENT_VALVE)
+                    .insert(Direction.EAST).upgrade(Direction.EAST, PipeUpgradeTypes.ELEMENT_VALVE)
                     .build()
                     .place(builder, new BlockPos(1, 1, 0));
             return builder;

@@ -10,6 +10,7 @@ import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.extractor.ElementExtractorGameTests;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.instrument.io.mill.MillTestCaseHolder;
+import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpGameTests;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerGameTests;
 import sirttas.elementalcraft.item.chisel.ChiselGameTests;
 
@@ -42,7 +43,7 @@ public record RuneTestCaseHolder(
             of("sourcebreedergametests.source_breeder", new BlockPos(0, 0, 2), Runes.CREATIVE),
             of("pureinfusergametests.pure_infuser", new BlockPos(3, 0, 3), Runes.CREATIVE),
             of("greaterfortuneshrineupgradegametests.should_increaseoreloot", new BlockPos(12, 1, 13), Runes.TZEENTCH),
-            of("elementpumpgametests.should_transfer6250elements", new BlockPos(0, 1, 1), Direction.NORTH, Runes.ZOD, Runes.ZOD, Runes.ZOD)
+            of(ElementPumpGameTests.ELEMENT_PUMP_WITH_RUNES_TEMPLATE_NAME, new BlockPos(0, 1, 1), Direction.NORTH, Runes.ZOD, Runes.ZOD, Runes.ZOD)
         ), MillTestCaseHolder.HOLDERS.stream()
             .map(MillTestCaseHolder::template)
             .distinct()

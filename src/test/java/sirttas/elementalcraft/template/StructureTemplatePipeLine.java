@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import org.jspecify.annotations.NonNull;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.cover.CoverType;
@@ -34,15 +35,16 @@ public class StructureTemplatePipeLine {
     }
 
     public void place(StructureTemplateBuilder builder, BlockPos pos) {
-        try {
-            pipes.forEach((blockPos, state) -> {
-                var at = pos.offset(blockPos);
+        pipes.forEach((blockPos, state) -> {
+            var at = pos.offset(blockPos);
 
+            try {
                 builder.set(at.getX(), at.getY(), at.getZ(), ECBlocks.PIPE_IMPROVED.get().defaultBlockState(), withValue(output -> output.putChild(ECNames.TRANSFERER, state)));
-            });
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to place StructureTemplatePipeLine", e);
-        }
+            } catch (Exception e) {
+                ElementalCraftApi.LOGGER.error("Failed to place StructureTemplatePipeLine at position {}", at, e);
+                throw e;
+            }
+        });
     }
 
     public void place(StructureTemplateBuilder builder) {
@@ -59,13 +61,17 @@ public class StructureTemplatePipeLine {
             pointer = BlockPos.ZERO.mutable();
         }
 
-        public Builder trace(BlockPos target) {
-            return trace(target.getX() > pointer.getX() ? Direction.EAST : Direction.WEST, Math.abs(target.getX() - pointer.getX()))
-                    .trace(target.getY() > pointer.getY() ? Direction.UP : Direction.DOWN, Math.abs(target.getY() - pointer.getY()))
-                    .trace(target.getZ() > pointer.getZ() ? Direction.SOUTH : Direction.NORTH, Math.abs(target.getZ() - pointer.getZ()));
+        public Builder lay(BlockPos target) {
+            return lay(target.getX() > pointer.getX() ? Direction.EAST : Direction.WEST, Math.abs(target.getX() - pointer.getX()))
+                    .lay(target.getY() > pointer.getY() ? Direction.UP : Direction.DOWN, Math.abs(target.getY() - pointer.getY()))
+                    .lay(target.getZ() > pointer.getZ() ? Direction.SOUTH : Direction.NORTH, Math.abs(target.getZ() - pointer.getZ()));
         }
 
-        public Builder trace(Direction direction, int length) {
+        public Builder lay(Direction direction) {
+            return lay(direction, 1);
+        }
+
+        public Builder lay(Direction direction, int length) {
             var lastState = getLastState();
 
             while (length-- > 0) {
@@ -77,9 +83,13 @@ public class StructureTemplatePipeLine {
             return this;
         }
 
-        public Builder fork(BlockPos from, BlockPos to) {
+        public Builder branch(BlockPos to) {
+            return branch(to, to);
+        }
+
+        public Builder branch(BlockPos from, BlockPos to) {
             pointer.move(from);
-            return trace(to);
+            return lay(to);
         }
 
         public Builder extract(Direction direction) {
@@ -97,7 +107,7 @@ public class StructureTemplatePipeLine {
         }
 
         private @NonNull State getLastState() {
-            return pipes.computeIfAbsent(pointer, _ -> new State());
+            return pipes.computeIfAbsent(pointer.immutable(), _ -> new State());
         }
 
         public Builder upgrade(Direction direction, Supplier<? extends PipeUpgradeType<?>> upgrade, Consumer<ValueOutput> output) {
@@ -153,6 +163,4 @@ public class StructureTemplatePipeLine {
             throw new UnsupportedOperationException("Deserialization is not supported for StructureTemplatePipeLine.PipeUpgrade");
         }
     }
-
-
 }
