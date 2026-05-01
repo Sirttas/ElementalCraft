@@ -8,7 +8,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
-import sirttas.elementalcraft.gui.GuiHelper;
+import sirttas.elementalcraft.gui.ElementGaugeGui;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +48,7 @@ public record ElementGaugeClientTooltip(
             var elementAmount = storage.getElementAmount(elementType);
 
             if (elementCapacity > 0) {
-                GuiHelper.renderElementGauge(graphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType, false);
+                ElementGaugeGui.renderElementGauge(graphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType);
             }
         }
     }

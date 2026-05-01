@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.component.ECDataComponents;
-import sirttas.elementalcraft.gui.GuiHelper;
+import sirttas.elementalcraft.gui.ElementGaugeGui;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -82,7 +82,7 @@ public class ElementContainerBlockItem extends BlockItem {
 
         @Override
         public void extractImage(@NotNull Font font, int x, int y, int w, int h, @NotNull GuiGraphicsExtractor graphics) {
-            GuiHelper.renderElementGauge(graphics, font, x, y, amount, capacity, elementType, false);
+            ElementGaugeGui.renderElementGauge(graphics, font, x, y, amount, capacity, elementType);
         }
     }
 }
