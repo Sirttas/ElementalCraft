@@ -4,10 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.SpellRenderer;
@@ -15,8 +16,8 @@ import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 
 public class AirShieldSpellRenderer implements SpellRenderer<AirShieldSpellRenderState> {
 
-    public static final Material BACKGROUND = ECRendererHelper.getBlockMaterial("effect/air_shield_background");
-    public static final Material BLADE = ECRendererHelper.getBlockMaterial("effect/air_shield_blade");
+    private static final Identifier BACKGROUND = ElementalCraftApi.createRL("textures/effect/air_shield_background.png");
+    private static final Identifier BLADE = ElementalCraftApi.createRL("effect/air_shield_blade");
 
     @Override
     public AirShieldSpellRenderState createRenderState() {

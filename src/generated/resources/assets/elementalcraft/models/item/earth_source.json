@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementalcraft:elementalcraft/jewels/tortoise"
+    "layer0": "elementalcraft:item/earth_source"
   }
 }

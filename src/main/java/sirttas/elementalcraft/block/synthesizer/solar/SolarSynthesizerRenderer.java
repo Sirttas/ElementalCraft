@@ -8,10 +8,11 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
@@ -20,7 +21,7 @@ import sirttas.elementalcraft.rune.RuneModelResolver;
 
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull SolarSynthesizerBlockEntity, @NotNull SolarSynthesizerRenderState> {
 
-	public static final Material BEAM = ECRendererHelper.getBlockMaterial("effect/solar_fire_synthesizer_beam");
+    private static final Identifier BEAM = ElementalCraftApi.createRL("textures/effect/solar_fire_synthesizer_beam.png");
     public static final SimpleStandaloneModelSupplier LENS = SimpleStandaloneModelSupplier.block("solar_fire_synthesizer_lens");
 
 	private static final float RED = ElementType.FIRE.getRed();

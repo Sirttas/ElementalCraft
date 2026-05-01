@@ -71,7 +71,7 @@ public class ElementValvePipeUpgrade extends PipeUpgrade {
 
     @Override
     public void animateTick(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
-        if (random.nextFloat() >= 0.01F) {
+        if (!isOpen() && random.nextFloat() < 0.25F) {
             return;
         }
 

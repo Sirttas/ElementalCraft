@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/earth_source"
+    "model": "elementalcraft:item/earth_source"
   }
 }

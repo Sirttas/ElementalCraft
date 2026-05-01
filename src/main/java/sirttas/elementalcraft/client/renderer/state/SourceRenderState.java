@@ -4,16 +4,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.client.renderer.ECRenderTypes;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 
 public class SourceRenderState {
 
-    public static final Material OUTER = ECRendererHelper.getBlockMaterial("effect/source_outer");
-    public static final Material MIDDLE = ECRendererHelper.getBlockMaterial("effect/source_middle");
+    private static final Identifier OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
+    private static final Identifier MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
 
     private float animationTime;
     private float remainingRatio;
@@ -50,7 +51,7 @@ public class SourceRenderState {
         poseStack.translate(16, 16, 0);
         poseStack.mulPose(Axis.ZP.rotationDegrees(animationTime * 5f * remainingRatio));
         poseStack.translate(-16, -16, -0.01);
-        ECRendererHelper.submitIcon(poseStack, submitNodeCollector, ECRenderTypes.source(MIDDLE.sprite()), 0, 0, 32, 32, red, green, blue, light);
+        ECRendererHelper.submitIcon(poseStack, submitNodeCollector, ECRenderTypes.source(MIDDLE), 0, 0, 32, 32, red, green, blue, light);
         poseStack.popPose();
     }
 }

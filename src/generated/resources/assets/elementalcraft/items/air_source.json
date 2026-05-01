@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/air_source"
+    "model": "elementalcraft:item/air_source"
   }
 }

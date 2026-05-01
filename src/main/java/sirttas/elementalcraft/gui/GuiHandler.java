@@ -1,15 +1,10 @@
 package sirttas.elementalcraft.gui;
 
-import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -25,10 +20,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix3x2fStack;
-import org.joml.Matrix4f;
-import org.joml.Vector4f;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -38,8 +29,6 @@ import sirttas.elementalcraft.api.element.storage.single.SingleElementStorageWra
 import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
 import sirttas.elementalcraft.block.shrine.ShrineElementStorage;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeItem;
-import sirttas.elementalcraft.client.LevelRenderHandler;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
@@ -54,7 +43,6 @@ import sirttas.elementalcraft.spell.air.TranslocationSpell;
 import sirttas.elementalcraft.spell.tick.SpellCooldownItemDecorator;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +51,7 @@ import java.util.Objects;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class GuiHandler {
 
-	public static final Material TRANSLOCATION_ANCHOR_MARKER = ECRendererHelper.getBlockMaterial("gui/translocation_anchor_marker");
+	public static final Identifier TRANSLOCATION_ANCHOR_MARKER = ElementalCraftApi.createRL("textures/gui/translocation_anchor_marker.png");
 
     private static final Identifier GAUGE_LAYER = ElementalCraftApi.createRL("gauge");
     private static final Identifier TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.createRL("translocation_anchor_marker");
@@ -119,9 +107,8 @@ public class GuiHandler {
 
 	public static void drawAnchors(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
-		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
-		if (worldMatrix == null || player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
+		if (player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
 			return;
 		}
 
@@ -130,31 +117,22 @@ public class GuiHandler {
 		var range = Spells.TRANSLOCATION.get().getRange(player);
 		var rangeSq = range * range;
 		var falloffSq = (range / 2) * (range / 2);
-		var cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
 		var playerPos = player.position();
-		var buffer = createBufferSource();
 
 		for (var anchor : TranslocationAnchorsSaveData.CLIENT_SET) {
 			var center = Vec3.atCenterOf(anchor);
 			var distanceSq = center.distanceToSqr(playerPos);
 
 			if (distanceSq <= rangeSq) {
-				var v = getPositionInScreen(worldMatrix, cameraPos, center);
-
-				if (v.z() <= 0F || v.z() >= 1F) {
-					continue;
-				}
-				drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq), buffer, v);
+				drawAnchor(guiGraphics, center, anchor.equals(targetAnchor) ? 1.5f : getAnchorScale(falloffSq, (float) distanceSq));
 			}
 		}
-		buffer.endBatch();
 	}
 
 	public static void drawAnchor(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
 		var player = Minecraft.getInstance().player;
-		var worldMatrix = LevelRenderHandler.getWorldMatrix();
 
-		if (worldMatrix == null || player == null || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
+		if (player == null || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
 			return;
 		}
 
@@ -172,73 +150,35 @@ public class GuiHandler {
 		if (distanceSq > rangeSq) {
 			return;
 		}
+		drawAnchor(guiGraphics, center, 1.5f);
+	}
 
-		var v = getPositionInScreen(worldMatrix, Minecraft.getInstance().gameRenderer.getMainCamera().position(), center);
+	private static void drawAnchor(GuiGraphicsExtractor guiGraphics, Vec3 position, float scale) {
+		var positionInScreen = Minecraft.getInstance().gameRenderer.projectPointToScreen(position);
 
-		if (v.z() <= 0F || v.z() >= 1F) {
+		if (positionInScreen.z > 1.0) {
 			return;
 		}
 
-		var buffer = createBufferSource();
+		var w = guiGraphics.guiWidth() / 2;
+		var h = guiGraphics.guiHeight() / 2;
 
-		drawAnchor(guiGraphics.pose(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), 1.5f, buffer, v);
-		buffer.endBatch();
-	}
+		var imageScale = 16 * scale;
 
-	private static @NotNull MultiBufferSource.BufferSource createBufferSource() {
-		return MultiBufferSource.immediate(Tesselator.getInstance().buffer);
-	}
+		var x = Mth.clamp(w + positionInScreen.x * w, imageScale, guiGraphics.guiWidth() - imageScale);
+		var y = Mth.clamp(h - positionInScreen.y * h, imageScale, guiGraphics.guiHeight() - imageScale);
 
+		guiGraphics.blit(TRANSLOCATION_ANCHOR_MARKER,
+				(int) Math.round(x - imageScale),
+				(int) Math.round(y - imageScale),
+				(int) Math.round(x + imageScale),
+				(int) Math.round(y + imageScale),
+				0, 1, 0, 1);
 
-	private static void drawAnchor(Matrix3x2fStack matrix, int width, int height, float scale, MultiBufferSource.BufferSource buffer, Vector4f v) {
-		var w = width / 2F;
-		var h = height / 2F;
-
-		var x = Mth.clamp(w + v.x() * w, 16f, width - 16f);
-		var y = Mth.clamp(h - v.y() * h, 16f, height - 16f);
-
-        var builder = buffer.getBuffer(RenderTypes.entityTranslucent(TRANSLOCATION_ANCHOR_MARKER.sprite()));
-
-		matrix.pushMatrix();
-		matrix.translate(x, y);
-		matrix.scale(0.25F, 0.25F);
-		matrix.scale(scale, scale);
-		matrix.translate(-64, -64);
-
-        builder.addVertexWith2DPose(matrix, 0, 0)
-                .setColor(1F, 1F, 1F, 1F)
-                .setUv(0, 0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(15728880);
-        builder.addVertexWith2DPose(matrix, 128, 0)
-                .setColor(1F, 1F, 1F, 1F)
-                .setUv(1, 0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(15728880);
-        builder.addVertexWith2DPose(matrix, 128, 128)
-                .setColor(1F, 1F, 1F, 1F)
-                .setUv(1, 1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(15728880);
-        builder.addVertexWith2DPose(matrix, 0, 128)
-                .setColor(1F, 1F, 1F, 1F)
-                .setUv(0, 1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(15728880);
-		matrix.pushMatrix();
 	}
 
 	private static float getAnchorScale(float falloffSq, float distanceSq) {
 		return Mth.clamp(1f - distanceSq / falloffSq, 0.2f, 1f);
-	}
-
-	@Nonnull
-	private static Vector4f getPositionInScreen(Matrix4f worldMatrix, Vec3 cameraPos, Vec3 center) {
-		var v = new Vector4f((float) (center.x - cameraPos.x), (float) (center.y - cameraPos.y), (float) (center.z - cameraPos.z), 1F);
-
-		worldMatrix.transform(v);
-		v.div(v);
-		return v;
 	}
 
 	private static List<ISingleElementStorage> getElementStorage(Player player) {

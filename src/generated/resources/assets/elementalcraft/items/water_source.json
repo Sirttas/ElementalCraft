@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/water_source"
+    "model": "elementalcraft:item/water_source"
   }
 }

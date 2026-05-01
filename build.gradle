@@ -109,6 +109,7 @@ neoForge {
             systemProperty 'fml.earlyprogresswindow', 'false'
             systemProperty 'mixin.debug.verbose', 'true'
             systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'MC_DEBUG_ENABLED', 'true'
 
             logLevel = org.slf4j.event.Level.DEBUG
         }

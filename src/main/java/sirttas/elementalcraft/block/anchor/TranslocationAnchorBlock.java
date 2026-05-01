@@ -15,6 +15,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.block.shape.ECShapes;
 
 import javax.annotation.Nonnull;
@@ -62,14 +63,12 @@ public class TranslocationAnchorBlock extends Block {
     }
 
     @Override
-    protected void affectNeighborsAfterRemoval(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, boolean movedByPiston) {
-        if (!state.is(this)) {
-            var anchorList = TranslocationAnchorsSaveData.get(level);
+    protected void affectNeighborsAfterRemoval(@NonNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, boolean movedByPiston) {
+        var anchorList = TranslocationAnchorsSaveData.get(level);
 
-            if (anchorList != null) {
-                anchorList.removeAnchor(pos);
-                sendToPlayers(level);
-            }
+        if (anchorList != null) {
+            anchorList.removeAnchor(pos);
+            sendToPlayers(level);
         }
         super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }

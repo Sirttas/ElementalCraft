@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
@@ -48,19 +49,19 @@ public class ECRendererHelper {
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material.Baked renderMaterial, int width, int height, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().contents().name()), 0, 0, width, height, 1F, 1F, 1F, light);
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().atlasLocation()), 0, 0, width, height, 1F, 1F, 1F, light);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material renderMaterial, int width, int height, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), 0, 0, width, height, 1, 1, 1, light);
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier sprite, int width, int height, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(sprite), 0, 0, width, height, 1, 1, 1, light);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector,  Material renderMaterial, int width, int height, float r, float g, float b, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), 0, 0, width, height, r, g, b, light);
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier sprite, int width, int height, float r, float g, float b, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(sprite), 0, 0, width, height, r, g, b, light);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, float x, float y, Material renderMaterial, int width, int height, float r, float g, float b, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite()), x, y, width, height, r, g, b, light);
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, float x, float y, Identifier sprite, int width, int height, float r, float g, float b, int light) {
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(sprite), x, y, width, height, r, g, b, light);
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float r, float g, float b, int light) {;

@@ -166,6 +166,10 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.declareCustomModelItem(ECBlocks.WATER_MILL_GRINDSTONE.get());
         this.declareCustomModelItem(ECBlocks.WATER_MILL_WOOD_SAW.get());
         this.declareCustomModelItem(ECBlocks.WHITE_ROCK_FENCE.get());
+        this.generateFlatItem(ECBlocks.FIRE_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ECBlocks.WATER_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ECBlocks.EARTH_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
+        this.generateFlatItem(ECBlocks.AIR_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
 
         // Misc
         this.generatePureOre(ECItems.PURE_ORE.get());
@@ -188,7 +192,7 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
 
     public void generateJewel(JewelItem item) {
         Identifier id = BuiltInRegistries.ITEM.getKey(item);
-        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(new Material(id.withPrefix("elementalcaft/jewels/"))), this.modelOutput)));
+        this.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(new Material(id.withPrefix("elementalcraft/jewels/"))), this.modelOutput)));
     }
 
     public void declareCustomModelItem(Block block) {
