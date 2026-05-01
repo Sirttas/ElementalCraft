@@ -5,31 +5,49 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
+import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
+import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.rune.Runes;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 @ForEachTest(groups = PureInfuserGameTests.GROUP)
 public class PureInfuserGameTests {
 
     public static final String GROUP = "level.blocks.pureInfuser";
 
+    public static final String TEMPLATE_NAME = "elementalcraft:pure_infuser";
+
+    @RegisterStructureTemplate(TEMPLATE_NAME)
+    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(7, 1, 7, builder -> builder
+            .set(3, 0, 3, ECBlocks.PURE_INFUSER.get().defaultBlockState(), withValue(runeHandler(Runes.CREATIVE)))
+            .set(0, 0, 3, ECBlocks.FIRE_PEDESTAL.get().defaultBlockState())
+            .set(6, 0, 3, ECBlocks.AIR_PEDESTAL.get().defaultBlockState())
+            .set(3, 0, 0, ECBlocks.WATER_PEDESTAL.get().defaultBlockState())
+            .set(3, 0, 6, ECBlocks.EARTH_PEDESTAL.get().defaultBlockState()));
+
     @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
-    @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
+    @GameTest(template = TEMPLATE_NAME)
     public static void should_craftPureCrystal(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
@@ -99,25 +117,25 @@ public class PureInfuserGameTests {
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
-                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        TEMPLATE_NAME,
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(0, 0, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
-                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        TEMPLATE_NAME,
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 0, 0))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
-                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        TEMPLATE_NAME,
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(6, 0, 3))),
                 ECGameTestUtils.createTest(
                         GROUP,
                         "shouldNot_craftWhenAPedestalIsBroken_" + i++,
                         "Check that a pure infuser can't craft a pure crystal when a pedestal is broken.",
-                        "elementalcraft:pureinfusergametests.pure_infuser",
+                        TEMPLATE_NAME,
                         h -> shouldNot_craftWhenAPedestalIsBroken(h, new BlockPos(3, 0, 6)))
         );
     }
@@ -183,8 +201,8 @@ public class PureInfuserGameTests {
         }).thenSucceed();
     }
 
-    @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the emements that were present in the original holders.")
-    @GameTest(template = "elementalcraft:pureinfusergametests.pure_infuser")
+    @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the elements that were present in the original holders.")
+    @GameTest(template = TEMPLATE_NAME)
     public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 

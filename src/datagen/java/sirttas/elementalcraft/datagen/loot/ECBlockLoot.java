@@ -113,7 +113,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 			var block = entry.getValue();
 			var key = block.getLootTable();
 
-			if (!ElementalCraft.owns(entry) || map.containsKey(key) || block.getLootTable().isEmpty()) {
+			if (!ElementalCraft.owns(entry) || key.isEmpty() || map.containsKey(key.get())) {
 				continue;
 			}
 			if (block instanceof SlabBlock) {

@@ -1,4 +1,7 @@
 {
+	"textures": {
+		"particle": "elementalcraft:block/iron"
+	},
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [0, -3, 2]

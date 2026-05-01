@@ -13,7 +13,7 @@ public class PipeUpgradeCapabilities {
 
     private PipeUpgradeCapabilities() {}
 
-    public static final PipeUpgradeCapability<IRuneHandler, Void>  RUNE_HANDLER = PipeUpgradeCapability.createVoid(ElementalCraftApi.createRL("rune_handler"), IRuneHandler.class);
+    public static final PipeUpgradeCapability<IRuneHandler, Void> RUNE_HANDLER = PipeUpgradeCapability.createVoid(ElementalCraftApi.createRL("rune_handler"), IRuneHandler.class);
 
     @SuppressWarnings("unchecked")
     public static <T, C, P extends PipeUpgrade> void register(PipeUpgradeCapability<T, C> capability, PipeUpgradeType<P> pipeUpgradeType, ICapabilityProvider<? super P, C, T> provider) {

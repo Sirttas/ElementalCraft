@@ -26,7 +26,7 @@ public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceB
     private final BlockState pedestalState;
 
     public SourceBreederRenderer(BlockEntityRendererProvider.Context context) {
-        super(context, new Vec3(0.5, 1, 0.5));
+        super(context, new Vec3(0.5, 0, 0.5));
         pedestalState = ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState();
         blockModelResolver = context.blockModelResolver();
     }
@@ -75,7 +75,9 @@ public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceB
 
     @Override
     public void submit(SourceBreederRenderState renderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
+        poseStack.translate(0, 1, 0);
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
+        poseStack.translate(0, -1, 0);
         renderState.ghostPedestals.forEach(ghostState -> ghostState.submit(poseStack, nodeCollector, renderState.lightCoords));
         renderState.source.submit(poseStack, nodeCollector, cameraRenderState, renderState.lightCoords);
     }

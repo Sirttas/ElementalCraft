@@ -19,7 +19,7 @@ public class BudTypeDataDefinitions {
             .then(Blocks.MEDIUM_AMETHYST_BUD)
             .then(Blocks.LARGE_AMETHYST_BUD)
             .then(Blocks.AMETHYST_CLUSTER)
-            .texture(Identifier.withDefaultNamespace("block/amethyst"))
+            .texture(Identifier.withDefaultNamespace("block/amethyst_block"))
             .build();
     public static final BudTypeDataDefinition SPRINGALINE = BudTypeDataDefinition.builder(BudTypes.SPRINGALINE)
             .then(ECBlocks.SMALL_SPRINGALINE_BUD)
@@ -27,7 +27,7 @@ public class BudTypeDataDefinitions {
             .then(ECBlocks.LARGE_SPRINGALINE_BUD)
             .then(ECBlocks.SPRINGALINE_CLUSTER)
             .requires(ShrineUpgrades.SPRINGALINE)
-            .texture(ElementalCraftApi.createRL("block/springaline"))
+            .texture(ElementalCraftApi.createRL("block/springaline_block"))
             .build();
 
     private static final List<BudTypeDataDefinition> ALL = Util.make(() -> {

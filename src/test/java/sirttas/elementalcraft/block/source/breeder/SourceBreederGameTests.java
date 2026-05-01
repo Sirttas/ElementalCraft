@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -34,10 +33,11 @@ import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 @ForEachTest(groups = SourceBreederGameTests.GROUP)
 public class SourceBreederGameTests {
     public static final String GROUP = "level.blocks.sources.breeders";
-    public static final String SOURCE_BREEDER_TEMPLATE_NAME = "elementalcraft:sourcebreedergametests.source_breeder";
 
-    @RegisterStructureTemplate(SOURCE_BREEDER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> SOURCE_BREEDER_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 5, builder -> builder
+    public static final String TEMPLATE_NAME = "elementalcraft:source_breeder";
+
+    @RegisterStructureTemplate(TEMPLATE_NAME)
+    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 5, builder -> builder
             .set(0, 0, 0, ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState())
             .set(0, 0, 2, ECBlocks.SOURCE_BREEDER.get().defaultBlockState()
                     .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER), withValue(runeHandler(Runes.CREATIVE)))
@@ -47,7 +47,7 @@ public class SourceBreederGameTests {
 
 
     @TestHolder(description = "Checks if the source breeder can breed sources.")
-    @GameTest(template = SOURCE_BREEDER_TEMPLATE_NAME)
+    @GameTest(template = TEMPLATE_NAME)
     public static void should_breedSource(ECGameTestHelper helper) {
         var breeder = helper.getBlockEntity(new BlockPos(0, 0, 2), SourceBreederBlockEntity.class);
 
@@ -101,29 +101,5 @@ public class SourceBreederGameTests {
                                 assertThat(storage.getElementAmount(type)).isPositive();
                             });
                 });
-    }
-
-    @TestHolder(description = "Checks if the source breeder drops a source breeder and a rune.")
-    @GameTest(template = SOURCE_BREEDER_TEMPLATE_NAME)
-    public static void should_dropOneSourceBreederAndRune(ECGameTestHelper helper) {
-        var pos = new BlockPos(0, 0, 2);
-
-        helper.startSequence()
-                .thenExecute(() -> helper.getLevel().destroyBlock(helper.absolutePos(pos), true, null))
-                .thenExecuteAfter(1, () -> {
-                    var items = helper.getEntities(EntityType.ITEM, pos, 1);
-
-                    assertThat(items).hasSize(2)
-                            .allSatisfy(e -> {
-                                var stack = e.getItem();
-
-                                assertThat(stack).isNotNull().hasCount(1).satisfiesAnyOf(
-                                        s -> assertThat(s).is(ECBlocks.SOURCE_BREEDER),
-                                        s -> assertThat(s).is(ECItems.RUNE).satisfies(s2 -> helper.assertRuneIs(s2, Runes.CREATIVE))
-                                );
-                            });
-                })
-                .thenExecute(() -> helper.discardItems(pos, 1))
-                .thenSucceed();
     }
 }

@@ -9,6 +9,7 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.airmill.AirMillTestCaseHolder;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirGameTests;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederGameTests;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -30,7 +31,7 @@ public record DoubleHalfBlockTestCaseHolder(
             of("breedingshrinegametests.should_breedcows", ECBlocks.BREEDING_SHRINE, new BlockPos(0, 1, 3), new BlockPos(1, 1, 3)),
             of("enderlockshrinegametests.should_preventendermanfromteleporting", ECBlocks.ENDER_LOCK_SHRINE),
             of("overclockedaccelerationshrineupgradegametests.should_allowselementtransfer", ECBlocks.OVERCLOCKED_ACCELERATION_SHRINE_UPGRADE, new BlockPos(1, 1, 1)),
-            of("sourcebreedergametests.source_breeder", ECBlocks.SOURCE_BREEDER, new BlockPos(0, 0, 2)),
+            of(SourceBreederGameTests.TEMPLATE_NAME, ECBlocks.SOURCE_BREEDER, new BlockPos(0, 0, 2)),
             of(ReservoirGameTests.FIRE_RESERVOIR_TEMPLATE_NAME, ECBlocks.FIRE_RESERVOIR),
             of(ReservoirGameTests.WATER_RESERVOIR_TEMPLATE_NAME, ECBlocks.WATER_RESERVOIR),
             of(ReservoirGameTests.EARTH_RESERVOIR_TEMPLATE_NAME, ECBlocks.EARTH_RESERVOIR),

@@ -6,9 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.RedstoneLampBlock;
-import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
@@ -130,8 +128,8 @@ public class OrderedSorterGameTests {
     private static StructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks, List<ResourceKey<Rune>> runes) {
         return StructureTemplateBuilder.withSize(2, 2, 3)
                 .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICKS.get())
+                .placeFloorLever(0, 1, 1, true)
                 .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
-                .set(0, 1, 1, Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACING, Direction.EAST).setValue(LeverBlock.POWERED, true).setValue(LeverBlock.FACE, AttachFace.FLOOR))
                 .set(1, 1, 0, Blocks.CHEST.defaultBlockState(), withValue(itemList(sourceStacks)))
                 .set(1, 1, 2, Blocks.CHEST.defaultBlockState(), withValue(itemList(targetStacks)))
                 .set(1, 1, 1, ECBlocks.ORDERED_SORTER.get().defaultBlockState().setValue(ISorterBlock.SOURCE, Direction.NORTH).setValue(ISorterBlock.TARGET, Direction.SOUTH), withValue(

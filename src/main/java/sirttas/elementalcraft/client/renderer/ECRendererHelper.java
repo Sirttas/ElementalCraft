@@ -49,7 +49,9 @@ public class ECRendererHelper {
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Material.Baked renderMaterial, int width, int height, int light) {
-        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(renderMaterial.sprite().atlasLocation()), 0, 0, width, height, 1F, 1F, 1F, light);
+        var sprite = renderMaterial.sprite();
+
+        submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(sprite.atlasLocation()), 0, 0, width, height, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), 1F, 1F, 1F, light);
     }
 
     public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier sprite, int width, int height, int light) {
@@ -64,29 +66,33 @@ public class ECRendererHelper {
         submitIcon(poseStack, nodeCollector, RenderTypes.entityTranslucent(sprite), x, y, width, height, r, g, b, light);
     }
 
-    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float r, float g, float b, int light) {;
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float r, float g, float b, int light) {
+        submitIcon(poseStack, nodeCollector, renderType, x, y, width, height, 0, 0, 1, 1, r, g, b, light);
+    }
+
+    public static void submitIcon(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, float x, float y, int width, int height, float u0, float v0, float u1, float v1, float r, float g, float b, int light) {
         nodeCollector.submitCustomGeometry(poseStack, renderType, (pose, builder) -> {
             builder.addVertex(pose, x, y, 0)
                     .setColor(r, g, b, 1F)
-                    .setUv(0, 0)
+                    .setUv(u0, v0)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(light)
                     .setNormal(pose, 0, 1, 0);
             builder.addVertex(pose, x + width, y, 0)
                     .setColor(r, g, b, 1F)
-                    .setUv(1, 0)
+                    .setUv(u1, v0)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(light)
                     .setNormal(pose, 0, 1, 0);
             builder.addVertex(pose, x + width, y + height, 0)
                     .setColor(r, g, b, 1F)
-                    .setUv(1, 1)
+                    .setUv(u1, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(light)
                     .setNormal(pose, 0, 1, 0);
             builder.addVertex(pose, x, y + height, 0)
                     .setColor(r, g, b, 1F)
-                    .setUv(0, 1)
+                    .setUv(u0, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(light)
                     .setNormal(pose, 0, 1, 0);

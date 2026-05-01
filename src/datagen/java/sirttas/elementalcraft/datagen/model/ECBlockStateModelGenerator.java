@@ -419,7 +419,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     public void createSourceBlock(Block block) {
         ModelTemplates.PARTICLE_ONLY.create(
                 ModelLocationUtils.getModelLocation(block),
-                new TextureMapping().put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block)),
+                new TextureMapping().put(TextureSlot.PARTICLE, new Material(ElementalCraftApi.createRL("block/source"))),
                 modelOutput);
         createNonTemplateModelBlock(block);
     }

@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "elementalcraft:block/iron"
+		"0": "elementalcraft:block/iron",
+		"particle": "elementalcraft:block/iron"
 	},
 	"elements": [
 		{

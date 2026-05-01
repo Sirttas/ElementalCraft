@@ -6,6 +6,13 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "block": "elementalcraft:breedingshrine",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "part": "core"
+          }
         }
       ],
       "entries": [
@@ -18,7 +25,6 @@
         {
           "function": "minecraft:copy_components",
           "include": [
-            "elementalcraft:element_type",
             "elementalcraft:element_amount"
           ],
           "source": "block_entity"

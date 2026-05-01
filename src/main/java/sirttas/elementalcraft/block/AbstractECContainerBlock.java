@@ -40,7 +40,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 				if (!level.isClientSide()) {
 					EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
 				}
-				return InteractionResult.SUCCESS.withoutItem(); // FIXME is this really necessary
+				return InteractionResult.SUCCESS;
 			}
 			return InteractionResult.PASS;
 		} else if (stack.isEmpty() && inventory.isItemValid(slot, heldItem)) {
@@ -48,13 +48,15 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 			stack = heldItem.copy();
 			stack.setCount(size);
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
 			inventory.insertItem(slot, stack, false);
-			return InteractionResult.SUCCESS.heldItemTransformedTo(ECPlayerHelper.shrinkItem(heldItem, size)); // FIXME is this really necessary
+			return InteractionResult.SUCCESS;
 		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
 			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
 
+			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
 			stack.grow(size);
-			return InteractionResult.SUCCESS.heldItemTransformedTo(ECPlayerHelper.shrinkItem(heldItem, size)); // FIXME is this really necessary
+			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
 	}

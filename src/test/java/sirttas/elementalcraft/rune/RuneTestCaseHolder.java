@@ -11,6 +11,9 @@ import sirttas.elementalcraft.block.extractor.ElementExtractorGameTests;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.instrument.io.mill.MillTestCaseHolder;
 import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpGameTests;
+import sirttas.elementalcraft.block.pureinfuser.PureInfuserGameTests;
+import sirttas.elementalcraft.block.shrine.upgrade.fortune.greater.GreaterFortuneShrineUpgradeGameTests;
+import sirttas.elementalcraft.block.source.breeder.SourceBreederGameTests;
 import sirttas.elementalcraft.block.synthesizer.cracking.CrackingSynthesizerGameTests;
 import sirttas.elementalcraft.item.chisel.ChiselGameTests;
 
@@ -40,10 +43,10 @@ public record RuneTestCaseHolder(
             of(ChiselGameTests.SORTER_WITH_RUNE_TEMPLATE_NAME, new BlockPos(0, 0, 0), Runes.ZOD),
             of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, Runes.CREATIVE),
             of(InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME, new BlockPos(0, 2, 0), Runes.CREATIVE),
-            of("sourcebreedergametests.source_breeder", new BlockPos(0, 0, 2), Runes.CREATIVE),
-            of("pureinfusergametests.pure_infuser", new BlockPos(3, 0, 3), Runes.CREATIVE),
-            of("greaterfortuneshrineupgradegametests.should_increaseoreloot", new BlockPos(12, 1, 13), Runes.TZEENTCH),
-            of(ElementPumpGameTests.ELEMENT_PUMP_WITH_RUNES_TEMPLATE_NAME, new BlockPos(0, 1, 1), Direction.NORTH, Runes.ZOD, Runes.ZOD, Runes.ZOD)
+            of(SourceBreederGameTests.TEMPLATE_NAME, new BlockPos(0, 0, 2), Runes.CREATIVE),
+            of(PureInfuserGameTests.TEMPLATE_NAME, new BlockPos(3, 0, 3), Runes.CREATIVE),
+            of(GreaterFortuneShrineUpgradeGameTests.TEMPLATE_NAME, new BlockPos(12, 1, 13), Runes.TZEENTCH),
+            of(ElementPumpGameTests.ELEMENT_PUMP_WITH_RUNES_TEMPLATE_NAME, new BlockPos(1, 1, 0), Direction.WEST, Runes.ZOD, Runes.ZOD, Runes.ZOD)
         ), MillTestCaseHolder.HOLDERS.stream()
             .map(MillTestCaseHolder::template)
             .distinct()

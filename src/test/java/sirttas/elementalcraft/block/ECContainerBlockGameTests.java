@@ -26,11 +26,11 @@ public class ECContainerBlockGameTests {
                     var i = index.getAndIncrement();
 
                     consumer.accept(holder.createTest(
-                            "should_moveItemsToSlot" + i,
+                            "should_moveItemsToSlot_" + i,
                             "Check that items are moved from player inventory to slot on right click.",
                             ECContainerBlockGameTests::should_moveItemsToSlot));
                     consumer.accept(holder.createTest(
-                            "should_moveItemsFromSlot" + i,
+                            "should_moveItemsFromSlot_" + i,
                             "Check that items are moved from slot to player inventory on right click.",
                             ECContainerBlockGameTests::should_moveItemsFromSlot));
                 })
@@ -51,13 +51,17 @@ public class ECContainerBlockGameTests {
         helper.startSequence()
                 .thenExecuteAfter(1, () -> helper.useItemOn(player, pos))
                 .thenExecuteAfter(1, () -> {
-                    assertThat(container.getResource(slot).toStack())
+                    assertThat(container.getResource(slot).toStack(container.getAmountAsInt(slot)))
+                            .as("Items should have been moved to container")
                             .is(item)
                             .hasCount(size);
                     if (size == 64) {
-                        assertThat(player.getMainHandItem()).isEmpty();
+                        assertThat(player.getMainHandItem())
+                                .as("Items should have been moved from player")
+                                .isEmpty();
                     } else {
                         assertThat(player.getMainHandItem())
+                                .as("Items should have been moved from player")
                                 .is(item)
                                 .hasCount(64 - size);
                     }
@@ -79,16 +83,19 @@ public class ECContainerBlockGameTests {
 
         try (Transaction rootTransaction = Transaction.openRoot()) {
             container.insert(slot, ItemResource.of(item), size, rootTransaction);
+            rootTransaction.commit();
         }
         helper.startSequence()
                 .thenExecuteAfter(1, () -> helper.useItemOn(player, pos))
                 .thenExecuteAfter(1, () -> {
-                    assertThat(container.getResource(slot).toStack()).isEmpty();
+                    assertThat(container.getResource(slot).toStack())
+                            .as("Items should have been moved from container")
+                            .isEmpty();
                     assertThat(helper.getEntities(EntityType.ITEM, BlockPos.ZERO, 1)).hasSize(1)
                             .allSatisfy(i -> assertThat(i.getItem())
+                                    .as("Items should have been moved to player")
                                     .is(item)
                                     .hasCount(size));
-
                 })
                 .thenExecute(player::discard)
                 .thenSucceed();

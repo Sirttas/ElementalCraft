@@ -16,7 +16,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -67,26 +66,13 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
 
         return stack.use(level, player, hand);
     }
-
-    public void useItemOn(Player player, int x, int y, int z) {
-        useItemOn(player, new BlockPos(x, y, z));
-    }
-
     public void useItemOn(Player player, BlockPos pos) {
         useItemOn(player, pos, Direction.NORTH);
     }
 
     public void useItemOn(Player player, BlockPos pos, Direction direction) {
         var absolutePos = absolutePos(pos);
-        var result = new BlockHitResult(Vec3.atCenterOf(absolutePos), direction, absolutePos, true);
-        var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-
-        if (player.isShiftKeyDown() && !stack.isEmpty()) {
-            UseOnContext useoncontext = new UseOnContext(player, InteractionHand.MAIN_HAND, result);
-            stack.useOn(useoncontext);
-            return;
-        }
-        useBlock(pos, player, result);
+        useBlock(pos, player, new BlockHitResult(Vec3.atCenterOf(absolutePos), direction, absolutePos, true));
     }
 
     public void discardItems(BlockPos pos, int expansionAmount) {
