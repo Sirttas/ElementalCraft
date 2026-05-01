@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/instrument_retriever"
+    "model": "elementalcraft:item/instrument_retriever"
   }
 }

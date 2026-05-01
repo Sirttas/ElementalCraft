@@ -54,7 +54,7 @@ public class StructureTemplatePipeLine {
     public static class Builder {
 
         private final Map<BlockPos, State> pipes;
-        private BlockPos.MutableBlockPos pointer;
+        private final BlockPos.MutableBlockPos pointer;
 
         private Builder() {
             pipes = new HashMap<>();
@@ -83,13 +83,20 @@ public class StructureTemplatePipeLine {
             return this;
         }
 
-        public Builder branch(BlockPos to) {
-            return branch(to, to);
+        public Builder jump(BlockPos to) {
+            pointer.move(to);
+            return this;
+        }
+
+        public Builder branch(BlockPos from) {
+            return branch(from, from);
         }
 
         public Builder branch(BlockPos from, BlockPos to) {
-            pointer.move(from);
-            return lay(to);
+            if (!pipes.containsKey(from)) {
+                throw new IllegalStateException("Cannot branch from a pos outside of the pipe line");
+            }
+            return jump(from).lay(to);
         }
 
         public Builder extract(Direction direction) {

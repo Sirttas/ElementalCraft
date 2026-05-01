@@ -171,8 +171,8 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
         createNonTemplateModelBlock(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 
         // Ores
-        createNonTemplateModelBlock(ECBlocks.CRYSTAL_ORE.get());
-        createNonTemplateModelBlock(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
+        createTrivialCube(ECBlocks.CRYSTAL_ORE.get());
+        createTrivialCube(ECBlocks.DEEPSLATE_CRYSTAL_ORE.get());
 
         // Glass
         createGlassBlocks(ECBlocks.BURNT_GLASS.get(), ECBlocks.BURNT_GLASS_PANE.get());

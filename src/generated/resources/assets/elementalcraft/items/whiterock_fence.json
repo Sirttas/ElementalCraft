@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/whiterock_fence"
+    "model": "elementalcraft:item/whiterock_fence"
   }
 }

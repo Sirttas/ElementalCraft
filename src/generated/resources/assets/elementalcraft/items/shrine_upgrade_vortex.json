@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/shrine_upgrade_vortex"
+    "model": "elementalcraft:item/shrine_upgrade_vortex"
   }
 }

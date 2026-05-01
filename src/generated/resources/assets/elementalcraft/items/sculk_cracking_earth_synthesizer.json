@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/sculk_cracking_earth_synthesizer"
+    "model": "elementalcraft:item/sculk_cracking_earth_synthesizer"
   }
 }

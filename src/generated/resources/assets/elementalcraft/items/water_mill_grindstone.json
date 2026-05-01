@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/water_mill_grindstone"
+    "model": "elementalcraft:item/water_mill_grindstone"
   }
 }

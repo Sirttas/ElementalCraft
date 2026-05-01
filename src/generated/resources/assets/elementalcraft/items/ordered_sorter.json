@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/ordered_sorter"
+    "model": "elementalcraft:item/ordered_sorter"
   }
 }

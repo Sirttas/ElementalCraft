@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/enchantment_liquefier"
+    "model": "elementalcraft:item/enchantment_liquefier"
   }
 }

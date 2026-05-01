@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/buddingshrine"
+    "model": "elementalcraft:item/buddingshrine"
   }
 }

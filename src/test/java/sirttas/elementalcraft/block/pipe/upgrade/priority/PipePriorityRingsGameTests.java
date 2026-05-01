@@ -32,7 +32,7 @@ public class PipePriorityRingsGameTests {
             var builder = StructureTemplateBuilder.withSize(2, 3, 4)
                     .fill(0, 0, 0, 1, 0, 3, ECBlocks.WHITE_ROCK_BRICKS.get())
                     .placeFloorLever(0, 1, 1, false)
-                    .set(1, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState())
+                    .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState())
                     .set(1, 1, 0, ECBlocks.CONTAINER.get().defaultBlockState(), withValue(elementStorage(ElementType.WATER, 100000)))
                     .set(0, 1, 3, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(1, 1, 3, ECBlocks.CONTAINER.get().defaultBlockState());
@@ -51,7 +51,8 @@ public class PipePriorityRingsGameTests {
             var targetStorage2 = helper.getBlockEntity(new BlockPos(1, 1, 3), ElementContainerBlockEntity.class).getElementStorage();
             var ticks = new AtomicInteger(0);
 
-            helper.startSequence().thenExecute(() -> helper.pullLever(0, 1, 1))
+            helper.startSequence()
+                    .thenExecute(() -> helper.pullLever(0, 1, 1))
                     .thenIdle(1)
                     .thenExecuteFor(10, () -> {
                         assertThat(targetStorage1.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet());
@@ -68,7 +69,7 @@ public class PipePriorityRingsGameTests {
             var builder = StructureTemplateBuilder.withSize(2, 3, 6)
                     .fill(0, 0, 0, 1, 0, 5, ECBlocks.WHITE_ROCK_BRICKS.get())
                     .placeFloorLever(0, 1, 1, false)
-                    .set(1, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState())
+                    .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState())
                     .set(1, 1, 0, ECBlocks.CONTAINER.get().defaultBlockState(), withValue(elementStorage(ElementType.WATER, 100000)))
                     .set(1, 1, 3, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(1, 1, 5, ECBlocks.CONTAINER.get().defaultBlockState());
@@ -89,7 +90,8 @@ public class PipePriorityRingsGameTests {
             var targetStorage2 = helper.getBlockEntity(new BlockPos(1, 1, 3), ElementContainerBlockEntity.class).getElementStorage();
             var ticks = new AtomicInteger(0);
 
-            helper.startSequence().thenExecute(() -> helper.pullLever(0, 1, 1))
+            helper.startSequence()
+                    .thenExecute(() -> helper.pullLever(0, 1, 1))
                     .thenIdle(1)
                     .thenExecuteFor(10, () -> {
                         assertThat(targetStorage1.getElementAmount()).isEqualTo(500 * ticks.incrementAndGet());

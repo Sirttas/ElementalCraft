@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/air_mill_grindstone"
+    "model": "elementalcraft:item/air_mill_grindstone"
   }
 }

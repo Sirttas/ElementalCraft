@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/firepylon"
+    "model": "elementalcraft:item/firepylon"
   }
 }

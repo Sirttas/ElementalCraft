@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:block/reservoir_earth"
+    "model": "elementalcraft:item/reservoir_earth"
   }
 }

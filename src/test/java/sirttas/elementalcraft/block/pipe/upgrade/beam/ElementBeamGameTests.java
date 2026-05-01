@@ -21,9 +21,7 @@ public class ElementBeamGameTests {
         var ticks = new AtomicInteger(0);
 
         helper.startSequence()
-                .thenExecute(() -> {
-                    helper.pullLever(1, 1, 0);
-                })
+                .thenExecute(() -> helper.pullLever(1, 1, 0))
                 .thenIdle(2)
                 .thenExecuteFor(10, () -> {
                     var targetStorage = helper.getBlockEntity(new BlockPos(12, 1, 1), ElementContainerBlockEntity.class).getElementStorage();
@@ -37,9 +35,7 @@ public class ElementBeamGameTests {
     @GameTest(template = "elementalcraft:elementbeamgametests.shouldnot_transferelements_when_outofrange")
     public static void shouldNot_transferElements_when_outOfRange(ECGameTestHelper helper) {
         helper.startSequence()
-                .thenExecute(() -> {
-                    helper.pullLever(1, 1, 0);
-                })
+                .thenExecute(() -> helper.pullLever(1, 1, 0))
                 .thenIdle(1)
                 .thenExecuteFor(10, () -> {
                     var targetStorage = helper.getBlockEntity(new BlockPos(13, 1, 1), ElementContainerBlockEntity.class).getElementStorage();
