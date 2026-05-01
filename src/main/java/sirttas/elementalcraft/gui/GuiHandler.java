@@ -35,6 +35,4 @@ public class GuiHandler {
 		event.registerAbove(VanillaGuiLayers.CAMERA_OVERLAYS, TRANSLOCATION_ANCHOR_MARKER_LAYER, TranslocationAnchorGui::drawAnchors);
 		event.registerBelow(TRANSLOCATION_ANCHOR_MARKER_LAYER, SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER, TranslocationAnchorGui::drawAnchor);
 	}
-
-
 }

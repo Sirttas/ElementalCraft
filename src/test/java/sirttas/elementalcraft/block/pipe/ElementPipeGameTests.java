@@ -44,7 +44,6 @@ public class ElementPipeGameTests {
         var targetStorage3 = getElementStorage(helper, 2, 1, 3);
 
         helper.startSequence().thenExecute(() -> helper.pullLever(0, 1, 1))
-                .thenIdle(1)
                 .thenExecuteAfter(1,  () -> {
                     assertThat(sourceStorage.getElementAmount()).isEqualTo(99500);
                     assertThat(targetStorage1.getElementAmount()).isZero();

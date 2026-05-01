@@ -246,9 +246,5 @@ public class ElementGaugeGui {
         Check(int offset) {
             this.offset = offset;
         }
-
-        public int getOffset() {
-            return offset;
-        }
     }
 }

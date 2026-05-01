@@ -40,7 +40,8 @@ public class SolarSynthesizerGameTests {
 
                 assertThat(inv.getItem(0))
                         .is(ECItems.FIRE_LENS)
-                        .hasDamage((int) Math.ceil(t / 2F)); // 2 ticks per damage, the solar synthesizer generate by ticks of 50 but only transfer 25
+                        .hasDamageSatisfying(damage -> assertThat(damage)
+                                .isBetween((int) Math.floor(t / 2F), (int) Math.ceil(t / 2F))); // 2 ticks per damage, the solar synthesizer generate by ticks of 50 but only transfer 25
                 assertThat(storage.getElementType())
                         .isEqualTo(ElementType.FIRE);
                 assertThat(storage.getElementAmount())

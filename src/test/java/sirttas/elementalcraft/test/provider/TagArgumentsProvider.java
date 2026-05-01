@@ -36,9 +36,9 @@ public class TagArgumentsProvider implements ArgumentsProvider, AnnotationConsum
 
     @Override
     public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
-        return EphemeralTestServerProvider.grabServer().registryAccess().get(registryKey).stream()
+        return EphemeralTestServerProvider.grabServer().registryAccess().lookup(registryKey).stream()
                 .flatMap(registry -> tagKeys.stream()
-                        .flatMap(tagKey -> registry.value().get(tagKey).stream()))
+                        .flatMap(tagKey -> registry.get(tagKey).stream()))
                 .flatMap(HolderSet.ListBacked::stream)
                 .distinct()
                 .filter(holder -> excludeKeys.stream().noneMatch(holder::is))

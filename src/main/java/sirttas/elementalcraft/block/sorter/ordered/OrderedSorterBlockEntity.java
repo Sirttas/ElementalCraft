@@ -111,7 +111,7 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 	}
 
 	private int transfer(ResourceHandler<@NotNull ItemResource> sourceInv, ResourceHandler<@NotNull ItemResource> targetInv, int amount) {
-		if (stacks.isEmpty()) {
+		if (stacks.getFirst().isEmpty()) {
 			for (int i = 0; i < sourceInv.size(); i++) {
 				if (!sourceInv.getResource(i).isEmpty()) {
 					return doTransfer(sourceInv, targetInv, i, doTransfer(sourceInv, targetInv, i, amount, true), false);
@@ -137,12 +137,10 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 
     private void moveIndexForward() {
         index++;
-        if (index >= stacks.size()) {
-            index = 0;
-        }
-    }
+		wrapIndexAroundIfNeeded();
+	}
 
-    private int doTransfer(ResourceHandler<@NotNull ItemResource> sourceInv, ResourceHandler<@NotNull ItemResource> targetInv, int i, int amount, boolean simulate) {
+	private int doTransfer(ResourceHandler<@NotNull ItemResource> sourceInv, ResourceHandler<@NotNull ItemResource> targetInv, int i, int amount, boolean simulate) {
         return doTransfer(IItemHandler.of(sourceInv), IItemHandler.of(targetInv), i, amount, simulate);
     }
 
@@ -173,10 +171,8 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 		super.loadAdditional(input);
         ContainerHelper.loadAllItems(input, this.stacks);
 		index = input.getIntOr(ECNames.INDEX, 0);
-		if (index > stacks.size()) {
-			index = 0;
-		}
-        input.readChild(ECNames.RUNE_HANDLER, runeHandler);
+		wrapIndexAroundIfNeeded();
+		input.readChild(ECNames.RUNE_HANDLER, runeHandler);
 	}
 
     @Override
@@ -186,4 +182,10 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
         output.putInt(ECNames.INDEX, index);
         output.putChild(ECNames.RUNE_HANDLER, runeHandler);
     }
+
+	private void wrapIndexAroundIfNeeded() {
+		if (index >= stacks.size() || stacks.get(index).isEmpty()) {
+			index = 0;
+		}
+	}
 }

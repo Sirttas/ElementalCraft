@@ -10,14 +10,20 @@ import org.jspecify.annotations.Nullable;
 public interface DamageableCraftingItem extends IItemExtension {
 
     @Override
-    default @Nullable ItemStackTemplate getCraftingRemainder(@NotNull ItemInstance stack) {
-        if (!ECItemStackHelper.canBeDamaged(stack)) {
+    default @Nullable ItemStackTemplate getCraftingRemainder(@NotNull ItemInstance itemInstance) {
+        if (!ECItemStackHelper.canBeDamaged(itemInstance)) {
             return null;
         }
-        return switch (stack) {
-            case ItemStack itemStack -> itemStack.isEmpty() ? null : ItemStackTemplate.fromNonEmptyStack(itemStack);
-            case ItemStackTemplate itemStackTemplate -> itemStackTemplate;
-            default -> null;
+        var stack = switch (itemInstance) {
+            case ItemStack itemStack -> itemStack.copy();
+            case ItemStackTemplate itemStackTemplate -> itemStackTemplate.create();
+            default -> ItemStack.EMPTY.copy();
         };
+        stack.setDamageValue(stack.getDamageValue() + 1);
+
+        if (stack.isEmpty() || stack.getDamageValue() > stack.getMaxDamage()) {
+            return null;
+        }
+        return ItemStackTemplate.fromNonEmptyStack(stack);
     }
 }

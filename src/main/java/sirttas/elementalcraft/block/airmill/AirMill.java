@@ -56,14 +56,16 @@ public interface AirMill {
         }
 
         mill.setDamage(millDamage - repair);
-        level.setBlock(pos, state.setValue(AbstractAirMillBlock.BROKEN, false), Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
-
-        var copy = stack.copy();
-
-        copy.setDamageValue(damage + repair);
-        if (copy.getDamageValue() >= maxDamage) {
-            copy.shrink(1);
+        level.setBlock(pos, state.setValue(AbstractAirMillBlock.BROKEN, false), Block.UPDATE_ALL);
+        if (!player.getAbilities().instabuild) {
+            stack.setDamageValue(damage + repair);
+            if (stack.getDamageValue() >= maxDamage) {
+                stack.shrink(1);
+            }
+            if (stack.isEmpty()) {
+                player.setItemInHand(hand, ItemStack.EMPTY);
+            }
         }
-        return InteractionResult.SUCCESS.heldItemTransformedTo(copy); // FIXME is this necessary
+        return InteractionResult.SUCCESS;
     }
 }

@@ -22,7 +22,7 @@ public class ElementBeamGameTests {
 
         helper.startSequence()
                 .thenExecute(() -> helper.pullLever(1, 1, 0))
-                .thenIdle(2)
+                .thenIdle(1)
                 .thenExecuteFor(10, () -> {
                     var targetStorage = helper.getBlockEntity(new BlockPos(12, 1, 1), ElementContainerBlockEntity.class).getElementStorage();
 

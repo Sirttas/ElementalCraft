@@ -30,8 +30,8 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
 
     @Override
     public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
-        return EphemeralTestServerProvider.grabServer().registryAccess().get(key).stream()
-                .flatMap(registry -> registry.value().entrySet().stream())
+        return EphemeralTestServerProvider.grabServer().registryAccess().lookup(key).stream()
+                .flatMap(registry -> registry.entrySet().stream())
                 .filter(entry -> excludeKeys.stream().noneMatch(excludeKeys -> excludeKeys.equals(entry.getKey())))
                 .map(entry -> Arguments.of(Named.of(entry.getKey().identifier().toString(), entry.getValue())));
     }

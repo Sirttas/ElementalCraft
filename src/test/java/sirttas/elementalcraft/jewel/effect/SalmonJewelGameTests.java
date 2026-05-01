@@ -31,7 +31,8 @@ public class SalmonJewelGameTests {
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 2, 2), Jewels.SALMON);
 
-            helper.startSequence().thenExecuteAfter(10, () -> {
+            helper.startSequence()
+                    .thenExecuteAfter(10, () -> {
                         assertThat(player.isAlive())
                                 .describedAs("Player should be alive")
                                 .isTrue();

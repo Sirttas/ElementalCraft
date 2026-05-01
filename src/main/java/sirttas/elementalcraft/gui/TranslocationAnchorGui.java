@@ -87,7 +87,6 @@ public class TranslocationAnchorGui {
                 (int) Math.round(x + imageScale),
                 (int) Math.round(y + imageScale),
                 0, 1, 0, 1);
-
     }
 
     private static float getAnchorScale(float falloffSq, float distanceSq) {
