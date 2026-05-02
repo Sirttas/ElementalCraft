@@ -26,7 +26,7 @@ public class SweetShrineGameTests {
             player.getFoodData().setFoodLevel(5);
             player.getFoodData().setSaturation(0);
         }).thenExecuteAfter(1, () -> {
-            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 1, 0));
+            ShrineGameTestHelper.forcePeriod(helper, new BlockPos(0, 0, 0));
         }).thenExecuteAfter(1, () -> {
             assertThat(player.getFoodData().getFoodLevel()).isEqualTo(6);
             assertThat(player.getFoodData().getSaturationLevel()).isEqualTo(0.2F);

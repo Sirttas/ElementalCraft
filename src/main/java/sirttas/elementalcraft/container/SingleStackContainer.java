@@ -79,6 +79,10 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 
     @Override
     public void serialize(@NotNull ValueOutput output) {
+		if (stack.isEmpty()) {
+			output.discard("stack");
+			return;
+		}
         output.store("stack", ItemStack.CODEC, stack);
     }
 

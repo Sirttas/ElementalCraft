@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 public class ShrineGameTestHelper {
 
-    public static final String BATCH_NAME = "shrine";
     public static final String GROUP = "level.blocks.shrine";
 
     private ShrineGameTestHelper() {}

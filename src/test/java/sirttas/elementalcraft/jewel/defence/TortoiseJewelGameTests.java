@@ -30,9 +30,8 @@ public class TortoiseJewelGameTests {
         anvil.setHurtsEntities(2.0F, 40);
         level.addFreshEntity(anvil);
         helper.startSequence().thenExecuteAfter(100, () -> {
-            assertThat(player.isAlive())
-                    .describedAs("Player should be alive")
-                    .isTrue();
+            helper.assertEntityAlive(player);
+            helper.assertJewelActive(player, Jewels.TORTOISE);
             assertThat(player.getHealth()).isEqualTo(20);
             assertThat(anvil.isAlive())
                     .describedAs("Anvil should have dropped")

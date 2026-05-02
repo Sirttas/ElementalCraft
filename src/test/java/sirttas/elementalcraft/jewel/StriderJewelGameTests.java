@@ -9,7 +9,6 @@ import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 
@@ -30,9 +29,11 @@ public class StriderJewelGameTests {
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 8, 2), Jewels.WATER_STRIDER);
 
-            helper.startSequence().thenExecuteAfter(20, () -> {
+            helper.startSequence()
+                    .thenExecuteAfter(100, () -> {
+                        helper.assertJewelActive(player, Jewels.WATER_STRIDER);
                         assertThat(player.getOnPos())
-                                .isEqualTo(helper.absolutePos(new BlockPos(2, 5, 2)));
+                                .isEqualTo(helper.absolutePos(new BlockPos(2, 4, 2)));
                         helper.assertElementUsed(player, ElementType.WATER);
                     }).thenExecute(player::discard)
                     .thenSucceed();
@@ -49,9 +50,11 @@ public class StriderJewelGameTests {
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 8, 2), Jewels.STRIDER);
 
-            helper.startSequence().thenExecuteAfter(20, () -> {
+            helper.startSequence()
+                    .thenExecuteAfter(100, () -> {
+                        helper.assertJewelActive(player, Jewels.STRIDER);
                         assertThat(player.getOnPos())
-                                .isEqualTo(helper.absolutePos(new BlockPos(2, 5, 2)));
+                                .isEqualTo(helper.absolutePos(new BlockPos(2, 4, 2)));
                         helper.assertElementUsed(player, ElementType.FIRE);
                     }).thenExecute(player::discard)
                     .thenSucceed();

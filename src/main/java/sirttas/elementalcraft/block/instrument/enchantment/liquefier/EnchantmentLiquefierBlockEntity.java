@@ -2,11 +2,15 @@ package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -55,10 +59,6 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
 
     @Override
     protected EnchantmentLiquefactionRecipe lookupRecipe(@NotNull ServerLevel level, @NotNull SimpleIOInstrumentRecipeInput recipeInput) {
-        if (level == null) {
-            return null;
-        }
-
         var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(inventory.getItem(0));
 
         for (var enchantment : enchantments.keySet()) {
@@ -69,6 +69,30 @@ public class EnchantmentLiquefierBlockEntity extends AbstractInstrumentBlockEnti
             }
         }
         return null;
+    }
+
+    @Override
+    public @NotNull NonNullList<@NotNull ItemStack> getRemainingItems(SimpleIOInstrumentRecipeInput recipeInput) {
+        var input = recipeInput.getItem(0).copy();
+
+        if (input.isEmpty()) {
+            return NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
+        }
+
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(input);
+
+        if (enchantments.isEmpty()) {
+            return NonNullList.of(ItemStack.EMPTY, input, ItemStack.EMPTY);
+        }
+
+        var mutable = new ItemEnchantments.Mutable(enchantments);
+
+        mutable.removeIf(this.recipe.getEnchantment()::is);
+        enchantments = mutable.toImmutable();
+        if (enchantments.isEmpty() && input.is(Items.ENCHANTED_BOOK)) {
+            return NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.BOOK), ItemStack.EMPTY);
+        }
+        return NonNullList.of(ItemStack.EMPTY, input, ItemStack.EMPTY);
     }
 
     @Override

@@ -285,7 +285,10 @@ public class ECItems {
 
 	private static DeferredHolder<@NotNull Item, @NotNull JewelItem> registerJewel(DeferredHolder<@NotNull Jewel, ? extends @NotNull Jewel> jewel) {
 		var id = jewel.getId();
-		return register(jewel.getId().getPath(), p -> new JewelItem(jewel::get, p), new Item.Properties().stacksTo(1).overrideDescription(Jewel.createDescriptionId(id)));
+		return register(jewel.getId().getPath(), p -> new JewelItem(jewel::get, p), () -> new Item.Properties()
+				.delayedComponent(ECDataComponents.JEWEL.get(), _ -> jewel.get())
+				.stacksTo(1)
+				.overrideDescription(Jewel.createDescriptionId(id)));
 	}
 
 	private static <B extends Block> DeferredHolder<@NotNull Item, @NotNull BlockItem> registerBlock(DeferredHolder<@NotNull Block, ? extends @NotNull B> block) {

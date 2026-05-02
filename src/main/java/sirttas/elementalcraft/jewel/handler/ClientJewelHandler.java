@@ -10,6 +10,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.JewelHelper;
+import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -30,6 +31,11 @@ public class ClientJewelHandler implements IJewelHandler {
     @SubscribeEvent
     public static void addJewelTooltip(ItemTooltipEvent event) {
         var stack = event.getItemStack();
+
+        if (stack.isEmpty() || stack.is(ECTags.Items.JEWELS)) {
+            return;
+        }
+
         var tooltip = event.getToolTip();
         var jewel = JewelHelper.getJewel(stack);
 

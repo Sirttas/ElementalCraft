@@ -2,6 +2,7 @@
 - add a facing property for fire furnace and fire blast furnace
 - purification spell now only consumes if it successfully removes a negative effect
 - synthesizers now turn off when powered by redstone
+- strider jewels no longer activate while inside fluid
 
 
 7.1.3:

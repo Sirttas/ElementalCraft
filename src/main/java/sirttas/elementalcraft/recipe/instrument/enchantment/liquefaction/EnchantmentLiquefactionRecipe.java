@@ -1,13 +1,11 @@
 package sirttas.elementalcraft.recipe.instrument.enchantment.liquefaction;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -127,28 +125,5 @@ public class EnchantmentLiquefactionRecipe implements SingleElementInstrumentRec
 
     private void setEnchantmentLevel(ItemStack stack, int level) {
         EnchantmentHelper.updateEnchantments(stack, e -> e.set(enchantment, level));
-    }
-
-    public @NotNull NonNullList<@NotNull ItemStack> getRemainingItems(SimpleIOInstrumentRecipeInput recipeInput) {
-        var input = recipeInput.getItem(0).copy();
-
-        if (input.isEmpty()) {
-            return NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY);
-        }
-
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(input);
-
-        if (enchantments.isEmpty()) {
-            return NonNullList.of(ItemStack.EMPTY, input, ItemStack.EMPTY);
-        }
-
-        var mutable = new ItemEnchantments.Mutable(enchantments);
-
-        mutable.removeIf(enchantment::is);
-        enchantments = mutable.toImmutable();
-        if (enchantments.isEmpty() && input.is(Items.ENCHANTED_BOOK)) {
-            return NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.BOOK), ItemStack.EMPTY);
-        }
-        return NonNullList.of(ItemStack.EMPTY, input, ItemStack.EMPTY);
     }
 }

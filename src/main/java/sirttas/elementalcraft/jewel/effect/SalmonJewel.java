@@ -36,5 +36,4 @@ public class SalmonJewel extends EffectJewel {
         builder.accept(Component.translatable("tooltip.elementalcraft.salmon").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(builder);
     }
-
 }

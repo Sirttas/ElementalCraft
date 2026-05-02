@@ -26,9 +26,8 @@ public class PhoenixJewelGameTests {
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.igniteForSeconds(5);
         }).thenExecuteAfter(80, () -> {
-            assertThat(player.isAlive())
-                    .describedAs("Player should be alive")
-                    .isTrue();
+            helper.assertEntityAlive(player);
+            helper.assertJewelActive(player, Jewels.PHOENIX);
             assertThat(player.getHealth()).isEqualTo(20);
             helper.assertMobEffectPresent(player, MobEffects.FIRE_RESISTANCE, Component.literal("Fire resistance"));
             helper.assertMobEffectPresent(player, MobEffects.REGENERATION, Component.literal("Regeneration"));

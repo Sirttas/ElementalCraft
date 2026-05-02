@@ -42,8 +42,8 @@ public abstract class MixinLivingEntity extends Entity {
         if (cir.getReturnValueZ()) {
             return;
         }
-        for (Jewel jewel :JewelHelper.getActiveJewels(this)) {
-            if (jewel instanceof StriderJewel striderJewel && state.is(striderJewel.getTag())) {
+        for (Jewel jewel :JewelHelper.getAllJewels(this)) {
+            if (jewel instanceof StriderJewel striderJewel && striderJewel.canStandOnFluid(state, this)) {
                 cir.setReturnValue(true);
                 return;
             }

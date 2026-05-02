@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -277,6 +278,22 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return stack;
     }
 
+    public void assertEntityAlive(LivingEntity entity) {
+        assertThat(entity.isAlive())
+                .describedAs("%s should be alive", entity)
+                .isTrue();
+    }
+
+    public void assertJewelActive(Entity entity, Supplier<? extends Jewel> jewel) {
+        var j = jewel.get();
+
+        assertThat(entity)
+                .as("Entity %s should have %s in its inventory", entity, j)
+                .satisfies(p -> assertThat(JewelHelper.getAllJewels(p)).contains(j))
+                .as("Entity %s should have %s active", entity, j)
+                .satisfies(p ->  assertThat(JewelHelper.getActiveJewels(p)).contains(j));
+    }
+
     public void assertElementUsed(Player player, ElementType elementType) {
         assertElementUsed(player.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY), elementType);
     }
@@ -284,7 +301,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     public void assertElementUsed(IElementStorage storage, ElementType elementType) {
         assertThat(storage).isNotNull();
         assertThat(storage.getElementAmount(elementType))
-                .describedAs("Element %s should have been used", elementType.getSerializedName())
+                .as("Element %s should have been used", elementType.getSerializedName())
                 .isLessThan(storage.getElementCapacity(elementType));
     }
 

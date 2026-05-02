@@ -1,13 +1,13 @@
 package sirttas.elementalcraft.jewel;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 
@@ -25,15 +25,20 @@ public class StriderJewel extends Jewel {
     }
 
     private boolean isOnFluid(Entity entity) {
-        BlockPos blockpos = entity.getOnPos();
-        BlockState blockstate = entity.level().getBlockState(blockpos);
+        var blockpos = entity.getOnPos();
+        var level = entity.level();
+        var fluid = level.getBlockState(blockpos).getFluidState();
 
-        return blockstate.getFluidState().is(tag);
+        return fluid.is(tag) && !level.getBlockState(blockpos.above()).getFluidState().getType().isSame(fluid.getType());
     }
 
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
         return isOnFluid(entity) && super.isActive(entity, elementStorage);
+    }
+
+    public boolean canStandOnFluid(FluidState fluid, @Nonnull Entity entity) {
+        return fluid.is(tag) && super.isActive(entity, entity.getCapability(ElementalCraftCapabilities.ElementStorages.ENTITY));
     }
 
     @Override

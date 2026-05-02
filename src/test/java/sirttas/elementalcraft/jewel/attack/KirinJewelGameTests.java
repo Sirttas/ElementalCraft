@@ -28,9 +28,8 @@ public class KirinJewelGameTests {
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.attack(target);
         }).thenExecuteAfter(1, () -> {
-            assertThat(target.isAlive())
-                    .describedAs("Enderman should be alive")
-                    .isTrue();
+            helper.assertJewelActive(player, Jewels.KIRIN);
+            helper.assertEntityAlive(target);
             assertThat(target.getHealth()).isCloseTo(33, within(1.9F));
             helper.assertElementUsed(player, ElementType.FIRE);
         }).thenExecute(() -> {
@@ -49,9 +48,8 @@ public class KirinJewelGameTests {
         helper.startSequence().thenExecuteAfter(2, () -> {
             player.attack(target);
         }).thenExecuteAfter(1, () -> {
-            assertThat(target.isAlive())
-                    .describedAs("Zombie should be alive")
-                    .isTrue();
+            helper.assertEntityAlive(target);
+            helper.assertJewelActive(player, Jewels.KIRIN);
             assertThat(target.getHealth()).isCloseTo(8, within(1.9F));
             helper.assertElementUsed(player, ElementType.FIRE);
         }).thenExecute(() -> {

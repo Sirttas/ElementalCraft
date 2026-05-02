@@ -25,9 +25,7 @@ public class BreedingShrineGameTests {
             var entities = helper.getEntities(EntityType.COW, new BlockPos(3, 1, 3), 3);
 
             assertThat(entities).hasSize(2).allSatisfy(c -> {
-                assertThat(c.isAlive())
-                        .withFailMessage("Cow is dead")
-                        .isTrue();
+                helper.assertEntityAlive(c);
                 assertThat(c.isInLove())
                         .withFailMessage("Cow is not in love")
                         .isTrue();

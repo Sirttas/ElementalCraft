@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.jewel.effect;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -24,18 +25,20 @@ public class SalmonJewelGameTests {
     @GameTest
     @TestHolder(description = "Checks if a player is given water breathing by the jewel of the salmon while under water.")
     public static void should_givePlayerWaterBreathing(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 5, 5)
-                .fill(0, 0, 0, 4, 4, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
-                .fill(1, 1, 1, 3, 4, 3, Blocks.WATER));
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 6, 5)
+                .fill(0, 0, 0, 4, 5, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
+                .fill(1, 1, 1, 3, 5, 3, Blocks.WATER));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
-            var player = helper.mockPlayerWithJewel(new Vec3(2, 2, 2), Jewels.SALMON);
+            var player = helper.mockPlayerWithJewel(new Vec3(2, 1, 2), Jewels.SALMON);
 
             helper.startSequence()
+                    .thenExecuteFor(10, () -> assertThat(player.isEyeInFluid(FluidTags.WATER))
+                            .as("Player should be underwater")
+                            .isTrue())
                     .thenExecuteAfter(10, () -> {
-                        assertThat(player.isAlive())
-                                .describedAs("Player should be alive")
-                                .isTrue();
+                        helper.assertEntityAlive(player);
+                        helper.assertJewelActive(player, Jewels.SALMON);
                         assertThat(player.getHealth()).isEqualTo(20);
                         helper.assertMobEffectPresent(player, MobEffects.WATER_BREATHING, Component.literal("Water breathing"));
                         helper.assertElementUsed(player, ElementType.WATER);

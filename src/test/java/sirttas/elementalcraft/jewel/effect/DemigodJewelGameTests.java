@@ -28,11 +28,10 @@ public class DemigodJewelGameTests {
 
         player.getInventory().add(1, new ItemStack(Items.TOTEM_OF_UNDYING));
         helper.startSequence().thenExecuteAfter(2, () -> {
+            helper.assertJewelActive(player, Jewels.DEMIGOD);
             player.hurtOrSimulate(player.damageSources().magic(), 1000);
         }).thenExecuteAfter(1, () -> {
-            assertThat(player.isAlive())
-                    .describedAs("Player should be alive")
-                    .isTrue();
+            helper.assertEntityAlive(player);
             assertThat(player.getHealth()).isCloseTo(1, within(1F));
             helper.assertMobEffectPresent(player, MobEffects.REGENERATION, Component.literal("Regeneration"));
             helper.assertMobEffectPresent(player, MobEffects.ABSORPTION, Component.literal("Absorption"));

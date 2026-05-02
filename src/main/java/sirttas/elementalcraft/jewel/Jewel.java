@@ -101,4 +101,9 @@ public class Jewel implements IElementTypeProvider, ItemLike {
 		}
 		return item;
 	}
+
+	@Override
+	public String toString() {
+		return "Jewel [" + getKey().toString() + "]";
+	}
 }

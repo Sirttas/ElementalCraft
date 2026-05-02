@@ -1,7 +1,6 @@
 package sirttas.elementalcraft.block.instrument.enchantment.liquefier;
 
 import net.minecraft.core.component.DataComponents;
-import net.neoforged.testframework.gametest.GameTest;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -10,6 +9,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
+import net.neoforged.testframework.gametest.GameTest;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
@@ -24,7 +24,6 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class EnchantmentLiquefierGameTests {
 
     public static final String GROUP = "level.blocks.instruments.enchantment_liquefier";
-
 
     @TestHolder
     @GameTest(template = InstrumentTestTemplates.ENCHANTMENT_LIQUEFIER_TEMPLATE_NAME)
