@@ -9,13 +9,9 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.EventBusSubscriber;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.function.Function;
 
-@EventBusSubscriber(modid = ElementalCraftApi.MODID, value = Dist.CLIENT)
 public class ECRenderTypes {
 
 	private static final String GHOST_NAME = "elementalcraft:ghost";
@@ -26,6 +22,8 @@ public class ECRenderTypes {
             .withTexture("Sampler0", TextureAtlas.LOCATION_BLOCKS, () -> RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.NEAREST, true))
             .affectsCrumbling()
             .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
+			.sortOnUpload()
+			.setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
             .createRenderSetup());
 
 

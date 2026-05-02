@@ -13,6 +13,9 @@
         "MixinRecipeManager",
         "MixinRepairContainer"
     ],
+    "client": [
+        "MixinGlCommandEncoder"
+    ],
     "injectors": {
         "defaultRequire": 1
     }

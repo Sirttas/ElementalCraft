@@ -29,6 +29,7 @@ public class GhostBlockRenderState {
         this.blockState = blockState;
         resolver.update(blockModelRenderState, blockState, BLOCK_DISPLAY_CONTEXT);
         blockModelRenderState.renderType = ECRenderTypes.GHOST;
+        this.offset = offset;
     }
 
     public void clear() {

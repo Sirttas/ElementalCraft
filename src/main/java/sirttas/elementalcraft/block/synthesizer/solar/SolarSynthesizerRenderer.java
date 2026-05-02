@@ -4,10 +4,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +21,8 @@ import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.rune.RuneModelResolver;
+
+import java.util.List;
 
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull SolarSynthesizerBlockEntity, @NotNull SolarSynthesizerRenderState> {
 
@@ -62,7 +67,7 @@ public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull So
 		poseStack.translate(0.5, 14.5 / 16, 0.5);
         poseStack.mulPose(state.lensRotation);
 		poseStack.translate(-3D / 16, -1D / 32, -3D / 16);
-        ECRendererHelper.submitModel(lensModel, poseStack, submitNodeCollector, state.lightCoords);
+        submitNodeCollector.submitBlockModel(poseStack, RenderTypes.translucentMovingBlock(), List.of(lensModel), BlockModelRenderState.EMPTY_TINTS, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
 		poseStack.popPose();
 		if (state.running) {
 			Vec3 beamVect = Vec3.atCenterOf(state.blockPos).subtract(cameraRenderState.pos).multiply(1, 0, 1).normalize();

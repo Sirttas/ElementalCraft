@@ -19,7 +19,6 @@ public class ECRenderPipelines {
 
     public static final RenderPipeline GHOST = RenderPipelines.SOLID_BLOCK.toBuilder()
             .withLocation(ElementalCraftApi.createRL("pipeline/ghost"))
-            .withShaderDefine("ALPHA_CUTOUT", 0.5F)
             .withColorTargetState(new ColorTargetState(new BlendFunction(SourceFactor.CONSTANT_ALPHA, DestFactor.ONE_MINUS_CONSTANT_ALPHA)))
             .withCull(false)
             .build();

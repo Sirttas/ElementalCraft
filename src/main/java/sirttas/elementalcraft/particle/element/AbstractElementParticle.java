@@ -1,6 +1,9 @@
 package sirttas.elementalcraft.particle.element;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +11,8 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.particle.AbstractECParticle;
 
 public abstract class AbstractElementParticle extends AbstractECParticle {
+
+	private static final SingleQuadParticle.Layer LAYER = new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_PARTICLES, RenderPipelines.TRANSLUCENT_PARTICLE); // TODO RenderPipeline
 
 	protected AbstractElementParticle(ClientLevel level, Vec3 coord, TextureAtlasSprite sprite, ElementType type) {
 		super(level, coord, sprite);
@@ -22,7 +27,7 @@ public abstract class AbstractElementParticle extends AbstractECParticle {
 
     @Override
     protected @NotNull Layer getLayer() {
-        return Layer.TRANSLUCENT;
+        return LAYER;
     }
 
 	protected void usingDefaultSize() {
