@@ -25,13 +25,22 @@ import java.util.stream.Collectors;
 
 public class ElementalCraftInteractionWrapper implements ElementalCraftInteraction {
 
+    private static final ElementalCraftInteraction INACTIVE = () -> false;
+
     private final List<ElementalCraftInteraction> interactions;
 
     public ElementalCraftInteractionWrapper() {
         ServiceLoader<ElementalCraftInteraction> loader = ServiceLoader.load(ElementalCraftInteraction.class);
 
         interactions = new ArrayList<>(loader.stream()
-                .map(ServiceLoader.Provider::get) // TODO try catch
+                .map(provider -> {
+                    try {
+                        return provider.get();
+                    } catch (Exception e) {
+                        ElementalCraftApi.LOGGER.error("Failed to load ElementalCraftInteraction from provider: {}", provider.type().getName(), e);
+                        return INACTIVE;
+                    }
+                })
                 .filter(ElementalCraftInteraction::isActive)
                 .toList());
         injectTests();
