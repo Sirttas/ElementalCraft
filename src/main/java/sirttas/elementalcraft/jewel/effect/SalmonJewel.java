@@ -24,11 +24,15 @@ public class SalmonJewel extends EffectJewel {
         super(ElementType.WATER,10, true, new MobEffectInstance(MobEffects.WATER_BREATHING, 2));
     }
 
+    private boolean isInWater(@Nonnull Entity entity) {
+        var state = entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ()));
+
+        return (entity.isEyeInFluid(Tags.Fluids.WATER) || state.getFluidState().is(Tags.Fluids.WATER)) && !state.is(Blocks.BUBBLE_COLUMN); // for some reason isEyeInFluid sometimes doesn't work
+    }
+
     @Override
     public boolean isActive(@Nonnull Entity entity, @Nullable IElementStorage elementStorage) {
-        return entity.isEyeInFluid(Tags.Fluids.WATER)
-                && !entity.level().getBlockState(BlockPos.containing(entity.getX(), entity.getEyeY(), entity.getZ())).is(Blocks.BUBBLE_COLUMN)
-                && super.isActive(entity, elementStorage);
+        return isInWater(entity) && super.isActive(entity, elementStorage);
     }
 
     @Override

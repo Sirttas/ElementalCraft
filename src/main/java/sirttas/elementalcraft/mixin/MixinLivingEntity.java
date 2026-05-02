@@ -7,6 +7,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -45,6 +47,21 @@ public abstract class MixinLivingEntity extends Entity {
         for (Jewel jewel :JewelHelper.getAllJewels(this)) {
             if (jewel instanceof StriderJewel striderJewel && striderJewel.canStandOnFluid(state, this)) {
                 cir.setReturnValue(true);
+                return;
+            }
+        }
+    }
+
+    @Inject(method = "getLiquidCollisionShape()Lnet/minecraft/world/phys/shapes/VoxelShape;",
+            at = @At("RETURN"),
+            cancellable = true)
+    public void getLiquidCollisionShape$return(CallbackInfoReturnable<VoxelShape> cir) {
+        if (!cir.getReturnValue().isEmpty()) {
+            return;
+        }
+        for (Jewel jewel :JewelHelper.getAllJewels(this)) {
+            if (jewel instanceof StriderJewel) {
+                cir.setReturnValue(Shapes.block());
                 return;
             }
         }
