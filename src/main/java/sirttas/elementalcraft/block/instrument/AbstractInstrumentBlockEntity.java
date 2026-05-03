@@ -68,8 +68,8 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 			var transfer = ceilTransfer(container, Math.round(runeHandler.getTransferSpeed(this.getTransferSpeed()) / preservation), recipeCost);
 
 			progress += Math.round(container.extractElement(transfer, getRecipeElementType(), false) * preservation);
-			if (level.isClientSide() && progress > 0 && getProgressRounded(transfer, progress) > getProgressRounded(transfer, oldProgress)) {
-				ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.getRandom());
+			if (!level.isClientSide() && progress > 0 && getProgressRounded(transfer, progress) > getProgressRounded(transfer, oldProgress)) {
+
 				renderProgressParticles();
 			}
 			return true;
@@ -94,8 +94,9 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 		return Math.max(0, transfer);
 	}
 
-
-	protected void renderProgressParticles() {}
+	protected void renderProgressParticles() {
+		ParticleHelper.createElementFlowParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), Direction.UP, 1, level.getRandom());
+	}
 	
 	protected ElementType getRecipeElementType() {
 		if (recipe instanceof IElementTypeProvider provider) {

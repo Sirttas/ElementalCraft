@@ -46,7 +46,7 @@ public class ECModelProvider extends ModelProvider {
         this.generatorFactories = List.copyOf(generatorFactories);
     }
 
-    public CompletableFuture<?> run(@NonNull CachedOutput output) {
+    public @NonNull CompletableFuture<?> run(@NonNull CachedOutput output) {
         var runeModelCollector = new RuneModelCollector();
         this.runeModelCollector = runeModelCollector;
         var pipeUpgradeModelCollector = new PipeUpgradeModelCollector();

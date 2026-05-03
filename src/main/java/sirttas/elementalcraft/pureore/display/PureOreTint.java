@@ -24,7 +24,7 @@ public record PureOreTint(int index) implements ItemTintSource {
     }
 
     @Override
-    public @NonNull MapCodec<? extends ItemTintSource> type() {
+    public @NonNull MapCodec<PureOreTint> type() {
         return MAP_CODEC;
     }
 }

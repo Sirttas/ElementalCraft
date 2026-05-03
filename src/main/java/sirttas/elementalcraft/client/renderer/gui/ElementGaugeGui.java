@@ -69,7 +69,7 @@ public class ElementGaugeGui {
     }
 
     private static void render(GuiGraphicsExtractor guiGraphics, Font font, int x, int y, GaugeRenderState state) {
-        renderElementGauge(guiGraphics, font, x, y, state.elementType, state.amount, state.max);
+        renderElementGauge(guiGraphics, font, x, y, state.elementType, state.amount, state.max, true);
         if (state.check != Check.NONE) {
             renderCheck(guiGraphics, state.check, x + 11, y + 11);
         }
@@ -217,7 +217,13 @@ public class ElementGaugeGui {
         }
         blitGauge(guiGraphics, x, y + 16 - progress, getElementTypeOffset(elementType) * 16, 16 - progress + (ECConfig.CLIENT.usePaleElementGauge.get() ? 16 : 0), 16, progress);
         if (showDebugInfo() && showDebugInfo) {
-            guiGraphics.text(font, amount + "/" + max, x, y + 16, -2039584, true);
+            guiGraphics.pose().pushMatrix();
+            guiGraphics.pose().translate(x, y + 18);
+            guiGraphics.pose().scale(0.5F);
+            guiGraphics.text(font, String.valueOf(amount), 0, 0, -2039584, true);
+            guiGraphics.text(font, String.valueOf(max), 0, font.lineHeight + 2, -2039584, true);
+            guiGraphics.pose().popMatrix();
+
         }
     }
 

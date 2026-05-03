@@ -64,6 +64,8 @@ public abstract class AbstractFireFurnaceBlockEntity<T extends AbstractCookingRe
 
 	@Override
 	protected void renderProgressParticles() {
+		super.renderProgressParticles();
+
 		var rand = level.getRandom();
 		var x = worldPosition.getX() + (5 + rand.nextDouble() * 6) / 16;
 		var y = worldPosition.getY() + 6D / 16;

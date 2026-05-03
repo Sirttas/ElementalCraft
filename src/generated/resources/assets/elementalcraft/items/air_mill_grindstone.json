@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "elementalcraft:item/air_mill_grindstone"
+    "type": "minecraft:range_dispatch",
+    "entries": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "elementalcraft:block/air_mill_grindstone_broken"
+        },
+        "threshold": 1.0
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "elementalcraft:item/air_mill_grindstone"
+    },
+    "property": "elementalcraft:air_mill_damage"
   }
 }

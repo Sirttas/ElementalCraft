@@ -7,11 +7,13 @@ import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerato
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.RangeSelectItemModel;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.data.BlockFamily;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.airmill.AirMillDamageRangeSelectItemModelProperty;
 import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlock;
@@ -34,6 +37,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.silktouch.SilkTouchShrineUpgr
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.datagen.definition.ECBlockFamilies;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -283,7 +287,8 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     }
 
     public void createAirMill(Block block, MultiVariant lower) {
-        var brokenModel = plainVariant(ModelLocationUtils.getModelLocation(block, "_broken"));
+        var brokenLocation = ModelLocationUtils.getModelLocation(block, "_broken");
+        var brokenModel = plainVariant(brokenLocation);
 
         blockStateOutput.accept(MultiVariantGenerator.dispatch(block)
                 .with(PropertyDispatch.initial(BlockStateProperties.DOUBLE_BLOCK_HALF, AbstractAirMillBlock.BROKEN)
@@ -295,6 +300,9 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
                             }
                             return lower;
                         })));
+        itemModelOutput.accept(block.asItem(), ItemModelUtils.rangeSelect(AirMillDamageRangeSelectItemModelProperty.get(),
+                ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(block.asItem())),
+                List.of(new RangeSelectItemModel.Entry(1, ItemModelUtils.plainModel(brokenLocation)))));
     }
 
     public void createDoubleHalfBlock(@NotNull Block block) {

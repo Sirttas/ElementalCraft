@@ -17,6 +17,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.jewel.JewelItem;
+import sirttas.elementalcraft.item.spell.ScrollRibbonTint;
 import sirttas.elementalcraft.pureore.display.PureOreTint;
 import sirttas.elementalcraft.rune.RuneModel;
 import sirttas.elementalcraft.rune.RuneSpecialRenderer;
@@ -75,7 +76,7 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.generateFlatItem(ECItems.AIR_SILK.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.SOLAR_PRISM.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.FIRE_LENS.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        this.generateFlatItem(ECItems.AIR_MILL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        this.declareCustomModelItem(ECItems.AIR_MILL.get());
         this.generatePureOre(ECItems.PURE_ORE.get());
         this.declareCustomModelItem(ECItems.COVER_FRAME.get());
 
@@ -144,9 +145,6 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.declareCustomModelItem(ECItems.LARGE_SPRINGALINE_BUD.get());
         this.declareCustomModelItem(ECItems.MEDIUM_SPRINGALINE_BUD.get());
         this.declareCustomModelItem(ECItems.SMALL_SPRINGALINE_BUD.get());
-        this.declareCustomModelItem(ECItems.AIR_MILL_GRINDSTONE.get());
-        this.declareCustomModelItem(ECItems.AIR_MILL_WOOD_SAW.get());
-        this.declareCustomModelItem(ECItems.AIR_MILL_SYNTHESIZER.get());
         this.declareCustomModelItem(ECBlocks.BREEDING_SHRINE.get());
         this.declareCustomModelItem(ECBlocks.BUDDING_SHRINE.get());
         this.declareCustomModelItem(ECBlocks.CRACKING_SYNTHESIZER.get());
@@ -178,7 +176,9 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
     }
 
     public void generateScroll(Item item) {
-        this.generateFlatItem(item, ModelTemplates.FLAT_ITEM); // TODO
+        this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), new TextureMapping()
+                        .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.createRL("item/scroll_ribbon")))
+                        .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.createRL("item/scroll"))), this.modelOutput), ScrollRibbonTint.get()));
     }
 
     public void generatePureOre(Item item) {

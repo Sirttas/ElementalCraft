@@ -1,6 +1,11 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:item/scroll"
+    "model": "elementalcraft:item/scroll",
+    "tints": [
+      {
+        "type": "elementalcraft:scroll_ribbon"
+      }
+    ]
   }
 }

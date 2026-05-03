@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "elementalcraft:item/air_mill_wood_saw"
+    "type": "minecraft:range_dispatch",
+    "entries": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "elementalcraft:block/air_mill_wood_saw_broken"
+        },
+        "threshold": 1.0
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "elementalcraft:item/air_mill_wood_saw"
+    },
+    "property": "elementalcraft:air_mill_damage"
   }
 }

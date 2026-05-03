@@ -2,7 +2,6 @@ package sirttas.elementalcraft.jewel.effect.mole;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.jewel.JewelHelper;

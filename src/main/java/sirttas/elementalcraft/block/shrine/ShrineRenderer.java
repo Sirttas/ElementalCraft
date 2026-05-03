@@ -40,8 +40,9 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
         } else {
             renderState.range.clear();
         }
+        renderState.ghostUpgrades.clear();
+
         if (!ECConfig.CLIENT.renderInstrumentShadow.get()) {
-            renderState.ghostUpgrades.clear();
             return;
         }
 
@@ -79,7 +80,6 @@ public abstract class ShrineRenderer<T extends AbstractShrineBlockEntity, S exte
 
                 ghostState.update(blockModelResolver, state, direction.step());
                 renderState.ghostUpgrades.add(ghostState);
-                return;
             }
         }
     }
