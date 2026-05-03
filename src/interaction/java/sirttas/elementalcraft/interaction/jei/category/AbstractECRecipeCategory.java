@@ -1,16 +1,25 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector2f;
 import org.jspecify.annotations.NonNull;
+import sirttas.elementalcraft.client.renderer.pip.DynamicPictureInPictureRenderState;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -90,6 +99,16 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		guiGraphics.submitPictureInPictureRenderState(factory.create(startX, startY, endX, endY));
 	}
 
+	protected void submit(@NonNull GuiGraphicsExtractor guiGraphics, DynamicPictureInPictureRenderState.Submit submit) {
+		submitPictureInPicture(guiGraphics, (startX, startY, endX, endY) -> new DynamicPictureInPictureRenderState(submit, startX, startY, endX, endY, 1, guiGraphics.peekScissorStack()));
+	}
+
+	protected void submitBlock(SubmitNodeStorage submitNodeStorage, PoseStack poseStack, BlockState blockState) {
+		var blockModelRenderState = new BlockModelRenderState();
+
+		Minecraft.getInstance().getBlockModelResolver().update(blockModelRenderState, blockState, BlockDisplayContext.create());
+		blockModelRenderState.submit(poseStack, submitNodeStorage, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
+	}
 
 	private record Overlay<T>(
 			IDrawable drawable,

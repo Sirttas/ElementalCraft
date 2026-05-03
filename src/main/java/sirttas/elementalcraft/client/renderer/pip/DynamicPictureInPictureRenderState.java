@@ -23,6 +23,6 @@ public record DynamicPictureInPictureRenderState(
 
     @FunctionalInterface
     public interface Submit {
-        void apply(SubmitNodeStorage getSubmitNodeStorage, PoseStack poseStack);
+        void apply(SubmitNodeStorage submitNodeStorage, PoseStack poseStack);
     }
 }

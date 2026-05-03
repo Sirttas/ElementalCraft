@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -11,11 +10,6 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.SubmitNodeStorage;
-import net.minecraft.client.renderer.block.BlockModelRenderState;
-import net.minecraft.client.renderer.block.BlockModelResolver;
-import net.minecraft.client.renderer.block.model.BlockDisplayContext;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -35,7 +29,6 @@ import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModelResolver;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
-import sirttas.elementalcraft.client.renderer.pip.DynamicPictureInPictureRenderState;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 
@@ -48,18 +41,15 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
     private final ITickTimer timer;
     private final BlockState shrineState;
     private final Map<ResourceKey<@NotNull ShrineUpgrade>, BlockState> upgradeStates;
-    private final BlockModelResolver blockModelResolver;
     private final BuddingShrinePlateModelResolver buddingShrinePlateModelResolver;
 
     public BuddingShrineRecipeCategory(IGuiHelper guiHelper) {
         super("elementalcraft.jei.buddingshrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.BUDDING_SHRINE.get())), 110, 66);
         timer = guiHelper.createTickTimer(100, 4, false);
         shrineState = ECBlocks.BUDDING_SHRINE.get().defaultBlockState();
-        blockModelResolver = Minecraft.getInstance().getBlockModelResolver();
+        buddingShrinePlateModelResolver = ECModelResolver.get(BuddingShrinePlateModelResolver.IDENTIFIER);
         upgradeStates = new HashMap<>();
         addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
-
-        buddingShrinePlateModelResolver = ECModelResolver.get(BuddingShrinePlateModelResolver.IDENTIFIER);
     }
 
     @Nonnull
@@ -80,7 +70,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
     @Override
     public void draw(@Nonnull BuddingShrineBudType budType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         super.draw(budType, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        submitPictureInPicture(guiGraphics, (startX, startY, endX, endY) -> new DynamicPictureInPictureRenderState((submitNodeStorage, poseStack) -> {
+        submit(guiGraphics, (submitNodeStorage, poseStack) -> {
             submitBlock(submitNodeStorage, poseStack, shrineState);
 
             ECRendererHelper.submitModel(buddingShrinePlateModelResolver.getModel(budType).getModel(), poseStack, submitNodeStorage, LightCoordsUtil.FULL_BRIGHT);
@@ -95,14 +85,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
             }
             poseStack.translate(0, 1, 0);
             submitBlock(submitNodeStorage, poseStack, getGrowthCrystal(budType));
-        }, startX, startY, endX, endY, 1, guiGraphics.peekScissorStack()));
-    }
-
-    private void submitBlock(SubmitNodeStorage submitNodeStorage, PoseStack poseStack, BlockState blockState) {
-        var blockModelRenderState = new BlockModelRenderState();
-
-        blockModelResolver.update(blockModelRenderState, blockState, BlockDisplayContext.create());
-        blockModelRenderState.submit(poseStack, submitNodeStorage, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
+        });
     }
 
     @Override

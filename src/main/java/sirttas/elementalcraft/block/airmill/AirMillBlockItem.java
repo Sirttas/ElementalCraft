@@ -19,7 +19,7 @@ public class AirMillBlockItem extends BlockItem {
     public boolean isBarVisible(@Nonnull ItemStack stack) {
         int damage = getAirMillDamage(stack);
 
-        return damage > 0 && damage < AirMill.getMaxDamage();
+        return damage > 0;
     }
 
     @Override
