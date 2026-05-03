@@ -169,6 +169,7 @@ public class OrderedSorterBlockEntity extends CoverableBlockEntity {
 	@Override
 	public void loadAdditional(@Nonnull ValueInput input) {
 		super.loadAdditional(input);
+		this.stacks.clear();
         ContainerHelper.loadAllItems(input, this.stacks);
 		index = input.getIntOr(ECNames.INDEX, 0);
 		wrapIndexAroundIfNeeded();

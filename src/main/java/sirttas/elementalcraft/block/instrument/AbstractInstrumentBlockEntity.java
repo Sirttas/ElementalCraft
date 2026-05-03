@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R extends InstrumentRecipe<I>> extends AbstractECCraftingBlockEntity<I, R> implements IInstrument {
 
 	private int progress = 0;
-	private ISingleElementStorage containerCache; // TODO use capability cache
+	private ISingleElementStorage containerCache;
 	protected Vec3 particleOffset;
 
 	protected AbstractInstrumentBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {

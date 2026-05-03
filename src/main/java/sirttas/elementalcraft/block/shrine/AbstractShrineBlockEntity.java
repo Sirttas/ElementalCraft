@@ -61,6 +61,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 	private double tick = 0;
 	private BlockPos targetPos;
 	private AABB range;
+	private boolean needsRefresh = true;
 
 	protected AbstractShrineBlockEntity(Supplier<? extends BlockEntityType<?>> blockEntityType, Holder<@NotNull IConfigurableBlockEntityProperties> properties, BlockPos pos, BlockState state) {
 		super(blockEntityType, pos, state);
@@ -83,7 +84,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 			shrine.setChanged();
 		}
 
-		if (shrine.isDirty()) {
+		if (shrine.needsRefresh) {
 			shrine.refresh();
 		}
 
@@ -115,6 +116,9 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 	public static void clientTick(Level level, BlockPos pos, BlockState state, AbstractShrineBlockEntity shrine) {
 		shrine.rangeRenderTimer.tick();
+		if (shrine.needsRefresh) {
+			shrine.refresh();
+		}
 	}
 
 	public void refresh() {
@@ -123,6 +127,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		if (!this.hasLevel()) {
 			targetPos = blockPos;
 			range = new AABB(blockPos);
+			needsRefresh = true;
 			return;
 		}
 
@@ -157,12 +162,18 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		range = lookupRange();
 	}
 
+	@Override
+	public void setChanged() {
+		super.setChanged();
+		needsRefresh = true;
+	}
+
 	private boolean isTargetPosValid(BlockPos p) {
 		var blockPos = this.getBlockPos();
 
 		if (blockPos.equals(p)) {
 			return true;
-		} else if (p == null || this.level == null) {
+		} else if (this.level == null) {
 			return false;
 		} else if (this.level.isClientSide()) {
 			return true;
@@ -345,7 +356,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 		super.loadAdditional(input);
         input.readChild(ECNames.ELEMENT_STORAGE, elementStorage);
 		running = input.getBooleanOr(ECNames.RUNNING, false);
-		refresh();
+		needsRefresh = true;
 	}
 
 	@Override

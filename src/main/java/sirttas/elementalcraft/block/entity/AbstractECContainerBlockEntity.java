@@ -26,7 +26,7 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		Container inv = getInventory();
 
 		if (inv instanceof ValueIOSerializable valueIOSerializable) {
-            valueInput.child(ECNames.INVENTORY).ifPresent(valueIOSerializable::deserialize);
+			valueInput.readChild(ECNames.INVENTORY, valueIOSerializable);
 		}
 	}
 
@@ -36,7 +36,7 @@ public abstract class AbstractECContainerBlockEntity extends AbstractECBlockEnti
 		Container inv = getInventory();
 
 		if (inv instanceof ValueIOSerializable valueIOSerializable) {
-            valueIOSerializable.serialize(valueOutput.child(ECNames.INVENTORY));
+			valueOutput.putChild(ECNames.INVENTORY, valueIOSerializable);
 		}
 	}
 }

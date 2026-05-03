@@ -68,7 +68,7 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.generateFlatItem(ECItems.ELEMENTAL_FIREFUEL.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.HARDENED_HANDLE.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.DRENCHED_SAW_BLADE.get(), ModelTemplates.FLAT_ITEM);
-        this.generateFlatItem(ECItems.SHRINE_BASE.get(), ModelTemplates.FLAT_ITEM);
+        this.declareCustomModelItem(ECItems.SHRINE_BASE.get());
         this.generateFlatItem(ECItems.SHRINE_UPGRADE_CORE.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.ADVANCED_SHRINE_UPGRADE_CORE.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.SCROLL_PAPER.get(), ModelTemplates.FLAT_ITEM);
@@ -76,6 +76,8 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.generateFlatItem(ECItems.SOLAR_PRISM.get(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECItems.FIRE_LENS.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         this.generateFlatItem(ECItems.AIR_MILL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        this.generatePureOre(ECItems.PURE_ORE.get());
+        this.declareCustomModelItem(ECItems.COVER_FRAME.get());
 
         // Metals
         this.generateFlatItem(ECItems.DRENCHED_IRON_INGOT.get(), ModelTemplates.FLAT_ITEM);
@@ -173,10 +175,6 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
         this.generateFlatItem(ECBlocks.WATER_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECBlocks.EARTH_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
         this.generateFlatItem(ECBlocks.AIR_SOURCE.get().asItem(), ModelTemplates.FLAT_ITEM);
-
-        // Misc
-        this.generatePureOre(ECItems.PURE_ORE.get());
-        this.declareCustomModelItem(ECItems.COVER_FRAME.get());
     }
 
     public void generateScroll(Item item) {

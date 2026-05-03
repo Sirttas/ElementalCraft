@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nonnull;
 
@@ -47,11 +48,19 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 	}
 
 	@Override
-	public void setItem(int index, @Nonnull ItemStack stack) {
+	public void setItem(int slot, @NonNull ItemStack itemStack) {
+		this.setItem(slot, itemStack, false);
+	}
+
+
+	@Override
+	public void setItem(int index, @Nonnull ItemStack stack, boolean insideTransaction) {
 		if (index == 0) {
 			this.stack = stack;
 		}
-		this.setChanged();
+		if (!insideTransaction) {
+			this.setChanged();
+		}
 	}
 
 	@Override

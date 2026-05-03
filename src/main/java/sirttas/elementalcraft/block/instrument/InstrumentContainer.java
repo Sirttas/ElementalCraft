@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.container.AbstractSynchronizableContainer;
 
 import javax.annotation.Nonnull;
@@ -16,10 +17,6 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 
 	private final NonNullList<ItemStack> stacks;
 	private final int size;
-
-	public InstrumentContainer(int size) {
-		this(null, size);
-	}
 
 	public InstrumentContainer(Runnable syncCallback, int size) {
 		super(syncCallback);
@@ -48,11 +45,19 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 	}
 
 	@Override
-	public void setItem(int index, @Nonnull ItemStack stack) {
+	public void setItem(int slot, @NonNull ItemStack itemStack) {
+		this.setItem(slot, itemStack, false);
+	}
+
+	@Override
+	public void setItem(int index, @Nonnull ItemStack stack, boolean insideTransaction) {
 		if (index < stacks.size()) {
 			stacks.set(index, stack);
 		} else if (stack.isEmpty()) {
 			stacks.add(stack);
+		}
+		if (!insideTransaction) {
+			setChanged();
 		}
 	}
 
@@ -68,12 +73,16 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 	@Override
 	public void clearContent() {
 		stacks.clear();
+		setChanged();
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack removeItem(int index, int count) {
-		return ContainerHelper.removeItem(stacks, index, count);
+		var value = ContainerHelper.removeItem(stacks, index, count);
+
+		setChanged();
+		return value;
 	}
 
 	@Nonnull
@@ -92,6 +101,7 @@ public class InstrumentContainer extends AbstractSynchronizableContainer impleme
 
     @Override
     public void deserialize(@NotNull ValueInput input) {
+		this.stacks.clear();
         ContainerHelper.loadAllItems(input, this.stacks);
     }
 }

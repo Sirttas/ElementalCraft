@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.name.ECNames;
 
 import javax.annotation.Nonnull;
@@ -57,13 +58,20 @@ public class IOContainer extends AbstractSynchronizableContainer implements Worl
     }
 
     @Override
-    public void setItem(int index, @Nonnull ItemStack stack) {
+    public void setItem(int slot, @NonNull ItemStack itemStack) {
+        this.setItem(slot, itemStack, false);
+    }
+
+    @Override
+    public void setItem(int index, @Nonnull ItemStack stack, boolean insideTransaction) {
         if (index == 0) {
             this.input = stack;
         } else if (index == 1) {
             this.output = stack;
         }
-        this.setChanged();
+        if (!insideTransaction) {
+            this.setChanged();
+        }
     }
 
     @Override

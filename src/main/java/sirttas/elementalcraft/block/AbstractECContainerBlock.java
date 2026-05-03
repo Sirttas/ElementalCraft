@@ -37,9 +37,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
 		if (heldItem.isEmpty() || player.isShiftKeyDown() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
 			if (!stack.isEmpty()) {
-				if (!level.isClientSide()) {
-					EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
-				}
+				EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
 				return InteractionResult.SUCCESS;
 			}
 			return InteractionResult.PASS;

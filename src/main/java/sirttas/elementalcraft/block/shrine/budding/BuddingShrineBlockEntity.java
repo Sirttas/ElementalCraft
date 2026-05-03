@@ -50,10 +50,10 @@ public class BuddingShrineBlockEntity extends AbstractShrineBlockEntity {
     public void refresh() {
         super.refresh();
         budType = ElementalCraftApi.BUD_TYPE_MANAGER.holders()
-                .filter(b -> {
+				.filter(b -> {
 					var u = b.value().requiredUpgrade();
 
-					return u.isEmpty() || this.hasUpgrade(u.get());
+					return u.isPresent() && this.hasUpgrade(u.get());
 				})
                 .findFirst()
                 .orElse(AMETHYST);
