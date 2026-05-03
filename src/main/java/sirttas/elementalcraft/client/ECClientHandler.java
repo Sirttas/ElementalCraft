@@ -8,9 +8,9 @@ import net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEven
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
 import sirttas.elementalcraft.block.container.ElementContainerBlockItem;
-import sirttas.elementalcraft.client.renderer.gui.pip.GuiBlockRenderState;
-import sirttas.elementalcraft.client.renderer.gui.pip.GuiBlockRenderer;
 import sirttas.elementalcraft.client.renderer.gui.tooltip.ElementGaugeClientTooltip;
+import sirttas.elementalcraft.client.renderer.pip.DynamicPictureInPictureRenderState;
+import sirttas.elementalcraft.client.renderer.pip.DynamicPictureInPictureRenderer;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECClientHandler {
@@ -25,7 +25,7 @@ public class ECClientHandler {
 
 	@SubscribeEvent
 	public static void registerPictureInPictureRenderers(RegisterPictureInPictureRenderersEvent event) {
-		event.register(GuiBlockRenderState.class, GuiBlockRenderer::new);
+		event.register(DynamicPictureInPictureRenderState.class, DynamicPictureInPictureRenderer::new);
 	}
 	
 }

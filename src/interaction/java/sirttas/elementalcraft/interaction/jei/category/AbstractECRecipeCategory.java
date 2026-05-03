@@ -1,15 +1,16 @@
 package sirttas.elementalcraft.interaction.jei.category;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Vector2f;
+import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -34,12 +35,6 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 
 	protected static IDrawable createDrawableStack(IGuiHelper guiHelper, ItemStack stack) {
 		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, stack);
-	}
-
-	protected static void setupPose(PoseStack p) {
-		p.translate(-1.5, -2.3, 0);
-		p.mulPose(Axis.XP.rotationDegrees(-30.0F));
-		p.mulPose(Axis.YP.rotationDegrees(40.0F));
 	}
 
 	@Nonnull
@@ -84,13 +79,27 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 		}
 	}
 
+	protected void submitPictureInPicture(@NonNull GuiGraphicsExtractor guiGraphics, PictureInPictureFactory factory) {
+		Vector2f start = guiGraphics.pose().transformPosition(new Vector2f(0, 0));
+		Vector2f end = guiGraphics.pose().transformPosition(new Vector2f(this.width, this.height));
+
+		int startX = Math.round(start.x);
+		int startY = Math.round(start.y);
+		int endX = Math.round(end.x);
+		int endY = Math.round(end.y);
+		guiGraphics.submitPictureInPictureRenderState(factory.create(startX, startY, endX, endY));
+	}
+
+
 	private record Overlay<T>(
 			IDrawable drawable,
 			int x,
 			int y,
 			Predicate<T> condition
-	) {
+	) { }
 
-
+	@FunctionalInterface
+	public interface PictureInPictureFactory {
+		PictureInPictureRenderState create(int startX, int startY, int endX, int endY);
 	}
 }

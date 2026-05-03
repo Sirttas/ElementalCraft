@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.interaction.jei.category.shrine;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
@@ -10,13 +11,15 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.block.model.BlockDisplayContext;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,29 +28,22 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModelResolver;
 import sirttas.elementalcraft.client.model.ECModelResolver;
-import sirttas.elementalcraft.client.renderer.gui.pip.GuiBlockRenderState;
+import sirttas.elementalcraft.client.renderer.ECRendererHelper;
+import sirttas.elementalcraft.client.renderer.pip.DynamicPictureInPictureRenderState;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
-import vazkii.patchouli.client.multiblock.MultiblockPiPRenderState;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<BuddingShrineBudType> {
-
-    private static final int WIDTH = 99;
-    private static final int HEIGHT = 99;
 
     private final ITickTimer timer;
     private final BlockState shrineState;
@@ -83,57 +79,30 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
 
     @Override
     public void draw(@Nonnull BuddingShrineBudType budType, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
-        renderShrine(guiGraphics);
+        super.draw(budType, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        submitPictureInPicture(guiGraphics, (startX, startY, endX, endY) -> new DynamicPictureInPictureRenderState((submitNodeStorage, poseStack) -> {
+            submitBlock(submitNodeStorage, poseStack, shrineState);
 
-        /*render3D(guiGraphics, (p, b) -> {
-            p.translate(0, 0.5, 0);
-            setupPose(p);
-            ECRendererHelper.renderBlock(shrineState, p, b);
-            ECRendererHelper.renderModel(buddingShrinePlateModelResolver.getModel(budType), p, b, shrineState, 15728880, OverlayTexture.NO_OVERLAY);
+            ECRendererHelper.submitModel(buddingShrinePlateModelResolver.getModel(budType).getModel(), poseStack, submitNodeStorage, LightCoordsUtil.FULL_BRIGHT);
 
             var upgradeState = getUpgradeState(budType);
 
             if (!upgradeState.isAir()) {
-                p.pushPose();
-                p.translate(0, 0, -1);
-                ECRendererHelper.renderBlock(upgradeState, p, b);
-                p.popPose();
+                poseStack.pushPose();
+                poseStack.translate(0, 0, 1);
+                submitBlock(submitNodeStorage, poseStack, upgradeState);
+                poseStack.popPose();
             }
-            p.translate(0, 1, 0);
-            ECRendererHelper.renderBlock(getGrowthCrystal(budType), p, b);
-        });*/
-        super.draw(budType, recipeSlotsView, guiGraphics, mouseX, mouseY);
+            poseStack.translate(0, 1, 0);
+            submitBlock(submitNodeStorage, poseStack, getGrowthCrystal(budType));
+        }, startX, startY, endX, endY, 1, guiGraphics.peekScissorStack()));
     }
 
-    private void renderShrine(@NonNull GuiGraphicsExtractor guiGraphics) {
+    private void submitBlock(SubmitNodeStorage submitNodeStorage, PoseStack poseStack, BlockState blockState) {
         var blockModelRenderState = new BlockModelRenderState();
 
-        blockModelResolver.update(blockModelRenderState, shrineState, BlockDisplayContext.create());
-
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(-49, 11);
-        guiGraphics.enableScissor(0, 0, WIDTH, HEIGHT);
-
-        final float offsetX = (WIDTH / 2f);
-        final float offsetY = (HEIGHT / 2f);
-        guiGraphics.pose().translate(offsetX, offsetY);
-
-        renderBlock(guiGraphics, -offsetX, -offsetY, blockModelRenderState);
-        guiGraphics.disableScissor();
-        guiGraphics.pose().popMatrix();
-    }
-
-    private static void renderBlock(@NonNull GuiGraphicsExtractor guiGraphics, float x, float y, BlockModelRenderState blockModelRenderState) {
-        Vector2f start = guiGraphics.pose().transformPosition(new Vector2f(x, y));
-        Vector2f end = guiGraphics.pose().transformPosition(new Vector2f(WIDTH, HEIGHT));
-
-        int startX = Math.round(start.x);
-        int startY = Math.round(start.y);
-        int endX = Math.round(end.x);
-        int endY = Math.round(end.y);
-
-        guiGraphics.submitPictureInPictureRenderState(new GuiBlockRenderState(blockModelRenderState, startX, startY, endX, endY, 1, guiGraphics.peekScissorStack()));
-        guiGraphics.submitPictureInPictureRenderState(new MultiblockPiPRenderState(startX, startY, endX, endY, 1, guiGraphics.peekScissorStack(), new Matrix4f(), List.of(new MultiblockPiPRenderState.BlockRenderState(BlockPos.ZERO, blockModelRenderState))));
+        blockModelResolver.update(blockModelRenderState, blockState, BlockDisplayContext.create());
+        blockModelRenderState.submit(poseStack, submitNodeStorage, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
     }
 
     @Override
@@ -185,9 +154,9 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
             if (state.isAir()) {
                 return Blocks.AIR.defaultBlockState();
             } else if (state.hasProperty(BlockStateProperties.FACING)) {
-                return state.setValue(BlockStateProperties.FACING, Direction.SOUTH);
+                return state.setValue(BlockStateProperties.FACING, Direction.NORTH);
             } else if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-                return state.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH);
+                return state.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
             }
             return state;
         }), u -> Blocks.AIR.defaultBlockState());

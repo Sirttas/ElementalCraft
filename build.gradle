@@ -120,6 +120,7 @@ neoForge {
             gameDirectory = file('runs/client')
             sourceSet = sourceSets.test
             systemProperty 'forge.enabledGameTestNamespaces', 'elementalcraft'
+            systemProperty 'MC_DEBUG_RENDER_UI_LAYERING_RECTANGLES', 'false'
         }
 
         server {
@@ -247,7 +248,6 @@ optionalInteraction('jei') {
 optionalInteraction('patchouli') {
     interactionCompileOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}:api"
     datagenImplementation "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
-    interactionCompileOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
     runtimeOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
 }
 optionalInteraction('ae2') {

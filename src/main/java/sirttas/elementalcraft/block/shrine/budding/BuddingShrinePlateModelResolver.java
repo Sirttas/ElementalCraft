@@ -23,4 +23,8 @@ public class BuddingShrinePlateModelResolver extends ECModelResolver<BuddingShri
         return getModel(holder.getKey().identifier());
     }
 
+    public BuddingShrinePlateModel getModel(BuddingShrineBudType budType) {
+        return getModel(ElementalCraftApi.BUD_TYPE_MANAGER.getId(budType));
+    }
+
 }

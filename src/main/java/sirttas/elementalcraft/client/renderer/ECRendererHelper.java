@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.event.TickHandler;
 
 import java.util.List;
@@ -29,10 +28,6 @@ import java.util.List;
 public class ECRendererHelper {
 
     private ECRendererHelper() {}
-
-    public static Material getBlockMaterial(String name)  {
-        return new Material(ElementalCraftApi.createRL(name));
-    }
 
     public static float getClientTicks(float partialTicks) {
         return TickHandler.getTicksInGame() + partialTicks;
@@ -104,13 +99,6 @@ public class ECRendererHelper {
 
     public static void submitModel(@NotNull BlockStateModelPart model, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, int lightCoords) {
         submitModel(List.of(model), poseStack, nodeCollector, lightCoords);
-    }
-
-    public static void renderBlock(BlockState blockState, PoseStack poseStack, MultiBufferSource buffer) {
-        if (blockState.isAir()) {
-            return;
-        }
-
     }
 
     public static void renderFluid(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {

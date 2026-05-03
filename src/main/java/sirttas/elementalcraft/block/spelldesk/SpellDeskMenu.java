@@ -49,7 +49,7 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 		this.addSlot(new OutputSlot(3, 108, 53));
 		this.addSlot(new OutputSlot(4, 126, 53));
 		this.addSlot(new OutputSlot(5, 144, 53));
-		this.addStandardInventorySlots(player, 0, 84);
+		this.addStandardInventorySlots(player, 8, 84);
 		this.addDataSlot(this.page);
 		this.addDataSlot(this.pageCount);
 	}
