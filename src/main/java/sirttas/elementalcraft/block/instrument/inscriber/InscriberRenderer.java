@@ -48,7 +48,7 @@ public class InscriberRenderer implements BlockEntityRenderer<@NotNull Inscriber
         for (int i = 1; i < inv.getContainerSize(); i++) {
             var stack = inv.getItem(i);
 
-            if (stack.isEmpty()) {
+            if (!stack.isEmpty()) {
                 var state = new ItemStackRenderState();
 
                 itemModelResolver.updateForTopItem(state, stack, ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

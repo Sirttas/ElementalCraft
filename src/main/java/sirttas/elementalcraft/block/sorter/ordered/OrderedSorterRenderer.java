@@ -77,7 +77,7 @@ public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull Order
         state.index = blockEntity.getIndex();
 
         for ( var stack : stacks) {
-            if (stack.isEmpty()) {
+            if (!stack.isEmpty()) {
                 var itemState = new ItemStackRenderState();
 
                 itemModelResolver.updateForTopItem(itemState, stack, ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

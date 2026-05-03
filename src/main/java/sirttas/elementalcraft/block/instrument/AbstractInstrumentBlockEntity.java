@@ -40,9 +40,7 @@ public abstract class AbstractInstrumentBlockEntity<I extends RecipeInput, R ext
 	@Override
 	public void process() {
 		super.process();
-		if (this.level.isClientSide()) {
-			ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.getRandom());
-		}
+		ParticleHelper.createCraftingParticle(getElementType(), level, Vec3.atCenterOf(worldPosition).add(particleOffset), level.getRandom());
 	}
 
 	public static <I extends RecipeInput, R extends InstrumentRecipe<I>> void tick(Level level, BlockPos pos, BlockState state, AbstractInstrumentBlockEntity<I, R> instrument) {

@@ -159,7 +159,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.GROWTH_SHRINE, "Growth Shrine");
         addBlock(ECBlocks.HARVEST_SHRINE, "Harvest Shrine");
         addBlock(ECBlocks.LUMBER_SHRINE, "Lumber Shrine");
-        addBlock(ECBlocks.MELTING_SHRINE, "Lava Shrine");
+        addBlock(ECBlocks.MELTING_SHRINE, "Melting Shrine");
         addBlock(ECBlocks.ORE_SHRINE, "Ore Shrine");
         addBlock(ECBlocks.OVERLOAD_SHRINE, "Overload Shrine");
         addBlock(ECBlocks.SWEET_SHRINE, "Sweet Shrine");

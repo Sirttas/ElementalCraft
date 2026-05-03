@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.spring.SpringShrineBlock;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 
@@ -45,7 +44,8 @@ public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringS
 
     @Override
     public void draw(@Nonnull SpringShrineBlock recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
-        render3D(guiGraphics, (p, b) -> {
+
+        /*render3D(guiGraphics, (p, b) -> {
             setupPose(p);
             ECRendererHelper.renderBlock(springShrine, p, b);
             p.translate(0, 1, 0);
@@ -55,7 +55,7 @@ public class SpringShrineRecipeCategory extends AbstractECRecipeCategory<SpringS
             if (t == 0) {
                 ECRendererHelper.renderFluid(water, p, b);
             }
-        });
+        });*/
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 

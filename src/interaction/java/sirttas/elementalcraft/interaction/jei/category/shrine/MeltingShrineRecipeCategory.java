@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
-import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import sirttas.elementalcraft.recipe.melting.MeltingRecipe;
@@ -41,7 +40,7 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
 
     @Override
     public void draw(@Nonnull MeltingRecipe recipe, @Nonnull IRecipeSlotsView recipeSlotsView, @Nonnull GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
-        render3D(guiGraphics, (p, b) -> {
+        /*render3D(guiGraphics, (p, b) -> {
             setupPose(p);
             ECRendererHelper.renderBlock(meltingShrine, p, b);
             p.translate(0, 1, 0);
@@ -53,7 +52,7 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
             } else {
                 ECRendererHelper.renderBlock(recipe.input().blocks().get(t).value().defaultBlockState(), p, b);
             }
-        });
+        });*/
         super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 

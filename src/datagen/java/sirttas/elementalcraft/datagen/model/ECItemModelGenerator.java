@@ -7,14 +7,17 @@ import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.jewel.JewelItem;
+import sirttas.elementalcraft.pureore.display.PureOreTint;
 import sirttas.elementalcraft.rune.RuneModel;
 import sirttas.elementalcraft.rune.RuneSpecialRenderer;
 
@@ -181,7 +184,14 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
     }
 
     public void generatePureOre(Item item) {
-        this.generateFlatItem(item, ModelTemplates.FLAT_ITEM); // TODO
+        this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), new TextureMapping()
+                .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.createRL("item/pure_ore_0")))
+                .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.createRL("item/pure_ore_1")))
+                .putForced(TextureSlot.LAYER2, new Material(ElementalCraftApi.createRL("item/pure_ore_2")))
+                .putForced(ECTextureSlots.LAYER3, new Material(ElementalCraftApi.createRL("item/pure_ore_3"))), this.modelOutput),
+                new PureOreTint(0),
+                new PureOreTint(1),
+                new PureOreTint(2)));
     }
 
     public void generateRune(Item item) {

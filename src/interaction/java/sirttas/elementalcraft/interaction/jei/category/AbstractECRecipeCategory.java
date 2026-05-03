@@ -8,14 +8,12 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> {
@@ -36,32 +34,6 @@ public abstract class AbstractECRecipeCategory<T> implements IRecipeCategory<T> 
 
 	protected static IDrawable createDrawableStack(IGuiHelper guiHelper, ItemStack stack) {
 		return guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, stack);
-	}
-
-	public static void render3D(@Nonnull GuiGraphicsExtractor guiGraphics, BiConsumer<PoseStack, MultiBufferSource> render) { /* TODO
-		var guiPose = guiGraphics.pose();
-		var modelViewStack = RenderSystem.getModelViewStack();
-
-		modelViewStack.pushMatrix();
-		modelViewStack.mul(guiPose);
-		modelViewStack.translate(0, 0, 1050);
-		modelViewStack.scale(1.0F, 1.0F, -1.0F);
-		RenderSystem.applyModelViewMatrix();
-
-		var stack = new PoseStack();
-
-		stack.translate(0, 0, 1000);
-		stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-		stack.scale(30,30, 30);
-		Lighting.setupForEntityInInventory();
-
-		var bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-
-		RenderSystem.runAsFancy(() -> render.accept(stack, bufferSource));
-		bufferSource.endBatch();
-		modelViewStack.popMatrix();
-		RenderSystem.applyModelViewMatrix();
-		Lighting.setupFor3DItems(); */
 	}
 
 	protected static void setupPose(PoseStack p) {

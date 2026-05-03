@@ -45,7 +45,7 @@ public class BinderRenderer<T extends BinderBlockEntity> implements BlockEntityR
         for (int i = 0; i < blockEntity.getItemCount(); i++) {
             var stack = inv.getItem(i);
 
-            if (stack.isEmpty()) {
+            if (!stack.isEmpty()) {
                 var state = new ItemStackRenderState();
 
                 itemModelResolver.updateForTopItem(state, stack, ItemDisplayContext.GROUND, blockEntity.getLevel(), null, 0);

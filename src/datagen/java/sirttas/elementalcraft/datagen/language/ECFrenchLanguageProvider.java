@@ -159,7 +159,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addBlock(ECBlocks.GROWTH_SHRINE, "Sanctuaire de croissance");
         addBlock(ECBlocks.HARVEST_SHRINE, "Sanctuaire de récolte");
         addBlock(ECBlocks.LUMBER_SHRINE, "Sanctuaire bûcheron");
-        addBlock(ECBlocks.MELTING_SHRINE, "Sanctuaire de lave");
+        addBlock(ECBlocks.MELTING_SHRINE, "Sanctuaire de fonte");
         addBlock(ECBlocks.ORE_SHRINE, "Sanctuaire minier");
         addBlock(ECBlocks.OVERLOAD_SHRINE, "Sanctuaire de surcharge");
         addBlock(ECBlocks.SWEET_SHRINE, "Sanctuaire sucré");

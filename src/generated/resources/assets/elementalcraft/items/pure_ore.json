@@ -1,6 +1,20 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "elementalcraft:item/pure_ore"
+    "model": "elementalcraft:item/pure_ore",
+    "tints": [
+      {
+        "type": "elementalcraft:pure_ore",
+        "index": 0
+      },
+      {
+        "type": "elementalcraft:pure_ore",
+        "index": 1
+      },
+      {
+        "type": "elementalcraft:pure_ore",
+        "index": 2
+      }
+    ]
   }
 }

@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.FluidRenderer;
-import net.minecraft.client.renderer.block.FluidStateModelSet;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -107,68 +106,70 @@ public class ECRendererHelper {
         submitModel(List.of(model), poseStack, nodeCollector, lightCoords);
     }
 
-    public static void renderBlock(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {
-        if (state.isAir()) {
+    public static void renderBlock(BlockState blockState, PoseStack poseStack, MultiBufferSource buffer) {
+        if (blockState.isAir()) {
             return;
         }
-        // TODO
+
     }
 
     public static void renderFluid(BlockState state, PoseStack poseStack, MultiBufferSource buffer) {
-        FluidStateModelSet fluidModelSet = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
-        FluidRenderer fluidRenderer = new FluidRenderer(fluidModelSet);
         FluidState fluidState = state.getFluidState();
 
-        if (!fluidState.isEmpty()) {
-            var customRenderer = fluidModelSet.get(fluidState).customRenderer();
-            var pose = poseStack.last();
-            var consumer = buffer.getBuffer(RenderTypes.solidMovingBlock());
-            var wrapper = new VertexConsumer() {
-                @Override
-                public @NotNull VertexConsumer addVertex(float x, float y, float z) {
-                    return consumer.addVertex(pose, x, y, z);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setColor(int r, int g, int b, int a) {
-                    return consumer.setColor(r, g, b, a);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setColor(int color) {
-                    return consumer.setColor(color);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setUv(float u, float v) {
-                    return consumer.setUv(u, v);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setUv1(int u, int v) {
-                    return consumer.setUv1(u, v);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setUv2(int u, int v) {
-                    return consumer.setUv2(u, v);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setNormal(float x, float y, float z) {
-                    return consumer.setNormal(x, y, z);
-                }
-
-                @Override
-                public @NotNull VertexConsumer setLineWidth(float width) {
-                    return consumer.setLineWidth(width);
-                }
-            };
-
-            if (customRenderer == null || !customRenderer.renderFluid(fluidRenderer, fluidState, BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state)) {
-                fluidRenderer.tesselate(BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state, fluidState);
-            }
+        if (fluidState.isEmpty()) {
+            return;
         }
 
+        var fluidModelSet = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
+        var fluidRenderer = new FluidRenderer(fluidModelSet);
+        var customRenderer = fluidModelSet.get(fluidState).customRenderer();
+        var pose = poseStack.last();
+        var consumer = buffer.getBuffer(RenderTypes.solidMovingBlock());
+
+        var wrapper = new VertexConsumer() {
+            @Override
+            public @NotNull VertexConsumer addVertex(float x, float y, float z) {
+                return consumer.addVertex(pose, x, y, z);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setColor(int r, int g, int b, int a) {
+                return consumer.setColor(r, g, b, a);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setColor(int color) {
+                return consumer.setColor(color);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setUv(float u, float v) {
+                return consumer.setUv(u, v);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setUv1(int u, int v) {
+                return consumer.setUv1(u, v);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setUv2(int u, int v) {
+                return consumer.setUv2(u, v);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setNormal(float x, float y, float z) {
+                return consumer.setNormal(x, y, z);
+            }
+
+            @Override
+            public @NotNull VertexConsumer setLineWidth(float width) {
+                return consumer.setLineWidth(width);
+            }
+        };
+
+        if (customRenderer == null || !customRenderer.renderFluid(fluidRenderer, fluidState, BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state)) {
+            fluidRenderer.tesselate(BlockAndTintGetter.EMPTY, BlockPos.ZERO, _ -> wrapper, state, fluidState);
+        }
     }
 }
