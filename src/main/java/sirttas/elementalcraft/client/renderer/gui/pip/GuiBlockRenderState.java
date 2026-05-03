@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.client.renderer.pip;
+package sirttas.elementalcraft.client.renderer.gui.pip;
 
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.block.BlockModelRenderState;

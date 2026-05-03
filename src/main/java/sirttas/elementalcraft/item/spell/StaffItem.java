@@ -59,7 +59,7 @@ public class StaffItem extends FocusItem {
     @Deprecated
     public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
 		super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
-        builder.accept(Component.translatable("tooltip.elementalcraft.staff.ranges").withStyle(ChatFormatting.BLUE));
+        builder.accept(Component.translatable("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
 	}
 
 	@Nonnull

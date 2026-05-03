@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.gui;
+package sirttas.elementalcraft.client.renderer.gui;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

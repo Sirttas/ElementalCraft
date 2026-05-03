@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.client.renderer.pip;
+package sirttas.elementalcraft.client.renderer.gui.pip;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;

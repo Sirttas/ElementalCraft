@@ -34,7 +34,7 @@ import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.budding.BuddingShrinePlateModelResolver;
 import sirttas.elementalcraft.client.model.ECModelResolver;
-import sirttas.elementalcraft.client.renderer.pip.GuiBlockRenderState;
+import sirttas.elementalcraft.client.renderer.gui.pip.GuiBlockRenderState;
 import sirttas.elementalcraft.interaction.jei.ECJEIRecipeTypes;
 import sirttas.elementalcraft.interaction.jei.category.AbstractECRecipeCategory;
 import vazkii.patchouli.client.multiblock.MultiblockPiPRenderState;

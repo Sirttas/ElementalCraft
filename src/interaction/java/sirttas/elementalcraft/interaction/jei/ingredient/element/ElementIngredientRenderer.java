@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
-import sirttas.elementalcraft.gui.ElementGaugeGui;
+import sirttas.elementalcraft.client.renderer.gui.ElementGaugeGui;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ElementIngredientRenderer implements IIngredientRenderer<Ingredient
 	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientElementType ingredient) {
 		int amount = ingredient.amount();
 
-		ElementGaugeGui.renderElementGauge(guiGraphics, Minecraft.getInstance().font, 0, 0, amount == -1 ? 4 : amount, 4, ingredient.getElementType());
+		ElementGaugeGui.renderElementGauge(guiGraphics, Minecraft.getInstance().font, 0, 0, ingredient.getElementType(), amount == -1 ? 4 : amount, 4);
 	}
 
 	@Override

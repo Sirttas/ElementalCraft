@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.gui.tooltip;
+package sirttas.elementalcraft.client.renderer.gui.tooltip;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -8,7 +8,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.tooltip.ElementGaugeTooltip;
-import sirttas.elementalcraft.gui.ElementGaugeGui;
+import sirttas.elementalcraft.client.renderer.gui.ElementGaugeGui;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +48,7 @@ public record ElementGaugeClientTooltip(
             var elementAmount = storage.getElementAmount(elementType);
 
             if (elementCapacity > 0) {
-                ElementGaugeGui.renderElementGauge(graphics, font, x + (i++ * 18), y, elementAmount, elementCapacity, elementType);
+                ElementGaugeGui.renderElementGauge(graphics, font, x + (i++ * 18), y, elementType, elementAmount, elementCapacity);
             }
         }
     }
