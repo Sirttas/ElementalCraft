@@ -102,7 +102,7 @@ public class TranslocationSpell extends Spell {
 		var anchors = TranslocationAnchors.get(level);
 
 		if (anchors != null) {
-			var target = getTargetAnchor(caster, anchors.getAnchors());
+			var target = getTargetAnchor(caster, anchors.anchors());
 
 			if (target != null) {
 				return Vec3.atCenterOf(target);

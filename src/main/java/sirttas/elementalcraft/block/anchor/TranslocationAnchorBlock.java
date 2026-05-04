@@ -55,7 +55,7 @@ public class TranslocationAnchorBlock extends Block {
             var anchors = TranslocationAnchors.get(level);
 
             if (anchors != null) {
-                anchors.addAnchor(pos);
+                anchors.add(pos);
                 sendToPlayers(level);
             }
         }
@@ -67,7 +67,7 @@ public class TranslocationAnchorBlock extends Block {
         var anchors = TranslocationAnchors.get(level);
 
         if (anchors != null) {
-            anchors.removeAnchor(pos);
+            anchors.remove(pos);
             sendToPlayers(level);
         }
         super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);

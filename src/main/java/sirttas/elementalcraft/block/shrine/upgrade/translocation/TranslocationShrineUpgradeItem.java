@@ -33,7 +33,7 @@ public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
         var pos = context.getClickedPos();
         var anchors = TranslocationAnchors.get(context.getLevel());
 
-        if (anchors != null && anchors.contains(pos)) {
+        if (anchors != null && anchors.has(pos)) {
             setTargetPos(context.getItemInHand(), pos);
             return InteractionResult.SUCCESS;
         }

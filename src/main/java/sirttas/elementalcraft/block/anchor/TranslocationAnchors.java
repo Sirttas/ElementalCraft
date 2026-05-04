@@ -20,7 +20,7 @@ public class TranslocationAnchors extends SavedData {
 
     // "client" as in "client side"
     public static final Set<BlockPos> CLIENT_SET = new HashSet<>();
-    private static final Codec<TranslocationAnchors> CODEC = BlockPos.CODEC.listOf().xmap(TranslocationAnchors::new, t -> List.copyOf(t.getAnchors()));
+    private static final Codec<TranslocationAnchors> CODEC = BlockPos.CODEC.listOf().xmap(TranslocationAnchors::new, t -> List.copyOf(t.anchors()));
     public static final SavedDataType<@NotNull TranslocationAnchors> TYPE = new SavedDataType<>(
             ElementalCraftApi.createRL("translocation_anchors"),
             TranslocationAnchors::new,
@@ -41,21 +41,21 @@ public class TranslocationAnchors extends SavedData {
         return level instanceof ServerLevel serverLevel ? serverLevel.getDataStorage().computeIfAbsent(TYPE) : null;
     }
 
-    public Set<BlockPos> getAnchors() {
+    public Set<BlockPos> anchors() {
         return Set.copyOf(set);
     }
 
-    public void addAnchor(BlockPos pos) {
+    public void add(BlockPos pos) {
         set.add(pos);
         setDirty();
     }
 
-    public void removeAnchor(BlockPos pos) {
+    public void remove(BlockPos pos) {
         set.remove(pos);
         setDirty();
     }
 
-    public boolean contains(BlockPos pos) {
+    public boolean has(BlockPos pos) {
         return set.contains(pos);
     }
 }

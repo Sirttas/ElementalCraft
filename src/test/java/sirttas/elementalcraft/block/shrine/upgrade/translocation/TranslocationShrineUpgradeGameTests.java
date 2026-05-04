@@ -50,7 +50,7 @@ public class TranslocationShrineUpgradeGameTests {
         var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
         var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
-        TranslocationAnchors.get(helper.getLevel()).addAnchor(targetPos);
+        TranslocationAnchors.get(helper.getLevel()).add(targetPos);
         upgrade.setTarget(targetPos);
         shrine.refresh();
 

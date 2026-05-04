@@ -194,7 +194,7 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 
 		var anchors = TranslocationAnchors.get(this.level);
 
-		return anchors != null && anchors.getAnchors().contains(p);
+		return anchors != null && anchors.anchors().contains(p);
 	}
 
 	protected float getMultiplier(ShrineUpgrade.BonusType type) {

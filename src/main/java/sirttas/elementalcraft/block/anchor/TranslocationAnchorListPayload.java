@@ -25,7 +25,7 @@ public record TranslocationAnchorListPayload(List<BlockPos> list) implements Cus
         var anchors = TranslocationAnchors.get(level);
 
         if (anchors != null) {
-            return new TranslocationAnchorListPayload(List.copyOf(anchors.getAnchors()));
+            return new TranslocationAnchorListPayload(List.copyOf(anchors.anchors()));
         }
         return new TranslocationAnchorListPayload(Collections.emptyList());
     }
