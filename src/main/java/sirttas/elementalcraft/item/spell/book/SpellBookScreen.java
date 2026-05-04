@@ -1,11 +1,17 @@
 package sirttas.elementalcraft.item.spell.book;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import sirttas.elementalcraft.config.ECConfig;
+
+import java.text.MessageFormat;
 
 public class SpellBookScreen extends AbstractContainerScreen<@NotNull SpellBookMenu> implements MenuAccess<@NotNull SpellBookMenu> {
 	private static final Identifier CHEST_GUI_TEXTURE = Identifier.withDefaultNamespace("textures/gui/container/generic_54.png");
@@ -15,32 +21,20 @@ public class SpellBookScreen extends AbstractContainerScreen<@NotNull SpellBookM
 		this.inventoryLabelY = this.imageHeight - 94;
 	}
 
-    /* TODO
-
 	@Override
-	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
-		this.renderTooltip(guiGraphics, mouseX, mouseY);
-	}
-
-	@Override
-	protected void renderLabels(@Nonnull GuiGraphicsExtractor guiGraphics, int x, int y) {
-		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
-
-		super.renderLabels(guiGraphics, x, y);
-		guiGraphics.drawString(font, text, this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);
-
-	}
-
-	@Override
-	protected void renderBg(@Nonnull GuiGraphicsExtractor guiGraphics, float partialTicks, int x, int y) {
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+	public void extractBackground(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		guiGraphics.blit(CHEST_GUI_TEXTURE, i, j, 0, 0, this.imageWidth, SpellBookMenu.ROW_COUNT * 18 + 17);
-		guiGraphics.blit(CHEST_GUI_TEXTURE, i, j + SpellBookMenu.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, CHEST_GUI_TEXTURE, i, j, 0, 0, this.imageWidth, SpellBookMenu.ROW_COUNT * 18 + 17, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, CHEST_GUI_TEXTURE, i, j + SpellBookMenu.ROW_COUNT * 18 + 17, 0, 126, this.imageWidth, 96, 256, 256);
 	}
 
-     */
+	@Override
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
+
+		super.extractLabels(graphics, xm, ym);
+		graphics.text(font, text, this.imageWidth - this.font.width(text.getVisualOrderText()) - this.titleLabelX, this.titleLabelY, 4210752);
+	}
 }

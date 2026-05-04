@@ -16,28 +16,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TranslocationAnchorsSaveData extends SavedData {
+public class TranslocationAnchors extends SavedData {
 
     // "client" as in "client side"
     public static final Set<BlockPos> CLIENT_SET = new HashSet<>();
-    private static final Codec<TranslocationAnchorsSaveData> CODEC = BlockPos.CODEC.listOf().xmap(TranslocationAnchorsSaveData::new, t -> List.copyOf(t.getAnchors()));
-    public static final SavedDataType<@NotNull TranslocationAnchorsSaveData> TYPE = new SavedDataType<>(
+    private static final Codec<TranslocationAnchors> CODEC = BlockPos.CODEC.listOf().xmap(TranslocationAnchors::new, t -> List.copyOf(t.getAnchors()));
+    public static final SavedDataType<@NotNull TranslocationAnchors> TYPE = new SavedDataType<>(
             ElementalCraftApi.createRL("translocation_anchors"),
-            TranslocationAnchorsSaveData::new,
+            TranslocationAnchors::new,
             CODEC,
             null);
 
     private final Set<BlockPos> set;
 
-    public TranslocationAnchorsSaveData() {
+    public TranslocationAnchors() {
         set = new HashSet<>();
     }
-    public TranslocationAnchorsSaveData(Collection<BlockPos> list) {
+    public TranslocationAnchors(Collection<BlockPos> list) {
         set = new HashSet<>(list);
     }
 
     @Nullable
-    public static TranslocationAnchorsSaveData get(@Nonnull Level level) {
+    public static TranslocationAnchors get(@Nonnull Level level) {
         return level instanceof ServerLevel serverLevel ? serverLevel.getDataStorage().computeIfAbsent(TYPE) : null;
     }
 
@@ -53,5 +53,9 @@ public class TranslocationAnchorsSaveData extends SavedData {
     public void removeAnchor(BlockPos pos) {
         set.remove(pos);
         setDirty();
+    }
+
+    public boolean contains(BlockPos pos) {
+        return set.contains(pos);
     }
 }

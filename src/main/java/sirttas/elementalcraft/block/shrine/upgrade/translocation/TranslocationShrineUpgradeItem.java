@@ -6,7 +6,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgradeItem;
 import sirttas.elementalcraft.component.ECDataComponents;
 
@@ -31,8 +31,9 @@ public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
     @Override
     public InteractionResult useOn(@Nonnull UseOnContext context) {
         var pos = context.getClickedPos();
+        var anchors = TranslocationAnchors.get(context.getLevel());
 
-        if (context.getLevel().getBlockState(pos).is(ECBlocks.TRANSLOCATION_ANCHOR.get())) {
+        if (anchors != null && anchors.contains(pos)) {
             setTargetPos(context.getItemInHand(), pos);
             return InteractionResult.SUCCESS;
         }

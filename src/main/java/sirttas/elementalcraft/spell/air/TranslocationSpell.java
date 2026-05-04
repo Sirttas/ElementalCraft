@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
@@ -99,10 +99,10 @@ public class TranslocationSpell extends Spell {
 	}
 
 	private Vec3 getNewPos(@Nonnull Entity caster, Level level, Vec3 look) {
-		var list = TranslocationAnchorsSaveData.get(level);
+		var anchors = TranslocationAnchors.get(level);
 
-		if (list != null) {
-			var target = getTargetAnchor(caster, list.getAnchors());
+		if (anchors != null) {
+			var target = getTargetAnchor(caster, anchors.getAnchors());
 
 			if (target != null) {
 				return Vec3.atCenterOf(target);

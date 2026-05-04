@@ -24,7 +24,7 @@ import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.RangeVariants;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.entity.properties.IConfigurableBlockEntityProperties;
@@ -192,9 +192,9 @@ public abstract class AbstractShrineBlockEntity extends AbstractECBlockEntity im
 			return false;
 		}
 
-		var list = TranslocationAnchorsSaveData.get(this.level);
+		var anchors = TranslocationAnchors.get(this.level);
 
-		return list != null && list.getAnchors().contains(p);
+		return anchors != null && anchors.getAnchors().contains(p);
 	}
 
 	protected float getMultiplier(ShrineUpgrade.BonusType type) {

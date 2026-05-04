@@ -5,10 +5,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.source.trait.value.ISourceTraitValue;
 import sirttas.elementalcraft.container.menu.screen.IRefreshedScreen;
@@ -32,22 +34,12 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 		this.traitsList = new TraitsList(this.minecraft);
 		this.addRenderableWidget(this.traitsList);
 	}
-    /* TODO
 
 	@Override
-	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
-		this.renderTooltip(guiGraphics, mouseX, mouseY);
+	public void extractBackground(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
-
-	@Override
-	protected void renderBg(@Nonnull GuiGraphicsExtractor guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-	}
-
-    */
 
 	@Override
 	public void refresh() {
@@ -80,20 +72,22 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 			return super.getRowTop(index) - 4;
 		}
 
-        /* TODO
 		@Override
-		protected void renderDecorations(@Nonnull GuiGraphicsExtractor guiGraphics, int x, int y) {
-			var poseStack = guiGraphics.pose();
-
-			poseStack.pushPose();
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShaderTexture(0, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE);
-			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.getX(), this.getY() - 11, 0, imageHeight, WIDTH, 11);
-			poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-			guiGraphics.blit(SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.getRight(), -this.getBottom() -11, 0, imageHeight, WIDTH, 11);
-			poseStack.popPose();
+		public void extractWidgetRenderState(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+			super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
+			extractBorders(graphics);
 		}
-        */
+
+		private void extractBorders(@NonNull GuiGraphicsExtractor graphics) {
+			var poseStack = graphics.pose();
+
+			poseStack.popMatrix();
+			graphics.blit(RenderPipelines.GUI_TEXTURED, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.getX(), this.getY() - 11, 0, imageHeight, WIDTH, 11, 256, 256);
+			poseStack.rotate((float) Math.PI);
+			graphics.blit(RenderPipelines.GUI_TEXTURED, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.getRight(), -this.getBottom() -11, 0, imageHeight, WIDTH, 11, 256, 256);
+			poseStack.popMatrix();
+		}
+
 		public void refresh() {
 			this.clearEntries();
 			menu.getTraits().values().forEach(value -> addEntry(new TraitsList.Entry(value)));

@@ -8,7 +8,7 @@ import net.neoforged.testframework.Test;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserGameTests;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -69,7 +69,7 @@ public class RangeGameTests {
                     var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
                     var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
-                    TranslocationAnchorsSaveData.get(helper.getLevel()).addAnchor(targetPos);
+                    TranslocationAnchors.get(helper.getLevel()).addAnchor(targetPos);
                     upgrade.setTarget(targetPos);
                     should_haveRange(helper, shrine, new AABB(6, 1, 1, 13, 4, 8));
                 }),

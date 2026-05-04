@@ -7,7 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchorsSaveData;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.shrine.upgrade.translocation.TranslocationShrineUpgradeItem;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.air.TranslocationSpell;
@@ -21,18 +21,18 @@ public class TranslocationAnchorGui {
     public static void drawAnchors(GuiGraphicsExtractor guiGraphics, @SuppressWarnings("unused") DeltaTracker deltaTracker) {
         var player = Minecraft.getInstance().player;
 
-        if (player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
+        if (player == null || !TranslocationSpell.holdsTranslocation(player) || TranslocationAnchors.CLIENT_SET.isEmpty()) {
             return;
         }
 
-        var targetAnchor = TranslocationSpell.getTargetAnchor(player, TranslocationAnchorsSaveData.CLIENT_SET);
+        var targetAnchor = TranslocationSpell.getTargetAnchor(player, TranslocationAnchors.CLIENT_SET);
 
         var range = Spells.TRANSLOCATION.get().getRange(player);
         var rangeSq = range * range;
         var falloffSq = (range / 2) * (range / 2);
         var playerPos = player.position();
 
-        for (var anchor : TranslocationAnchorsSaveData.CLIENT_SET) {
+        for (var anchor : TranslocationAnchors.CLIENT_SET) {
             var center = Vec3.atCenterOf(anchor);
             var distanceSq = center.distanceToSqr(playerPos);
 
@@ -45,13 +45,13 @@ public class TranslocationAnchorGui {
     public static void drawAnchor(GuiGraphicsExtractor guiGraphics, @SuppressWarnings("unused") DeltaTracker deltaTracker) {
         var player = Minecraft.getInstance().player;
 
-        if (player == null || TranslocationAnchorsSaveData.CLIENT_SET.isEmpty()) {
+        if (player == null || TranslocationAnchors.CLIENT_SET.isEmpty()) {
             return;
         }
 
         var anchor = TranslocationShrineUpgradeItem.getTargetAnchor(player);
 
-        if (anchor == null || !TranslocationAnchorsSaveData.CLIENT_SET.contains(anchor)) {
+        if (anchor == null || !TranslocationAnchors.CLIENT_SET.contains(anchor)) {
             return;
         }
 

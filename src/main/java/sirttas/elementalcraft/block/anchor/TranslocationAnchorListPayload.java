@@ -22,10 +22,10 @@ public record TranslocationAnchorListPayload(List<BlockPos> list) implements Cus
     }
 
     public static TranslocationAnchorListPayload create(Level level) {
-        var anchorList = TranslocationAnchorsSaveData.get(level);
+        var anchors = TranslocationAnchors.get(level);
 
-        if (anchorList != null) {
-            return new TranslocationAnchorListPayload(List.copyOf(anchorList.getAnchors()));
+        if (anchors != null) {
+            return new TranslocationAnchorListPayload(List.copyOf(anchors.getAnchors()));
         }
         return new TranslocationAnchorListPayload(Collections.emptyList());
     }
@@ -41,8 +41,8 @@ public record TranslocationAnchorListPayload(List<BlockPos> list) implements Cus
 
     public void handle(IPayloadContext payloadContext) {
         payloadContext.enqueueWork(() -> {
-            TranslocationAnchorsSaveData.CLIENT_SET.clear();
-            TranslocationAnchorsSaveData.CLIENT_SET.addAll(list);
+            TranslocationAnchors.CLIENT_SET.clear();
+            TranslocationAnchors.CLIENT_SET.addAll(list);
         });
     }
 }
