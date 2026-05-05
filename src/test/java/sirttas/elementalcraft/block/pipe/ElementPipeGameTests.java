@@ -23,7 +23,7 @@ public class ElementPipeGameTests {
 
     public static final String GROUP = "level.blocks.pipe";
 
-    @TestHolder(description = "Checks if the pipe does not transfer above max.")
+    @TestHolder(description = "Checks that the pipe does not transfer above max.")
     @GameTest(template = "elementalcraft:elementpipegametests.shouldnot_transferabovemax")
     public static void shouldNot_transferAboveMax(ECGameTestHelper helper) {
         var targetStorage = getElementStorage(helper, 1, 1, 0);
@@ -35,7 +35,7 @@ public class ElementPipeGameTests {
                 .thenSucceed();
     }
 
-    @TestHolder(description = "Checks if the pipe transfers to multiple storages in the same tick.")
+    @TestHolder(description = "Checks that the pipe transfers to multiple storages in the same tick.")
     @GameTest(template = "elementalcraft:elementpipegametests.should_transfertomultiplestorages")
     public static void should_transferToMultipleStorages(ECGameTestHelper helper) {
         var sourceStorage = getElementStorage(helper, 1, 1, 0);

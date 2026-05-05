@@ -21,7 +21,7 @@ public class SolarSynthesizerGameTests {
 
     public static final String GROUP = "synthesizer.solar";
 
-    @TestHolder(description = "Checks if the solar synthesizer generates fire from the lens.")
+    @TestHolder(description = "Checks that the solar synthesizer generates fire from the lens.")
     @GameTest
     public static void should_generateFireFromLens(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)

@@ -44,7 +44,7 @@ public class CrackingSynthesizerGameTests {
             .set(6, 1, 6, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(6, 2, 6, ECBlocks.CRACKING_SYNTHESIZER.get().defaultBlockState(), withValue(runeHandler(Runes.TYRIA))));
 
-    @TestHolder(description = "Checks if the cracking synthesizer generates earth from the surrounding stones.")
+    @TestHolder(description = "Checks that the cracking synthesizer generates earth from the surrounding stones.")
     @GameTest(template = CRACKING_SYNTHESIZER_TEMPLATE_NAME)
     public static void should_generateEarthFromStone(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);

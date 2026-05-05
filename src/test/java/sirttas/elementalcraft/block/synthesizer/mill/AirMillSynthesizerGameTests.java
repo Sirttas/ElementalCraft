@@ -34,7 +34,7 @@ public class AirMillSynthesizerGameTests {
             .set(0, 2, 0, ECBlocks.AIR_MILL_SYNTHESIZER.get().defaultBlockState().setValue(AirMillSynthesizerBlock.HALF, DoubleBlockHalf.UPPER))
             .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true)));
 
-    @TestHolder(description = "Checks if the air mill synthesizer generates air.")
+    @TestHolder(description = "Checks that the air mill synthesizer generates air.")
     @GameTest(template = TEMPLATE_NAME)
     public static void should_generateAir(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);

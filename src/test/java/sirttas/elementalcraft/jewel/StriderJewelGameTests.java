@@ -20,7 +20,7 @@ public class StriderJewelGameTests {
     public static final String GROUP = "jewels.strider";
 
     @GameTest
-    @TestHolder(description = "Checks if a player can walk on water with a water strider jewel.")
+    @TestHolder(description = "Checks that a player can walk on water with a water strider jewel.")
     public static void should_allowPlayerToWalkOnWater(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 10, 5)
                 .fill(0, 0, 0, 4, 4, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
@@ -41,7 +41,7 @@ public class StriderJewelGameTests {
     }
 
     @GameTest
-    @TestHolder(description = "Checks if a player can walk on lava with a strider jewel.")
+    @TestHolder(description = "Checks that a player can walk on lava with a strider jewel.")
     public static void should_allowPlayerToWalkOnLava(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 10, 5)
                 .fill(0, 0, 0, 4, 4, 4, ECBlocks.WHITE_ROCK_BRICKS.get())

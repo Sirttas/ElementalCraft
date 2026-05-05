@@ -21,7 +21,7 @@ public class TortoiseJewelGameTests {
 
     @GameTest
     @EmptyTemplate(value = "3x10x3", floor = true)
-    @TestHolder(description = "Checks if the tortoise jewel protects the player from a falling anvil.")
+    @TestHolder(description = "Checks that the tortoise jewel protects the player from a falling anvil.")
     public static void should_protectFromAnvil(ECGameTestHelper helper) {
         var level = helper.getLevel();
         var player = helper.mockPlayerWithJewel(Jewels.TORTOISE);

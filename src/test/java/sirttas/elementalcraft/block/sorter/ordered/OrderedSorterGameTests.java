@@ -28,7 +28,7 @@ import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 
 public class OrderedSorterGameTests {
 
-    @TestHolder(description = "Checks if the ordered sorter correctly transfers only the filtered item from the source chest to the target chest.")
+    @TestHolder(description = "Checks that the ordered sorter correctly transfers only the filtered item from the source chest to the target chest.")
     @GameTest
     public static void should_onlyTransferFilteredItem(DynamicTest test) {
         test.registerGameTestTemplate(() -> createTemplate(
@@ -59,7 +59,7 @@ public class OrderedSorterGameTests {
         });
     }
 
-    @TestHolder(description = "Checks if the ordered sorter correctly transfers items from the source chest to the target chest in the right order.")
+    @TestHolder(description = "Checks that the ordered sorter correctly transfers items from the source chest to the target chest in the right order.")
     @GameTest
     public static void should_transferItemsInRightOrder(DynamicTest test) {
         test.registerGameTestTemplate(() -> createTemplate(
@@ -92,7 +92,7 @@ public class OrderedSorterGameTests {
         });
     }
 
-    @TestHolder(description = "Checks if the ordered sorter correctly transfers all items from the source chest to the target chest in one tick when a creative rune is applied.")
+    @TestHolder(description = "Checks that the ordered sorter correctly transfers all items from the source chest to the target chest in one tick when a creative rune is applied.")
     @GameTest
     public static void should_transferAllItemsInOneTickWithCreativeRune(DynamicTest test) {
         test.registerGameTestTemplate(() -> createTemplate(

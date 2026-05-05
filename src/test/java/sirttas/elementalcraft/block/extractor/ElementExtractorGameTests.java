@@ -189,7 +189,7 @@ public class ElementExtractorGameTests {
                 .thenSucceed();
     }
 
-    @TestHolder(description = "Checks if the source stabilizer gets dropped when the source gets exhausted.")
+    @TestHolder(description = "Checks that the source stabilizer gets dropped when the source gets exhausted.")
     @GameTest
     private static void should_dropStabilizer_when_sourceGetExhausted(DynamicTest test) {
         test.registerGameTestTemplate(() -> {
@@ -221,7 +221,7 @@ public class ElementExtractorGameTests {
         });
     }
 
-    @TestHolder(description = "Checks if the source stabilizer gets retrieved by the retriever when the source gets exhausted.")
+    @TestHolder(description = "Checks that the source stabilizer gets retrieved by the retriever when the source gets exhausted.")
     @GameTest
     private static void should_retrieveStabilizer_when_sourceGetExhausted(DynamicTest test) {
         test.registerGameTestTemplate(() -> {

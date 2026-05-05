@@ -31,7 +31,7 @@ import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
 public class BinderGameTests {
     public static final String GROUP = "level.blocks.instruments.binder";
 
-    @TestHolder(description = "Checks if the binder can craft a swift alloy.")
+    @TestHolder(description = "Checks that the binder can craft a swift alloy.")
     @GameTest(template = InstrumentTestTemplates.BINDER_TEMPLATE_NAME)
     public static void should_craftSwiftAlloy(ECGameTestHelper helper) {
         helper.<BinderBlockEntity>runInstrument(List.of(
@@ -52,7 +52,7 @@ public class BinderGameTests {
         });
     }
 
-    @TestHolder(description = "Checks if the binder keeps the bucket after crafting a fire pylon.")
+    @TestHolder(description = "Checks that the binder keeps the bucket after crafting a fire pylon.")
     @GameTest(template = InstrumentTestTemplates.BINDER_TEMPLATE_NAME)
     public static void should_keepBucketAfterCraftingFirePylon(ECGameTestHelper helper) {
         helper.<BinderBlockEntity>runInstrument(List.of(
@@ -75,7 +75,7 @@ public class BinderGameTests {
         });
     }
 
-    @TestHolder(description = "Checks if the binder can automatically craft multiple swift alloys with a sorter/retriever setup.")
+    @TestHolder(description = "Checks that the binder can automatically craft multiple swift alloys with a sorter/retriever setup.")
     @GameTest
     public static void should_autoCraftSwiftAlloys(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(2, 3, 3)

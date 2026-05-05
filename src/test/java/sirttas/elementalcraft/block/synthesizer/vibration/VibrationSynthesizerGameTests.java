@@ -36,7 +36,7 @@ public class VibrationSynthesizerGameTests {
                     .set(10, 1, 10, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(10, 2, 10, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
 
-    @TestHolder(description = "Checks if the vibration air synthesizer generates air from wandering chickens.")
+    @TestHolder(description = "Checks that the vibration air synthesizer generates air from wandering chickens.")
     @GameTest(template = TEMPLATE_NAME, timeoutTicks = 200, required = false)
     public static void should_generateAirFromSurroundingEntityMovement(ECGameTestHelper helper) {
         var storage = helper.requireElementContainer(new BlockPos(10, 1, 10));

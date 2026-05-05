@@ -46,7 +46,7 @@ public class SourceBreederGameTests {
             .set(0, 0, 4, ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState()));
 
 
-    @TestHolder(description = "Checks if the source breeder can breed sources.")
+    @TestHolder(description = "Checks that the source breeder can breed sources.")
     @GameTest(template = TEMPLATE_NAME)
     public static void should_breedSource(ECGameTestHelper helper) {
         var breeder = helper.getBlockEntity(new BlockPos(0, 0, 2), SourceBreederBlockEntity.class);

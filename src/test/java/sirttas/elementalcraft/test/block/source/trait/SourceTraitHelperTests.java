@@ -20,7 +20,7 @@ public class SourceTraitHelperTests {
     private final MockRandomSource random = new MockRandomSource();
 
     @Test
-    @DisplayName("Checks if the breed method creates a trait map.")
+    @DisplayName("Checks that the breed method creates a trait map.")
     public void breed_should_createTraitMap() {
         // Given
         var defaultSourceTraits = SourceTraitTestHelper.deserializeTraits(SourceTraitTestHelper.createDefaultTraits());
@@ -37,7 +37,7 @@ public class SourceTraitHelperTests {
     }
 
     @Test
-    @DisplayName("Checks if the breed method adds fertility at 100 per 1000 with no luck runes.")
+    @DisplayName("Checks that the breed method adds fertility at 100 per 1000 with no luck runes.")
     public void breed_should_addFertilityInAbout100Per1000_with_luck0() {
         // Given
         var defaultSourceTraits = SourceTraitTestHelper.deserializeTraits(SourceTraitTestHelper.createDefaultTraits());
@@ -54,7 +54,7 @@ public class SourceTraitHelperTests {
     }
 
     @Test
-    @DisplayName("Checks if the breed method adds fertility at 250 per 1000 with a level 3 luck rune.")
+    @DisplayName("Checks that the breed method adds fertility at 250 per 1000 with a level 3 luck rune.")
     public void breed_should_addFertilityInAbout250Per1000_with_luck3() {
         // Given
         var defaultSourceTraits = SourceTraitTestHelper.deserializeTraits(SourceTraitTestHelper.createDefaultTraits());

@@ -65,27 +65,27 @@ public class InfuserGameTests {
 
                 createTest(
                         "should_infuseDiamondSwordWithFire",
-                        "Checks if a diamond sword can be infused with fire and has fire aspect",
+                        "Checks that a diamond sword can be infused with fire and has fire aspect",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.FIRE, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.FIRE_ASPECT))),
                 createTest(
                         "should_infuseDiamondSwordWithWater",
-                        "Checks if a diamond sword can be infused with water and has looting",
+                        "Checks that a diamond sword can be infused with water and has looting",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.WATER, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.LOOTING))),
                 createTest(
                         "should_infuseDiamondSwordWithAir",
-                        "Checks if a diamond sword can be infused with earth and has sharpness",
+                        "Checks that a diamond sword can be infused with earth and has sharpness",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_SWORD), ElementType.EARTH, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.SHARPNESS))),
                 createTest(
                         "should_infuseDiamondPickaxeWithWater",
-                        "Checks if a diamond pickaxe can be infused with water and has fortune",
+                        "Checks that a diamond pickaxe can be infused with water and has fortune",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.WATER, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.FORTUNE))),
                 createTest(
                         "should_infuseDiamondPickaxeWithEarth",
-                        "Checks if a diamond pickaxe can be infused with earth and has unbreaking",
+                        "Checks that a diamond pickaxe can be infused with earth and has unbreaking",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.EARTH, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.UNBREAKING))),
                 createTest(
                         "should_infuseDiamondPickaxeWithAir",
-                        "Checks if a diamond pickaxe can be infused with air and has efficiency",
+                        "Checks that a diamond pickaxe can be infused with air and has efficiency",
                         helper -> should_infuseTool(helper, new ItemStack(Items.DIAMOND_PICKAXE), ElementType.AIR, stack -> assertHasToolInfusionWithEnchantment(helper, stack, Enchantments.EFFICIENCY)))
         );
     }

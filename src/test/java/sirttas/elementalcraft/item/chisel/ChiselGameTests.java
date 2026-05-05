@@ -49,7 +49,7 @@ public class ChiselGameTests {
                             .setValue(ISorterBlock.TARGET, Direction.UP),
                     withValue(runeHandler(Runes.ZOD))));
 
-    @TestHolder(description = "Checks if the inscriber can craft a rune.")
+    @TestHolder(description = "Checks that the inscriber can craft a rune.")
     @GameTest(template = InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME)
     public static void should_craftRune(ECGameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 1, 0));

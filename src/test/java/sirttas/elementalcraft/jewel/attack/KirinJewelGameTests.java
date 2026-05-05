@@ -20,7 +20,7 @@ public class KirinJewelGameTests {
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks if the kirin jewel smites an enderman.")
+    @TestHolder(description = "Checks that the kirin jewel smites an enderman.")
     public static void should_smiteEnderman(ECGameTestHelper helper) {
         var target = helper.spawn(EntityType.ENDERMAN, new BlockPos(0, 1, 0));
         var player = helper.mockPlayerWithJewel(Jewels.KIRIN);
@@ -40,7 +40,7 @@ public class KirinJewelGameTests {
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks if the kirin jewel smites a zombie with double damage.")
+    @TestHolder(description = "Checks that the kirin jewel smites a zombie with double damage.")
     public static void should_smiteZombie(ECGameTestHelper helper) {
         var target = helper.spawn(EntityType.ZOMBIE, new BlockPos(0, 1, 0));
         var player = helper.mockPlayerWithJewel(Jewels.KIRIN);

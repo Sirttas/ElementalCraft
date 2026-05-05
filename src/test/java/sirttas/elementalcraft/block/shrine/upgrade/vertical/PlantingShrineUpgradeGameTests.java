@@ -24,7 +24,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
 @ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class PlantingShrineUpgradeGameTests {
 
-    @TestHolder(description = "Checks if the planting shrine upgrade plants wheat when used with a harvest shrine.")
+    @TestHolder(description = "Checks that the planting shrine upgrade plants wheat when used with a harvest shrine.")
     @GameTest(template = "elementalcraft:plantingshrineupgradegametests.should_plantwheat")
     public static void should_plantWheat(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {
@@ -37,7 +37,7 @@ public class PlantingShrineUpgradeGameTests {
         }).thenSucceed();
     }
 
-    @TestHolder(description = "Checks if the planting shrine upgrade plants saplings when used with a lumber shrine.")
+    @TestHolder(description = "Checks that the planting shrine upgrade plants saplings when used with a lumber shrine.")
     @GameTest
     public static void should_plantSaplings(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(11, 5, 11)

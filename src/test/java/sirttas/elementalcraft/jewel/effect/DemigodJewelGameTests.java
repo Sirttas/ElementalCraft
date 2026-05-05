@@ -22,7 +22,7 @@ public class DemigodJewelGameTests {
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks if a player is protected from death by the jewel of the demigod.")
+    @TestHolder(description = "Checks that a player is protected from death by the jewel of the demigod.")
     public static void should_protectPlayerFromDeath(ECGameTestHelper helper) {
         var player = helper.mockPlayerWithJewel(Jewels.DEMIGOD);
 
@@ -46,7 +46,7 @@ public class DemigodJewelGameTests {
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks if a player isn't protected if they doesn't have a totem of undying.")
+    @TestHolder(description = "Checks that a player isn't protected if they doesn't have a totem of undying.")
     public static void shouldNot_protectPlayerFromDeath_when_theyDoesntHaveATotemOfUndying(ECGameTestHelper helper) {
         var player = helper.mockPlayerWithJewel(Jewels.DEMIGOD);
 

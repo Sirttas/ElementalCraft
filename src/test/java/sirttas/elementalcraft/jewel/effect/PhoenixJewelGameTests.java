@@ -19,7 +19,7 @@ public class PhoenixJewelGameTests {
 
     @GameTest
     @EmptyTemplate(floor = true)
-    @TestHolder(description = "Checks if a player is given fire resistance and regeneration by the jewel of the phoenix while burning.")
+    @TestHolder(description = "Checks that a player is given fire resistance and regeneration by the jewel of the phoenix while burning.")
     public static void should_haveFireResistanceAndRegenerationWhileBurning(ECGameTestHelper helper) {
         var player = helper.mockPlayerWithJewel(Jewels.PHOENIX);
 

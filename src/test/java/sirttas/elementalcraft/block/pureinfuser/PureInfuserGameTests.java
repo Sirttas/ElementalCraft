@@ -46,7 +46,7 @@ public class PureInfuserGameTests {
             .set(3, 0, 0, ECBlocks.WATER_PEDESTAL.get().defaultBlockState())
             .set(3, 0, 6, ECBlocks.EARTH_PEDESTAL.get().defaultBlockState()));
 
-    @TestHolder(description = "Checks if the pure infuser can craft a pure crystal.")
+    @TestHolder(description = "Checks that the pure infuser can craft a pure crystal.")
     @GameTest(template = TEMPLATE_NAME)
     public static void should_craftPureCrystal(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
@@ -201,7 +201,7 @@ public class PureInfuserGameTests {
         }).thenSucceed();
     }
 
-    @TestHolder(description = "Checks if the pure infuser can craft a pure holder and keep the elements that were present in the original holders.")
+    @TestHolder(description = "Checks that the pure infuser can craft a pure holder and keep the elements that were present in the original holders.")
     @GameTest(template = TEMPLATE_NAME)
     public static void should_craftPureHolderWithElement(ECGameTestHelper helper) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);

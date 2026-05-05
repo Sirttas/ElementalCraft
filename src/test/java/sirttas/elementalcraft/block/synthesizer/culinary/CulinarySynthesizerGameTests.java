@@ -21,7 +21,7 @@ public class CulinarySynthesizerGameTests {
 
     public static final String GROUP = "synthesizer.culinary";
 
-    @TestHolder(description = "Checks if the culinary synthesizer generates water from cooked beef.")
+    @TestHolder(description = "Checks that the culinary synthesizer generates water from cooked beef.")
     @GameTest
     public static void should_generateWaterFromBeef(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)

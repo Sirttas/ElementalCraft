@@ -41,7 +41,7 @@ public class LumberShrineGameTests {
     );
 
     // elementalcraft:lumbershrinegametests.should_cutoakblocks
-    @TestHolder(description = "Checks if the lumber shrine cuts oak blocks.")
+    @TestHolder(description = "Checks that the lumber shrine cuts oak blocks.")
     @GameTest(template = "elementalcraft:lumbershrinegametests.should_cutoakblocks")
     public static void should_cutOakBlocks(ECGameTestHelper helper) {
         helper.startSequence().thenExecute(() -> {

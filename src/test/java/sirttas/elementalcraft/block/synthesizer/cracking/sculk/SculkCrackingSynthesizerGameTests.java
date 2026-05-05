@@ -34,7 +34,7 @@ public class SculkCrackingSynthesizerGameTests {
             .set(8, 2, 8, ECBlocks.SCULK_CRACKING_SYNTHESIZER.get().defaultBlockState())
             .set(8, 1, 9, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true)));
 
-    @TestHolder(description = "Checks if the sculk cracking synthesizer generates earth from the surrounding sculk.")
+    @TestHolder(description = "Checks that the sculk cracking synthesizer generates earth from the surrounding sculk.")
     @GameTest(template = SCULK_CRACKING_SYNTHESIZER_TEMPLATE_NAME)
     public static void should_generateEarthFromSculk(ECGameTestHelper helper) {
         var ticks = new AtomicInteger(0);

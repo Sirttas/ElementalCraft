@@ -22,7 +22,7 @@ public class SalmonJewelGameTests {
     public static final String GROUP = "jewels.effect.salmon";
 
     @GameTest
-    @TestHolder(description = "Checks if a player is given water breathing by the jewel of the salmon while under water.")
+    @TestHolder(description = "Checks that a player is given water breathing by the jewel of the salmon while under water.")
     public static void should_givePlayerWaterBreathing(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 8, 5)
                 .fill(0, 0, 0, 4, 5, 4, ECBlocks.WHITE_ROCK_BRICKS.get())

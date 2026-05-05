@@ -20,7 +20,7 @@ public class DrainingSynthesizerGameTests {
 
     public static final String GROUP = "synthesizer.draining";
 
-    @TestHolder(description = "Checks if the draining synthesizer generates water from the player hunger.")
+    @TestHolder(description = "Checks that the draining synthesizer generates water from the player hunger.")
     @GameTest
     public static void should_generateWaterFromPlayerHunger(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)
