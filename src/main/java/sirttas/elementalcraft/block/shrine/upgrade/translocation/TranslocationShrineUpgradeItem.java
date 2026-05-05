@@ -19,10 +19,10 @@ public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
     }
 
     public static BlockPos getTargetAnchor(Player player) {
-        var pos = getTargetPos(player.getMainHandItem());
+        var pos = getTargetAnchor(player.getMainHandItem());
 
         if (pos == null) {
-            pos = getTargetPos(player.getOffhandItem());
+            pos = getTargetAnchor(player.getOffhandItem());
         }
         return pos;
     }
@@ -34,17 +34,17 @@ public class TranslocationShrineUpgradeItem extends ShrineUpgradeItem {
         var anchors = TranslocationAnchors.get(context.getLevel());
 
         if (anchors != null && anchors.has(pos)) {
-            setTargetPos(context.getItemInHand(), pos);
+            setTargetAnchor(context.getItemInHand(), pos);
             return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }
 
-    private void setTargetPos(ItemStack stack, BlockPos pos) {
-        stack.set(ECDataComponents.TARGET_POS, pos);
+    private void setTargetAnchor(ItemStack stack, BlockPos pos) {
+        stack.set(ECDataComponents.TARGET_ANCHOR, pos);
     }
 
-    public static BlockPos getTargetPos(ItemStack stack) {
-        return stack.get(ECDataComponents.TARGET_POS);
+    public static BlockPos getTargetAnchor(ItemStack stack) {
+        return stack.get(ECDataComponents.TARGET_ANCHOR);
     }
 }

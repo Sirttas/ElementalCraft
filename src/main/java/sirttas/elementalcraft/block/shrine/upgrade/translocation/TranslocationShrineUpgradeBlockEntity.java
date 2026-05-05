@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.VisibleForTesting;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.entity.AbstractECBlockEntity;
 import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
@@ -28,6 +29,7 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
         return target;
     }
 
+    @VisibleForTesting
     public void setTarget(@Nullable BlockPos target) {
         this.target = target;
     }
@@ -35,23 +37,23 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     @Override
     public void loadAdditional(@Nonnull ValueInput input) {
         super.loadAdditional(input);
-        input.read(ECNames.TARGET_POS, BlockPos.CODEC).ifPresent(this::setTarget);
+        input.read(ECNames.TARGET_ANCHOR, BlockPos.CODEC).ifPresent(this::setTarget);
     }
 
     @Override
     protected void saveAdditional(@Nonnull ValueOutput output) {
         super.saveAdditional(output);
         if (target != null) {
-            output.store(ECNames.TARGET_POS, BlockPos.CODEC, target);
+            output.store(ECNames.TARGET_ANCHOR, BlockPos.CODEC, target);
         } else {
-            output.discard(ECNames.TARGET_POS);
+            output.discard(ECNames.TARGET_ANCHOR);
         }
     }
 
     @Override
     protected void applyImplicitComponents(@NotNull DataComponentGetter getter) {
         super.applyImplicitComponents(getter);
-        var pos = getter.get(ECDataComponents.TARGET_POS);
+        var pos = getter.get(ECDataComponents.TARGET_ANCHOR);
 
         if (pos != null) {
             setTarget(pos);
@@ -62,7 +64,7 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     protected void collectImplicitComponents(@NotNull DataComponentMap.Builder builder) {
         super.collectImplicitComponents(builder);
         if (target != null) {
-            builder.set(ECDataComponents.TARGET_POS, target);
+            builder.set(ECDataComponents.TARGET_ANCHOR, target);
         }
     }
 
@@ -70,6 +72,6 @@ public class TranslocationShrineUpgradeBlockEntity extends AbstractECBlockEntity
     @Deprecated
     public void removeComponentsFromTag(@NotNull ValueOutput output) {
         super.removeComponentsFromTag(output);
-        output.discard(ECNames.TARGET_POS);
+        output.discard(ECNames.TARGET_ANCHOR);
     }
 }

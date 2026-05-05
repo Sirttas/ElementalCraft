@@ -39,7 +39,7 @@ public class JewelTests {
         assertThat(anvilMenu.getSlot(anvilMenu.getResultSlot()).getItem())
                 .isNotEmpty()
                 .is(Items.DIAMOND_CHESTPLATE)
-                .hasDataComponentSatisfying(ECDataComponents.JEWEL, j -> assertThat(j).isEqualTo(jewel));
+                .hasDataComponentWithValue(ECDataComponents.JEWEL, jewel);
     }
 
 }

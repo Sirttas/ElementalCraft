@@ -32,6 +32,7 @@ public class TranslocationAnchors extends SavedData {
     public TranslocationAnchors() {
         set = new HashSet<>();
     }
+
     public TranslocationAnchors(Collection<BlockPos> list) {
         set = new HashSet<>(list);
     }
@@ -45,6 +46,10 @@ public class TranslocationAnchors extends SavedData {
         return Set.copyOf(set);
     }
 
+    public boolean has(BlockPos pos) {
+        return set.contains(pos);
+    }
+
     public void add(BlockPos pos) {
         set.add(pos);
         setDirty();
@@ -55,7 +60,4 @@ public class TranslocationAnchors extends SavedData {
         setDirty();
     }
 
-    public boolean has(BlockPos pos) {
-        return set.contains(pos);
-    }
 }

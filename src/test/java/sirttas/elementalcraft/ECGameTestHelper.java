@@ -34,6 +34,7 @@ import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.storage.IElementStorage;
 import sirttas.elementalcraft.api.element.storage.single.ISingleElementStorage;
 import sirttas.elementalcraft.api.rune.Rune;
+import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.container.ElementContainer;
 import sirttas.elementalcraft.block.instrument.AbstractInstrumentBlockEntity;
 import sirttas.elementalcraft.component.ECDataComponents;
@@ -319,6 +320,24 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
 
         testInfo.sequences.add(seq);
         return seq;
+    }
+
+    public TranslocationAnchors getTranslocationAnchors() {
+        var anchors = TranslocationAnchors.get(getLevel());
+
+        assertThat(anchors)
+                .as("TranslocationAnchors should have been set")
+                .isNotNull();
+        return anchors;
+    }
+
+    public void withTranslocationAnchorAt(BlockPos pos, Consumer<BlockPos> consumer) {
+        var anchorPos = absolutePos(pos);
+        var anchors = getTranslocationAnchors();
+
+        anchors.add(anchorPos);
+        consumer.accept(anchorPos);
+        anchors.remove(anchorPos);
     }
 
     public class ECGameTestSequence extends ExtendedSequence {

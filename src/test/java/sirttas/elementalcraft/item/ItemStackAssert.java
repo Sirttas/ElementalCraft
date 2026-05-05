@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
@@ -104,6 +105,14 @@ public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> 
         hasDataComponent(componentType);
         consumer.accept(actual.get(componentType));
         return this;
+    }
+
+    public <T> ItemStackAssert hasDataComponentWithValue(Supplier<DataComponentType<T>> componentType, T value) {
+        return hasDataComponentSatisfying(componentType, v -> Assertions.assertThat(v).isEqualTo(value));
+    }
+
+    public <T> ItemStackAssert hasDataComponentWithValue(DataComponentType<T> componentType, T value) {
+        return hasDataComponentSatisfying(componentType, v -> Assertions.assertThat(v).isEqualTo(value));
     }
 
     public <T> ItemStackAssert doesNotHaveDataComponent(DataComponentType<T> componentType) {

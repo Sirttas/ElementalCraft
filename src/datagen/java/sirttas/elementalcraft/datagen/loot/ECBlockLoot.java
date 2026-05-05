@@ -76,7 +76,7 @@ public class ECBlockLoot extends BlockLootSubProvider {
 		add(ECBlocks.ORDERED_SORTER.get(), this::createRuneable);
 		add(ECBlocks.PURE_INFUSER.get(), this::createRuneable);
 
-		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyComponents(b, ECDataComponents.TARGET_POS.get()));
+		add(ECBlocks.TRANSLOCATION_SHRINE_UPGRADE.get(), b -> createCopyComponents(b, ECDataComponents.TARGET_ANCHOR.get()));
 		add(ECBlocks.GREATER_FORTUNE_SHRINE_UPGRADE.get(), this::createRuneable);
 
 		add(ECBlocks.AIR_MILL_GRINDSTONE.get(), this::createAirMill);

@@ -8,7 +8,6 @@ import net.neoforged.testframework.Test;
 import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
-import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
 import sirttas.elementalcraft.block.diffuser.DiffuserGameTests;
 import sirttas.elementalcraft.block.shrine.AbstractShrineBlockEntity;
@@ -64,15 +63,14 @@ public class RangeGameTests {
                 createTest(i++, "breedingshrinegametests.should_breedcows", Rotation.COUNTERCLOCKWISE_90, helper -> should_haveRange(helper, new BlockPos(0, 1, 3), new AABB(-7, -6 /* TODO -9 */, -20, 14, 12, 1))),
                 createTest(i++, "growthshrinegametests.should_growcrops", helper -> should_haveRange(helper, new BlockPos(5, 1, 5), new AABB(1, 1, 1, 10, 4, 10))),
                 createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> should_haveRange(helper, new BlockPos(4, 1, 4), new AABB(1, 1, 1, 8, 4, 8))),
-                createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> {
+                createTest(i++, "translocationshrineupgradegametests.should_growcropsaroundanchor", helper -> helper.withTranslocationAnchorAt(new BlockPos(9, 1, 4), anchorPos -> {
                     var upgrade = helper.getBlockEntity(new BlockPos(5, 1, 4), TranslocationShrineUpgradeBlockEntity.class);
                     var shrine = ShrineGameTestHelper.getShrine(helper, new BlockPos(4, 1, 4));
-                    var targetPos = helper.absolutePos(new BlockPos(9, 1, 4));
 
-                    TranslocationAnchors.get(helper.getLevel()).add(targetPos);
-                    upgrade.setTarget(targetPos);
+                    upgrade.setTarget(anchorPos);
+                    shrine.refresh();
                     should_haveRange(helper, shrine, new AABB(6, 1, 1, 13, 4, 8));
-                }),
+                })),
                 createTest(i++, RangeShrineUpgradeTemplates.HARVEST_SHRINE_WITH_1_RANGE_TEMPLATE_NAME, helper -> should_haveRange(helper, new BlockPos(0, 1, 0), new AABB(-7, -2, -7, 8, 1, 8)))
         );
     }

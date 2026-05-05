@@ -1,13 +1,10 @@
 package sirttas.elementalcraft.api.name;
 
 import sirttas.dpanvil.api.DPAnvilNames;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECNames {
 
 	public static final String COMMON_TAGS_NAMESPACE = "c";
-	public static final String EC_NBT = ElementalCraftApi.MODID;
-	public static final String ALWAYS_INSERT = "always_insert";
 	public static final String ANALYZED = "analyzed";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String ATTRIBUTES = "attributes";
@@ -20,7 +17,6 @@ public class ECNames {
 	public static final String COUNT = "count";
 	public static final String COVER = "cover";
 	public static final String CRYSTAL = "crystal";
-	public static final String EFFECT_SPRITE = "effect_sprite";
 	public static final String EFFECTS = "effects";
 	public static final String ELEMENT_AMOUNT = "element_amount";
 	public static final String ELEMENT_CAPACITY = "element_capacity";
@@ -31,10 +27,8 @@ public class ECNames {
 	public static final String END = "end";
 	public static final String EXTRACTION_SPEED = "extraction_speed";
 	public static final String GEM = "gem";
-	public static final String HAS_BOOK = "has_elementopedia";
 	public static final String HAS_DIFFUSED = "has_diffused";
 	public static final String INDEX = "index";
-	public static final String INGREDIENT = "ingredient";
 	public static final String INGREDIENTS = "ingredients";
 	public static final String INPUT = "input";
 	public static final String INVENTORY = "inventory";
@@ -44,23 +38,18 @@ public class ECNames {
 	public static final String LUCK_RATIO = "luck_ratio";
 	public static final String LUCK_RATIO_ON_BRED = "luck_ratio_on_bred";
 	public static final String MAX_AMOUNT = "max_amount";
-	public static final String MODEL = "model";
 	public static final String MODIFIER = DPAnvilNames.MODIFIER;
 	public static final String NAME =  DPAnvilNames.NAME;
 	public static final String ORDER = "order";
-	public static final String ORE = "ore";
 	public static final String OUTPUT = "output";
-	public static final String OUTPUTS = "outputs";
 	public static final String PERIOD = "period";
 	public static final String PIPE_UPGRADE = "pipe_upgrade";
-	public static final String PIPE_UPGRADE_TAG = "pipe_upgrade_tag";
 	public static final String PIPE_UPGRADE_TYPE = "pipe_upgrade_type";
 	public static final String PREDICATE = "predicate";
 	public static final String PROGRESS = "progress";
 	public static final String PURE_ORE_LOADER = "pure_ore_loader";
 	public static final String PURE_ORE_LOADER_SERIALIZER = "pure_ore_loader_serializer";
 	public static final String PURE_ORE_RECIPE_FACTORY_TYPE = "pure_ore_recipe_factory_type";
-	public static final String QUALITY = "quality";
 	public static final String RANGE = "range";
 	public static final String RANGES = "ranges";
 	public static final String RESULT = "result";
@@ -68,9 +57,7 @@ public class ECNames {
 	public static final String RUNE_HANDLER = "rune_handler";
 	public static final String RUNNING = "running";
 	public static final String SHRINE_UPGRADE = "shrine_upgrade";
-	public static final String SLOT = "slot";
 	public static final String SLOT_GROUP = "slot_group";
-	public static final String SMALL = "small";
 	public static final String SOURCE_TRAIT = "source_trait";
 	public static final String BUD_TYPE = "bud_type";
 	public static final String SOURCE_TRAIT_VALUE_PROVIDER_TYPE = "source_trait_value_provider_type";
@@ -78,7 +65,6 @@ public class ECNames {
 	public static final String SPELL_LIST = "spell_list";
 	public static final String SPELL_TYPE = "spell_type";
 	public static final String STABILIZED = "stabilized";
-	public static final String STACKS = "stacks";
 	public static final String START = "start";
 	public static final String STEPS = "steps";
 	public static final String TOOL_INFUSION = "tool_infusion";
@@ -98,13 +84,12 @@ public class ECNames {
     public static final String PROVIDER = "provider";
     public static final String BREED_INDEX = "breed_index";
     public static final String BREEDING_COST = "breeding_cost";
+    public static final String TARGET_ANCHOR = "target_anchor";
     public static final String TARGET_POS = "target_pos";
-	public static final String SHRINE_PROPERTIES = "shrine_properties";
 	public static final String SPELL_PROPERTIES = "spell_properties";
 	public static final String LOCKED = "locked";
 	public static final String TRANSFER_SPEED = "transfer_speed";
 	public static final String MAX_RUNES = "max_runes";
-	public static final String LISTENER = "listener";
 	public static final String DAMAGE = "damage";
 	public static final String TRANSLATION_KEY = "translation_key";
     public static final String RUNES = "runes";

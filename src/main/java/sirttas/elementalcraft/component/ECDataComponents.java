@@ -32,6 +32,9 @@ public class ECDataComponents {
 
     private static final DeferredRegister<@NotNull DataComponentType<?>> DEFERRED_REGISTER = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, ElementalCraftApi.MODID);
 
+    public static final DeferredHolder<@NotNull DataComponentType<?>, @NotNull DataComponentType<@NotNull BlockPos>> TARGET_ANCHOR = register(ECNames.TARGET_ANCHOR, b -> b
+            .persistent(BlockPos.CODEC)
+            .networkSynchronized(BlockPos.STREAM_CODEC));
     public static final DeferredHolder<@NotNull DataComponentType<?>, @NotNull DataComponentType<@NotNull BlockPos>> TARGET_POS = register(ECNames.TARGET_POS, b -> b
             .persistent(BlockPos.CODEC)
             .networkSynchronized(BlockPos.STREAM_CODEC));
