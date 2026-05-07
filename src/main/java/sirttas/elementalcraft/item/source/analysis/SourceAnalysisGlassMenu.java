@@ -31,7 +31,7 @@ public class SourceAnalysisGlassMenu extends AbstractContainerMenu implements IM
 	}
 	
 	private void addSlots(Inventory inventory) {
-        this.addStandardInventorySlots(inventory, 0, 98);
+        this.addStandardInventorySlots(inventory, 8, 98);
 	}
 
 	public Map<Holder<@NotNull SourceTrait>, ISourceTraitValue> getTraits() {

@@ -15,6 +15,7 @@ import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.recipe.spell.ClientSpellCraftRecipes;
 import sirttas.elementalcraft.tag.ECTags;
 
 import javax.annotation.Nonnull;
@@ -88,7 +89,7 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 	}
 	
 	private void updateRecipeList(Level level) {
-		var recipeInput = new RecipeInput() {
+		var recipeInput = new RecipeInput() { // TODO extract as independent class
 
 			@Override
 			public @NotNull ItemStack getItem(int slot) {
@@ -100,7 +101,9 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 				return input.getContainerSize();
 			}
 		};
-		stacks = List.of(); // TODO level.recipeAccess().getRecipesFor(ECRecipeTypes.SPELL_CRAFT.get(), recipeInput, level).stream().map(h -> h.value().assemble(recipeInput)).toList();
+		stacks = ClientSpellCraftRecipes.getRecipesFor(recipeInput, level)
+				.map(h -> h.value().assemble(recipeInput))
+				.toList();
 
 		this.page.set(0);
 		this.pageCount.set(Math.max(1, (int) Math.ceil(stacks.size() / 6.0)));

@@ -31,7 +31,7 @@ public class SpellBookScreen extends AbstractContainerScreen<@NotNull SpellBookM
 	}
 
 	@Override
-	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+	protected void extractLabels(@NonNull GuiGraphicsExtractor graphics, int xm, int ym) {
 		Component text = Component.literal(MessageFormat.format("{0}/{1}", this.menu.getSpellCount(), ECConfig.SERVER.spellBookMaxSpell.get()));
 
 		super.extractLabels(graphics, xm, ym);

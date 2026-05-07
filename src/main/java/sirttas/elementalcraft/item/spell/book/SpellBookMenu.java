@@ -33,29 +33,29 @@ public class SpellBookMenu extends AbstractContainerMenu implements IMenuOpenLis
 	private final Container inventory;
 	private final Player player;
 
-	public SpellBookMenu(int id, Inventory player) {
-		this(id, player, new ItemStack(ECItems.SPELL_BOOK));
+	public SpellBookMenu(int id, Inventory inventory) {
+		this(id, inventory, new ItemStack(ECItems.SPELL_BOOK));
 	}
 
-	private SpellBookMenu(int id, Inventory playerInventoryIn, ItemStack book) {
+	private SpellBookMenu(int id, Inventory inventory, ItemStack book) {
 		super(ECMenus.SPELL_BOOK.get(), id);
 		this.book = book;
 		this.inventory = new SimpleContainer(SLOT_COUNT);
-		this.player = playerInventoryIn.player;
-		addSlots(playerInventoryIn);
+		this.player = inventory.player;
+		addSlots(inventory);
 	}
 
-	public static SpellBookMenu create(int id, Inventory playerInventoryIn, ItemStack book) {
-		return new SpellBookMenu(id, playerInventoryIn, book);
+	public static SpellBookMenu create(int id, Inventory inventory, ItemStack book) {
+		return new SpellBookMenu(id, inventory, book);
 	}
 
-	private void addSlots(Inventory playerInventoryIn) {
+	private void addSlots(Inventory inventory) {
 		for (int i = 0; i < ROW_COUNT; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlot(new ScrollSlot(inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
+				this.addSlot(new ScrollSlot(this.inventory, j + i * 9, 8 + j * 18, 18 + i * 18));
 			}
 		}
-        this.addStandardInventorySlots(inventory, 0, 103 + (ROW_COUNT - 4) * 18);
+        this.addStandardInventorySlots(inventory, 8, 103 + (ROW_COUNT - 4) * 18);
 	}
 
 	@Override

@@ -24,8 +24,7 @@ public class ElementalCraftCapabilities {
     }
 
     public static class ElementStorages {
-        private ElementStorages() {
-        }
+        private ElementStorages() {}
 
         private static final Identifier ID = ElementalCraftApi.createRL(ECNames.ELEMENT_STORAGE);
         private static final Identifier FOR_ELEMENT_ID = ElementalCraftApi.createRL("element_storage_for_element");
@@ -40,8 +39,7 @@ public class ElementalCraftCapabilities {
         public record BlockForElementContext(
                 ElementType elementType,
                 Direction direction
-        ) {
-        }
+        ) { }
     }
 
     public static class ElementTransferers {
@@ -52,8 +50,7 @@ public class ElementalCraftCapabilities {
     }
 
     public static class SourceTraits {
-        private SourceTraits() {
-        }
+        private SourceTraits() {}
 
         private static final Identifier ID = ElementalCraftApi.createRL("source_trait_holder");
 
@@ -63,8 +60,7 @@ public class ElementalCraftCapabilities {
     }
 
     public static class RuneHandlers {
-        private RuneHandlers() {
-        }
+        private RuneHandlers() {}
 
         private static final Identifier ID = ElementalCraftApi.createRL("rune_handler");
 
@@ -75,8 +71,7 @@ public class ElementalCraftCapabilities {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static class ShrineUpgrades {
-        private ShrineUpgrades() {
-        }
+        private ShrineUpgrades() {}
 
         private static final Identifier ID = ElementalCraftApi.createRL("shrine_upgrade");
 

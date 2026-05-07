@@ -81,7 +81,7 @@ public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull 
 		private void extractBorders(@NonNull GuiGraphicsExtractor graphics) {
 			var poseStack = graphics.pose();
 
-			poseStack.popMatrix();
+			poseStack.pushMatrix();
 			graphics.blit(RenderPipelines.GUI_TEXTURED, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, this.getX(), this.getY() - 11, 0, imageHeight, WIDTH, 11, 256, 256);
 			poseStack.rotate((float) Math.PI);
 			graphics.blit(RenderPipelines.GUI_TEXTURED, SOURCE_ANALYSIS_GLASS_GUI_TEXTURE, -this.getRight(), -this.getBottom() -11, 0, imageHeight, WIDTH, 11, 256, 256);

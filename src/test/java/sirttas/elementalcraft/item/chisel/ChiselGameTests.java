@@ -43,10 +43,9 @@ public class ChiselGameTests {
 
     @RegisterStructureTemplate(SORTER_WITH_RUNE_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> SORTER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(1, 1, 1, builder ->
-            builder.set(0, 0, 0,
-                    ECBlocks.ORDERED_SORTER.get().defaultBlockState()
-                            .setValue(ISorterBlock.SOURCE, Direction.DOWN)
-                            .setValue(ISorterBlock.TARGET, Direction.UP),
+            builder.set(0, 0, 0, ECBlocks.ORDERED_SORTER.get().defaultBlockState()
+                    .setValue(ISorterBlock.SOURCE, Direction.DOWN)
+                    .setValue(ISorterBlock.TARGET, Direction.UP),
                     withValue(runeHandler(Runes.ZOD))));
 
     @TestHolder(description = "Checks that the inscriber can craft a rune.")
