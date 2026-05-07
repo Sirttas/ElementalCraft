@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.shrine.ShrineRenderer;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
@@ -27,7 +27,7 @@ public class BuddingShrineRenderer extends ShrineRenderer<BuddingShrineBlockEnti
     }
 
     @Override
-    public void extractRenderState(BuddingShrineBlockEntity blockEntity, BuddingShrineRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(BuddingShrineBlockEntity blockEntity, BuddingShrineRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         renderState.plate = buddingShrinePlateModelResolver.getModel(blockEntity.getBudType());
     }

@@ -14,13 +14,10 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.client.model.ComposedModelState;
 import net.neoforged.neoforge.client.model.standalone.UnbakedStandaloneModel;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class RuneModel {
@@ -56,7 +53,6 @@ public class RuneModel {
             this.material = material;
         }
 
-        @Nonnull
         @Override
         public String getSerializedName() {
             return this.name;
@@ -67,7 +63,7 @@ public class RuneModel {
         }
     }
 
-    public record Unbaked(Slate slate, Material sprite) implements UnbakedStandaloneModel<@NotNull RuneModel> {
+    public record Unbaked(Slate slate, Material sprite) implements UnbakedStandaloneModel<RuneModel> {
 
         private static final Transformation OVERLAY_TRANSFORM = new Transformation(new Vector3f(), new Quaternionf(), new Vector3f(1.002F, 1.002F, 1.002F), new Quaternionf());
         private static final ModelState OVERLAY_STATE = new ComposedModelState(BlockModelRotation.IDENTITY, OVERLAY_TRANSFORM);
@@ -78,7 +74,7 @@ public class RuneModel {
         ).apply(builder, Unbaked::new));
 
         @Override
-        public @NonNull RuneModel bake(ModelBaker baker, @NotNull ModelDebugName name) {
+        public RuneModel bake(ModelBaker baker, ModelDebugName name) {
             var backedSprite = baker.materials().get(sprite, name);
             var builder = new QuadCollection.Builder();
 
@@ -88,7 +84,7 @@ public class RuneModel {
         }
 
         @Override
-        public void resolveDependencies(@NotNull Resolver resolver) {
+        public void resolveDependencies(Resolver resolver) {
         }
     }
 }

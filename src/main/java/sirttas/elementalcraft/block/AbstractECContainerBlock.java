@@ -13,12 +13,9 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.entity.player.ECPlayerHelper;
-
-import javax.annotation.Nonnull;
 
 public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 
@@ -26,7 +23,7 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 		super(properties);
 	}
 
-    public InteractionResult onSlotActivated(ResourceHandler<@NotNull ItemResource> inventory, Player player, ItemStack heldItem, int slot) {
+    public InteractionResult onSlotActivated(ResourceHandler<ItemResource> inventory, Player player, ItemStack heldItem, int slot) {
         return this.onSlotActivated(IItemHandler.of(inventory), player, heldItem, slot);
     }
 
@@ -73,12 +70,12 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 	}
 
 	@Override
-	public boolean hasAnalogOutputSignal(@Nonnull BlockState state) {
+	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 
     @Override
-    protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Direction direction) {
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         return ResourceHandlerUtil.getRedstoneSignalFromResourceHandler(ECContainerHelper.getItemResourceHandlerAt(level, pos));
     }
 }

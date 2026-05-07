@@ -10,7 +10,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import org.jetbrains.annotations.ApiStatus;import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
 
 import java.util.List;
@@ -34,11 +35,12 @@ public interface ElementalCraftInteraction {
 
     boolean isActive();
 
-    default <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
+    @Nullable
+    default <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(Level level, RecipeType<T> type, I recipeInput) {
         return null;
     }
 
-    default void registerPureOreRecipeInjectors(RegisterEvent.RegisterHelper<@NotNull IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry) {}
+    default void registerPureOreRecipeInjectors(RegisterEvent.RegisterHelper<IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry) {}
 
     default List<ItemStack> getHolders(LivingEntity entity) {
         return List.of();
@@ -49,6 +51,7 @@ public interface ElementalCraftInteraction {
     @ApiStatus.Internal
     default void registerTestFramework(IEventBus modBus, ModContainer container) {}
 
+    @Nullable
     @Deprecated
     default int[] lookupColors(ItemStack stack) {
         return null;

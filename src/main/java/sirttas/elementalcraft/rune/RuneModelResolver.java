@@ -5,7 +5,6 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.client.model.ECModelResolver;
@@ -19,7 +18,7 @@ public class RuneModelResolver extends ECModelResolver<RuneModel> {
         super(modelManager, LISTER, RuneModel.Unbaked.CODEC);
     }
 
-    public Material.Baked getSprite(Holder<@NotNull Rune> runeHolder) {
+    public Material.Baked getSprite(Holder<Rune> runeHolder) {
         return getModel(runeHolder.getKey().identifier()).getSprite();
     }
 }

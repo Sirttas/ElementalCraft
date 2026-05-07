@@ -10,7 +10,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.advancements.ECCriteriaTriggers;
@@ -63,16 +62,16 @@ import java.util.Map;
 @Mod(ElementalCraftApi.MODID)
 public class ElementalCraft {
 
-	public static final ResourceKey<@NotNull IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SPELL_PROPERTIES));
+	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SPELL_PROPERTIES));
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SPELL_PROPERTIES_MANAGER_KEY)
 			.withDefault(SpellProperties.NONE)
 			.build();
 
-	public static final ResourceKey<@NotNull IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.PURE_ORE_LOADER));
+	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.PURE_ORE_LOADER));
 	public static final IDataManager<IPureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(IPureOreLoader.class, PURE_ORE_LOADERS_MANAGER_KEY)
 			.build();
 
-	public static final ResourceKey<@NotNull IDataManager<IConfigurableBlockEntityProperties>> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL("configurable_block_entity_properties"));
+	public static final ResourceKey<IDataManager<IConfigurableBlockEntityProperties>> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL("configurable_block_entity_properties"));
 	public static final IDataManager<IConfigurableBlockEntityProperties> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER = IDataManager.builder(IConfigurableBlockEntityProperties.class, CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY)
 			.build();
 
@@ -126,11 +125,11 @@ public class ElementalCraft {
         return INTERACTIONS;
     }
 
-	public static <T> ResourceKey<@NotNull Registry<@NotNull T>> createRegistryKey(String name) {
+	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
 		return ResourceKey.createRegistryKey(ElementalCraftApi.createRL(name));
 	}
 
-	public static <T> boolean owns(Map.Entry<ResourceKey<@NotNull T>, T> entry) {
+	public static <T> boolean owns(Map.Entry<ResourceKey<T>, T> entry) {
 		return owns(entry.getKey());
 	}
 

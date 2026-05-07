@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
@@ -40,7 +40,7 @@ public class PureInfuserRenderer extends SingleItemBlockEntityRenderer<PureInfus
     }
 
     @Override
-    public void extractRenderState(PureInfuserBlockEntity blockEntity, PureInfuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(PureInfuserBlockEntity blockEntity, PureInfuserRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get()) && !blockEntity.isRunning()) {
             Map<Direction, ElementType> map = getDirectionMap(blockEntity);

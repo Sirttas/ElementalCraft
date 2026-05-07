@@ -12,8 +12,6 @@ import sirttas.elementalcraft.block.entity.BlockEntityHelper;
 import sirttas.elementalcraft.block.instrument.io.mill.AbstractAirMillBlock;
 import sirttas.elementalcraft.item.ECItems;
 
-import javax.annotation.Nonnull;
-
 public interface AirMill {
 
     int getDamage();
@@ -34,7 +32,7 @@ public interface AirMill {
         BlockEntityHelper.renderItemBreaking(level, pos.above(), new ItemStack(ECItems.AIR_MILL));
     }
 
-    static InteractionResult setMill(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand) {
+    static InteractionResult setMill(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand) {
         var blockEntity = level.getBlockEntity(pos);
 
         if (!(blockEntity instanceof AirMill mill)) {

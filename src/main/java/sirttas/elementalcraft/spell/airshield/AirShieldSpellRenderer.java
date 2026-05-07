@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.spell.Spell;

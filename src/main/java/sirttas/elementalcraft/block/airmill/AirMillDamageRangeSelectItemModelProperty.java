@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemMode
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.component.ECDataComponents;
 
@@ -29,7 +28,7 @@ public class AirMillDamageRangeSelectItemModelProperty implements RangeSelectIte
     }
 
     @Override
-    public @NonNull MapCodec<? extends RangeSelectItemModelProperty> type() {
+    public MapCodec<? extends RangeSelectItemModelProperty> type() {
         return MAP_CODEC;
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.tag.ECTags;

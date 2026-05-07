@@ -4,10 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.component.ECDataComponents;
-
-import javax.annotation.Nonnull;
 
 public class AirMillBlockItem extends BlockItem {
 
@@ -16,14 +13,14 @@ public class AirMillBlockItem extends BlockItem {
     }
 
     @Override
-    public boolean isBarVisible(@Nonnull ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         int damage = getAirMillDamage(stack);
 
         return damage > 0;
     }
 
     @Override
-    public int getBarWidth(@Nonnull ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
         int maxDamage = AirMill.getMaxDamage();
         int damage = getAirMillDamage(stack);
 
@@ -34,14 +31,14 @@ public class AirMillBlockItem extends BlockItem {
     }
 
     @Override
-    public int getBarColor(@Nonnull ItemStack stack) {
+    public int getBarColor(ItemStack stack) {
         int maxDamage = AirMill.getMaxDamage();
         float f = Math.max(0.0F, (maxDamage - (float) getAirMillDamage(stack)) / maxDamage);
 
         return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
 
-    private int getAirMillDamage(@NotNull ItemStack stack) {
+    private int getAirMillDamage(ItemStack stack) {
         return stack.getComponents().getOrDefault(ECDataComponents.AIR_MILL_DAMAGE.get(), 0);
     }
 

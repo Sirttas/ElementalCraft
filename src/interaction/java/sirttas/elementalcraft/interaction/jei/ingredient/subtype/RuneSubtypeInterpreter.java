@@ -4,7 +4,7 @@ import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.item.rune.RuneItem;
 
 public class RuneSubtypeInterpreter implements ISubtypeInterpreter<@NotNull ItemStack> {

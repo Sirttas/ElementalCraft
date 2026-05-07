@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.entity.renderer.SingleItemBlockEntityRenderer;
 import sirttas.elementalcraft.client.renderer.state.GhostBlockRenderState;
@@ -37,7 +37,7 @@ public class SourceBreederRenderer extends SingleItemBlockEntityRenderer<SourceB
     }
 
     @Override
-    public void extractRenderState(SourceBreederBlockEntity blockEntity, SourceBreederRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(SourceBreederBlockEntity blockEntity, SourceBreederRenderState renderState, float partialTick, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
         renderState.ghostPedestals.clear();
         if (BooleanUtils.isTrue(ECConfig.CLIENT.renderPedestalShadow.get())) {

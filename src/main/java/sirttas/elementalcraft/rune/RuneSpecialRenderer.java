@@ -9,8 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.client.model.ECModelResolver;
@@ -18,7 +17,7 @@ import sirttas.elementalcraft.component.ECDataComponents;
 
 import java.util.function.Consumer;
 
-public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder<@NotNull Rune>> {
+public class RuneSpecialRenderer implements SpecialModelRenderer<Holder<Rune>> {
 
     public static final Identifier IDENTIFIER = ElementalCraftApi.RUNE_MANAGER_KEY.identifier();
 
@@ -29,7 +28,7 @@ public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder
     }
 
     @Override
-    public void submit(@Nullable Holder<@NotNull Rune> argument, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, boolean hasFoil, int outlineColor) {
+    public void submit(@Nullable Holder<Rune> argument, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, boolean hasFoil, int outlineColor) {
         if (argument == null) {
             return;
         }
@@ -39,16 +38,16 @@ public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder
     }
 
     @Override
-    public @Nullable Holder<@NotNull Rune> extractArgument(@NotNull ItemStack stack) {
+    public @Nullable Holder<Rune> extractArgument(ItemStack stack) {
         return stack.get(ECDataComponents.RUNE);
     }
 
     @Override
-    public void getExtents(@NotNull Consumer output) {
+    public void getExtents(Consumer output) {
 
     }
 
-    public static class Unbaked implements SpecialModelRenderer.Unbaked<@NotNull Holder<@NotNull Rune>> {
+    public static class Unbaked implements SpecialModelRenderer.Unbaked<Holder<Rune>> {
 
         private static final Unbaked INSTANCE = new Unbaked();
         public static final MapCodec<RuneSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
@@ -60,12 +59,12 @@ public class RuneSpecialRenderer implements SpecialModelRenderer<@NotNull Holder
         }
 
         @Override
-        public @NotNull RuneSpecialRenderer bake(@NotNull BakingContext context) {
+        public RuneSpecialRenderer bake(BakingContext context) {
             return new RuneSpecialRenderer();
         }
 
         @Override
-        public @NotNull MapCodec<? extends RuneSpecialRenderer.Unbaked> type() {
+        public MapCodec<? extends RuneSpecialRenderer.Unbaked> type() {
             return MAP_CODEC;
         }
     }

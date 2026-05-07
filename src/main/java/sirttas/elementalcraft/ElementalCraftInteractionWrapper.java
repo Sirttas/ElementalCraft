@@ -10,7 +10,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.pureore.factory.IPureOreRecipeFactoryType;
@@ -73,8 +73,9 @@ public class ElementalCraftInteractionWrapper implements ElementalCraftInteracti
         return !interactions.isEmpty();
     }
 
+    @Nullable
     @Override
-    public <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(@NotNull Level level, @NotNull RecipeType<T> type, @NotNull I recipeInput) {
+    public <I extends RecipeInput, T extends Recipe<I>> T lookupRecipe(Level level, RecipeType<T> type, I recipeInput) {
         return interactions.stream()
                 .map(interaction -> interaction.lookupRecipe(level, type, recipeInput))
                 .filter(Objects::nonNull)
@@ -83,7 +84,7 @@ public class ElementalCraftInteractionWrapper implements ElementalCraftInteracti
     }
 
     @Override
-    public void registerPureOreRecipeInjectors(RegisterEvent.RegisterHelper<@NotNull IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry) {
+    public void registerPureOreRecipeInjectors(RegisterEvent.RegisterHelper<IPureOreRecipeFactoryType<?, ? extends Recipe<?>>> registry) {
         interactions.forEach(interaction -> interaction.registerPureOreRecipeInjectors(registry));
     }
 
@@ -105,6 +106,7 @@ public class ElementalCraftInteractionWrapper implements ElementalCraftInteracti
     }
 
     @Override
+    @Nullable
     public int[] lookupColors(ItemStack stack) {
         return interactions.stream()
                 .map(interaction -> interaction.lookupColors(stack))
