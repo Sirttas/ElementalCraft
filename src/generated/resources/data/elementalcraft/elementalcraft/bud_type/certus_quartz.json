@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "requires_upgrade": "elementalcraft:shrine_upgrade_certus_quartz",
+  "sequence": [
+    "ae2:small_quartz_bud",
+    "ae2:medium_quartz_bud",
+    "ae2:large_quartz_bud",
+    "ae2:quartz_cluster"
+  ]
+}

@@ -18,7 +18,7 @@
         {
           "function": "minecraft:copy_components",
           "include": [
-            "elementalcraft:target_pos"
+            "elementalcraft:target_anchor"
           ],
           "source": "block_entity"
         }

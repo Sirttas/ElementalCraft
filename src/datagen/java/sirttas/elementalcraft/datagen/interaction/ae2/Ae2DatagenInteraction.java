@@ -5,6 +5,7 @@ import appeng.core.definitions.AEBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import sirttas.elementalcraft.block.shrine.budding.BudTypes;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
@@ -25,11 +26,12 @@ public class Ae2DatagenInteraction implements DatagenInteraction {
                 .then(AEBlocks.QUARTZ_CLUSTER.block())
                 .requires(ShrineUpgrades.CERTUS_QUARTZ)
                 .when(new ModLoadedCondition(AEConstants.MOD_ID))
+                .texture(Identifier.fromNamespaceAndPath(AEConstants.MOD_ID, "block/flawless_budding_quartz"))
                 .build());
     }
 
     @Override
     public List<DataProvider> getProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        return List.of(new Ae2RecipeProvider(output, lookupProvider));
+        return List.of(new Ae2RecipeProvider.Runner(output, lookupProvider));
     }
 }

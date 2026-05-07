@@ -21,5 +21,4 @@ public interface DatagenInteraction {
     default List<DataProvider> getProviders(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         return List.of();
     }
-
 }

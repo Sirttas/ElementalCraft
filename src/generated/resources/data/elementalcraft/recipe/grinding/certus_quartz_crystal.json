@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": "ae2:quartz_cluster",
+  "luck_ratio": 5.0,
+  "result": {
+    "count": 6,
+    "id": "ae2:certus_quartz_crystal"
+  },
+  "show_notification": false
+}

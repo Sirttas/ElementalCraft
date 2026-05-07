@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "elementalcraft:shrine_upgrade_core",
+    "c": "elementalcraft:purecrystal",
+    "f": "ae2:fluix_crystal",
+    "q": "ae2:quartz_block",
+    "w": "elementalcraft:whiterock"
+  },
+  "pattern": [
+    "qfq",
+    "wCw",
+    " c "
+  ],
+  "result": {
+    "id": "elementalcraft:shrine_upgrade_certus_quartz"
+  }
+}

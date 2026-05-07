@@ -1,0 +1,6 @@
+{
+  "parent": "elementalcraft:elementalcraft/budding_shrine_plates/budding_shrine_plate",
+  "textures": {
+    "texture": "ae2:block/flawless_budding_quartz"
+  }
+}
