@@ -22,7 +22,6 @@ import sirttas.elementalcraft.infusion.tool.effect.ElementCostReductionToolInfus
 import sirttas.elementalcraft.infusion.tool.effect.EnchantmentToolInfusionEffect;
 import sirttas.elementalcraft.infusion.tool.effect.FastDrawToolInfusionEffect;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -115,7 +114,6 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 		return new ToolInfusion(type, List.of(infusion));
 	}
 
-	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft Tool Infusions";
