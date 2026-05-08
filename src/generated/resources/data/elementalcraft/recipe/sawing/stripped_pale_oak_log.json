@@ -1,0 +1,9 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 250,
+  "input": "minecraft:pale_oak_log",
+  "result": {
+    "id": "minecraft:stripped_pale_oak_log"
+  },
+  "show_notification": false
+}

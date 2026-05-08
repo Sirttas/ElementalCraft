@@ -42,8 +42,8 @@ import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -1703,6 +1703,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	private void generateSawing() {
 		sawingRecipe(Items.STRIPPED_OAK_LOG, Items.STRIPPED_OAK_WOOD, Items.OAK_PLANKS, Items.OAK_LOG, Items.OAK_WOOD, ECTags.Items.STRIPPED_OAK);
 		sawingRecipe(Items.STRIPPED_DARK_OAK_LOG, Items.STRIPPED_DARK_OAK_WOOD, Items.DARK_OAK_PLANKS, Items.DARK_OAK_LOG, Items.DARK_OAK_WOOD, ECTags.Items.STRIPPED_DARK_OAK);
+		sawingRecipe(Items.STRIPPED_PALE_OAK_LOG, Items.STRIPPED_PALE_OAK_WOOD, Items.PALE_OAK_PLANKS, Items.PALE_OAK_LOG, Items.PALE_OAK_WOOD, ECTags.Items.STRIPPED_PALE_OAK);
 		sawingRecipe(Items.STRIPPED_BIRCH_LOG, Items.STRIPPED_BIRCH_WOOD, Items.BIRCH_PLANKS, Items.BIRCH_LOG, Items.BIRCH_WOOD, ECTags.Items.STRIPPED_BIRCH);
 		sawingRecipe(Items.STRIPPED_ACACIA_LOG, Items.STRIPPED_ACACIA_WOOD, Items.ACACIA_PLANKS, Items.ACACIA_LOG, Items.ACACIA_WOOD, ECTags.Items.STRIPPED_ACACIA);
 		sawingRecipe(Items.STRIPPED_JUNGLE_LOG, Items.STRIPPED_JUNGLE_WOOD, Items.JUNGLE_PLANKS, Items.JUNGLE_LOG, Items.JUNGLE_WOOD, ECTags.Items.STRIPPED_JUNGLE);

@@ -33,8 +33,12 @@ public abstract class ECBlockItemTagsProvider extends BlockItemTagsProvider {
 
     @Override
     protected void run() {
+        tag(ECTags.Blocks.STRIPPED_OAK, ECTags.Items.STRIPPED_OAK)
+                .add(Blocks.STRIPPED_OAK_LOG, Blocks.STRIPPED_OAK_WOOD);
         tag(ECTags.Blocks.STRIPPED_DARK_OAK, ECTags.Items.STRIPPED_DARK_OAK)
                 .add(Blocks.STRIPPED_DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_WOOD);
+        tag(ECTags.Blocks.STRIPPED_PALE_OAK, ECTags.Items.STRIPPED_PALE_OAK)
+                .add(Blocks.STRIPPED_PALE_OAK_LOG, Blocks.STRIPPED_PALE_OAK_WOOD);
         tag(ECTags.Blocks.STRIPPED_BIRCH, ECTags.Items.STRIPPED_BIRCH)
                 .add(Blocks.STRIPPED_BIRCH_LOG, Blocks.STRIPPED_BIRCH_WOOD);
         tag(ECTags.Blocks.STRIPPED_ACACIA, ECTags.Items.STRIPPED_ACACIA)

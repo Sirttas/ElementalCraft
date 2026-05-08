@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:sawing",
+  "element_amount": 1000,
+  "input": "#elementalcraft:stripped_pale_oak",
+  "luck_ratio": 3.0,
+  "result": {
+    "count": 6,
+    "id": "minecraft:pale_oak_planks"
+  },
+  "show_notification": false
+}

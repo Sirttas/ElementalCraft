@@ -107,6 +107,7 @@ public class ECTags {
 
 		public static final TagKey<@NotNull Item> STRIPPED_OAK = createTag("stripped_oak");
 		public static final TagKey<@NotNull Item> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");
+		public static final TagKey<@NotNull Item> STRIPPED_PALE_OAK = createTag("stripped_pale_oak");
 		public static final TagKey<@NotNull Item> STRIPPED_BIRCH = createTag("stripped_birch");
 		public static final TagKey<@NotNull Item> STRIPPED_ACACIA = createTag("stripped_acacia");
 		public static final TagKey<@NotNull Item> STRIPPED_JUNGLE = createTag("stripped_jungle");
@@ -220,6 +221,7 @@ public class ECTags {
 
 		public static final TagKey<@NotNull Block> STRIPPED_OAK = createTag("stripped_oak");
 		public static final TagKey<@NotNull Block> STRIPPED_DARK_OAK = createTag("stripped_dark_oak");
+		public static final TagKey<@NotNull Block> STRIPPED_PALE_OAK = createTag("stripped_pale_oak");
 		public static final TagKey<@NotNull Block> STRIPPED_BIRCH = createTag("stripped_birch");
 		public static final TagKey<@NotNull Block> STRIPPED_ACACIA = createTag("stripped_acacia");
 		public static final TagKey<@NotNull Block> STRIPPED_JUNGLE = createTag("stripped_jungle");

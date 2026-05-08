@@ -46,8 +46,6 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 		tag(ECTags.Blocks.PEDESTALS).add(ECBlockItemTagsProvider.getBlocksForClass(PedestalBlock.class)).add(ECBlocks.SOURCE_BREEDER_PEDESTAL.get());
 
-		tag(ECTags.Blocks.STRIPPED_OAK).add(Blocks.STRIPPED_OAK_LOG, Blocks.STRIPPED_OAK_WOOD);
-
 		tag(ECTags.Blocks.EXTRACTORS).add(ECBlocks.RUDIMENTARY_EXTRACTOR.get(), ECBlocks.EXTRACTOR.get(), ECBlocks.IMPROVED_EXTRACTOR.get());
 		tag(ECTags.Blocks.SYNTHESIZERS).add(ECBlocks.CRACKING_SYNTHESIZER.get(), ECBlocks.COMBUSTION_SYNTHESIZER.get(), ECBlocks.DRAINING_SYNTHESIZER.get(), ECBlocks.VIBRATION_SYNTHESIZER.get(), ECBlocks.SOLAR_SYNTHESIZER.get(), ECBlocks.CULINARY_SYNTHESIZER.get(), ECBlocks.SCULK_CRACKING_SYNTHESIZER.get(), ECBlocks.AIR_MILL_SYNTHESIZER.get());
 

@@ -3,6 +3,7 @@
 - purification spell now only consumes if it successfully removes a negative effect
 - synthesizers now turn off when powered by redstone
 - strider jewels no longer activate while inside fluid
+- add pale oak recipes
 
 
 7.1.3:
