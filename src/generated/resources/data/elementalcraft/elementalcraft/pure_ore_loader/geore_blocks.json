@@ -2,7 +2,7 @@
   "type": "elementalcraft:pattern",
   "element_consumption": 6250,
   "luck_ratio": 4.0,
-  "order": 5,
+  "order": 7,
   "output_size": 5,
   "patterns": [
     "^deepslate_",

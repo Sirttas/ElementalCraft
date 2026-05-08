@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "elementalcraft:enchantment",
+      "enchantment": "minecraft:lunge"
+    }
+  ],
+  "element_type": "air"
+}

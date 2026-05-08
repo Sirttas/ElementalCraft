@@ -15,7 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
-import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -25,7 +24,6 @@ import sirttas.elementalcraft.item.pipe.PipeUpgradeItem;
 import sirttas.elementalcraft.item.spell.AbstractSpellHolderItem;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -43,10 +41,10 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 	}
 
 	@Override
-	protected void addTags(@Nonnull HolderLookup.Provider provider) {
+	protected void addTags(HolderLookup.Provider provider) {
 		(new ECBlockItemTagsProvider() {
 			@Override
-			protected @NonNull TagAppender<Block, Block> tag(@NonNull TagKey<Block> blockTag, @NonNull TagKey<Item> itemTag) {
+			protected TagAppender<Block, Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag) {
 				return new VanillaItemTagsProvider.BlockToItemConverter(ECItemTagsProvider.this.tag(itemTag));
 			}
 		}).run();
@@ -68,6 +66,8 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.INFUSABLE_CROSSBOWS).addTag(Tags.Items.TOOLS_CROSSBOW);
 		tag(ECTags.Items.INFUSABLE_FISHING_RODS).add(Items.FISHING_ROD);
 		tag(ECTags.Items.INFUSABLE_TRIDENTS).add(Items.TRIDENT);
+		tag(ECTags.Items.INFUSABLE_MACES).addTag(Tags.Items.TOOLS_MACE);
+		tag(ECTags.Items.INFUSABLE_SPEARS).addTag(ItemTags.SPEARS);
 
 		tag(ECTags.Items.INFUSABLE_HELMETS).addTag(ItemTags.HEAD_ARMOR);
 		tag(ECTags.Items.INFUSABLE_CHESTPLATES).addTag(ItemTags.CHEST_ARMOR);
@@ -153,13 +153,13 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 				.addOptionalTag(Identifier.fromNamespaceAndPath(BOTANIA, "floating_flowers"));
 
 		tag(ECTags.Items.WHITE_FLOWERS).add(Items.LILY_OF_THE_VALLEY);
-		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER);
+		tag(ECTags.Items.ORANGE_FLOWERS).add(Items.ORANGE_TULIP, Items.TORCHFLOWER, Items.OPEN_EYEBLOSSOM);
 		tag(ECTags.Items.MAGENTA_FLOWERS).add(Items.LILAC);
 		tag(ECTags.Items.LIGHT_BLUE_FLOWERS).add(Items.BLUE_ORCHID);
-		tag(ECTags.Items.YELLOW_FLOWERS).add(Items.DANDELION, Items.SUNFLOWER);
+		tag(ECTags.Items.YELLOW_FLOWERS).add(Items.DANDELION, Items.SUNFLOWER, Items.WILDFLOWERS, Items.GOLDEN_DANDELION);
 		tag(ECTags.Items.LIME_FLOWERS);
-		tag(ECTags.Items.PINK_FLOWERS).add(Items.PEONY, Items.PINK_TULIP, Items.PINK_PETALS);
-		tag(ECTags.Items.GRAY_FLOWERS);
+		tag(ECTags.Items.PINK_FLOWERS).add(Items.PEONY, Items.PINK_TULIP, Items.PINK_PETALS, Items.CACTUS_FLOWER);
+		tag(ECTags.Items.GRAY_FLOWERS).add(Items.CLOSED_EYEBLOSSOM);
 		tag(ECTags.Items.LIGHT_GRAY_FLOWERS).add(Items.AZURE_BLUET, Items.OXEYE_DAISY, Items.WHITE_TULIP);
 		tag(ECTags.Items.CYAN_FLOWERS).add(Items.PITCHER_PLANT);
 		tag(ECTags.Items.PURPLE_FLOWERS);
@@ -194,7 +194,9 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		tag(ECTags.Items.PURE_ORES_SOURCES_ORES).addTag(Tags.Items.ORES);
 		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS).addTag(Tags.Items.RAW_MATERIALS);
 		tag(ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS).addTag(ECTags.Items.STORAGE_BLOCKS_RAW_MATERIALS);
+		tag(ECTags.Items.PURE_ORES_SOURCES_RESIN_BLOCKS).addTag(Tags.Items.STORAGE_BLOCKS_RESIN);
 		tag(ECTags.Items.PURE_ORES_SOURCES_CLUSTERS).addTag(Tags.Items.CLUSTERS);
+		tag(ECTags.Items.PURE_ORES_SOURCES_CLUMPS).addTag(Tags.Items.CLUMPS);
 
 		getOrCreateRawBuilder(ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS).addOptionalTag(common("geore_shards"));
 		getOrCreateRawBuilder(ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS).addOptionalTag(common("geore_blocks"));
@@ -221,10 +223,19 @@ public class ECItemTagsProvider extends ItemTagsProvider {
 		);
 		getOrCreateRawBuilder(ECTags.Items.PURE_ORES_SPECIFICS).addOptionalTag(common("ores/pendorite"));
 
+		tag(ECTags.Items.PURE_ORES_US_FOR_COOKING_RECIPES).addTags(
+				ECTags.Items.PURE_ORES_SOURCES_ORES,
+				ECTags.Items.PURE_ORES_SOURCES_CLUMPS,
+				ECTags.Items.PURE_ORES_SPECIFICS
+		);
+
 		tag(ECTags.Items.PURE_ORES_SOURCES).addTags(
 				ECTags.Items.PURE_ORES_SOURCES_ORES,
 				ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIALS,
 				ECTags.Items.PURE_ORES_SOURCES_RAW_MATERIAL_BLOCKS,
+				ECTags.Items.PURE_ORES_SOURCES_CLUSTERS,
+				ECTags.Items.PURE_ORES_SOURCES_CLUMPS,
+				ECTags.Items.PURE_ORES_SOURCES_RESIN_BLOCKS,
 				ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS,
 				ECTags.Items.PURE_ORES_SOURCES_GEORE_BLOCKS,
 				ECTags.Items.PURE_ORES_SOURCES_RESONANT_ORE,

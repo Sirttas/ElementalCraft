@@ -13,7 +13,6 @@ import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -36,7 +35,7 @@ public class SimpleInfusionRecipe extends AbstractInstrumentRecipe<SingleItemSin
             Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(o -> o.input),
             ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, SimpleInfusionRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SimpleInfusionRecipe> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, SimpleInfusionRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             ElementType.STREAM_CODEC, r -> r.elementType,
             ByteBufCodecs.INT, r -> r.elementAmount,
@@ -59,27 +58,27 @@ public class SimpleInfusionRecipe extends AbstractInstrumentRecipe<SingleItemSin
 	}
 
     @Override
-    public @NotNull ItemStack assemble(SingleItemSingleElementRecipeInput input) {
+    public ItemStack assemble(SingleItemSingleElementRecipeInput input) {
         return result.create();
     }
 
     @Override
-    public @NotNull String group() {
+    public String group() {
         return InfusionRecipe.NAME;
     }
 
     @Override
-    public @NotNull RecipeSerializer<@NotNull SimpleInfusionRecipe> getSerializer() {
+    public RecipeSerializer<SimpleInfusionRecipe> getSerializer() {
         return ECRecipeSerializers.INFUSION.get();
     }
 
     @Override
-    public @NotNull RecipeBookCategory recipeBookCategory() {
+    public RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.INFUSION.get();
     }
 
     @Override
-    public @NotNull List<RecipeDisplay> display() {
+    public List<RecipeDisplay> display() {
         return List.of(new IOInstrumentRecipeDisplay(
                 getElementType(),
                 getElementAmount(),

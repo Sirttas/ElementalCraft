@@ -41,8 +41,6 @@ import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -1566,6 +1564,14 @@ public class ECRecipeProvider extends RecipeProvider {
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.IMPALING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.RIPTIDE).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_MACES, Enchantments.BREACH).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_MACES, Enchantments.FIRE_ASPECT).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_MACES, Enchantments.DENSITY).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_MACES, Enchantments.WIND_BURST).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SPEARS, Enchantments.LOOTING).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SPEARS, Enchantments.FIRE_ASPECT).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SPEARS, Enchantments.SHARPNESS).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SPEARS, Enchantments.LUNGE).save(this.output);
 
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.RESPIRATION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_HELMETS, Enchantments.FIRE_PROTECTION).save(this.output);
@@ -1690,7 +1696,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output, BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + BuiltInRegistries.ITEM.getKey(from.asItem()).getPath());
 	}
 
-	private void grindToDye(ItemLike dye, TagKey<@NotNull Item> from) {
+	private void grindToDye(ItemLike dye, TagKey<Item> from) {
 		var tagName = from.location();
 
 		GrindingRecipeBuilder.grindingRecipe(dye)
@@ -1724,7 +1730,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 	}
 
-	private void sawingRecipe(ItemLike stripedLog, ItemLike stripedWood, ItemLike planks, ItemLike log, ItemLike wood, TagKey<@NotNull Item> stripped) {
+	private void sawingRecipe(ItemLike stripedLog, ItemLike stripedWood, ItemLike planks, ItemLike log, ItemLike wood, TagKey<Item> stripped) {
 		SawingRecipeBuilder.sawingRecipe(stripedLog)
 				.withIngredient(log)
 				.withElementAmount(250)
@@ -1912,11 +1918,11 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 	}
 
-	private Ingredient createScrollIngredient(Holder<@NotNull Spell> spell) {
+	private Ingredient createScrollIngredient(Holder<Spell> spell) {
 		return DataComponentIngredient.of(true, ECDataComponents.SPELL, spell, ECItems.SCROLL.get());
 	}
 
-	private Ingredient createRuneIngredient(ResourceKey<@NotNull Rune> rune) {
+	private Ingredient createRuneIngredient(ResourceKey<Rune> rune) {
 		return createRuneIngredient(rune.identifier());
 	}
 
@@ -2102,7 +2108,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.save(this.output);
 	}
 
-	private void createNuggetIngotBlock(ItemLike nugget, TagKey<@NotNull Item> nuggetTag, ItemLike ingot, TagKey<@NotNull Item> ingotTag, ItemLike block, TagKey<@NotNull Item> blockTag) {
+	private void createNuggetIngotBlock(ItemLike nugget, TagKey<Item> nuggetTag, ItemLike ingot, TagKey<Item> ingotTag, ItemLike block, TagKey<Item> blockTag) {
 		shaped(RecipeCategory.MISC, ingot).define('#', nuggetTag)
 				.pattern("###")
 				.pattern("###")
@@ -2175,13 +2181,12 @@ public class ECRecipeProvider extends RecipeProvider {
 	private RecipeOutput staffOutput() {
 		return new RecipeOutput() {
 			@Override
-			public void accept(@NonNull ResourceKey<Recipe<?>> key, @NonNull Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition @NonNull ... conditions) {
+			public void accept(ResourceKey<Recipe<?>> key, Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition... conditions) {
 				ECRecipeProvider.this.output.accept(key, recipe instanceof ShapedRecipe shaped ? new StaffRecipe(shaped) : recipe, advancement, conditions);
 			}
 
 			@Override
-			@NotNull
-			public Advancement.Builder advancement() {
+            public Advancement.Builder advancement() {
 				return ECRecipeProvider.this.output.advancement();
 			}
 
@@ -2214,11 +2219,11 @@ public class ECRecipeProvider extends RecipeProvider {
 		return "has_" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
 	}
 
-	protected Criterion<InventoryChangeTrigger.@NotNull TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
+	protected Criterion<InventoryChangeTrigger.TriggerInstance> has(Supplier<? extends ItemLike> itemLike) {
 		return has(itemLike.get().asItem());
 	}
 
-	private static @NonNull ResourceKey<Recipe<?>> createRecipeKey(String name) {
+	private static ResourceKey<Recipe<?>> createRecipeKey(String name) {
 		return ResourceKey.create(Registries.RECIPE, ElementalCraftApi.createRL(name));
 	}
 
@@ -2228,12 +2233,12 @@ public class ECRecipeProvider extends RecipeProvider {
 		}
 
 		@Override
-		protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registries, @NonNull RecipeOutput output) {
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
 			return new ECRecipeProvider(registries, output);
 		}
 
 		@Override
-		public @NonNull String getName() {
+		public String getName() {
 			return "Elementalcraft Recipes";
 		}
 	}

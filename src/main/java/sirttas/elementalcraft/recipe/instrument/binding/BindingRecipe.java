@@ -15,7 +15,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -28,7 +27,6 @@ import sirttas.elementalcraft.recipe.RecipeHelper;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.InstrumentRecipe;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BindingRecipe extends AbstractBindingRecipe {
@@ -40,7 +38,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
             Codec.lazyInitialized(() -> Ingredient.CODEC.sizeLimitedListOf(BinderBlockEntity.MAX_INVENTORY_SIZE)).fieldOf(ECNames.INGREDIENTS).forGetter(o -> o.ingredients),
             ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, BindingRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull BindingRecipe> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, BindingRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             ElementType.STREAM_CODEC, r -> r.elementType,
             ByteBufCodecs.INT, r -> r.elementAmount,
@@ -58,7 +56,7 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	}
 
 	@Override
-	public boolean matches(MultipleItemsSingleElementRecipeInput input, @Nonnull Level level) {
+	public boolean matches(MultipleItemsSingleElementRecipeInput input, Level level) {
 		if (input.getElementType() != getElementType() || input.size() != ingredients.size()) {
 			return false;
 		}
@@ -66,32 +64,32 @@ public class BindingRecipe extends AbstractBindingRecipe {
 	}
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull MultipleItemsSingleElementRecipeInput input) {
+    public ItemStack assemble(MultipleItemsSingleElementRecipeInput input) {
         return result.create();
     }
 
     @Override
-    public @NotNull String group() {
+    public String group() {
         return AbstractBindingRecipe.NAME;
     }
 
     @Override
-    public @NotNull RecipeSerializer<@NotNull BindingRecipe> getSerializer() {
+    public RecipeSerializer<BindingRecipe> getSerializer() {
         return ECRecipeSerializers.BINDING.get();
     }
 
     @Override
-    public @NotNull PlacementInfo placementInfo() {
+    public PlacementInfo placementInfo() {
         return PlacementInfo.create(ingredients);
     }
 
     @Override
-    public @NotNull RecipeBookCategory recipeBookCategory() {
+    public RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.BINDING.get();
     }
 
     @Override
-    public @NotNull List<RecipeDisplay> display() {
+    public List<RecipeDisplay> display() {
         return List.of(new BinderRecipeDisplay(
                 getElementType(),
                 getElementAmount(),

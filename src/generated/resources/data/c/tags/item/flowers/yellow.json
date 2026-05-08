@@ -1,6 +1,8 @@
 {
   "values": [
     "minecraft:dandelion",
-    "minecraft:sunflower"
+    "minecraft:sunflower",
+    "minecraft:wildflowers",
+    "minecraft:golden_dandelion"
   ]
 }

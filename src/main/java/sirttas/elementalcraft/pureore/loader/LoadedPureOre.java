@@ -11,13 +11,11 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.recipe.instrument.io.purification.OrePurificationRecipe;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +25,7 @@ import java.util.Set;
 public class LoadedPureOre {
 
     private final Identifier id;
-    private final Set<Holder<@NotNull Item>> ores;
+    private final Set<Holder<Item>> ores;
     private final Map<RecipeType<?>, Recipe<?>> recipes;
 
     private final int elementConsumption;
@@ -51,6 +49,7 @@ public class LoadedPureOre {
                 .map(Holder::value));
     }
 
+    @Nullable
     private ItemStackTemplate getOutput() {
         return PureOreManager.getInstance().createPureOreTemplate(id, outputSize);
     }
@@ -59,7 +58,7 @@ public class LoadedPureOre {
         return id;
     }
 
-    public Set<Holder<@NotNull Item>> getOres() {
+    public Set<Holder<Item>> getOres() {
         return ores;
     }
 
@@ -69,11 +68,11 @@ public class LoadedPureOre {
 
     @SuppressWarnings("unchecked")
     @Nullable
-    public <C extends RecipeInput, T extends Recipe<@NotNull C>> T getRecipe(RecipeType<@NotNull T> recipeType) {
+    public <C extends RecipeInput, T extends Recipe<C>> T getRecipe(RecipeType<T> recipeType) {
         return (T) recipes.get(recipeType);
     }
 
-    public <C extends RecipeInput, T extends Recipe<@NotNull C>> void addRecipe(@Nonnull T recipe) {
+    public <C extends RecipeInput, T extends Recipe<C>> void addRecipe(T recipe) {
         recipes.computeIfAbsent(recipe.getType(), _ -> recipe);
     }
 
@@ -83,15 +82,15 @@ public class LoadedPureOre {
                 .toList();
     }
 
-    public void addTag(TagKey<@NotNull Item> tag) {
+    public void addTag(TagKey<Item> tag) {
         addTag(ECTags.Items.getTag(tag));
     }
 
-    public void addTag(HolderSet.Named<@NotNull Item> tag) {
+    public void addTag(HolderSet.Named<Item> tag) {
         tag.forEach(ores::add);
     }
 
-    public boolean contains(Holder<@NotNull Item> item) {
+    public boolean contains(Holder<Item> item) {
         return ores.stream().anyMatch(item::is);
     }
 
@@ -103,5 +102,10 @@ public class LoadedPureOre {
             return null;
         }
         return new OrePurificationRecipe(new Recipe.CommonInfo(false), elementConsumption, luckRatio, getInput(), inputSize, result);
+    }
+
+    @Override
+    public String toString() {
+        return "LoadedPureOre [" + id + "]";
     }
 }

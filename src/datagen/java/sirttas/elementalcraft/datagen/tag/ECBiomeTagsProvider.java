@@ -9,7 +9,6 @@ import net.neoforged.neoforge.common.Tags;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class ECBiomeTagsProvider extends BiomeTagsProvider {
@@ -20,7 +19,7 @@ public class ECBiomeTagsProvider extends BiomeTagsProvider {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags(@Nonnull HolderLookup.Provider provider) {
+	protected void addTags(HolderLookup.Provider provider) {
 		tag(ECTags.Biomes.HAS_SOURCE_ALTAR).addTags(BiomeTags.IS_HILL, BiomeTags.IS_FOREST, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_BADLANDS, BiomeTags.IS_TAIGA, BiomeTags.IS_JUNGLE)
 				.add(Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA, Biomes.ICE_SPIKES, Biomes.SNOWY_PLAINS, Biomes.DESERT, Biomes.MUSHROOM_FIELDS, Biomes.GROVE);
 

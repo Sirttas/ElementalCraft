@@ -1,0 +1,7 @@
+{
+  "type": "elementalcraft:tool_infusion",
+  "element_amount": 2000,
+  "input": "#elementalcraft:infusable/maces",
+  "show_notification": false,
+  "tool_infusion": "elementalcraft:breach"
+}

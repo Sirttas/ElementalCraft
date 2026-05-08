@@ -5,6 +5,7 @@ import com.mojang.serialization.Encoder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.Nullable;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.dpanvil.api.predicate.block.world.CacheBlockPredicate;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
@@ -30,7 +31,7 @@ public class ShrineUpgradeBuilder {
     ShrineUpgradeBuilder(ResourceKey<ShrineUpgrade> key) {
         this.key = key;
         this.bonuses = new EnumMap<>(ShrineUpgrade.BonusType.class);
-        this.predicate = null;
+        this.predicate = IBlockPosPredicate.any();
         this.maxAmount = 0;
         this.incompatibilities = new ArrayList<>();
     }
@@ -58,7 +59,7 @@ public class ShrineUpgradeBuilder {
         return incompatibleWith(Arrays.asList(upgrades));
     }
 
-    public final ShrineUpgradeBuilder incompatibleWith(Iterable<ResourceKey<ShrineUpgrade>> upgrades) {
+    public final ShrineUpgradeBuilder incompatibleWith(Iterable<@Nullable ResourceKey<ShrineUpgrade>> upgrades) {
         incompatibilities.addAll(StreamSupport.stream(upgrades.spliterator(), false)
                 .distinct()
                 .filter(k -> k != null && !this.key.equals(k) && !incompatibilities.contains(k))

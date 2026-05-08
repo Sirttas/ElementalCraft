@@ -2,7 +2,6 @@ package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
@@ -23,7 +22,7 @@ public class BudTypeProvider extends AbstractManagedDataBuilderProvider<BuddingS
     }
 
     @Override
-    public @NotNull String getName() {
+    public String getName() {
         return "ElementalCraft Budding Shrine Bud Types";
     }
 }

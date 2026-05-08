@@ -393,6 +393,7 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("diamond", "Pure Diamond Ore Chunk");
         addPureOre("emerald", "Pure Emerald Ore Chunk");
         addPureOre("netherite_scrap", "Pure Netherite Scrap Chunk");
+        addPureOre("resin", "Pure Resin Chunk");
         addPureOre("inert_crystal", "Pure Inert Crystal Ore Chunk");
         addPureOre("aluminum", "Pure Aluminium Ore Chunk");
         addPureOre("lead", "Pure Lead Ore Chunk");

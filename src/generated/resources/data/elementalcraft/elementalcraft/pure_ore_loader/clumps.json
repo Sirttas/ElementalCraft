@@ -1,0 +1,24 @@
+{
+  "type": "elementalcraft:pattern",
+  "order": 4,
+  "patterns": [
+    "^deepslate_",
+    "_?clump$"
+  ],
+  "source": {
+    "type": "neoforge:and",
+    "values": [
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#elementalcraft:pure_ores/sources/clumps"
+        ]
+      },
+      {
+        "type": "neoforge:not",
+        "value": "#elementalcraft:pure_ores/specifics"
+      }
+    ]
+  },
+  "tag_pattern": "^clumps/"
+}

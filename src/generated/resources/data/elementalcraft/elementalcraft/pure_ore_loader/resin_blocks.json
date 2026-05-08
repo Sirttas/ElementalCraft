@@ -1,0 +1,26 @@
+{
+  "type": "elementalcraft:pattern",
+  "element_consumption": 22500,
+  "order": 5,
+  "output_size": 18,
+  "patterns": [
+    "^deepslate_",
+    "_?block$"
+  ],
+  "source": {
+    "type": "neoforge:and",
+    "values": [
+      {
+        "type": "neoforge:or",
+        "values": [
+          "#elementalcraft:pure_ores/sources/resin_blocks"
+        ]
+      },
+      {
+        "type": "neoforge:not",
+        "value": "#elementalcraft:pure_ores/specifics"
+      }
+    ]
+  },
+  "tag_pattern": "^storage_blocks/"
+}

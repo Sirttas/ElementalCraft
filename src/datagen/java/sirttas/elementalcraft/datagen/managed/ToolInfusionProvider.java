@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.datagen.managed;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -54,16 +53,20 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 		addEnchantment(ElementType.WATER, enchantments.getOrThrow(Enchantments.MULTISHOT));
 		addEnchantment(ElementType.WATER, enchantments.getOrThrow(Enchantments.LOYALTY));
 		addEnchantment(ElementType.WATER, enchantments.getOrThrow(Enchantments.DEPTH_STRIDER));
+		addEnchantment(ElementType.WATER, enchantments.getOrThrow(Enchantments.BREACH));
 		addEnchantment(ElementType.EARTH, enchantments.getOrThrow(Enchantments.UNBREAKING));
 		addEnchantment(ElementType.EARTH, enchantments.getOrThrow(Enchantments.PROTECTION));
 		addEnchantment(ElementType.EARTH, enchantments.getOrThrow(Enchantments.SHARPNESS));
 		addEnchantment(ElementType.EARTH, enchantments.getOrThrow(Enchantments.POWER));
+		addEnchantment(ElementType.EARTH, enchantments.getOrThrow(Enchantments.DENSITY));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.FEATHER_FALLING));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.EFFICIENCY));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.QUICK_CHARGE));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.LURE));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.RIPTIDE));
 		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION));
+		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.WIND_BURST));
+		addEnchantment(ElementType.AIR, enchantments.getOrThrow(Enchantments.LUNGE));
 
 		add(ElementType.FIRE, new AutoSmeltToolInfusionEffect(), AutoSmeltToolInfusionEffect.NAME);
 		add(ElementType.AIR, new DodgeToolInfusionEffect(0.1D), DodgeToolInfusionEffect.NAME);
@@ -109,7 +112,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {
-		return new ToolInfusion(type, Lists.newArrayList(infusion));
+		return new ToolInfusion(type, List.of(infusion));
 	}
 
 	@Nonnull

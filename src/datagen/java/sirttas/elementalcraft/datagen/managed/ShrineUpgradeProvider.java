@@ -16,7 +16,6 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.data.predicate.block.shrine.HasShrineUpgradePredicate;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -195,7 +194,6 @@ public class ShrineUpgradeProvider extends AbstractManagedDataBuilderProvider<Sh
 		return builder;
 	}
 
-	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft Shrine Upgrades";

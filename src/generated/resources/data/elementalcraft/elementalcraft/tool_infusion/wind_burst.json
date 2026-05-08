@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "elementalcraft:enchantment",
+      "enchantment": "minecraft:wind_burst"
+    }
+  ],
+  "element_type": "air"
+}

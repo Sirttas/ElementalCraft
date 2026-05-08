@@ -72,6 +72,6 @@ public abstract class AbstractMekanismPureOreRecipeFactory<I extends RecipeInput
 
 	@Override
 	public boolean filter(RecipeHolder<T> recipe, ItemStack stack) {
-		return stack.is(ECTags.Items.PURE_ORES_SOURCES_ORES);
+		return stack.is(ECTags.Items.PURE_ORES_SOURCES_ORES); // TODO use a specific tag
 	}
 }

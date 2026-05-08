@@ -17,7 +17,6 @@ import sirttas.elementalcraft.ElementalCraftUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -84,12 +83,10 @@ public abstract class AbstractPureOreLoader implements IPureOreLoader {
 		return pureOres;
 	}
 
-	@Nonnull
 	public Identifier getId() {
 		return ElementalCraft.PURE_ORE_LOADERS_MANAGER.getId(this);
 	}
 
-	@Nonnull
 	public Stream<Holder<Item>> streamSource() {
 		return this.source.stream();
 	}

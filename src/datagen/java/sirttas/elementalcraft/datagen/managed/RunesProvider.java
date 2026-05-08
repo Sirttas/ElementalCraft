@@ -16,7 +16,6 @@ import sirttas.elementalcraft.data.predicate.block.rune.HasRunePredicate;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune.Builder> {
@@ -154,7 +153,6 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		return builder;
 	}
 
-	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft Runes";

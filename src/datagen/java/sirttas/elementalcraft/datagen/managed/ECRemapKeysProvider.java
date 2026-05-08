@@ -5,7 +5,6 @@ import net.minecraft.data.PackOutput;
 import sirttas.dpanvil.api.data.remap.AbstractRemapKeysProvider;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class ECRemapKeysProvider extends AbstractRemapKeysProvider {
@@ -19,7 +18,6 @@ public class ECRemapKeysProvider extends AbstractRemapKeysProvider {
         remap(ElementalCraftApi.RUNE_MANAGER_KEY).add(ElementalCraftApi.createRL("cognac"), ElementalCraftApi.createRL("soaryn"));
     }
 
-    @Nonnull
     @Override
     public String getName() {
         return "ElementalCraft Remap Keys";

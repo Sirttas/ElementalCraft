@@ -4,6 +4,10 @@
 - synthesizers now turn off when powered by redstone
 - strider jewels no longer activate while inside fluid
 - add pale oak recipes
+- add resin to pure ore
+- add grinding recipe for eyebloom, wildflowers, cactus flower, golden dandelion
+- made mace infusable
+- made spears infusable
 
 
 7.1.3:

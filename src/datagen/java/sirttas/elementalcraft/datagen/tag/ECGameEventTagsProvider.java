@@ -9,7 +9,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.gameevent.ECGameEvents;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class ECGameEventTagsProvider extends GameEventTagsProvider {
@@ -19,7 +18,7 @@ public class ECGameEventTagsProvider extends GameEventTagsProvider {
     }
 
     @Override
-    protected void addTags(@Nonnull HolderLookup.Provider provider) {
+    protected void addTags(HolderLookup.Provider provider) {
         tag(GameEventTags.VIBRATIONS).add(ECGameEvents.AIR_SYNTHESIS.getKey());
         tag(ECTags.GameEvents.SYNTHESIZABLE_TO_AIR).add(
                 GameEvent.STEP.key(),

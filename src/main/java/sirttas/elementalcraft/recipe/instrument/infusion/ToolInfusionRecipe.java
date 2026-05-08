@@ -12,17 +12,21 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
 import sirttas.elementalcraft.api.name.ECNames;
+import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
+import sirttas.elementalcraft.recipe.display.ToolInfusionSlotDisplay;
 import sirttas.elementalcraft.recipe.input.SingleItemSingleElementRecipeInput;
+import sirttas.elementalcraft.recipe.instrument.io.IOInstrumentRecipeDisplay;
 
-import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ToolInfusionRecipe implements InfusionRecipe {
 
@@ -33,7 +37,7 @@ public class ToolInfusionRecipe implements InfusionRecipe {
             ToolInfusion.HOLDER_CODEC.fieldOf(ECNames.TOOL_INFUSION).forGetter(r -> r.toolInfusion),
             Ingredient.CODEC.fieldOf(ECNames.INPUT).forGetter(o -> o.input)
     ).apply(builder, ToolInfusionRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull ToolInfusionRecipe> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, ToolInfusionRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             ByteBufCodecs.INT, r -> r.elementAmount,
             ToolInfusion.STREAM_CODEC, r -> r.toolInfusion,
@@ -43,9 +47,9 @@ public class ToolInfusionRecipe implements InfusionRecipe {
     private final Recipe.CommonInfo commonInfo;
     private final int elementAmount;
 	private final Ingredient input;
-	private final Holder<@NotNull ToolInfusion> toolInfusion;
+	private final Holder<ToolInfusion> toolInfusion;
 	
-	public ToolInfusionRecipe(Recipe.CommonInfo commonInfo, int elementAmount, Holder<@NotNull ToolInfusion> toolInfusion, Ingredient input) {
+	public ToolInfusionRecipe(Recipe.CommonInfo commonInfo, int elementAmount, Holder<ToolInfusion> toolInfusion, Ingredient input) {
         this.commonInfo = commonInfo;
 		this.toolInfusion = toolInfusion;
 		this.input = input;
@@ -53,7 +57,7 @@ public class ToolInfusionRecipe implements InfusionRecipe {
 	}
 	
 	@Override
-	public boolean matches(@NotNull SingleItemSingleElementRecipeInput input, @Nonnull Level level) {
+	public boolean matches(SingleItemSingleElementRecipeInput input, Level level) {
 		return InfusionRecipe.super.matches(input, level) && !getToolInfusion().equals(ToolInfusionHelper.getInfusion(input.getItem(0)));
 	}
 
@@ -68,7 +72,7 @@ public class ToolInfusionRecipe implements InfusionRecipe {
 	}
 	
 	@Override
-	public @NotNull ItemStack assemble(@NotNull SingleItemSingleElementRecipeInput input) {
+	public ItemStack assemble(SingleItemSingleElementRecipeInput input) {
 		var stack = input.getItem(0).copy();
 
 		ToolInfusionHelper.setInfusion(stack, toolInfusion);
@@ -86,26 +90,38 @@ public class ToolInfusionRecipe implements InfusionRecipe {
     }
 
     @Override
-    public @NotNull String group() {
+    public String group() {
         return NAME;
     }
 
     @Override
-    public @NotNull RecipeSerializer<@NotNull ToolInfusionRecipe> getSerializer() {
+    public RecipeSerializer<ToolInfusionRecipe> getSerializer() {
         return ECRecipeSerializers.TOOL_INFUSION.get();
     }
 
     @Override
-    public @NotNull RecipeBookCategory recipeBookCategory() {
+    public RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.TOOL_INFUSION.get();
     }
 
     @Override
-	public @NotNull ElementType getElementType() {
+	public ElementType getElementType() {
 		return getToolInfusion().value().getElementType();
 	}
 
-	public Holder<@NotNull ToolInfusion> getToolInfusion() {
+	public Holder<ToolInfusion> getToolInfusion() {
 		return toolInfusion;
+	}
+
+	@Override
+	public List<RecipeDisplay> display() {
+		var itemDisplay = getInput().display();
+
+		return List.of(new IOInstrumentRecipeDisplay(
+				getElementType(),
+				getElementAmount(),
+				itemDisplay,
+				new ToolInfusionSlotDisplay(itemDisplay, toolInfusion),
+				new SlotDisplay.ItemSlotDisplay(ECBlocks.INFUSER.get().asItem())));
 	}
 }

@@ -27,9 +27,6 @@ public interface IPureOreRecipeFactory<C extends RecipeInput, T extends Recipe<@
         }
     }
 
-    @Deprecated
-    ItemStack getRecipeOutput(@Nonnull RegistryAccess registry, @Nonnull T recipe);
-
     T create(@Nonnull RegistryAccess registry, @Nonnull T recipe, @Nonnull Ingredient ingredient);
 
     List<RecipeHolder<@NotNull T>> getRecipes(Collection<Holder<@NotNull Item>> ores);

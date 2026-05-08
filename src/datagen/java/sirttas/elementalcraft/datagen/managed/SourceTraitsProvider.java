@@ -3,7 +3,6 @@ package sirttas.elementalcraft.datagen.managed;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.dpanvil.api.predicate.block.IBlockPosPredicate;
 import sirttas.elementalcraft.api.ElementalCraftApi;
@@ -14,7 +13,6 @@ import sirttas.elementalcraft.block.source.SourceElementStorage;
 import sirttas.elementalcraft.block.source.trait.SourceTraits;
 import sirttas.elementalcraft.data.predicate.block.RangeFromSpawnPredicate;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -87,7 +85,7 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 				.build());
 	}
 
-	private static StepsSourceTraitValueProvider.@NotNull Builder steps() {
+	private static StepsSourceTraitValueProvider.Builder steps() {
 		return StepsSourceTraitValueProvider.builder("source_trait.elementalcraft");
 	}
 
@@ -98,7 +96,6 @@ public class SourceTraitsProvider extends AbstractManagedDataBuilderProvider<Sou
 		return builder; 
 	}
 
-	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft Source Traits";

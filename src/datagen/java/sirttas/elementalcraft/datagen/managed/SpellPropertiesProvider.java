@@ -15,7 +15,6 @@ import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<SpellProperties, SpellProperties.Builder> {
@@ -167,7 +166,6 @@ public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<
 		return builder;
 	}
 
-	@Nonnull
 	@Override
 	public String getName() {
 		return "ElementalCraft Spell Properties";

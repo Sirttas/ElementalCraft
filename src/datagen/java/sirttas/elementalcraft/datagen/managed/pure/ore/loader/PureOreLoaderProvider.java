@@ -10,14 +10,12 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.holdersets.AndHolderSet;
 import net.neoforged.neoforge.registries.holdersets.NotHolderSet;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.pureore.loader.IPureOreLoader;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -45,6 +43,9 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
         standard("clusters", ECTags.Items.PURE_ORES_SOURCES_CLUSTERS)
                 .patterns(DEEPSLATE_PATTERN, "_?cluster$")
                 .luckRatio(1);
+        standard("clumps", ECTags.Items.PURE_ORES_SOURCES_CLUMPS)
+                .patterns(DEEPSLATE_PATTERN, "_?clump$");
+        storageBlock("resin_blocks", ECTags.Items.PURE_ORES_SOURCES_RESIN_BLOCKS, "");
         standard("geore_shards", ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS)
                 .patterns(DEEPSLATE_PATTERN, "_?shard$")
                 .consumption(5000)
@@ -92,11 +93,18 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
     }
 
     protected PatternPureOreLoaderBuilder rawMaterialsBlocks(String name, TagKey<Item> tag) {
-        return (PatternPureOreLoaderBuilder) pattern(name, tag, "^storage_blocks/raw_?(?!_?materials)")
+        return (PatternPureOreLoaderBuilder) storageBlock(name, tag, "raw_?(?!_?materials)")
                 .patterns(DEEPSLATE_PATTERN, "^raw_?", "_?block$")
                 .consumption(15000)
                 .outputSize(12)
                 .luckRatio(18);
+    }
+
+    protected PatternPureOreLoaderBuilder storageBlock(String name, TagKey<Item> tag, String suffix) {
+        return (PatternPureOreLoaderBuilder) pattern(name, tag, "^storage_blocks/" + suffix)
+                .patterns(DEEPSLATE_PATTERN, "_?block$")
+                .consumption(22500)
+                .outputSize(18);
     }
 
     protected PatternPureOreLoaderBuilder standard(String name, TagKey<Item> tag) {
@@ -122,14 +130,13 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
                 createHolderSet(tag),
                 new NotHolderSet<>(getRegistry(Registries.ITEM), specific) { // FIXME https://github.com/MinecraftForge/MinecraftForge/issues/9634
                     @Override
-                    public boolean canSerializeIn(@NotNull HolderOwner<Item> holderOwner) {
+                    public boolean canSerializeIn(HolderOwner<Item> holderOwner) {
                         return specific.canSerializeIn(holderOwner);
                     }
                 }
         ));
     }
 
-    @Nonnull
     @Override
     public String getName() {
         return "ElementalCraft Pure Ore Loaders";

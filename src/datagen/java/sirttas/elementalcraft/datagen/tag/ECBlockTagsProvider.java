@@ -12,15 +12,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pureinfuser.pedestal.PedestalBlock;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -36,10 +33,10 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags(@Nonnull HolderLookup.Provider provider) {
+	protected void addTags(HolderLookup.Provider provider) {
 		(new ECBlockItemTagsProvider() {
 			@Override
-			protected @NonNull TagAppender<Block, Block> tag(@NonNull TagKey<Block> blockTag, @NonNull TagKey<Item> itemTag) {
+			protected TagAppender<Block, Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag) {
 				return ECBlockTagsProvider.this.tag(blockTag);
 			}
 		}).run();
@@ -95,12 +92,12 @@ public class ECBlockTagsProvider extends BlockTagsProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	private TagAppender<@NotNull Block, @NotNull Block> runeBase(TagKey<@NotNull Block> tag) {
+	private TagAppender<Block, Block> runeBase(TagKey<Block> tag) {
 		return tag(tag).addTags(ECTags.Blocks.EXTRACTORS, ECTags.Blocks.SYNTHESIZERS, ECTags.Blocks.INSTRUMENTS, ECTags.Blocks.PEDESTALS)
 				.add(ECBlocks.PURE_INFUSER.get(), ECBlocks.SOURCE_BREEDER.get());
 	}
 
-	private TagAppender<@NotNull Block, @NotNull Block> containerToolsBase(TagKey<@NotNull Block> tag) {
+	private TagAppender<Block, Block> containerToolsBase(TagKey<Block> tag) {
 		return tag(tag).add(
 				ECBlocks.INFUSER.get(),
 				ECBlocks.BINDER.get(),

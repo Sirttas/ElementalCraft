@@ -393,6 +393,7 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("diamond", "Fragment de minerai de diamant pur");
         addPureOre("emerald", "Fragment de minerai d'émeraude pur");
         addPureOre("netherite_scrap", "Fragment de débris antiques pur");
+        addPureOre("resin", "Fragment de résine pure");
         addPureOre("inert_crystal", "Fragment de minerai de cristal inerte pur");
         addPureOre("aluminum", "Fragment de minerai d'aluminium pur");
         addPureOre("lead", "Fragment de minerai de plomb pur");

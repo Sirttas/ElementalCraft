@@ -2,7 +2,6 @@ package sirttas.elementalcraft.datagen.managed;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import org.jetbrains.annotations.NotNull;
 import sirttas.dpanvil.api.data.AbstractManagedDataBuilderProvider;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.range.Range;
@@ -31,7 +30,7 @@ public class RangesProvider extends AbstractManagedDataBuilderProvider<Range, Ra
     }
 
     @Override
-    public @NotNull String getName() {
+    public String getName() {
         return "ElementalCraft Ranges";
     }
 }

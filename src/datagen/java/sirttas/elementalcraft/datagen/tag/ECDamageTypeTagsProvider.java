@@ -9,7 +9,6 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.damagesource.ECDamageTypes;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.CompletableFuture;
 
 public class ECDamageTypeTagsProvider extends DamageTypeTagsProvider {
@@ -19,7 +18,7 @@ public class ECDamageTypeTagsProvider extends DamageTypeTagsProvider {
     }
 
     @Override
-    protected void addTags(@Nonnull HolderLookup.Provider provider) {
+    protected void addTags(HolderLookup.Provider provider) {
         tag(DamageTypeTags.IS_FIRE).add(ECDamageTypes.HOLY_FIRE);
         tag(DamageTypeTags.BYPASSES_ARMOR).add(ECDamageTypes.HOLY_FIRE, ECDamageTypes.DRAINING);
         tag(DamageTypeTags.BYPASSES_EFFECTS).add(ECDamageTypes.DRAINING);

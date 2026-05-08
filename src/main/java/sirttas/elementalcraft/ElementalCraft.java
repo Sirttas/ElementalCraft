@@ -49,6 +49,7 @@ import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 import sirttas.elementalcraft.recipe.display.ECRecipeDisplayTypes;
+import sirttas.elementalcraft.recipe.display.ECSlotDisplays;
 import sirttas.elementalcraft.recipe.ingredient.ECIngredientTypes;
 import sirttas.elementalcraft.sound.ECSounds;
 import sirttas.elementalcraft.spell.Spells;
@@ -94,6 +95,7 @@ public class ElementalCraft {
 		ECRecipeTypes.register(modBus);
 		ECRecipeSerializers.register(modBus);
         ECRecipeBookCategories.register(modBus);
+		ECSlotDisplays.register(modBus);
         ECRecipeDisplayTypes.register(modBus);
         ECIngredientTypes.register(modBus);
 		ECFeatures.register(modBus);
