@@ -19,7 +19,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.attachment.AttachmentType;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
@@ -32,7 +31,6 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
 import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     private final ElementPipeBlockEntity pipe;
     private final Direction direction;
-    private Item item;
+    @Nullable private Item item;
 
     protected PipeUpgrade(PipeUpgradeType<?> type, ElementPipeBlockEntity pipe, Direction direction) {
         this.type = type;
@@ -54,13 +52,13 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     @Nullable
     @Override
-    public final <T> T setData(@NotNull AttachmentType<T> type, @NotNull T data) {
+    public final <T> T setData(AttachmentType<T> type, T data) {
         this.pipe.setChanged();
         return super.setData(type, data);
     }
 
     @Nullable
-    public <T, C> T getCapability(@NotNull final PipeUpgradeCapability<T, C> cap, C context) {
+    public <T, C> T getCapability(final PipeUpgradeCapability<T, C> cap, C context) {
         return cap.getCapability(this, context);
     }
 
@@ -92,17 +90,14 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         // for subclasses
     }
 
-    @Nonnull
     public PipeUpgradeType<?> getType() {
         return type;
     }
 
-    @Nonnull
     public Direction getDirection() {
         return direction;
     }
 
-    @Nonnull
     public ElementPipeBlockEntity getPipe() {
         return pipe;
     }
@@ -143,11 +138,11 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return canTransfer(type, connection) ? ElementPipeTransferer.getDefaultPos(pipe.getBlockPos(), direction, connection) : Collections.emptyList();
     }
 
-    public IElementTransferPath alterPath(@Nonnull IElementTransferPath path) {
+    public IElementTransferPath alterPath(IElementTransferPath path) {
         return path;
     }
 
-    public void dropAll(@Nullable Player player) {
+    public void dropAll(@Nullable Player player) { // TODO handle explosions
         if (!(pipe.getLevel() instanceof ServerLevel serverLevel) || serverLevel.isClientSide()) {
             return;
         }
@@ -157,14 +152,13 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
                 .withParameter(LootContextParams.BLOCK_STATE, pipe.getBlockState())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pipe.getBlockPos()))
                 .withParameter(ECLootContextParams.DIRECTION, direction)
+                .withParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .withOptionalParameter(LootContextParams.THIS_ENTITY, player)
-                .withOptionalParameter(LootContextParams.BLOCK_ENTITY, pipe)
                 .create(ECLootContextParamSets.PIPE_UPGRADE);
 
         serverLevel.getServer().reloadableRegistries().getLootTable(tableKey).getRandomItems(lootParams).forEach(stack -> Containers.dropItemStack(serverLevel, pipe.getBlockPos().getX(), pipe.getBlockPos().getY(), pipe.getBlockPos().getZ(), stack));
     }
 
-    @Nonnull
     @Override
     public Item asItem() {
         if (item == null) {
@@ -177,7 +171,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
         return 0;
     }
 
-    public void animateTick(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+    public void animateTick(Level level, BlockPos pos, RandomSource random) {
 
     }
 }

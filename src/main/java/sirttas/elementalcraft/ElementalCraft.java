@@ -152,7 +152,7 @@ public class ElementalCraft {
 	public static void setup() {
 		PipeUpgradeTypes.setup();
 		Jewels.setup();
-		ECLootContextParamSets.setup();
+		ECLootContextParamSets.bootstrap();
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {

@@ -10,13 +10,13 @@ public class ECLootContextParamSets {
             .required(LootContextParams.BLOCK_STATE)
             .required(LootContextParams.ORIGIN)
             .required(ECLootContextParams.DIRECTION)
+            .required(LootContextParams.BLOCK_ENTITY)
             .optional(LootContextParams.THIS_ENTITY)
-            .optional(LootContextParams.BLOCK_ENTITY)
             .optional(LootContextParams.EXPLOSION_RADIUS));
 
     private ECLootContextParamSets() {}
 
-    public static void setup() {
+    public static void bootstrap() {
         // Nothing to do
     }
 
