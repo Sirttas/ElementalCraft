@@ -6,10 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
-
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.Nullable;
 
 public class SingleStackContainer extends AbstractSynchronizableContainer implements ValueIOSerializable {
 
@@ -19,7 +16,7 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		this(null);
 	}
 
-	public SingleStackContainer(Runnable syncCallback) {
+	public SingleStackContainer(@Nullable Runnable syncCallback) {
 		super(syncCallback);
 		stack = ItemStack.EMPTY;
 	}
@@ -41,20 +38,19 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		return stack.isEmpty();
 	}
 
-	@Nonnull
-    @Override
+	@Override
 	public ItemStack getItem(int index) {
 		return index == 0 ? stack : ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItem(int slot, @NonNull ItemStack itemStack) {
+	public void setItem(int slot, ItemStack itemStack) {
 		this.setItem(slot, itemStack, false);
 	}
 
 
 	@Override
-	public void setItem(int index, @Nonnull ItemStack stack, boolean insideTransaction) {
+	public void setItem(int index, ItemStack stack, boolean insideTransaction) {
 		if (index == 0) {
 			this.stack = stack;
 		}
@@ -64,12 +60,11 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 	}
 
 	@Override
-	public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
+	public boolean canPlaceItem(int index, ItemStack stack) {
 		return index == 0;
 	}
 
-	@Nonnull
-    @Override
+	@Override
 	public ItemStack removeItem(int slot, int count) {
 		ItemStack value = ContainerHelper.removeItem(Lists.newArrayList(stack), slot, count);
 
@@ -77,8 +72,7 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 		return value;
 	}
 
-	@Nonnull
-    @Override
+	@Override
 	public ItemStack removeItemNoUpdate(int index) {
 		ItemStack ret = stack;
 
@@ -87,7 +81,7 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
 	}
 
     @Override
-    public void serialize(@NotNull ValueOutput output) {
+    public void serialize(ValueOutput output) {
 		if (stack.isEmpty()) {
 			output.discard("stack");
 			return;
@@ -96,7 +90,7 @@ public class SingleStackContainer extends AbstractSynchronizableContainer implem
     }
 
     @Override
-    public void deserialize(@NotNull ValueInput input) {
+    public void deserialize(ValueInput input) {
         stack = input.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
 }

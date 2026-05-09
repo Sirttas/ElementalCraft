@@ -9,6 +9,7 @@ import sirttas.elementalcraft.item.ItemStackAssert;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@Deprecated
 public class ItemHandlerAssert extends AbstractAssert<ItemHandlerAssert, IItemHandler> {
 
     private ItemHandlerAssert(IItemHandler handler) {

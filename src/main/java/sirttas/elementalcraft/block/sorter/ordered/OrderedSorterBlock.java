@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.AbstractECEntityBlock;
 import sirttas.elementalcraft.block.cover.CoverType;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -31,9 +31,6 @@ import sirttas.elementalcraft.block.entity.ECBlockEntityTypes;
 import sirttas.elementalcraft.block.shape.ECShapes;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.item.ECItems;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorterBlock {
 
@@ -55,7 +52,7 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 	}
 
 	@Override
-	protected @NotNull MapCodec<OrderedSorterBlock> codec() {
+	protected MapCodec<OrderedSorterBlock> codec() {
 		return CODEC;
 	}
 
@@ -66,13 +63,13 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new OrderedSorterBlockEntity(pos, state);
 	}
-	
+
 	@Override
 	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> type) {
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createECServerTicker(level, type, ECBlockEntityTypes.SORTER, OrderedSorterBlockEntity::serverTick);
 	}
 
@@ -85,21 +82,18 @@ public class OrderedSorterBlock extends AbstractECEntityBlock implements ISorter
 	public VoxelShape getCoreShape(BlockState state) {
 		return CORE;
 	}
-	
-	@Nonnull
-    @Override
-	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
 		return blockGetter instanceof Level level && level.isClientSide() ? getShape(state, pos, Minecraft.getInstance().hitResult) : getCurrentShape(state);
 	}
-	@Nonnull
-    @Override
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return getCurrentShape(state);
 	}
 
-	@Nonnull
-    @Override
-	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	@Override
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.is(ECItems.COVER_FRAME.get()) && !player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }

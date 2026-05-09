@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.assertion;
 
-import net.minecraft.gametest.framework.GlobalTestReporter;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import sirttas.elementalcraft.container.ItemHandlerAssert;
@@ -14,6 +13,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
         return ItemStackAssert.assertThat(itemStack);
     }
 
+    @Deprecated
     public static ItemHandlerAssert assertThat(IItemHandler handler) {
         return ItemHandlerAssert.assertThat(handler);
     }

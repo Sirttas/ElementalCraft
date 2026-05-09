@@ -1,15 +1,15 @@
 package sirttas.elementalcraft.container;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
-
-import javax.annotation.Nonnull;
+import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.Nullable;
 
 public abstract class AbstractSynchronizableContainer implements Container {
 
+	@Nullable
 	private final Runnable syncFunction;
 
-	protected AbstractSynchronizableContainer(Runnable syncCallback) {
+	protected AbstractSynchronizableContainer(@Nullable Runnable syncCallback) {
 		this.syncFunction = syncCallback;
 	}
 
@@ -21,7 +21,7 @@ public abstract class AbstractSynchronizableContainer implements Container {
 	}
 
 	@Override
-	public boolean stillValid(@Nonnull Player player) {
+	public boolean stillValid(Player player) {
 		return true;
 	}
 }

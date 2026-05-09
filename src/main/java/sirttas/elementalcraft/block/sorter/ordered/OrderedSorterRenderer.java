@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
@@ -23,7 +22,7 @@ import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.client.model.ECModelResolver;
 import sirttas.elementalcraft.rune.RuneModelResolver;
 
-public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull OrderedSorterBlockEntity, @NotNull OrderedSorterRenderState> {
+public class OrderedSorterRenderer implements BlockEntityRenderer<OrderedSorterBlockEntity, OrderedSorterRenderState> {
 
     private final ItemModelResolver itemModelResolver;
     private final RuneModelResolver runeModelResolver;
@@ -39,7 +38,7 @@ public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull Order
     }
 
     @Override
-    public void extractRenderState(@NotNull OrderedSorterBlockEntity blockEntity, @NotNull OrderedSorterRenderState state, float partialTicks, @NotNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(OrderedSorterBlockEntity blockEntity, OrderedSorterRenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.runes.update(blockEntity, runeModelResolver, partialTicks);
 
@@ -87,7 +86,7 @@ public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull Order
     }
 
     @Override
-    public void submit(OrderedSorterRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
+    public void submit(OrderedSorterRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
 		if (!state.items.isEmpty()) {
 			poseStack.pushPose();
             poseStack.translate(0.5, 0.5, 0.5);
@@ -116,7 +115,7 @@ public class OrderedSorterRenderer implements BlockEntityRenderer<@NotNull Order
 		submitRunes(state, poseStack, submitNodeCollector);
 	}
 
-	private void submitRunes(OrderedSorterRenderState state, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector) {
+	private void submitRunes(OrderedSorterRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
 		poseStack.translate(0.5F, 0.5F, 0.5F);
 		poseStack.mulPose(state.runeRotation);
 		poseStack.translate(-0.5F, -0.75F, -0.5F);

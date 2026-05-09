@@ -9,10 +9,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.entity.player.ECPlayerHelper;
@@ -24,41 +24,46 @@ public abstract class AbstractECContainerBlock extends AbstractECEntityBlock {
 	}
 
     public InteractionResult onSlotActivated(ResourceHandler<ItemResource> inventory, Player player, ItemStack heldItem, int slot) {
-        return this.onSlotActivated(IItemHandler.of(inventory), player, heldItem, slot);
-    }
+		var level = player.level();
 
-    @Deprecated
-	public InteractionResult onSlotActivated(IItemHandler inventory, Player player, ItemStack heldItem, int slot) {
-		ItemStack stack = inventory.getStackInSlot(slot);
-		Level level = player.level();
+		var resourceInSlot = inventory.getResource(slot);
+		var amountInSlot = inventory.getAmountAsInt(slot);
+		var resourceInHand = ItemResource.of(heldItem);
+		var amountInHand = heldItem.getCount();
 
-		if (heldItem.isEmpty() || player.isShiftKeyDown() || (!stack.isEmpty() && !canInsertStack(inventory, stack, heldItem, slot))) {
-			if (!stack.isEmpty()) {
-				EntityHelper.dropAtFeet(level, player, inventory.extractItem(slot, stack.getCount(), false));
-				return InteractionResult.SUCCESS;
+		var capacity = Math.min(resourceInHand.getMaxStackSize(), inventory.getCapacityAsInt(slot, resourceInHand));
+		var canInsert = (resourceInSlot.equals(resourceInHand) && amountInSlot < capacity) || resourceInSlot.isEmpty();
+
+		// Extract
+		if (resourceInHand.isEmpty() || player.isShiftKeyDown() || !canInsert) {
+			if (!resourceInSlot.isEmpty()) {
+				try (var transaction = Transaction.openRoot()) {
+					var amount = inventory.extract(slot, resourceInSlot, amountInSlot, transaction);
+
+					if (amount > 0) {
+						EntityHelper.dropAtFeet(level, player, resourceInSlot.toStack(amount));
+						transaction.commit();
+						return InteractionResult.SUCCESS;
+					}
+				}
 			}
 			return InteractionResult.PASS;
-		} else if (stack.isEmpty() && inventory.isItemValid(slot, heldItem)) {
-			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot));
+		}
 
-			stack = heldItem.copy();
-			stack.setCount(size);
-			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
-			inventory.insertItem(slot, stack, false);
-			return InteractionResult.SUCCESS;
-		} else if (!stack.isEmpty() && canInsertStack(inventory, stack, heldItem, slot)) {
-			int size = Math.min(heldItem.getCount(), inventory.getSlotLimit(slot) - stack.getCount());
+		// Insert
+		var amount = Math.min(amountInHand, capacity - amountInSlot);
 
-			ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, size);
-			stack.grow(size);
-			return InteractionResult.SUCCESS;
+		try (var transaction = Transaction.openRoot()) {
+			amount = inventory.insert(slot, resourceInHand, amount, transaction);
+
+			if (amount > 0) {
+				ECPlayerHelper.shrinkItemInHand(player, heldItem, InteractionHand.MAIN_HAND, amount);
+				transaction.commit();
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return InteractionResult.PASS;
 	}
-
-    private boolean canInsertStack(IItemHandler inventory, ItemStack stack, ItemStack heldItem, int slot) {
-        return ItemStack.isSameItemSameComponents(stack, heldItem) && stack.getCount() < stack.getMaxStackSize() && stack.getCount() < inventory.getSlotLimit(slot);
-    }
 
 	protected InteractionResult onSingleSlotActivated(ItemStack stack, Level level, BlockPos pos, Player player, InteractionHand hand) {
 		var inv = ECContainerHelper.getItemResourceHandlerAt(level, pos, null);
