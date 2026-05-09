@@ -20,7 +20,7 @@ public interface DamageableCraftingItem extends IItemExtension {
         };
         stack.setDamageValue(stack.getDamageValue() + 1);
 
-        if (stack.isEmpty() || stack.getDamageValue() > stack.getMaxDamage()) {
+        if (stack.isEmpty() || stack.getDamageValue() >= stack.getMaxDamage()) {
             return null;
         }
         return ItemStackTemplate.fromNonEmptyStack(stack);
