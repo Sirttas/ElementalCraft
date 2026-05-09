@@ -35,8 +35,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 @ForEachTest(groups = ElementExtractorGameTests.GROUP)
 public class ElementExtractorGameTests {

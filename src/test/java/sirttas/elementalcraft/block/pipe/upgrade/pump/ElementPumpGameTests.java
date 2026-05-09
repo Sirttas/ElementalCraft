@@ -24,9 +24,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.elementStorage;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.elementStorage;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 @ForEachTest(groups = ElementPipeGameTests.GROUP)
 public class ElementPumpGameTests {

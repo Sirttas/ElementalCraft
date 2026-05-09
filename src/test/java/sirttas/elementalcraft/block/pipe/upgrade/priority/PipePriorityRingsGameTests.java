@@ -19,8 +19,8 @@ import sirttas.elementalcraft.template.StructureTemplatePipeLine;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.elementStorage;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.elementStorage;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 @ForEachTest(groups = ElementPipeGameTests.GROUP)
 public class PipePriorityRingsGameTests {

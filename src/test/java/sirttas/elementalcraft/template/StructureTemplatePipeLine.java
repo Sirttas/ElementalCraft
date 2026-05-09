@@ -5,8 +5,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
-import org.jspecify.annotations.NonNull;
+import net.neoforged.testframework.gametest.TemplateBuilderHelper;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 public class StructureTemplatePipeLine {
 
@@ -34,7 +34,7 @@ public class StructureTemplatePipeLine {
         return new Builder();
     }
 
-    public void place(StructureTemplateBuilder builder, BlockPos pos) {
+    public void place(TemplateBuilderHelper<?> builder, BlockPos pos) {
         pipes.forEach((blockPos, state) -> {
             var at = pos.offset(blockPos);
 
@@ -47,7 +47,7 @@ public class StructureTemplatePipeLine {
         });
     }
 
-    public void place(StructureTemplateBuilder builder) {
+    public void place(TemplateBuilderHelper<?> builder) {
         place(builder, new BlockPos(0, 0, 0));
     }
 
@@ -113,7 +113,7 @@ public class StructureTemplatePipeLine {
             return new StructureTemplatePipeLine(pipes);
         }
 
-        private @NonNull State getLastState() {
+        private State getLastState() {
             return pipes.computeIfAbsent(pointer.immutable(), _ -> new State());
         }
 
@@ -128,7 +128,7 @@ public class StructureTemplatePipeLine {
     }
 
     private static class State implements ValueIOSerializable {
-        CoverType type;
+        @Nullable CoverType type;
         final Map<Direction, ConnectionType> connections;
         final Map<Direction, PipeUpgrade> upgrades;
 
@@ -146,13 +146,13 @@ public class StructureTemplatePipeLine {
         }
 
         @Override
-        public void serialize(@NonNull ValueOutput output) {
+        public void serialize(ValueOutput output) {
             connections.forEach((k, v) -> output.putString(k.getSerializedName(), v.getName()));
             upgrades.forEach((k, v) -> output.putChild(k.getSerializedName() + "_upgrade", v));
         }
 
         @Override
-        public void deserialize(@NonNull ValueInput input) {
+        public void deserialize(ValueInput input) {
             throw new UnsupportedOperationException("Deserialization is not supported for StructureTemplatePipeLine.State");
         }
     }
@@ -160,13 +160,13 @@ public class StructureTemplatePipeLine {
     private record PipeUpgrade(Supplier<? extends PipeUpgradeType<?>> upgrade, Consumer<ValueOutput> output) implements ValueIOSerializable {
 
         @Override
-        public void serialize(@NonNull ValueOutput output) {
+        public void serialize(ValueOutput output) {
             output.putString("id", upgrade.get().getKey().toString());
             this.output.accept(output);
         }
 
         @Override
-        public void deserialize(@NonNull ValueInput input) {
+        public void deserialize(ValueInput input) {
             throw new UnsupportedOperationException("Deserialization is not supported for StructureTemplatePipeLine.PipeUpgrade");
         }
     }

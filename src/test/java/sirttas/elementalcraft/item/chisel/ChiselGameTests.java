@@ -31,8 +31,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 @ForEachTest(groups = ChiselGameTests.GROUP_NAME)
 public class ChiselGameTests {

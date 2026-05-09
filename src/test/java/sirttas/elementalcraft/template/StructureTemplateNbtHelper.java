@@ -8,7 +8,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -20,12 +19,12 @@ import sirttas.elementalcraft.api.rune.handler.RuneHandler;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-public class StructureTemplateHelper {
+public class StructureTemplateNbtHelper {
 
-    private StructureTemplateHelper() { }
+    private StructureTemplateNbtHelper() { }
 
     @SafeVarargs
-    public static @NotNull CompoundTag withValue(Consumer<ValueOutput>... values) {
+    public static CompoundTag withValue(Consumer<ValueOutput>... values) {
         var valueOutput = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, ECGameTestUtils.registryAccess());
 
         for (var rune : values) {
@@ -34,12 +33,13 @@ public class StructureTemplateHelper {
         return valueOutput.buildResult();
     }
 
-    public static @NotNull Consumer<ValueOutput> runeHandler(Collection<ResourceKey<Rune>> runes) {
+    @SuppressWarnings("unchecked")
+    public static Consumer<ValueOutput> runeHandler(Collection<ResourceKey<Rune>> runes) {
         return runeHandler(runes.toArray(ResourceKey[]::new));
     }
 
     @SafeVarargs
-    public static @NotNull Consumer<ValueOutput> runeHandler(ResourceKey<Rune>... runes) {
+    public static Consumer<ValueOutput> runeHandler(ResourceKey<Rune>... runes) {
         return output -> {
             var handler = new RuneHandler(runes.length);
 
@@ -50,20 +50,20 @@ public class StructureTemplateHelper {
         };
     }
 
-    public static @NotNull Consumer<ValueOutput> itemList(Collection<ItemStack> stacks) {
+    public static Consumer<ValueOutput> itemList(Collection<ItemStack> stacks) {
         return itemList(stacks.toArray(ItemStack[]::new));
     }
 
-    public static @NotNull Consumer<ValueOutput> itemList(ItemStack... stacks) {
+    public static Consumer<ValueOutput> itemList(ItemStack... stacks) {
         return output -> ContainerHelper.saveAllItems(output, NonNullList.of(ItemStack.EMPTY, stacks), false);
     }
 
 
-    public static @NotNull Consumer<ValueOutput> elementStorage(ElementType type, int amount) {
+    public static Consumer<ValueOutput> elementStorage(ElementType type, int amount) {
         return elementStorage(type, amount, amount);
     }
 
-    public static @NotNull Consumer<ValueOutput> elementStorage(ElementType type, int amount, int capacity) {
+    public static Consumer<ValueOutput> elementStorage(ElementType type, int amount, int capacity) {
         return output -> output.putChild(ECNames.ELEMENT_STORAGE, new SingleElementStorage(type, amount, capacity, null));
     }
 }

@@ -27,8 +27,8 @@ import sirttas.elementalcraft.rune.Runes;
 import java.util.function.Supplier;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.runeHandler;
-import static sirttas.elementalcraft.template.StructureTemplateHelper.withValue;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.runeHandler;
+import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
 @ForEachTest(groups = RetrieverGameTests.GROUP)
 public class RetrieverGameTests {
