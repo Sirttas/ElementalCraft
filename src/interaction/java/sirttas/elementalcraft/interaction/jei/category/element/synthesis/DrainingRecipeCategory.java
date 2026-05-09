@@ -23,7 +23,7 @@ import java.util.List;
 public class DrainingRecipeCategory extends AbstractECRecipeCategory<IngredientElementType> {
 
 	public static final String NAME = "draining";
-	public static final Identifier TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/draining.png");
+	public static final Identifier TEXTURE = ElementalCraftApi.identifier("textures/gui/overlay/draining.png");
 
 	private static final ItemStack DRAINING_SYNTHESIZER = new ItemStack(ECBlocks.DRAINING_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(

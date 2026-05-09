@@ -39,7 +39,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
 
     public <U> HolderSet<U> createHolderSet(ResourceKey<Registry<U>> registry, String ... names) {
         return createHolderSet(registry, Arrays.stream(names)
-                .map(ElementalCraftApi::createRL)
+                .map(ElementalCraftApi::identifier)
                 .toArray(Identifier[]::new));
     }
 
@@ -52,7 +52,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     }
 
     public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, String name) {
-        return getReference(registry, ElementalCraftApi.createRL(name));
+        return getReference(registry, ElementalCraftApi.identifier(name));
     }
 
     public <U> Holder<U> getReference(ResourceKey<Registry<U>> registry, Identifier name) {
@@ -69,7 +69,7 @@ public abstract class AbstractECRegistryBootstrap<T> implements RegistrySetBuild
     protected abstract void gather();
 
     protected Holder.Reference<T> add(String name, T entry) {
-        return add(ResourceKey.create(key, ElementalCraftApi.createRL(name)), entry);
+        return add(ResourceKey.create(key, ElementalCraftApi.identifier(name)), entry);
     }
 
     protected Holder.Reference<T> add(ResourceKey<T> k, T entry) {

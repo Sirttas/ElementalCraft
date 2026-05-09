@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public interface ElementContainer {
 
-	BlockCapability<ElementContainer, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.createRL("element_container"), ElementContainer.class);
+	BlockCapability<ElementContainer, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.identifier("element_container"), ElementContainer.class);
 
 	HolderSet<Block> getCompatibleTools();
 

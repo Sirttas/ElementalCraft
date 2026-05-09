@@ -438,10 +438,10 @@ public class ECEnglishLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("dioptase", "Pure Dioptase Ore Chunk");
         addPureOre("aquite", "Pure Aquite Ore Chunk");
         addPureOre("ventium", "Pure Ventium Ore Chunk");
-        addPureOre(ElementalCraftApi.createRL("resonating"), "Resonating Ore Chunk");
-        addPureOre(ElementalCraftApi.createRL("uraninite"), "Uraninite Ore Chunk");
+        addPureOre(ElementalCraftApi.identifier("resonating"), "Resonating Ore Chunk");
+        addPureOre(ElementalCraftApi.identifier("uraninite"), "Uraninite Ore Chunk");
         addPureOre(Identifier.withDefaultNamespace("amethyst"), "Pure Amethyst Ore Chunk");
-        addPureOre(ElementalCraftApi.createRL("springaline"), "Pure Springaline Ore Chunk");
+        addPureOre(ElementalCraftApi.identifier("springaline"), "Pure Springaline Ore Chunk");
         addPureOre(Identifier.fromNamespaceAndPath("ae2", "quartz"), "Pure Certus Quartz Ore Chunk");
 
         addTooltip("element_amount.0", "Tiny Amount");

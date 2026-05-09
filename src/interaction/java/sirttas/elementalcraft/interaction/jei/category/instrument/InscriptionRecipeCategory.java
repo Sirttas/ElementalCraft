@@ -25,7 +25,7 @@ public class InscriptionRecipeCategory extends AbstractInstrumentRecipeCategory<
 
 	public InscriptionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.inscription", createDrawableStack(guiHelper, INSCRIBER),100, 100);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/inscription.png"), 0, 0, 25, 12), 60, 20);
 	}
 
 	@Nonnull

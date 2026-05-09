@@ -90,7 +90,7 @@ import java.util.stream.IntStream;
 @JeiPlugin
 public class ElementalCraftJEIPlugin implements IModPlugin {
 
-	private static final Identifier ID = ElementalCraftApi.createRL("main");
+	private static final Identifier ID = ElementalCraftApi.identifier("main");
 
 	private final Supplier<HolderSet.Named<@NotNull Item>> spellCastTools;
 	private final Supplier<HolderSet.Named<@NotNull Item>> jewelSocketalbes;

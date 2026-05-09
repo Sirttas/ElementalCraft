@@ -60,7 +60,7 @@ public class BindingRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Binding Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(AbstractBindingRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.identifier(AbstractBindingRecipe.NAME + '/' + save));
 		}
 	}
 

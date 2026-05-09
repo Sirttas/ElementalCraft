@@ -5,7 +5,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 
@@ -18,7 +17,7 @@ public class ECSounds {
     private ECSounds() {}
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSound(String name) {
-        return DEFERRED_REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(ElementalCraftApi.createRL(name)));
+        return DEFERRED_REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(ElementalCraftApi.identifier(name)));
     }
 
     public static void register(IEventBus bus) {

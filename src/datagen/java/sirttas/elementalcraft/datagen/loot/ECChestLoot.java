@@ -42,7 +42,7 @@ public class ECChestLoot implements LootTableSubProvider {
 
 	@Nonnull
 	private static ResourceKey<@NotNull LootTable> createKey(String inject) {
-		return ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/" + inject));
+		return ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.identifier("chests/" + inject));
 	}
 
 	private static LootTable.Builder createInject() {

@@ -34,7 +34,7 @@ public abstract class AbstractInfusionRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(InfusionRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.identifier(InfusionRecipe.NAME + '/' + save));
 		}
 	}
 

@@ -15,7 +15,7 @@ public class RegistryHelper {
 	}
 
 	public static <T> void register(RegisterEvent.RegisterHelper<T> reg, T thing, String name) {
-		register(reg, ElementalCraftApi.createRL(name), thing);
+		register(reg, ElementalCraftApi.identifier(name), thing);
 	}
 
 	public static <T> void register(RegisterEvent.RegisterHelper<T> reg, T thing, DeferredHolder<?, ?> object) {

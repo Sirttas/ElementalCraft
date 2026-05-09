@@ -50,7 +50,7 @@ public class SpellCraftRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
-		this.save(recipeOutput, ElementalCraftApi.createRL(SpellCraftRecipe.NAME + '/' + save));
+		this.save(recipeOutput, ElementalCraftApi.identifier(SpellCraftRecipe.NAME + '/' + save));
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {

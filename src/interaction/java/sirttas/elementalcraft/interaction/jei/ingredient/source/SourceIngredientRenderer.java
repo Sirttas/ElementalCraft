@@ -14,8 +14,8 @@ import java.util.List;
 
 public class SourceIngredientRenderer implements IIngredientRenderer<@NotNull IngredientSource> {
 
-	private static final Identifier OUTER = ElementalCraftApi.createRL("textures/effect/source_outer.png");
-	private static final Identifier MIDDLE = ElementalCraftApi.createRL("textures/effect/source_middle.png");
+	private static final Identifier OUTER = ElementalCraftApi.identifier("textures/effect/source_outer.png");
+	private static final Identifier MIDDLE = ElementalCraftApi.identifier("textures/effect/source_middle.png");
 
 	@Override
 	public void render(@Nonnull GuiGraphicsExtractor guiGraphics, @Nonnull IngredientSource source) {/* TODO

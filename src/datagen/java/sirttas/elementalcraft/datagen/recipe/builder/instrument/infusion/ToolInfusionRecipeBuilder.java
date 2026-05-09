@@ -60,7 +60,7 @@ public class ToolInfusionRecipeBuilder extends AbstractInfusionRecipeBuilder {
 
 	@Nonnull
 	private static Identifier getEnchantmentName(ResourceKey<Enchantment> enchantment) {
-		return ElementalCraftApi.createRL(enchantment.identifier().getPath());
+		return ElementalCraftApi.identifier(enchantment.identifier().getPath());
 	}
 
 	@Override

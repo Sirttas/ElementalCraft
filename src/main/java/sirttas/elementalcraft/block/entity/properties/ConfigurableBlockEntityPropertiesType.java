@@ -14,7 +14,7 @@ import sirttas.elementalcraft.block.synthesizer.SynthesizerProperties;
 
 public record ConfigurableBlockEntityPropertiesType<T extends IConfigurableBlockEntityProperties>(MapCodec<T> codec) {
 
-    public static final ResourceKey<Registry<ConfigurableBlockEntityPropertiesType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL("configurable_block_entity_properties_type"));
+    public static final ResourceKey<Registry<ConfigurableBlockEntityPropertiesType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.identifier("configurable_block_entity_properties_type"));
     private static final DeferredRegister<ConfigurableBlockEntityPropertiesType<?>> DEFERRED_REGISTRY = DeferredRegister.create(REGISTRY_KEY, ElementalCraftApi.MODID);
 
     public static final Registry<ConfigurableBlockEntityPropertiesType<?>> REGISTRY = DEFERRED_REGISTRY.makeRegistry(b -> b.sync(true));

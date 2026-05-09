@@ -49,7 +49,7 @@ public class BuddingShrineRecipeCategory extends AbstractECRecipeCategory<Buddin
         shrineState = ECBlocks.BUDDING_SHRINE.get().defaultBlockState();
         buddingShrinePlateModelResolver = ECModelResolver.get(BuddingShrinePlateModelResolver.IDENTIFIER);
         upgradeStates = new HashMap<>();
-        addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
+        addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 61, 44);
     }
 
     @Nonnull

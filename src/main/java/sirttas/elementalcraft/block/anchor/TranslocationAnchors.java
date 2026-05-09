@@ -22,7 +22,7 @@ public class TranslocationAnchors extends SavedData {
     public static final Set<BlockPos> CLIENT_SET = new HashSet<>();
     private static final Codec<TranslocationAnchors> CODEC = BlockPos.CODEC.listOf().xmap(TranslocationAnchors::new, t -> List.copyOf(t.anchors()));
     public static final SavedDataType<@NotNull TranslocationAnchors> TYPE = new SavedDataType<>(
-            ElementalCraftApi.createRL("translocation_anchors"),
+            ElementalCraftApi.identifier("translocation_anchors"),
             TranslocationAnchors::new,
             CODEC,
             null);

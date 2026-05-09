@@ -27,7 +27,7 @@ public class VibrationRecipeCategory extends AbstractECRecipeCategory<Ingredient
 
 	public static final String NAME = "vibration";
 
-	private static final Identifier TEXTURE = ElementalCraftApi.createRL("textures/gui/overlay/vibration.png");
+	private static final Identifier TEXTURE = ElementalCraftApi.identifier("textures/gui/overlay/vibration.png");
 
 	private static final ItemStack VIBRATION_SYNTHESIZER = new ItemStack(ECBlocks.VIBRATION_SYNTHESIZER.get());
 	private static final List<ItemStack> CONTAINERS = List.of(

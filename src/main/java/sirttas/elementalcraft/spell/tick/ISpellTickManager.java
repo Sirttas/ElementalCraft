@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ISpellTickManager {
 
-    EntityCapability<ISpellTickManager, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.createRL("spell_tick_manager"), ISpellTickManager.class);
+    EntityCapability<ISpellTickManager, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.identifier("spell_tick_manager"), ISpellTickManager.class);
 
     @Nullable
     default AbstractSpellInstance getSpellInstance(Spell spell) {

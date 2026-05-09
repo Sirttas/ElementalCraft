@@ -25,7 +25,7 @@ public class ECPickupAdvancementGenerator extends AbstractECAdvancementGenerator
         var itemRegistry = registries.lookupOrThrow(Registries.ITEM);
 		var root = Advancement.Builder.advancement()
 				.addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
-				.save(saver, ElementalCraftApi.createRL("pickup/root"));
+				.save(saver, ElementalCraftApi.identifier("pickup/root"));
 
 		for (var entry : BuiltInRegistries.ITEM.entrySet()) {
 			var item = entry.getValue();

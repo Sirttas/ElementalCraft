@@ -19,9 +19,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class SpellPropertiesProvider extends AbstractManagedDataBuilderProvider<SpellProperties, SpellProperties.Builder> {
 
-	private static final Identifier REACH_DISTANCE_ID = ElementalCraftApi.createRL("spell_reach_distance");
-	private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("spell_attack_damage");
-	private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("spell_attack_knockback");
+	private static final Identifier REACH_DISTANCE_ID = ElementalCraftApi.identifier("spell_reach_distance");
+	private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.identifier("spell_attack_damage");
+	private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.identifier("spell_attack_knockback");
 
 	public SpellPropertiesProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraft.SPELL_PROPERTIES_MANAGER, SpellProperties.Builder.ENCODER);

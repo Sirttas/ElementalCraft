@@ -19,14 +19,14 @@ public class ECModelTemplates {
     private ECModelTemplates() {}
 
     public static ModelTemplate createBlock(String id, TextureSlot... slots) {
-        return ModelTemplates.create(ElementalCraftApi.createRL(id).toString(), slots);
+        return ModelTemplates.create(ElementalCraftApi.identifier(id).toString(), slots);
     }
 
     public static ModelTemplate createItem(String id, TextureSlot... slots) {
-        return ModelTemplates.createItem(ElementalCraftApi.createRL(id).toString(), slots);
+        return ModelTemplates.createItem(ElementalCraftApi.identifier(id).toString(), slots);
     }
 
     public static ModelTemplate create(String id, TextureSlot... slots) {
-        return new ModelTemplate(Optional.of(ElementalCraftApi.createRL(id)), Optional.empty(), slots);
+        return new ModelTemplate(Optional.of(ElementalCraftApi.identifier(id)), Optional.empty(), slots);
     }
 }

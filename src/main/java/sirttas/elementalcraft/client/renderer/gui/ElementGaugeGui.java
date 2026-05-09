@@ -37,7 +37,7 @@ import java.util.stream.Stream;
 
 public class ElementGaugeGui {
 
-    private static final Identifier GAUGE = ElementalCraftApi.createRL("textures/gui/element_gauge.png");
+    private static final Identifier GAUGE = ElementalCraftApi.identifier("textures/gui/element_gauge.png");
 
     private ElementGaugeGui() {}
 

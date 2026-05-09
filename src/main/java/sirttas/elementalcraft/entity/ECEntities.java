@@ -24,7 +24,7 @@ public class ECEntities {
     private ECEntities() {}
 
     private static <T extends Entity> DeferredHolder<@NotNull EntityType<?>, @NotNull EntityType<@NotNull T>> register(EntityType.Builder<@NotNull T> builder, String name) {
-        return DEFERRED_REGISTRY.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ElementalCraftApi.createRL(name))));
+        return DEFERRED_REGISTRY.register(name, () -> builder.build(ResourceKey.create(Registries.ENTITY_TYPE, ElementalCraftApi.identifier(name))));
     }
 
     public static void register(IEventBus bus) {

@@ -66,7 +66,7 @@ public class CrystallizationRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Crystalization Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(CrystallizationRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.identifier(CrystallizationRecipe.NAME + '/' + save));
 		}
 	}
 

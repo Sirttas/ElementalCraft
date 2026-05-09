@@ -28,6 +28,6 @@ public class Runes {
 	private Runes() {}
 
 	private static ResourceKey<Rune> createKey(String name) {
-		return IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraftApi.createRL(name));
+		return IDataManager.createKey(ElementalCraftApi.RUNE_MANAGER_KEY, ElementalCraftApi.identifier(name));
 	}
 }

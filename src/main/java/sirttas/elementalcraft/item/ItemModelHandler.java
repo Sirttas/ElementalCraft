@@ -17,12 +17,12 @@ public class ItemModelHandler {
 
     @SubscribeEvent
     public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
-        event.register(ElementalCraftApi.createRL("pure_ore"), PureOreTint.MAP_CODEC);
-        event.register(ElementalCraftApi.createRL("scroll_ribbon"), ScrollRibbonTint.MAP_CODEC);
+        event.register(ElementalCraftApi.identifier("pure_ore"), PureOreTint.MAP_CODEC);
+        event.register(ElementalCraftApi.identifier("scroll_ribbon"), ScrollRibbonTint.MAP_CODEC);
     }
 
     @SubscribeEvent
     public static void registerRangeSelectItemModelProperties(RegisterRangeSelectItemModelPropertyEvent event) {
-        event.register(ElementalCraftApi.createRL("air_mill_damage"), AirMillDamageRangeSelectItemModelProperty.MAP_CODEC);
+        event.register(ElementalCraftApi.identifier("air_mill_damage"), AirMillDamageRangeSelectItemModelProperty.MAP_CODEC);
     }
 }

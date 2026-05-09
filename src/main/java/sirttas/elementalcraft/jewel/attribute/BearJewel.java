@@ -21,8 +21,8 @@ public class BearJewel extends AttributeJewel {
 
     public static final String NAME = "bear";
 
-    private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.createRL("bear_jewel_attack_damage");
-    private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.createRL("bear_jewel_attack_knockback");
+    private static final Identifier ATTACK_DAMAGE_ID = ElementalCraftApi.identifier("bear_jewel_attack_damage");
+    private static final Identifier ATTACK_KNOCKBACK_ID = ElementalCraftApi.identifier("bear_jewel_attack_knockback");
 
     public BearJewel() {
         super(ElementType.EARTH, 10, () -> {

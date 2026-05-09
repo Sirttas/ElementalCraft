@@ -34,14 +34,14 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						ECItems.FOCUS.get(),
 						Component.translatable("advancements.elementalcraft.root.title"),
 						Component.translatable("advancements.elementalcraft.root.description"),
-						ElementalCraftApi.createRL("textures/block/whiterock.png"),
+						ElementalCraftApi.identifier("textures/block/whiterock.png"),
 						AdvancementType.GOAL,
 						false,
 						false,
 						false
 				)
 				.addCriterion("consumed_item", ConsumeItemTrigger.TriggerInstance.usedItem())
-				.save(saver, ElementalCraftApi.createRL("main/root"));
+				.save(saver, ElementalCraftApi.identifier("main/root"));
 		var source = Advancement.Builder.advancement()
 				.parent(root)
 				.display(
@@ -55,7 +55,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("player_look_at_source", LookAtSourceTrigger.TriggerInstance.playerLookAtSource())
-				.save(saver, ElementalCraftApi.createRL("main/sources"));
+				.save(saver, ElementalCraftApi.identifier("main/sources"));
 		var emptyReceptacle = Advancement.Builder.advancement()
 				.parent(source)
 				.display(
@@ -69,7 +69,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_empty_receptacle", hasItem(registries, ECItems.EMPTY_RECEPTACLE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/empty_receptacle"));
+				.save(saver, ElementalCraftApi.identifier("main/empty_receptacle"));
 		Advancement.Builder.advancement()
 				.parent(emptyReceptacle)
 				.display(
@@ -86,7 +86,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("use_water_receptacle", useItem(ItemPredicate.Builder.item().of(itemRegistry, ECBlocks.WATER_SOURCE.get())))
 				.addCriterion("use_earth_receptacle", useItem(ItemPredicate.Builder.item().of(itemRegistry, ECBlocks.EARTH_SOURCE.get())))
 				.addCriterion("use_air_receptacle", useItem(ItemPredicate.Builder.item().of(itemRegistry, ECBlocks.AIR_SOURCE.get())))
-				.save(saver, ElementalCraftApi.createRL("main/receptacles"));
+				.save(saver, ElementalCraftApi.identifier("main/receptacles"));
 		Advancement.Builder.advancement()
 				.parent(source)
 				.display(
@@ -100,7 +100,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_source_analysis_glass", hasItem(itemRegistry, ECItems.SOURCE_ANALYSIS_GLASS.get()))
-				.save(saver, ElementalCraftApi.createRL("main/source_analysis_glass"));
+				.save(saver, ElementalCraftApi.identifier("main/source_analysis_glass"));
 		Advancement.Builder.advancement()
 				.parent(source)
 				.display(
@@ -114,7 +114,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_source_stabilizer", hasItem(itemRegistry, ECItems.SOURCE_STABILIZER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/source_stabilizer"));
+				.save(saver, ElementalCraftApi.identifier("main/source_stabilizer"));
 		var inertCrystal = Advancement.Builder.advancement()
 				.parent(root)
 				.display(
@@ -128,7 +128,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_inert_crystal", hasItem(itemRegistry, ECItems.INERT_CRYSTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/inert_crystal"));
+				.save(saver, ElementalCraftApi.identifier("main/inert_crystal"));
 		var containedCrystal = Advancement.Builder.advancement()
 				.parent(inertCrystal)
 				.display(
@@ -142,7 +142,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_contained_crystal", hasItem(itemRegistry, ECItems.CONTAINED_CRYSTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/contained_crystal"));
+				.save(saver, ElementalCraftApi.identifier("main/contained_crystal"));
 		var rudimentaryPipe = Advancement.Builder.advancement()
 				.parent(containedCrystal)
 				.display(
@@ -156,7 +156,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_rudimentary_pipe", hasItem(itemRegistry, ECBlocks.PIPE_RUDIMENTARY.get()))
-				.save(saver, ElementalCraftApi.createRL("main/rudimentary_pipe"));
+				.save(saver, ElementalCraftApi.identifier("main/rudimentary_pipe"));
 		var pipe = Advancement.Builder.advancement()
 				.parent(rudimentaryPipe)
 				.display(
@@ -170,7 +170,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_pipe", hasItem(itemRegistry, ECBlocks.PIPE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/pipe"));
+				.save(saver, ElementalCraftApi.identifier("main/pipe"));
 		Advancement.Builder.advancement()
 				.parent(pipe)
 				.display(
@@ -184,7 +184,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_improved_pipe", hasItem(itemRegistry, ECBlocks.PIPE_IMPROVED.get()))
-				.save(saver, ElementalCraftApi.createRL("main/improved_pipe"));
+				.save(saver, ElementalCraftApi.identifier("main/improved_pipe"));
 		var smallContainer = Advancement.Builder.advancement()
 				.parent(rudimentaryPipe)
 				.display(
@@ -198,7 +198,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_small_container", hasItem(itemRegistry, ECBlocks.SMALL_CONTAINER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/small_container"));
+				.save(saver, ElementalCraftApi.identifier("main/small_container"));
 		var container = Advancement.Builder.advancement()
 				.parent(smallContainer)
 				.display(
@@ -212,7 +212,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_container", hasItem(itemRegistry, ECBlocks.CONTAINER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/container"));
+				.save(saver, ElementalCraftApi.identifier("main/container"));
 		Advancement.Builder.advancement()
 				.parent(container)
 				.display(
@@ -226,7 +226,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_reservoir", hasItem(itemRegistry, ECBlocks.FIRE_RESERVOIR.get(), ECBlocks.WATER_RESERVOIR.get(), ECBlocks.EARTH_RESERVOIR.get(), ECBlocks.AIR_RESERVOIR.get()))
-				.save(saver, ElementalCraftApi.createRL("main/reservoirs"));
+				.save(saver, ElementalCraftApi.identifier("main/reservoirs"));
 		var elementHolders = Advancement.Builder.advancement()
 				.parent(smallContainer)
 				.display(
@@ -240,7 +240,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_element_holder", hasItem(itemRegistry, ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get(), ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/element_holders"));
+				.save(saver, ElementalCraftApi.identifier("main/element_holders"));
 		Advancement.Builder.advancement()
 				.parent(elementHolders)
 				.display(
@@ -254,7 +254,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_pure_element_holder", hasItem(itemRegistry, ECItems.PURE_HOLDER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/pure_element_holder"));
+				.save(saver, ElementalCraftApi.identifier("main/pure_element_holder"));
 		var rudimentaryExtractor = Advancement.Builder.advancement()
 				.parent(containedCrystal)
 				.display(
@@ -268,7 +268,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_rudimentary_extractor", hasItem(itemRegistry, ECBlocks.RUDIMENTARY_EXTRACTOR.get()))
-				.save(saver, ElementalCraftApi.createRL("main/rudimentary_extractor"));
+				.save(saver, ElementalCraftApi.identifier("main/rudimentary_extractor"));
 		var extractor = Advancement.Builder.advancement()
 				.parent(rudimentaryExtractor)
 				.display(
@@ -282,7 +282,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_extractor", hasItem(itemRegistry, ECBlocks.EXTRACTOR.get()))
-				.save(saver, ElementalCraftApi.createRL("main/extractor"));
+				.save(saver, ElementalCraftApi.identifier("main/extractor"));
 		Advancement.Builder.advancement()
 				.parent(extractor)
 				.display(
@@ -296,7 +296,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_improved_extractor", hasItem(itemRegistry, ECBlocks.IMPROVED_EXTRACTOR.get()))
-				.save(saver, ElementalCraftApi.createRL("main/improved_extractor"));
+				.save(saver, ElementalCraftApi.identifier("main/improved_extractor"));
 		var infuser = Advancement.Builder.advancement()
 				.parent(containedCrystal)
 				.display(
@@ -310,7 +310,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_infuser", hasItem(itemRegistry, ECBlocks.INFUSER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/infuser"));
+				.save(saver, ElementalCraftApi.identifier("main/infuser"));
 		Advancement.Builder.advancement()
 				.parent(infuser)
 				.display(
@@ -327,7 +327,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("has_water_crystal", hasItem(itemRegistry, ECItems.WATER_CRYSTAL.get()))
 				.addCriterion("has_earth_crystal", hasItem(itemRegistry, ECItems.EARTH_CRYSTAL.get()))
 				.addCriterion("has_air_crystal", hasItem(itemRegistry, ECItems.AIR_CRYSTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/crystals"));
+				.save(saver, ElementalCraftApi.identifier("main/crystals"));
 		var crudeGems = Advancement.Builder.advancement()
 				.parent(infuser)
 				.display(
@@ -344,7 +344,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("has_crude_water_gem", hasItem(itemRegistry, ECItems.CRUDE_WATER_GEM.get()))
 				.addCriterion("has_crude_earth_gem", hasItem(itemRegistry, ECItems.CRUDE_EARTH_GEM.get()))
 				.addCriterion("has_crude_air_gem", hasItem(itemRegistry, ECItems.CRUDE_AIR_GEM.get()))
-				.save(saver, ElementalCraftApi.createRL("main/crude_gems"));
+				.save(saver, ElementalCraftApi.identifier("main/crude_gems"));
 		var fineGems = Advancement.Builder.advancement()
 				.parent(crudeGems)
 				.display(
@@ -361,7 +361,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("has_fine_water_gem", hasItem(itemRegistry, ECItems.FINE_WATER_GEM.get()))
 				.addCriterion("has_fine_earth_gem", hasItem(itemRegistry, ECItems.FINE_EARTH_GEM.get()))
 				.addCriterion("has_fine_air_gem", hasItem(itemRegistry, ECItems.FINE_AIR_GEM.get()))
-				.save(saver, ElementalCraftApi.createRL("main/fine_gems"));
+				.save(saver, ElementalCraftApi.identifier("main/fine_gems"));
 		Advancement.Builder.advancement()
 				.parent(fineGems)
 				.display(
@@ -378,7 +378,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("has_pristine_water_gem", hasItem(itemRegistry, ECItems.PRISTINE_WATER_GEM.get()))
 				.addCriterion("has_pristine_earth_gem", hasItem(itemRegistry, ECItems.PRISTINE_EARTH_GEM.get()))
 				.addCriterion("has_pristine_air_gem", hasItem(itemRegistry, ECItems.PRISTINE_AIR_GEM.get()))
-				.save(saver, ElementalCraftApi.createRL("main/pristine_gems"));
+				.save(saver, ElementalCraftApi.identifier("main/pristine_gems"));
 		var drenchedIron = Advancement.Builder.advancement()
 				.parent(infuser)
 				.display(
@@ -392,7 +392,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_drenched_iron", hasItem(itemRegistry, ECItems.DRENCHED_IRON_INGOT.get()))
-				.save(saver, ElementalCraftApi.createRL("main/drenched_iron"));
+				.save(saver, ElementalCraftApi.identifier("main/drenched_iron"));
 		var fireFurnace = Advancement.Builder.advancement()
 				.parent(drenchedIron)
 				.display(
@@ -406,7 +406,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_fire_furnace", hasItem(itemRegistry, ECBlocks.FIRE_FURNACE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/fire_furnace"));
+				.save(saver, ElementalCraftApi.identifier("main/fire_furnace"));
 		Advancement.Builder.advancement()
 				.parent(fireFurnace)
 				.display(
@@ -420,7 +420,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_fire_blast_furnace", hasItem(itemRegistry, ECBlocks.FIRE_BLAST_FURNACE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/fire_blast_furnace"));
+				.save(saver, ElementalCraftApi.identifier("main/fire_blast_furnace"));
 		var waterMillGrindstone = Advancement.Builder.advancement()
 				.parent(drenchedIron)
 				.display(
@@ -434,7 +434,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_water_mill_grindstone", hasItem(itemRegistry, ECBlocks.WATER_MILL_GRINDSTONE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/water_mill_grindstone"));
+				.save(saver, ElementalCraftApi.identifier("main/water_mill_grindstone"));
 		Advancement.Builder.advancement()
 				.parent(waterMillGrindstone)
 				.display(
@@ -448,7 +448,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_air_mill_grindstone", hasItem(itemRegistry, ECBlocks.AIR_MILL_GRINDSTONE.get()))
-				.save(saver, ElementalCraftApi.createRL("main/air_mill_grindstone"));
+				.save(saver, ElementalCraftApi.identifier("main/air_mill_grindstone"));
 		var waterMillWoodSaw = Advancement.Builder.advancement()
 				.parent(drenchedIron)
 				.display(
@@ -462,7 +462,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_water_mill_wood_saw", hasItem(itemRegistry, ECBlocks.WATER_MILL_WOOD_SAW.get()))
-				.save(saver, ElementalCraftApi.createRL("main/water_mill_wood_saw"));
+				.save(saver, ElementalCraftApi.identifier("main/water_mill_wood_saw"));
 		Advancement.Builder.advancement()
 				.parent(waterMillWoodSaw)
 				.display(
@@ -476,7 +476,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_air_mill_wood_saw", hasItem(itemRegistry, ECBlocks.AIR_MILL_WOOD_SAW.get()))
-				.save(saver, ElementalCraftApi.createRL("main/air_mill_wood_saw"));
+				.save(saver, ElementalCraftApi.identifier("main/air_mill_wood_saw"));
 		var binder = Advancement.Builder.advancement()
 				.parent(drenchedIron)
 				.display(
@@ -490,7 +490,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_binder", hasItem(itemRegistry, ECBlocks.BINDER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/binder"));
+				.save(saver, ElementalCraftApi.identifier("main/binder"));
 		var inscriber = Advancement.Builder.advancement()
 				.parent(drenchedIron)
 				.display(
@@ -504,7 +504,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_inscriber", hasItem(itemRegistry, ECBlocks.INSCRIBER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/inscriber"));
+				.save(saver, ElementalCraftApi.identifier("main/inscriber"));
 		var drenchedIronChisel = Advancement.Builder.advancement()
 				.parent(inscriber)
 				.display(
@@ -518,7 +518,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_drenched_iron_chisel", hasItem(itemRegistry, ECItems.DRENCHED_IRON_CHISEL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/drenched_iron_chisel"));
+				.save(saver, ElementalCraftApi.identifier("main/drenched_iron_chisel"));
 		var swiftAlloyChisel = Advancement.Builder.advancement()
 				.parent(drenchedIronChisel)
 				.display(
@@ -532,7 +532,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_swift_alloy_chisel", hasItem(itemRegistry, ECItems.SWIFT_ALLOY_CHISEL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/swift_alloy_chisel"));
+				.save(saver, ElementalCraftApi.identifier("main/swift_alloy_chisel"));
 		Advancement.Builder.advancement()
 				.parent(swiftAlloyChisel)
 				.display(
@@ -546,7 +546,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_fireite_chisel", hasItem(itemRegistry, ECItems.FIREITE_CHISEL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/fireite_chisel"));
+				.save(saver, ElementalCraftApi.identifier("main/fireite_chisel"));
 		var swiftAlloy = Advancement.Builder.advancement()
 				.parent(binder)
 				.display(
@@ -560,7 +560,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_swift_alloy", hasItem(itemRegistry, ECItems.SWIFT_ALLOY_INGOT.get()))
-				.save(saver, ElementalCraftApi.createRL("main/swift_alloy"));
+				.save(saver, ElementalCraftApi.identifier("main/swift_alloy"));
 		Advancement.Builder.advancement()
 				.parent(swiftAlloy)
 				.display(
@@ -574,7 +574,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_diffuser", hasItem(itemRegistry, ECBlocks.DIFFUSER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/diffuser"));
+				.save(saver, ElementalCraftApi.identifier("main/diffuser"));
 		var springalineShard = Advancement.Builder.advancement()
 				.parent(binder)
 				.display(
@@ -588,7 +588,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_springaline_shard", hasItem(itemRegistry, ECItems.SPRINGALINE_SHARD.get()))
-				.save(saver, ElementalCraftApi.createRL("main/springaline_shard"));
+				.save(saver, ElementalCraftApi.identifier("main/springaline_shard"));
 		Advancement.Builder.advancement()
 				.parent(springalineShard)
 				.display(
@@ -602,7 +602,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_springaline_cluster", hasItem(itemRegistry, ECBlocks.SPRINGALINE_CLUSTER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/springaline_cluster"));
+				.save(saver, ElementalCraftApi.identifier("main/springaline_cluster"));
 		var stronglyContainedCrystal = Advancement.Builder.advancement()
 				.parent(swiftAlloy)
 				.display(
@@ -616,7 +616,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_strongly_contained_crystal", hasItem(itemRegistry, ECItems.STRONGLY_CONTAINED_CRYSTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/strongly_contained_crystal"));
+				.save(saver, ElementalCraftApi.identifier("main/strongly_contained_crystal"));
 		var crystallizer = Advancement.Builder.advancement()
 				.parent(stronglyContainedCrystal)
 				.display(
@@ -630,7 +630,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_crystallizer", hasItem(itemRegistry, ECBlocks.CRYSTALLIZER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/crystallizer"));
+				.save(saver, ElementalCraftApi.identifier("main/crystallizer"));
 		var pureInfusion = Advancement.Builder.advancement()
 				.parent(crystallizer)
 				.display(
@@ -648,7 +648,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 				.addCriterion("has_water_pedestal", hasItem(itemRegistry, ECBlocks.WATER_PEDESTAL.get()))
 				.addCriterion("has_earth_pedestal", hasItem(itemRegistry, ECBlocks.EARTH_PEDESTAL.get()))
 				.addCriterion("has_air_pedestal", hasItem(itemRegistry, ECBlocks.AIR_PEDESTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/pure_infusion"));
+				.save(saver, ElementalCraftApi.identifier("main/pure_infusion"));
 		var pureCrystal = Advancement.Builder.advancement()
 				.parent(pureInfusion)
 				.display(
@@ -662,7 +662,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_pure_crystal", hasItem(itemRegistry, ECItems.PURE_CRYSTAL.get()))
-				.save(saver, ElementalCraftApi.createRL("main/pure_crystal"));
+				.save(saver, ElementalCraftApi.identifier("main/pure_crystal"));
 		Advancement.Builder.advancement()
 				.parent(pureInfusion)
 				.display(
@@ -676,7 +676,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_purifier", hasItem(itemRegistry, ECBlocks.PURIFIER.get()))
-				.save(saver, ElementalCraftApi.createRL("main/purifier"));
+				.save(saver, ElementalCraftApi.identifier("main/purifier"));
 		var fireite = Advancement.Builder.advancement()
 				.parent(pureCrystal)
 				.display(
@@ -690,7 +690,7 @@ public class ECAdvancementGenerator extends AbstractECAdvancementGenerator {
 						false
 				)
 				.addCriterion("has_fireite", hasItem(itemRegistry, ECItems.FIREITE_INGOT.get()))
-				.save(saver, ElementalCraftApi.createRL("main/fireite"));
+				.save(saver, ElementalCraftApi.identifier("main/fireite"));
 	}
 
 }

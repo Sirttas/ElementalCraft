@@ -28,7 +28,7 @@ public abstract class AbstractIOInstrumentRecipeCategory<I extends RecipeInput, 
 	
 	protected AbstractIOInstrumentRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack instrument) {
 		super(translationKey, createDrawableStack(guiHelper, instrument), 75, 75);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/io.png"), 0, 0, 65, 16), 8, 20);
 	}
 
 	protected List<ItemStack> getContainers() {

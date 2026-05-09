@@ -25,7 +25,7 @@ public class BindingRecipeCategory extends AbstractInstrumentRecipeCategory<Mult
 
 	public BindingRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.binding", createDrawableStack(guiHelper, BINDER), RADIUS * 2 + 48, RADIUS * 2 + 16);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/binding.png"), 0, 0, 124, 83), 10, 10);
 	}
 
 	@Nonnull

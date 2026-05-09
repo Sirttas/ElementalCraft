@@ -23,8 +23,8 @@ public abstract class AbstractCrackingRecipeCategory<T extends AbstractCrackingR
 
 	protected AbstractCrackingRecipeCategory(IGuiHelper guiHelper, String translationKey, ItemStack synthesizer, List<ItemStack> containers) {
 		super(translationKey, createDrawableStack(guiHelper, synthesizer), 108, 36);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/cracking.png"), 0, 0, 73, 14), 17, 17, AbstractCrackingRecipe::hasResult);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/cracking_no_output.png"), 0, 0, 73, 14), 17, 17, recipe -> !recipe.hasResult());
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/cracking.png"), 0, 0, 73, 14), 17, 17, AbstractCrackingRecipe::hasResult);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/cracking_no_output.png"), 0, 0, 73, 14), 17, 17, recipe -> !recipe.hasResult());
 		this.synthesizer = synthesizer;
 		this.containers = containers;
 	}

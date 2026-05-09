@@ -427,7 +427,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     public void createSourceBlock(Block block) {
         ModelTemplates.PARTICLE_ONLY.create(
                 ModelLocationUtils.getModelLocation(block),
-                new TextureMapping().put(TextureSlot.PARTICLE, new Material(ElementalCraftApi.createRL("block/source"))),
+                new TextureMapping().put(TextureSlot.PARTICLE, new Material(ElementalCraftApi.identifier("block/source"))),
                 modelOutput);
         createNonTemplateModelBlock(block);
     }
@@ -484,7 +484,7 @@ public class ECBlockStateModelGenerator extends BlockModelGenerators implements 
     }
 
     public static Identifier decorateBlockModelLocation(String id) {
-        return ElementalCraftApi.createRL(id).withPrefix("block/");
+        return ElementalCraftApi.identifier(id).withPrefix("block/");
     }
 
 }

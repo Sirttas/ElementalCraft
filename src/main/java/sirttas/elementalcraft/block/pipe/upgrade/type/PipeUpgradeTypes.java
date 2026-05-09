@@ -24,7 +24,7 @@ public class PipeUpgradeTypes {
 
     private static final Map<PipeUpgradeType<?>, Item> UPGRADE_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    private static final DeferredRegister<@NotNull PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.createRL(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
+    private static final DeferredRegister<@NotNull PipeUpgradeType<?>> DEFERRED_REGISTER = DeferredRegister.create(ElementalCraftApi.identifier(ECNames.PIPE_UPGRADE_TYPE), ElementalCraftApi.MODID);
 
     public static final Registry<@NotNull PipeUpgradeType<?>> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true));
 

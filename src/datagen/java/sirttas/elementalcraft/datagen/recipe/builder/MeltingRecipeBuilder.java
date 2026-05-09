@@ -58,7 +58,7 @@ public class MeltingRecipeBuilder {
         if (Identifier.parse(save).equals(Identifier)) {
             throw new IllegalStateException("Melting Recipe " + save + " should remove its 'save' argument");
         } else {
-            this.save(recipeOutput, ElementalCraftApi.createRL(MeltingRecipe.NAME + '/' + save));
+            this.save(recipeOutput, ElementalCraftApi.identifier(MeltingRecipe.NAME + '/' + save));
         }
     }
 

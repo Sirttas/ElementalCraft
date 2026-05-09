@@ -14,7 +14,7 @@ import sirttas.elementalcraft.spell.air.TranslocationSpell;
 
 public class TranslocationAnchorGui {
 
-    public static final Identifier TRANSLOCATION_ANCHOR_MARKER = ElementalCraftApi.createRL("textures/gui/translocation_anchor_marker.png");
+    public static final Identifier TRANSLOCATION_ANCHOR_MARKER = ElementalCraftApi.identifier("textures/gui/translocation_anchor_marker.png");
 
     private TranslocationAnchorGui() {}
 

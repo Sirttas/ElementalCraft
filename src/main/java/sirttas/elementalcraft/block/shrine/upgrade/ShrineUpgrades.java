@@ -65,7 +65,7 @@ public class ShrineUpgrades {
 	private ShrineUpgrades() {}
 
 	private static ResourceKey<@NotNull ShrineUpgrade> createKey(String name) {
-		return IDataManager.createKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraftApi.createRL(name));
+		return IDataManager.createKey(ElementalCraftApi.SHRINE_UPGRADE_MANAGER_KEY, ElementalCraftApi.identifier(name));
 	}
 
 }

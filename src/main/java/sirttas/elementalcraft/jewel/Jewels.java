@@ -35,11 +35,11 @@ public class Jewels {
 
     private static final Map<Jewel, Item> JEWEL_ITEM_MAP = new Object2ObjectOpenHashMap<>();
 
-    public static final ResourceKey<Registry<Jewel>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.JEWEL));
+    public static final ResourceKey<Registry<Jewel>> REGISTRY_KEY = ResourceKey.createRegistryKey(ElementalCraftApi.identifier(ECNames.JEWEL));
 
     private static final DeferredRegister<Jewel> DEFERRED_REGISTER = DeferredRegister.create(REGISTRY_KEY, ElementalCraftApi.MODID);
 
-    public static final Registry<Jewel> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true).defaultKey(ElementalCraftApi.createRL(ECNames.NONE)));
+    public static final Registry<Jewel> REGISTRY = DEFERRED_REGISTER.makeRegistry(b -> b.sync(true).defaultKey(ElementalCraftApi.identifier(ECNames.NONE)));
 
     public static final DeferredHolder<Jewel, SalmonJewel> SALMON = register(SalmonJewel.NAME, SalmonJewel::new);
     public static final DeferredHolder<Jewel, PhoenixJewel> PHOENIX = register(PhoenixJewel.NAME, PhoenixJewel::new);
@@ -75,7 +75,7 @@ public class Jewels {
     }
 
     public static void registerAliases(DeferredRegister<?> register) {
-        register.addAlias(ElementalCraftApi.createRL("arctic_hares"), ElementalCraftApi.createRL(ArcticHareJewel.NAME));
+        register.addAlias(ElementalCraftApi.identifier("arctic_hares"), ElementalCraftApi.identifier(ArcticHareJewel.NAME));
     }
 
     public static void setup() {

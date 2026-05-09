@@ -179,7 +179,7 @@ public class PureOreGenerator {
     }
 
     private static Identifier buildRecipeId(@Nonnull Identifier factoryId, @Nonnull Identifier sourceId) {
-        return ElementalCraftApi.createRL("pure_ore/" + factoryId.getNamespace() + "/" + factoryId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
+        return ElementalCraftApi.identifier("pure_ore/" + factoryId.getNamespace() + "/" + factoryId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
     }
 
     private static class LoadedPureOreSet {
@@ -210,12 +210,12 @@ public class PureOreGenerator {
         private static Identifier buildOrePurificationRecipeId(@Nullable ResourceKey<@NotNull IPureOreLoader> loaderKey, @Nonnull Identifier sourceId) {
             if (loaderKey == null) {
                 ElementalCraftApi.LOGGER.warn("Unknown loader for pure ore {}.", sourceId);
-                return ElementalCraftApi.createRL("ore_purification/generated/unknown_loader/" + sourceId.getNamespace() + "/" + sourceId.getPath());
+                return ElementalCraftApi.identifier("ore_purification/generated/unknown_loader/" + sourceId.getNamespace() + "/" + sourceId.getPath());
             }
 
             var loaderId = loaderKey.identifier();
 
-            return ElementalCraftApi.createRL("ore_purification/generated/" + loaderId.getNamespace() + "/" + loaderId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
+            return ElementalCraftApi.identifier("ore_purification/generated/" + loaderId.getNamespace() + "/" + loaderId.getPath() + "/" + sourceId.getNamespace() + "/" + sourceId.getPath());
         }
 
         public PureOre toPureOre() {

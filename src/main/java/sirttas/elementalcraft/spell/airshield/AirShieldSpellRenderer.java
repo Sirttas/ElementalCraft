@@ -16,8 +16,8 @@ import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 
 public class AirShieldSpellRenderer implements SpellRenderer<AirShieldSpellRenderState> {
 
-    private static final Identifier BACKGROUND = ElementalCraftApi.createRL("textures/effect/air_shield_background.png");
-    private static final Identifier BLADE = ElementalCraftApi.createRL("effect/air_shield_blade");
+    private static final Identifier BACKGROUND = ElementalCraftApi.identifier("textures/effect/air_shield_background.png");
+    private static final Identifier BLADE = ElementalCraftApi.identifier("effect/air_shield_blade");
 
     @Override
     public AirShieldSpellRenderState createRenderState() {

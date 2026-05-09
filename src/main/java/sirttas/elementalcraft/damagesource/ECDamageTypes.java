@@ -7,8 +7,8 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class ECDamageTypes {
 
-    public static final ResourceKey<DamageType> HOLY_FIRE = ResourceKey.create(Registries.DAMAGE_TYPE, ElementalCraftApi.createRL("holy_fire"));
-    public static final ResourceKey<DamageType> DRAINING = ResourceKey.create(Registries.DAMAGE_TYPE, ElementalCraftApi.createRL("draining"));
+    public static final ResourceKey<DamageType> HOLY_FIRE = ResourceKey.create(Registries.DAMAGE_TYPE, ElementalCraftApi.identifier("holy_fire"));
+    public static final ResourceKey<DamageType> DRAINING = ResourceKey.create(Registries.DAMAGE_TYPE, ElementalCraftApi.identifier("draining"));
 
     private ECDamageTypes() {}
 }

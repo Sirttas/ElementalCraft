@@ -43,7 +43,7 @@ public class SourceTraits {
 	}
 
 	private static ResourceKey<SourceTrait> key(String name) {
-		return key(ElementalCraftApi.createRL(name));
+		return key(ElementalCraftApi.identifier(name));
 	}
 
 	private static ResourceKey<SourceTrait> key(Identifier name) {

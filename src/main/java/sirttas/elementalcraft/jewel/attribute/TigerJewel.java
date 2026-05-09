@@ -21,7 +21,7 @@ public class TigerJewel extends AttributeJewel {
 
     public static final String NAME = "tiger";
 
-    private static final Identifier ATTACK_SPEED_ID = ElementalCraftApi.createRL("tiger_jewel_attack_speed");
+    private static final Identifier ATTACK_SPEED_ID = ElementalCraftApi.identifier("tiger_jewel_attack_speed");
 
     public TigerJewel() {
         super(ElementType.AIR, 10, () -> {

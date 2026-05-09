@@ -438,10 +438,10 @@ public class ECFrenchLanguageProvider extends AbstractECLanguageProvider {
         addPureOre("dioptase", "Fragment de minerai de dioptase pur");
         addPureOre("aquite", "Fragment de minerai d'aquite pur");
         addPureOre("ventium", "Fragment de minerai de ventium pur");
-        addPureOre(ElementalCraftApi.createRL("resonating"), "Fragment de minerai résonant pur");
-        addPureOre(ElementalCraftApi.createRL("uraninite"), "Fragment de minerai d'uraninite pur");
+        addPureOre(ElementalCraftApi.identifier("resonating"), "Fragment de minerai résonant pur");
+        addPureOre(ElementalCraftApi.identifier("uraninite"), "Fragment de minerai d'uraninite pur");
         addPureOre(Identifier.withDefaultNamespace("amethyst"), "Fragment de minerai d'améthyste pur");
-        addPureOre(ElementalCraftApi.createRL("springaline"), "Fragment de minerai de printanite pur");
+        addPureOre(ElementalCraftApi.identifier("springaline"), "Fragment de minerai de printanite pur");
         addPureOre(Identifier.fromNamespaceAndPath("ae2", "quartz"), "Fragment de minerai de quartz de certus pur");
 
         addTooltip("element_amount.0", "Petite quantité");

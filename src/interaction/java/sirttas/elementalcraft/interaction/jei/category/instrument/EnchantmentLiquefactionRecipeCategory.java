@@ -41,7 +41,7 @@ public class EnchantmentLiquefactionRecipeCategory extends AbstractInstrumentRec
 
 	public EnchantmentLiquefactionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.enchantment_liquefaction", createDrawableStack(guiHelper, ENCHANTMENT_LIQUEFIER), 86, 100);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/enchantment_liquefaction.png"), 0, 0, 46, 13), 20, 20);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/enchantment_liquefaction.png"), 0, 0, 46, 13), 20, 20);
 	}
 
 	@Nonnull

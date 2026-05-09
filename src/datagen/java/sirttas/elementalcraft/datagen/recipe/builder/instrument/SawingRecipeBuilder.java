@@ -59,7 +59,7 @@ public class SawingRecipeBuilder {
 	public void save(RecipeOutput recipeOutput) {
 		Identifier id = BuiltInRegistries.ITEM.getKey(this.result);
 
-		this.save(recipeOutput, ElementalCraftApi.createRL(SawingRecipe.NAME + '/' + id.getPath()));
+		this.save(recipeOutput, ElementalCraftApi.identifier(SawingRecipe.NAME + '/' + id.getPath()));
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
@@ -67,7 +67,7 @@ public class SawingRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Sawing Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(SawingRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.identifier(SawingRecipe.NAME + '/' + save));
 		}
 	}
 

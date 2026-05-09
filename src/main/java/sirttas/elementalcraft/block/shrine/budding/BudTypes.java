@@ -15,6 +15,6 @@ public class BudTypes {
     private BudTypes() {}
 
     private static ResourceKey<@NotNull BuddingShrineBudType> createKey(String name) {
-        return IDataManager.createKey(ElementalCraftApi.BUD_TYPE_MANAGER_KEY, ElementalCraftApi.createRL(name));
+        return IDataManager.createKey(ElementalCraftApi.BUD_TYPE_MANAGER_KEY, ElementalCraftApi.identifier(name));
     }
 }

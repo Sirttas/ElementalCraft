@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IJewelHandler {
 
-    EntityCapability<@NotNull IJewelHandler, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.createRL("jewel_handler"), IJewelHandler.class);
+    EntityCapability<@NotNull IJewelHandler, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.identifier("jewel_handler"), IJewelHandler.class);
 
     @Nonnull
     List<Jewel> getActiveJewels(); // TODO move to holder

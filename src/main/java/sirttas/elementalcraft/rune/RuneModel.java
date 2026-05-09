@@ -39,9 +39,9 @@ public class RuneModel {
     }
 
     public enum Slate implements StringRepresentable {
-        MINOR("minor", new Material(ElementalCraftApi.createRL("item/minor_rune_slate"))),
-        STANDARD("standard", new Material(ElementalCraftApi.createRL("item/rune_slate"))),
-        MAJOR("major", new Material(ElementalCraftApi.createRL("item/major_rune_slate")));
+        MINOR("minor", new Material(ElementalCraftApi.identifier("item/minor_rune_slate"))),
+        STANDARD("standard", new Material(ElementalCraftApi.identifier("item/rune_slate"))),
+        MAJOR("major", new Material(ElementalCraftApi.identifier("item/major_rune_slate")));
 
         public static final Codec<Slate> CODEC = StringRepresentable.fromEnum(Slate::values);
 

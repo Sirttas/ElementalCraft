@@ -20,7 +20,7 @@ public class SpellCraftRecipeCategory extends AbstractECRecipeCategory<SpellCraf
 
 	public SpellCraftRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.spell_craft", createDrawableStack(guiHelper, new ItemStack(ECBlocks.SPELL_DESK.get())), 123, 55);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/spell_craft.png"), 0, 0, 103, 36), 10, 10);
 	}
 
 	@Nonnull

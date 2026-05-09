@@ -214,7 +214,7 @@ public class ECSilentGearMaterialProvider extends MaterialsProvider {
     }
 
     public static MaterialBuilder<SimpleMaterial> createBuilder(List<MaterialBuilder<?>> list, TagKey<@NotNull Item> tag, IMaterialCategory... categories) {
-        var builder = MaterialBuilder.simple(DataResource.material(ElementalCraftApi.createRL(tag.location().getPath())))
+        var builder = MaterialBuilder.simple(DataResource.material(ElementalCraftApi.identifier(tag.location().getPath())))
                 .crafting(tag, categories);
 
         list.add(builder);

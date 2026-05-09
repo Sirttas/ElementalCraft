@@ -27,8 +27,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<ToolInfusion, ToolInfusion> {
 
-	private static final Identifier ATTACK_SEED_ID = ElementalCraftApi.createRL("tool_infusion_attack_speed");
-	private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("tool_infusion_movement_speed");
+	private static final Identifier ATTACK_SEED_ID = ElementalCraftApi.identifier("tool_infusion_attack_speed");
+	private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.identifier("tool_infusion_movement_speed");
 
 	public ToolInfusionProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
 		super(packOutput, registries, ElementalCraftApi.TOOL_INFUSION_MANAGER, ToolInfusion.CODEC);
@@ -107,7 +107,7 @@ public class ToolInfusionProvider extends AbstractManagedDataBuilderProvider<Too
 	}
 
 	protected void add(ToolInfusion infusion, String name) {
-		add(ElementalCraftApi.createRL(name), infusion);
+		add(ElementalCraftApi.identifier(name), infusion);
 	}
 
 	private ToolInfusion createToolInfusion(ElementType type, IToolInfusionEffect infusion) {

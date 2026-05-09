@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 public class SourceAnalysisGlassScreen extends AbstractContainerScreen<@NotNull SourceAnalysisGlassMenu> implements MenuAccess<@NotNull SourceAnalysisGlassMenu>, IRefreshedScreen {
 	
-	private static final Identifier SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/source_analysis_glass.png");
+	private static final Identifier SOURCE_ANALYSIS_GLASS_GUI_TEXTURE = ElementalCraftApi.identifier("textures/gui/container/source_analysis_glass.png");
 
 	private TraitsList traitsList;
 

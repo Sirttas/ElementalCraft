@@ -14,6 +14,7 @@ import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.dpanvil.api.imc.DataManagerIMC;
 import sirttas.elementalcraft.advancements.ECCriteriaTriggers;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
@@ -64,16 +65,16 @@ import java.util.Map;
 @Mod(ElementalCraftApi.MODID)
 public class ElementalCraft {
 
-	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.SPELL_PROPERTIES));
+	public static final ResourceKey<IDataManager<SpellProperties>> SPELL_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.identifier(ECNames.SPELL_PROPERTIES));
 	public static final IDataManager<SpellProperties> SPELL_PROPERTIES_MANAGER = IDataManager.builder(SpellProperties.class, SPELL_PROPERTIES_MANAGER_KEY)
 			.withDefault(SpellProperties.NONE)
 			.build();
 
-	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL(ECNames.PURE_ORE_LOADER));
+	public static final ResourceKey<IDataManager<IPureOreLoader>> PURE_ORE_LOADERS_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.identifier(ECNames.PURE_ORE_LOADER));
 	public static final IDataManager<IPureOreLoader> PURE_ORE_LOADERS_MANAGER = IDataManager.builder(IPureOreLoader.class, PURE_ORE_LOADERS_MANAGER_KEY)
 			.build();
 
-	public static final ResourceKey<IDataManager<IConfigurableBlockEntityProperties>> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.createRL("configurable_block_entity_properties"));
+	public static final ResourceKey<IDataManager<IConfigurableBlockEntityProperties>> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY = IDataManager.createManagerKey(ElementalCraftApi.identifier("configurable_block_entity_properties"));
 	public static final IDataManager<IConfigurableBlockEntityProperties> CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER = IDataManager.builder(IConfigurableBlockEntityProperties.class, CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY)
 			.build();
 
@@ -124,12 +125,12 @@ public class ElementalCraft {
         interactions().registerTestFramework(modBus, container);
 	}
 
-    public static synchronized sirttas.elementalcraft.api.ElementalCraftInteraction interactions() {
+    public static synchronized ElementalCraftInteraction interactions() {
         return INTERACTIONS;
     }
 
 	public static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
-		return ResourceKey.createRegistryKey(ElementalCraftApi.createRL(name));
+		return ResourceKey.createRegistryKey(ElementalCraftApi.identifier(name));
 	}
 
 	public static <T> boolean owns(Map.Entry<ResourceKey<T>, T> entry) {

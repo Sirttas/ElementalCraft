@@ -149,7 +149,7 @@ public class RunesProvider extends AbstractManagedDataBuilderProvider<Rune, Rune
 		var name = key.identifier().getPath();
 		var builder = Rune.Builder.create();
 
-		add(ElementalCraftApi.createRL(name), builder);
+		add(ElementalCraftApi.identifier(name), builder);
 		return builder;
 	}
 

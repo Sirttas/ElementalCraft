@@ -29,7 +29,7 @@ public class StaffItem extends FocusItem {
 
 	public static final String NAME = "staff";
 
-	public static final Identifier BASE_ATTACK_RANGE_ID = ElementalCraftApi.createRL("staff_attack_range");
+	public static final Identifier BASE_ATTACK_RANGE_ID = ElementalCraftApi.identifier("staff_attack_range");
 
 	public static final ItemAttributeModifiers ATTRIBUTE_MODIFIERS = ItemAttributeModifiers.builder()
 			.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)

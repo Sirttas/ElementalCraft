@@ -11,7 +11,7 @@ import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 public record SimpleStandaloneModelSupplier(Identifier identifier, StandaloneModelKey<@NotNull BlockStateModelPart> key) {
 
     public SimpleStandaloneModelSupplier(String identifier) {
-        this(ElementalCraftApi.createRL(identifier));
+        this(ElementalCraftApi.identifier(identifier));
     }
 
     public SimpleStandaloneModelSupplier(Identifier identifier) {

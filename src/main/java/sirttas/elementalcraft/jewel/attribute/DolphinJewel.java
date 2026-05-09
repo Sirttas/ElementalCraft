@@ -20,7 +20,7 @@ public class DolphinJewel extends AttributeJewel {
 
     public static final String NAME = "dolphin";
 
-    private static final Identifier SWIM_SPEED_ID = ElementalCraftApi.createRL("dolphin_jewel_swim_speed");
+    private static final Identifier SWIM_SPEED_ID = ElementalCraftApi.identifier("dolphin_jewel_swim_speed");
 
     public DolphinJewel() {
         super(ElementType.WATER, 50, () -> {

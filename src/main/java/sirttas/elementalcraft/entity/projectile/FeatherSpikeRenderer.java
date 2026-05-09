@@ -9,7 +9,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class FeatherSpikeRenderer extends ArrowRenderer<@NotNull FeatherSpike, @NotNull ArrowRenderState> {
 
-    public static final Identifier SPIKE = ElementalCraftApi.createRL("textures/entity/feather_spike.png");
+    public static final Identifier SPIKE = ElementalCraftApi.identifier("textures/entity/feather_spike.png");
 
     public FeatherSpikeRenderer(EntityRendererProvider.Context context) {
         super(context);

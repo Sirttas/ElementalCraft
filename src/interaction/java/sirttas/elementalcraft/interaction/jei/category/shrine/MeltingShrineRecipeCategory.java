@@ -29,7 +29,7 @@ public class MeltingShrineRecipeCategory extends AbstractECRecipeCategory<Meltin
     public MeltingShrineRecipeCategory(IGuiHelper guiHelper) {
         super("elementalcraft.jei.melting_shrine", createDrawableStack(guiHelper, new ItemStack(ECBlocks.MELTING_SHRINE.get())), 121, 80);
         meltingShrine = ECBlocks.MELTING_SHRINE.get().defaultBlockState();
-        addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 72, 64);
+        addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/extraction.png"), 0, 0, 24, 9), 72, 64);
     }
 
     @Nonnull

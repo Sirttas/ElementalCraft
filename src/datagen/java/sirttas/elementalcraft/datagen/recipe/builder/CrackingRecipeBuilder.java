@@ -67,7 +67,7 @@ public class CrackingRecipeBuilder {
         if (Identifier.parse(save).equals(Identifier)) {
             throw new IllegalStateException("Cracking Recipe " + save + " should remove its 'save' argument");
         } else {
-            this.save(recipeOutput, ElementalCraftApi.createRL(CrackingRecipe.NAME + '/' + save));
+            this.save(recipeOutput, ElementalCraftApi.identifier(CrackingRecipe.NAME + '/' + save));
         }
     }
 

@@ -14,7 +14,7 @@ import sirttas.elementalcraft.api.ElementalCraftApi;
 
 public class SpellDeskScreen extends AbstractContainerScreen<@NotNull SpellDeskMenu> implements MenuAccess<@NotNull SpellDeskMenu> {
 	
-	private static final Identifier SPELL_DESK_GUI_TEXTURE = ElementalCraftApi.createRL("textures/gui/container/spell_desk.png");
+	private static final Identifier SPELL_DESK_GUI_TEXTURE = ElementalCraftApi.identifier("textures/gui/container/spell_desk.png");
 
 	private Button previous;
 	private Button next;

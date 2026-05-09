@@ -21,8 +21,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IPureOreLoader, IPureOreLoaderBuilder> {
 
-    private static final Identifier FIXED_RESONATING = ElementalCraftApi.createRL("resonating");
-    private static final Identifier FIXED_URANINITE = ElementalCraftApi.createRL("uraninite");
+    private static final Identifier FIXED_RESONATING = ElementalCraftApi.identifier("resonating");
+    private static final Identifier FIXED_URANINITE = ElementalCraftApi.identifier("uraninite");
 
     private static final String NAMESPACE_PATTERN = "^(c|forge|blue_skies)$";
     private static final String DEEPSLATE_PATTERN = "^deepslate_";
@@ -112,7 +112,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
     }
 
     protected FixedNamePureOreLoaderBuilder fixedName(String name, TagKey<Item> tag, Identifier fixedName) {
-        return (FixedNamePureOreLoaderBuilder) add(ElementalCraftApi.createRL(name), new FixedNamePureOreLoaderBuilder(createHolderSet(tag), fixedName));
+        return (FixedNamePureOreLoaderBuilder) add(ElementalCraftApi.identifier(name), new FixedNamePureOreLoaderBuilder(createHolderSet(tag), fixedName));
     }
 
     protected PatternPureOreLoaderBuilder pattern(String name, TagKey<Item> tag, String pattern) {
@@ -120,7 +120,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
     }
 
     protected PatternPureOreLoaderBuilder pattern(String name, HolderSet<Item> holderSet, String pattern) {
-        return (PatternPureOreLoaderBuilder) add(ElementalCraftApi.createRL(name), new PatternPureOreLoaderBuilder(holderSet, pattern));
+        return (PatternPureOreLoaderBuilder) add(ElementalCraftApi.identifier(name), new PatternPureOreLoaderBuilder(holderSet, pattern));
     }
 
     private HolderSet<Item> withoutSpecific(TagKey<Item> tag) {

@@ -11,6 +11,6 @@ public class PatchouliInteraction {
 
     @NotNull
     public static ItemStackTemplate createElementopedia() {
-        return PatchouliAPI.get().getBookStackTemplate(ElementalCraftApi.createRL("element_book"));
+        return PatchouliAPI.get().getBookStackTemplate(ElementalCraftApi.identifier("element_book"));
     }
 }

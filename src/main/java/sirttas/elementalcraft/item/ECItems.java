@@ -327,18 +327,18 @@ public class ECItems {
 	}
 
 	private static <T extends Item> DeferredHolder<Item, T> register(String name, Function<Item.Properties, T> itemFactory, Supplier<Item.Properties> properties) {
-		var id = ResourceKey.create(Registries.ITEM, ElementalCraftApi.createRL(name));
+		var id = ResourceKey.create(Registries.ITEM, ElementalCraftApi.identifier(name));
 		return DEFERRED_REGISTER.register(name, () -> itemFactory.apply(properties.get().setId(id)));
 	}
 
 	public static void register(IEventBus bus) {
 		ECBlocks.registerAliases(DEFERRED_REGISTER);
 		Jewels.registerAliases(DEFERRED_REGISTER);
-		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("chisel"), ElementalCraftApi.createRL(ChiselItem.NAME_SWIFT_ALLOY));
-		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("natural_fire_source_seed"), ElementalCraftApi.createRL("fire_source_seed"));
-		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("natural_water_source_seed"), ElementalCraftApi.createRL("water_source_seed"));
-		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("natural_earth_source_seed"), ElementalCraftApi.createRL("earth_source_seed"));
-		DEFERRED_REGISTER.addAlias(ElementalCraftApi.createRL("natural_air_source_seed"), ElementalCraftApi.createRL("air_source_seed"));
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.identifier("chisel"), ElementalCraftApi.identifier(ChiselItem.NAME_SWIFT_ALLOY));
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.identifier("natural_fire_source_seed"), ElementalCraftApi.identifier("fire_source_seed"));
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.identifier("natural_water_source_seed"), ElementalCraftApi.identifier("water_source_seed"));
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.identifier("natural_earth_source_seed"), ElementalCraftApi.identifier("earth_source_seed"));
+		DEFERRED_REGISTER.addAlias(ElementalCraftApi.identifier("natural_air_source_seed"), ElementalCraftApi.identifier("air_source_seed"));
 		DEFERRED_REGISTER.register(bus);
 	}
 }

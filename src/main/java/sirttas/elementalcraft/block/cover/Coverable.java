@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 
 public interface Coverable {
 
-    BlockCapability<@NotNull Coverable, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.createRL("coverable"), Coverable.class);
+    BlockCapability<@NotNull Coverable, Void> CAPABILITY = BlockCapability.createVoid(ElementalCraftApi.identifier("coverable"), Coverable.class);
 
     boolean hasFrame();
     void putFrame();

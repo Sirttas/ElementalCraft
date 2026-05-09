@@ -12,6 +12,6 @@ public class ECLootContextParams {
     private ECLootContextParams() {}
 
     private static <T> ContextKey<@NotNull T> create(String name) {
-        return new ContextKey<>(ElementalCraftApi.createRL(name));
+        return new ContextKey<>(ElementalCraftApi.identifier(name));
     }
 }

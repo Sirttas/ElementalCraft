@@ -14,9 +14,9 @@ import sirttas.elementalcraft.spell.tick.SpellCooldownItemDecorator;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class GuiHandler {
 
-    private static final Identifier GAUGE_LAYER = ElementalCraftApi.createRL("gauge");
-    private static final Identifier TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.createRL("translocation_anchor_marker");
-    private static final Identifier SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.createRL("single_translocation_anchor_marker");
+    private static final Identifier GAUGE_LAYER = ElementalCraftApi.identifier("gauge");
+    private static final Identifier TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.identifier("translocation_anchor_marker");
+    private static final Identifier SINGLE_TRANSLOCATION_ANCHOR_MARKER_LAYER = ElementalCraftApi.identifier("single_translocation_anchor_marker");
 
 	private GuiHandler() {}
 

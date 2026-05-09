@@ -29,7 +29,7 @@ public class ElementIngredientHelper implements IIngredientHelper<@NotNull Ingre
 	@Nonnull
 	@Override
 	public Identifier getIdentifier(IngredientElementType ingredient) {
-		return ElementalCraftApi.createRL(ingredient.getElementType().getSerializedName());
+		return ElementalCraftApi.identifier(ingredient.getElementType().getSerializedName());
 	}
 
 	@Nonnull

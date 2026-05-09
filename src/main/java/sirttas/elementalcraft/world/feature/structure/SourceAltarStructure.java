@@ -38,9 +38,9 @@ public class SourceAltarStructure extends Structure {
 
 	public static final MapCodec<SourceAltarStructure> CODEC = simpleCodec(SourceAltarStructure::new);
 
-	public static final Identifier CHAPEL = ElementalCraftApi.createRL("altar/chapel");
-	public static final Identifier MEDIUM = ElementalCraftApi.createRL("altar/medium");
-	public static final Identifier SMALL = ElementalCraftApi.createRL("altar/small");
+	public static final Identifier CHAPEL = ElementalCraftApi.identifier("altar/chapel");
+	public static final Identifier MEDIUM = ElementalCraftApi.identifier("altar/medium");
+	public static final Identifier SMALL = ElementalCraftApi.identifier("altar/small");
 
 	public SourceAltarStructure(Structure.StructureSettings settings) {
 		super(settings);
@@ -117,7 +117,7 @@ public class SourceAltarStructure extends Structure {
 		@Override
 		protected void handleDataMarker(String name, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor level, @Nonnull RandomSource rand, @Nonnull BoundingBox sbb) {
 			if (name.endsWith("chest")) {
-				this.createChest(level, sbb, rand, pos, ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName())), null); // FIXME static resource keys
+				this.createChest(level, sbb, rand, pos, ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.identifier("chests/altar/" + getChestType(name) + '_' + elementType.getSerializedName())), null); // FIXME static resource keys
 				level.updateNeighborsAt(pos, Blocks.CHEST);
 			} else if (name.startsWith("source")) {
 				SourceFeature.placeSource(level, pos, elementType, getSourceLuck(name));

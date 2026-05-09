@@ -59,7 +59,7 @@ public class ElementalCraftTests implements ElementalCraftInteraction {
     @Override
     public void registerTestFramework(IEventBus modBus, ModContainer container) {
         try {
-            final MutableTestFramework framework = FrameworkConfiguration.builder(ElementalCraftApi.createRL("tests"))
+            final MutableTestFramework framework = FrameworkConfiguration.builder(ElementalCraftApi.identifier("tests"))
                     .clientConfiguration(() -> ClientConfiguration.builder()
                             .toggleOverlayKey(GLFW.GLFW_KEY_J)
                             .openManagerKey(GLFW.GLFW_KEY_N)

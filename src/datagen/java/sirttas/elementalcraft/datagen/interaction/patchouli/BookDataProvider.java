@@ -53,7 +53,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     private List<BookBuilder> generate() {
-        var book = new BookBuilder(ElementalCraftApi.createRL("element_book"), translationKeyValidator)
+        var book = new BookBuilder(ElementalCraftApi.identifier("element_book"), translationKeyValidator)
                 .landingText("elementalcraft.landing")
                 .creativeTab(ECCreativeModeTabs.ELEMENTAL_CRAFT_CREATIVE_TAB)
                 .i18n()
@@ -90,52 +90,52 @@ public class BookDataProvider implements DataProvider {
 
         basics.entry(ECItems.INERT_CRYSTAL.get())
                 .priority()
-                .turnIn(ElementalCraftApi.createRL("main/inert_crystal"))
+                .turnIn(ElementalCraftApi.identifier("main/inert_crystal"))
                 .page(PageBuilder.text("elementalcraft.page.inert_crystal0"))
                 .page(PageBuilder.spotlight(ECItems.INERT_CRYSTAL.get(), true));
         basics.entry(ECItems.CONTAINED_CRYSTAL.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/inert_crystal"))
-                .turnIn(ElementalCraftApi.createRL("main/contained_crystal"))
+                .advancement(ElementalCraftApi.identifier("main/inert_crystal"))
+                .turnIn(ElementalCraftApi.identifier("main/contained_crystal"))
                 .page(PageBuilder.text("elementalcraft.page.contained_crystal0"))
                 .page(PageBuilder.crafting(ECItems.CONTAINED_CRYSTAL.get()));
         basics.entry(ECBlocks.SMALL_CONTAINER.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/contained_crystal"))
-                .turnIn(ElementalCraftApi.createRL("main/small_container"))
+                .advancement(ElementalCraftApi.identifier("main/contained_crystal"))
+                .turnIn(ElementalCraftApi.identifier("main/small_container"))
                 .page(PageBuilder.text("elementalcraft.page.small_container0"))
                 .page(PageBuilder.crafting(ECBlocks.SMALL_CONTAINER.get()));
         basics.entry(ECBlocks.WHITE_ROCK.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/infuser"))
-                .turnIn(ElementalCraftApi.createRL("pickup/whiterock"))
+                .advancement(ElementalCraftApi.identifier("main/infuser"))
+                .turnIn(ElementalCraftApi.identifier("pickup/whiterock"))
                 .page(PageBuilder.text("elementalcraft.page.whiterock0"))
                 .page(PageBuilder.crafting(ECBlocks.WHITE_ROCK_STAIRS.get(), ECBlocks.WHITE_ROCK_SLAB.get()))
                 .page(PageBuilder.crafting(ECBlocks.WHITE_ROCK_WALL.get()));
         basics.entry("gems")
                 .icon(ECItems.PRISTINE_FIRE_GEM.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/infuser"))
-                .turnIn(ElementalCraftApi.createRL("main/pristine_gems"))
+                .advancement(ElementalCraftApi.identifier("main/infuser"))
+                .turnIn(ElementalCraftApi.identifier("main/pristine_gems"))
                 .page(PageBuilder.text("elementalcraft.page.gems0"));
         basics.entry(ECBlocks.CONTAINER.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/container"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/container"))
                 .page(PageBuilder.text("elementalcraft.page.container0"))
                 .page(PageBuilder.crafting(ECBlocks.CONTAINER.get()));
         basics.entry(ECItems.SPRINGALINE_SHARD.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("main/springaline_shard"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("main/springaline_shard"))
                 .page(PageBuilder.text("elementalcraft.page.springaline0"));
         basics.entry(ECItems.FIRE_LENS.get())
-                .advancement(ElementalCraftApi.createRL("main/springaline_shard"))
-                .turnIn(ElementalCraftApi.createRL("pickup/fire_lens"))
+                .advancement(ElementalCraftApi.identifier("main/springaline_shard"))
+                .turnIn(ElementalCraftApi.identifier("pickup/fire_lens"))
                 .page(PageBuilder.text("elementalcraft.page.fire_lens0"));
         basics.entry(ECBlocks.PURE_INFUSER.get())
-                .advancement(ElementalCraftApi.createRL("main/crystallizer"))
-                .turnIn(ElementalCraftApi.createRL("pickup/pure_infuser"))
+                .advancement(ElementalCraftApi.identifier("main/crystallizer"))
+                .turnIn(ElementalCraftApi.identifier("pickup/pure_infuser"))
                 .page(PageBuilder.text("elementalcraft.page.pure_infuser0"))
                 .page(PageBuilder.crafting(ECBlocks.PURE_INFUSER.get()))
                 .page(PageBuilder.multiblock()
@@ -161,10 +161,10 @@ public class BookDataProvider implements DataProvider {
         sources.entry("sources")
                 .icon(ECBlocks.FIRE_SOURCE.get())
                 .priority()
-                .turnIn(ElementalCraftApi.createRL("main/sources"))
+                .turnIn(ElementalCraftApi.identifier("main/sources"))
                 .page(PageBuilder.text("elementalcraft.page.sources0"))
                 .page(PageBuilder.text("elementalcraft.page.sources1"))
-                .page(PageBuilder.image("elementalcraft.page.sources2", true, ElementalCraftApi.createRL("textures/gui/entries/source0.png")));
+                .page(PageBuilder.image("elementalcraft.page.sources2", true, ElementalCraftApi.identifier("textures/gui/entries/source0.png")));
         sources.entry("source_traits")
                 .icon(ECItems.SPRINGALINE_SHARD.get())
                 .priority()
@@ -172,23 +172,23 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page.source_traits1"))
                 .page(PageBuilder.text("elementalcraft.page.source_traits2"));
         sources.entry(ECItems.EMPTY_RECEPTACLE.get())
-                .advancement(ElementalCraftApi.createRL("main/sources"))
-                .turnIn(ElementalCraftApi.createRL("main/empty_receptacle"))
+                .advancement(ElementalCraftApi.identifier("main/sources"))
+                .turnIn(ElementalCraftApi.identifier("main/empty_receptacle"))
                 .page(PageBuilder.text("elementalcraft.page.empty_receptacle0"))
                 .page(PageBuilder.crafting(ECItems.EMPTY_RECEPTACLE.get()));
         sources.entry(ECItems.SOURCE_ANALYSIS_GLASS.get())
-                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
-                .turnIn(ElementalCraftApi.createRL("main/source_analysis_glass"))
+                .advancement(ElementalCraftApi.identifier("main/empty_receptacle"))
+                .turnIn(ElementalCraftApi.identifier("main/source_analysis_glass"))
                 .page(PageBuilder.text("elementalcraft.page.source_analysis_glass0"))
                 .page(PageBuilder.crafting(ECItems.SOURCE_ANALYSIS_GLASS.get()));
         sources.entry(ECItems.SOURCE_STABILIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
-                .turnIn(ElementalCraftApi.createRL("main/source_stabilizer"))
+                .advancement(ElementalCraftApi.identifier("main/empty_receptacle"))
+                .turnIn(ElementalCraftApi.identifier("main/source_stabilizer"))
                 .page(PageBuilder.text("elementalcraft.page.source_stabilizer0"))
                 .page(PageBuilder.crafting(ECItems.SOURCE_STABILIZER.get()));
         sources.entry(ECBlocks.SOURCE_BREEDER.get())
-                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
-                .turnIn(ElementalCraftApi.createRL("pickup/source_breeder"))
+                .advancement(ElementalCraftApi.identifier("main/empty_receptacle"))
+                .turnIn(ElementalCraftApi.identifier("pickup/source_breeder"))
                 .page(PageBuilder.text("elementalcraft.page.source_breeder0"))
                 .page(PageBuilder.crafting(ECBlocks.SOURCE_BREEDER.get(), ECBlocks.SOURCE_BREEDER_PEDESTAL.get()))
                 .page(PageBuilder.multiblock()
@@ -201,7 +201,7 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("p 1 p"));
         sources.entry("source_seeds")
                 .icon(ECItems.FIRE_SOURCE_SEED.get())
-                .advancement(ElementalCraftApi.createRL("main/empty_receptacle"))
+                .advancement(ElementalCraftApi.identifier("main/empty_receptacle"))
                 .page(PageBuilder.text("elementalcraft.page.source_seeds0"))
                 .page(PageBuilder.crafting(ECItems.FIRE_SOURCE_SEED.get(), ECItems.WATER_SOURCE_SEED.get()))
                 .page(PageBuilder.crafting(ECItems.EARTH_SOURCE_SEED.get(), ECItems.AIR_SOURCE_SEED.get()));
@@ -213,8 +213,8 @@ public class BookDataProvider implements DataProvider {
 
         elementProduction.entry(ECBlocks.RUDIMENTARY_EXTRACTOR.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/rudimentary_extractor"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/rudimentary_extractor"))
                 .page(PageBuilder.text("elementalcraft.page.rudimentary_extractor0"))
                 .page(PageBuilder.crafting(ECBlocks.RUDIMENTARY_EXTRACTOR.get()))
                 .page(PageBuilder.multiblock()
@@ -223,8 +223,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.EXTRACTOR.get())
-                .advancement(ElementalCraftApi.createRL("main/rudimentary_extractor"))
-                .turnIn(ElementalCraftApi.createRL("main/extractor"))
+                .advancement(ElementalCraftApi.identifier("main/rudimentary_extractor"))
+                .turnIn(ElementalCraftApi.identifier("main/extractor"))
                 .page(PageBuilder.text("elementalcraft.page.extractor0"))
                 .page(PageBuilder.crafting(ECBlocks.EXTRACTOR.get()))
                 .page(PageBuilder.multiblock()
@@ -233,8 +233,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.IMPROVED_EXTRACTOR.get())
-                .advancement(ElementalCraftApi.createRL("main/extractor"))
-                .turnIn(ElementalCraftApi.createRL("main/improved_extractor"))
+                .advancement(ElementalCraftApi.identifier("main/extractor"))
+                .turnIn(ElementalCraftApi.identifier("main/improved_extractor"))
                 .page(PageBuilder.text("elementalcraft.page.improved_extractor0"))
                 .page(PageBuilder.crafting(ECBlocks.IMPROVED_EXTRACTOR.get()))
                 .page(PageBuilder.multiblock()
@@ -243,8 +243,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.CRACKING_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/cracking_earth_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/cracking_earth_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.cracking_earth_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.CRACKING_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -253,8 +253,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.COMBUSTION_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/combustion_fire_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/combustion_fire_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.combustion_fire_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.COMBUSTION_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -263,8 +263,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.DRAINING_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/draining_water_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/draining_water_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.draining_water_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.DRAINING_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -273,8 +273,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.VIBRATION_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/vibration_air_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/vibration_air_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.vibration_air_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.VIBRATION_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -283,8 +283,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.SOLAR_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/solar_fire_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/solar_fire_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.solar_fire_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.SOLAR_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -293,8 +293,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.CULINARY_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/culinary_water_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/culinary_water_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.culinary_water_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.CULINARY_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -303,8 +303,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/sculk_cracking_earth_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/sculk_cracking_earth_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.sculk_cracking_earth_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.SCULK_CRACKING_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -313,8 +313,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         elementProduction.entry(ECBlocks.AIR_MILL_SYNTHESIZER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/air_mill_synthesizer"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/air_mill_synthesizer"))
                 .page(PageBuilder.text("elementalcraft.page.air_mill_synthesizer0"))
                 .page(PageBuilder.crafting(ECBlocks.AIR_MILL_SYNTHESIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -334,34 +334,34 @@ public class BookDataProvider implements DataProvider {
 
         pipes.entry(ECBlocks.PIPE.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/contained_crystal"))
-                .turnIn(ElementalCraftApi.createRL("main/rudimentary_pipe"))
+                .advancement(ElementalCraftApi.identifier("main/contained_crystal"))
+                .turnIn(ElementalCraftApi.identifier("main/rudimentary_pipe"))
                 .page(PageBuilder.text("elementalcraft.page.element_pipe0"))
                 .page(PageBuilder.crafting(ECBlocks.PIPE_RUDIMENTARY.get(), ECBlocks.PIPE.get()))
                 .page(PageBuilder.crafting(ECBlocks.PIPE_IMPROVED.get()));
         pipes.entry(ECItems.COVER_FRAME.get())
-                .advancement(ElementalCraftApi.createRL("main/drenched_iron"))
-                .turnIn(ElementalCraftApi.createRL("pickup/cover_frame"))
+                .advancement(ElementalCraftApi.identifier("main/drenched_iron"))
+                .turnIn(ElementalCraftApi.identifier("pickup/cover_frame"))
                 .page(PageBuilder.text("elementalcraft.page.cover_frame0"))
                 .page(PageBuilder.crafting(ECItems.COVER_FRAME.get()));
         pipes.entry(PipeUpgradeTypes.PIPE_PRIORITY_RINGS.get())
-                .advancement(ElementalCraftApi.createRL("pickup/cover_frame"))
-                .turnIn(ElementalCraftApi.createRL("pickup/pipe_priority_rings"))
+                .advancement(ElementalCraftApi.identifier("pickup/cover_frame"))
+                .turnIn(ElementalCraftApi.identifier("pickup/pipe_priority_rings"))
                 .page(PageBuilder.text("elementalcraft.page.pipe_priority_rings0"))
                 .page(PageBuilder.crafting(PipeUpgradeTypes.PIPE_PRIORITY_RINGS.get()));
         pipes.entry(PipeUpgradeTypes.ELEMENT_VALVE.get())
-                .advancement(ElementalCraftApi.createRL("pickup/cover_frame"))
-                .turnIn(ElementalCraftApi.createRL("pickup/element_valve"))
+                .advancement(ElementalCraftApi.identifier("pickup/cover_frame"))
+                .turnIn(ElementalCraftApi.identifier("pickup/element_valve"))
                 .page(PageBuilder.text("elementalcraft.page.element_valve0"))
                 .page(PageBuilder.crafting(PipeUpgradeTypes.ELEMENT_VALVE.get()));
         pipes.entry(PipeUpgradeTypes.ELEMENT_BEAM.get())
-                .advancement(ElementalCraftApi.createRL("pickup/cover_frame"))
-                .turnIn(ElementalCraftApi.createRL("pickup/element_beam"))
+                .advancement(ElementalCraftApi.identifier("pickup/cover_frame"))
+                .turnIn(ElementalCraftApi.identifier("pickup/element_beam"))
                 .page(PageBuilder.text("elementalcraft.page.element_beam0"))
                 .page(PageBuilder.crafting(PipeUpgradeTypes.ELEMENT_BEAM.get()));
         pipes.entry(PipeUpgradeTypes.ELEMENT_PUMP.get())
-                .advancement(ElementalCraftApi.createRL("pickup/cover_frame"))
-                .turnIn(ElementalCraftApi.createRL("pickup/element_pump"))
+                .advancement(ElementalCraftApi.identifier("pickup/cover_frame"))
+                .turnIn(ElementalCraftApi.identifier("pickup/element_pump"))
                 .page(PageBuilder.text("elementalcraft.page.element_pump0"))
                 .page(PageBuilder.crafting(PipeUpgradeTypes.ELEMENT_PUMP.get()));
     }
@@ -372,8 +372,8 @@ public class BookDataProvider implements DataProvider {
 
         instruments.entry(ECBlocks.INFUSER.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/infuser"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/infuser"))
                 .page(PageBuilder.text("elementalcraft.page.infuser0"))
                 .page(PageBuilder.crafting(ECBlocks.INFUSER.get()))
                 .page(PageBuilder.multiblock()
@@ -383,8 +383,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("0"));
         instruments.entry(ECBlocks.BINDER.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/binder"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/binder"))
                 .page(PageBuilder.text("elementalcraft.page.binder0"))
                 .page(PageBuilder.crafting(ECBlocks.BINDER.get()))
                 .page(PageBuilder.multiblock()
@@ -393,8 +393,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.BINDER_IMPROVED.get())
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("pickup/binder_improved"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("pickup/binder_improved"))
                 .page(PageBuilder.text("elementalcraft.page.binder_improved0"))
                 .page(PageBuilder.crafting(ECBlocks.BINDER_IMPROVED.get()))
                 .page(PageBuilder.multiblock()
@@ -404,8 +404,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("0"));
         instruments.entry(ECBlocks.CRYSTALLIZER.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("main/crystallizer"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("main/crystallizer"))
                 .page(PageBuilder.text("elementalcraft.page.crystallizer0"))
                 .page(PageBuilder.crafting(ECBlocks.CRYSTALLIZER.get()))
                 .page(PageBuilder.multiblock()
@@ -414,8 +414,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.INSCRIBER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/inscriber"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/inscriber"))
                 .page(PageBuilder.text("elementalcraft.page.inscriber0"))
                 .page(PageBuilder.crafting(ECBlocks.INSCRIBER.get()))
                 .page(PageBuilder.multiblock()
@@ -424,8 +424,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.FIRE_FURNACE.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/firefurnace"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/firefurnace"))
                 .page(PageBuilder.text("elementalcraft.page.firefurnace0"))
                 .page(PageBuilder.crafting(ECBlocks.FIRE_FURNACE.get()))
                 .page(PageBuilder.multiblock()
@@ -434,8 +434,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.FIRE_BLAST_FURNACE.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/fireblastfurnace"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/fireblastfurnace"))
                 .page(PageBuilder.text("elementalcraft.page.fireblastfurnace0"))
                 .page(PageBuilder.crafting(ECBlocks.FIRE_BLAST_FURNACE.get()))
                 .page(PageBuilder.multiblock()
@@ -444,8 +444,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.WATER_MILL_WOOD_SAW.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/water_mill_wood_saw"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/water_mill_wood_saw"))
                 .page(PageBuilder.text("elementalcraft.page.water_mill_wood_saw0"))
                 .page(PageBuilder.crafting(ECBlocks.WATER_MILL_WOOD_SAW.get()))
                 .page(PageBuilder.multiblock()
@@ -454,8 +454,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.WATER_MILL_GRINDSTONE.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/water_mill_grindstone"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/water_mill_grindstone"))
                 .page(PageBuilder.text("elementalcraft.page.water_mill_grindstone0"))
                 .page(PageBuilder.crafting(ECBlocks.WATER_MILL_GRINDSTONE.get()))
                 .page(PageBuilder.multiblock()
@@ -464,8 +464,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.AIR_MILL_WOOD_SAW.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/air_mill_wood_saw"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/air_mill_wood_saw"))
                 .page(PageBuilder.text("elementalcraft.page.air_mill_wood_saw0"))
                 .page(PageBuilder.crafting(ECBlocks.AIR_MILL_WOOD_SAW.get()))
                 .page(PageBuilder.multiblock()
@@ -478,8 +478,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.AIR_MILL_GRINDSTONE.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/air_mill_grindstone"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/air_mill_grindstone"))
                 .page(PageBuilder.text("elementalcraft.page.air_mill_grindstone0"))
                 .page(PageBuilder.crafting(ECBlocks.AIR_MILL_GRINDSTONE.get()))
                 .page(PageBuilder.multiblock()
@@ -492,8 +492,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.ENCHANTMENT_LIQUEFIER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("pickup/enchantment_liquefier"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("pickup/enchantment_liquefier"))
                 .page(PageBuilder.text("elementalcraft.page.enchantment_liquefier0"))
                 .page(PageBuilder.crafting(ECBlocks.ENCHANTMENT_LIQUEFIER.get()))
                 .page(PageBuilder.multiblock()
@@ -506,8 +506,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.PURIFIER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/purifier"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/purifier"))
                 .page(PageBuilder.text("elementalcraft.page.purifier0"))
                 .page(PageBuilder.crafting(ECBlocks.PURIFIER.get()))
                 .page(PageBuilder.multiblock()
@@ -516,8 +516,8 @@ public class BookDataProvider implements DataProvider {
                         .patternLayer("I")
                         .patternLayer("0"));
         instruments.entry(ECBlocks.DIFFUSER.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/diffuser"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/diffuser"))
                 .page(PageBuilder.text("elementalcraft.page.diffuser0"))
                 .page(PageBuilder.crafting(ECBlocks.DIFFUSER.get()))
                 .page(PageBuilder.multiblock()
@@ -533,44 +533,44 @@ public class BookDataProvider implements DataProvider {
 
         advanced.entry("element_holders")
                 .icon(ECItems.FIRE_HOLDER.get())
-                .advancement(ElementalCraftApi.createRL("main/small_container"))
-                .turnIn(ElementalCraftApi.createRL("main/element_holders"))
+                .advancement(ElementalCraftApi.identifier("main/small_container"))
+                .turnIn(ElementalCraftApi.identifier("main/element_holders"))
                 .page(PageBuilder.text("elementalcraft.page.element_holders0"))
                 .page(PageBuilder.crafting(ECItems.FIRE_HOLDER.get(), ECItems.WATER_HOLDER.get()))
                 .page(PageBuilder.crafting(ECItems.EARTH_HOLDER.get(), ECItems.AIR_HOLDER.get()));
         advanced.entry(ECItems.PURE_HOLDER.get())
-                .advancement(ElementalCraftApi.createRL("main/element_holders"))
-                .turnIn(ElementalCraftApi.createRL("main/pure_element_holder"))
+                .advancement(ElementalCraftApi.identifier("main/element_holders"))
+                .turnIn(ElementalCraftApi.identifier("main/pure_element_holder"))
                 .page(PageBuilder.text("elementalcraft.page.pure_element_holder0"));
         advanced.entry("runes")
                 .icon(ECItems.RUNE.get().getRuneStackTemplate(Runes.TANO))
-                .advancement(ElementalCraftApi.createRL("main/inscriber"))
-                .turnIn(ElementalCraftApi.createRL("pickup/rune"))
+                .advancement(ElementalCraftApi.identifier("main/inscriber"))
+                .turnIn(ElementalCraftApi.identifier("pickup/rune"))
                 .page(PageBuilder.text("elementalcraft.page.runes0"))
                 .page(PageBuilder.crafting(ECItems.MINOR_RUNE_SLATE.get(), ECItems.RUNE_SLATE.get()))
                 .page(PageBuilder.crafting(ECItems.MAJOR_RUNE_SLATE.get()));
         advanced.entry(ECBlocks.RETRIEVER.get())
-                .advancement(ElementalCraftApi.createRL("main/infuser"))
-                .turnIn(ElementalCraftApi.createRL("pickup/instrument_retriever"))
+                .advancement(ElementalCraftApi.identifier("main/infuser"))
+                .turnIn(ElementalCraftApi.identifier("pickup/instrument_retriever"))
                 .page(PageBuilder.text("elementalcraft.page.instrument_retriever0"))
                 .page(PageBuilder.crafting(ECBlocks.RETRIEVER.get()));
         advanced.entry(ECBlocks.ORDERED_SORTER.get())
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("pickup/ordered_sorter"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("pickup/ordered_sorter"))
                 .page(PageBuilder.text("elementalcraft.page.ordered_sorter0"))
                 .page(PageBuilder.crafting(ECBlocks.ORDERED_SORTER.get()));
         advanced.entry(ECItems.ELEMENTAL_FIREFUEL.get())
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("pickup/elemental_firefuel"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("pickup/elemental_firefuel"))
                 .page(PageBuilder.text("elementalcraft.page.elemental_firefuel0"));
         advanced.entry("reservoirs")
                 .icon(ECBlocks.FIRE_RESERVOIR.get())
-                .advancement(ElementalCraftApi.createRL("main/container"))
-                .turnIn(ElementalCraftApi.createRL("main/reservoirs"))
+                .advancement(ElementalCraftApi.identifier("main/container"))
+                .turnIn(ElementalCraftApi.identifier("main/reservoirs"))
                 .page(PageBuilder.text("elementalcraft.page.reservoirs0"));
         advanced.entry(ECBlocks.PURE_ROCK.get())
-                .advancement(ElementalCraftApi.createRL("main/pure_crystal"))
-                .turnIn(ElementalCraftApi.createRL("pickup/purerock"))
+                .advancement(ElementalCraftApi.identifier("main/pure_crystal"))
+                .turnIn(ElementalCraftApi.identifier("pickup/purerock"))
                 .page(PageBuilder.text("elementalcraft.page.purerock0"))
                 .page(PageBuilder.crafting(ECBlocks.PURE_ROCK_STAIRS.get(), ECBlocks.PURE_ROCK_SLAB.get()))
                 .page(PageBuilder.crafting(ECBlocks.PURE_ROCK_WALL.get()));
@@ -583,8 +583,8 @@ public class BookDataProvider implements DataProvider {
         shrines.entry("using_shrines")
                 .priority()
                 .icon(ECItems.SHRINE_BASE.get())
-                .advancement(ElementalCraftApi.createRL("main/binder"))
-                .turnIn(ElementalCraftApi.createRL("pickup/shrinebase"))
+                .advancement(ElementalCraftApi.identifier("main/binder"))
+                .turnIn(ElementalCraftApi.identifier("pickup/shrinebase"))
                 .page(PageBuilder.text("elementalcraft.page.using_shrines0"))
                 .page(new CheckPageBuilder(
                         "elementalcraft.page.using_shrines1",
@@ -648,15 +648,15 @@ public class BookDataProvider implements DataProvider {
 
         spells.entry(ECBlocks.SPELL_DESK.get())
                 .priority()
-                .advancement(ElementalCraftApi.createRL("main/infuser"))
-                .turnIn(ElementalCraftApi.createRL("pickup/spell_desk"))
+                .advancement(ElementalCraftApi.identifier("main/infuser"))
+                .turnIn(ElementalCraftApi.identifier("pickup/spell_desk"))
                 .page(PageBuilder.text("elementalcraft.page.spell_desk0"))
                 .page(PageBuilder.crafting(ECBlocks.SPELL_DESK.get()));
         spells.entry("casting_spells")
                 .priority()
                 .icon("textures/gui/entries/spells.png")
-                .advancement(ElementalCraftApi.createRL("pickup/spell_desk"))
-                .turnIn(ElementalCraftApi.createRL("pickup/spell_desk"))
+                .advancement(ElementalCraftApi.identifier("pickup/spell_desk"))
+                .turnIn(ElementalCraftApi.identifier("pickup/spell_desk"))
                 .page(PageBuilder.text("elementalcraft.page.casting_spells0"))
                 .page(new CheckPageBuilder(
                         "elementalcraft.page.casting_spells1",
@@ -664,18 +664,18 @@ public class BookDataProvider implements DataProvider {
                         "elementalcraft.page.casting_spells3",
                         "elementalcraft.page.casting_spells4"));
         spells.entry(ECItems.FOCUS.get())
-                .advancement(ElementalCraftApi.createRL("pickup/spell_desk"))
-                .turnIn(ElementalCraftApi.createRL("pickup/focus"))
+                .advancement(ElementalCraftApi.identifier("pickup/spell_desk"))
+                .turnIn(ElementalCraftApi.identifier("pickup/focus"))
                 .page(PageBuilder.text("elementalcraft.page.focus0"))
                 .page(PageBuilder.crafting(ECItems.FOCUS.get()));
         spells.entry(ECItems.STAFF.get())
-                .advancement(ElementalCraftApi.createRL("pickup/focus"))
-                .turnIn(ElementalCraftApi.createRL("pickup/staff"))
+                .advancement(ElementalCraftApi.identifier("pickup/focus"))
+                .turnIn(ElementalCraftApi.identifier("pickup/staff"))
                 .page(PageBuilder.text("elementalcraft.page.staff0"))
                 .page(PageBuilder.crafting(ECItems.STAFF.get()));
         spells.entry(ECItems.SPELL_BOOK.get())
-                .advancement(ElementalCraftApi.createRL("pickup/focus"))
-                .turnIn(ElementalCraftApi.createRL("pickup/spell_book"))
+                .advancement(ElementalCraftApi.identifier("pickup/focus"))
+                .turnIn(ElementalCraftApi.identifier("pickup/spell_book"))
                 .page(PageBuilder.text("elementalcraft.page.spell_book0"))
                 .page(PageBuilder.crafting(ECItems.SPELL_BOOK.get()));
         spell(spells, Spells.LIGHT);
@@ -700,8 +700,8 @@ public class BookDataProvider implements DataProvider {
         spell(spells, Spells.TREE_FALL);
         spell(spells, Spells.TRANSLOCATION);
         spells.entry(ECBlocks.TRANSLOCATION_ANCHOR.get())
-                .advancement(ElementalCraftApi.createRL("pickup/fireite_ingot"))
-                .turnIn(ElementalCraftApi.createRL("pickup/translocation_anchor"))
+                .advancement(ElementalCraftApi.identifier("pickup/fireite_ingot"))
+                .turnIn(ElementalCraftApi.identifier("pickup/translocation_anchor"))
                 .page(PageBuilder.text("elementalcraft.page.translocation_anchor0"))
                 .page(PageBuilder.crafting(ECBlocks.TRANSLOCATION_ANCHOR.get()));
     }
@@ -734,8 +734,8 @@ public class BookDataProvider implements DataProvider {
         var name = shrine.getId().getPath();
 
         category.entry(shrine.get())
-                .advancement(ElementalCraftApi.createRL("pickup/shrinebase"))
-                .turnIn(ElementalCraftApi.createRL("pickup/" + name))
+                .advancement(ElementalCraftApi.identifier("pickup/shrinebase"))
+                .turnIn(ElementalCraftApi.identifier("pickup/" + name))
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
@@ -743,8 +743,8 @@ public class BookDataProvider implements DataProvider {
         var name = shrineUpgrade.getId().getPath();
 
         return category.entry(shrineUpgrade.get())
-                .advancement(ElementalCraftApi.createRL("pickup/shrinebase"))
-                .turnIn(ElementalCraftApi.createRL("pickup/" + name))
+                .advancement(ElementalCraftApi.identifier("pickup/shrinebase"))
+                .turnIn(ElementalCraftApi.identifier("pickup/" + name))
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"))
                 .page(PageBuilder.crafting(shrineUpgrade.get()));
     }
@@ -755,8 +755,8 @@ public class BookDataProvider implements DataProvider {
         category.entry(name)
                 .name(spell.get().getDescriptionId())
                 .icon(spell.get().createItemStackTemplate())
-                .advancement(ElementalCraftApi.createRL("pickup/spell_desk"))
-                .turnIn(ElementalCraftApi.createRL("pickup/scroll"))
+                .advancement(ElementalCraftApi.identifier("pickup/spell_desk"))
+                .turnIn(ElementalCraftApi.identifier("pickup/scroll"))
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
@@ -764,8 +764,8 @@ public class BookDataProvider implements DataProvider {
         var name = jewel.getId().getPath();
 
         category.entry(jewel.get())
-                .advancement(ElementalCraftApi.createRL("pickup/unset_jewel"))
-                .turnIn(ElementalCraftApi.createRL("pickup/" + name))
+                .advancement(ElementalCraftApi.identifier("pickup/unset_jewel"))
+                .turnIn(ElementalCraftApi.identifier("pickup/" + name))
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 

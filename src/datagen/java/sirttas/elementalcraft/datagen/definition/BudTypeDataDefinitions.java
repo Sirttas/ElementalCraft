@@ -27,7 +27,7 @@ public class BudTypeDataDefinitions {
             .then(ECBlocks.LARGE_SPRINGALINE_BUD)
             .then(ECBlocks.SPRINGALINE_CLUSTER)
             .requires(ShrineUpgrades.SPRINGALINE)
-            .texture(ElementalCraftApi.createRL("block/springaline_block"))
+            .texture(ElementalCraftApi.identifier("block/springaline_block"))
             .build();
 
     private static final List<BudTypeDataDefinition> ALL = Util.make(() -> {

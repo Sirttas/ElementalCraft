@@ -44,7 +44,7 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class EntityClientHandler {
 
-    private static final ContextKey<@NotNull List<SpellRenderState>> SPELL_RENDER_STATES = new ContextKey<>(ElementalCraftApi.createRL("spell_render_states"));
+    private static final ContextKey<@NotNull List<SpellRenderState>> SPELL_RENDER_STATES = new ContextKey<>(ElementalCraftApi.identifier("spell_render_states"));
 
 	private EntityClientHandler() {}
 

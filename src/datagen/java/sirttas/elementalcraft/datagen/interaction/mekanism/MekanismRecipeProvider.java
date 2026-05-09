@@ -25,6 +25,6 @@ public class MekanismRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes(@Nonnull RecipeOutput output) {
         ItemStackToItemStackRecipeBuilder.enriching(IngredientCreatorAccess.item().from(ECTags.Items.ORES_INERT_CRYSTAL), new ItemStack(ECItems.INERT_CRYSTAL, 2))
-                .build(output.withConditions(new ModLoadedCondition(MekanismAPI.MEKANISM_MODID)), ElementalCraftApi.createRL("inert_crystal_from_mekanism_enriching"));
+                .build(output.withConditions(new ModLoadedCondition(MekanismAPI.MEKANISM_MODID)), ElementalCraftApi.identifier("inert_crystal_from_mekanism_enriching"));
     }
 }

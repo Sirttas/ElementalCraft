@@ -20,7 +20,7 @@ public class LeopardJewel extends AttributeJewel {
 
     public static final String NAME = "leopard";
 
-    private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.createRL("leopard_jewel_movement_speed");
+    private static final Identifier MOVEMENT_SPEED_ID = ElementalCraftApi.identifier("leopard_jewel_movement_speed");
 
     public LeopardJewel() {
         super(ElementType.AIR, 5, () -> {

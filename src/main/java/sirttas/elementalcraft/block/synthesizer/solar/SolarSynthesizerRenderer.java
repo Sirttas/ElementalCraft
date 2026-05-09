@@ -26,7 +26,7 @@ import java.util.List;
 
 public class SolarSynthesizerRenderer implements BlockEntityRenderer<@NotNull SolarSynthesizerBlockEntity, @NotNull SolarSynthesizerRenderState> {
 
-    private static final Identifier BEAM = ElementalCraftApi.createRL("textures/effect/solar_fire_synthesizer_beam.png");
+    private static final Identifier BEAM = ElementalCraftApi.identifier("textures/effect/solar_fire_synthesizer_beam.png");
     public static final SimpleStandaloneModelSupplier LENS = SimpleStandaloneModelSupplier.block("solar_fire_synthesizer_lens");
 
 	private static final float RED = ElementType.FIRE.getRed();

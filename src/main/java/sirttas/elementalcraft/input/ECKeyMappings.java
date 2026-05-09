@@ -17,7 +17,7 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT, modid = ElementalCraftApi.MODID)
 public class ECKeyMappings {
 
-    public static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(ElementalCraftApi.createRL("key_category"));
+    public static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(ElementalCraftApi.identifier("key_category"));
 
     public static final List<KeyMapping> CHANGE_TO_SPELL = List.of(
             spellChangeKey(1),

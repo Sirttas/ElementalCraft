@@ -75,6 +75,6 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
 
     @Override
     public void deserialize(@NotNull ValueInput input) {
-        input.keySet().forEach(key -> Spells.REGISTRY.get(ElementalCraftApi.createRL(key)).ifPresent(spell -> spellCooldowns.put(spell.value(), new SpellCooldown(tick, tick + input.getLongOr(key, 0)))));
+        input.keySet().forEach(key -> Spells.REGISTRY.get(ElementalCraftApi.identifier(key)).ifPresent(spell -> spellCooldowns.put(spell.value(), new SpellCooldown(tick, tick + input.getLongOr(key, 0)))));
     }
 }

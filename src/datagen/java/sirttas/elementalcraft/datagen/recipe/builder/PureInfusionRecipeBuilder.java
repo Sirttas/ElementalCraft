@@ -65,7 +65,7 @@ public class PureInfusionRecipeBuilder {
 		if (Identifier.parse(save).equals(Identifier)) {
 			throw new IllegalStateException("Pure Infusion Recipe " + save + " should remove its 'save' argument");
 		} else {
-			this.save(recipeOutput, ElementalCraftApi.createRL(PureInfusionRecipe.NAME + '/' + save));
+			this.save(recipeOutput, ElementalCraftApi.identifier(PureInfusionRecipe.NAME + '/' + save));
 		}
 	}
 

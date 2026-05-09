@@ -67,7 +67,7 @@ public class InscriptionRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, String save) {
-		this.save(recipeOutput, ElementalCraftApi.createRL(InscriptionRecipe.NAME + '/' + save));
+		this.save(recipeOutput, ElementalCraftApi.identifier(InscriptionRecipe.NAME + '/' + save));
 	}
 
 	public void save(RecipeOutput recipeOutput, Identifier id) {

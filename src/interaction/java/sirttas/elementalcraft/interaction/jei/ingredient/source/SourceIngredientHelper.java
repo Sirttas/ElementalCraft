@@ -37,7 +37,7 @@ public class SourceIngredientHelper implements IIngredientHelper<@NotNull Ingred
 	@Nonnull
 	@Override
 	public Identifier getIdentifier(@Nonnull IngredientSource ingredient) {
-		return ElementalCraftApi.createRL(getName(ingredient));
+		return ElementalCraftApi.identifier(getName(ingredient));
 	}
 
 	@Nonnull

@@ -18,8 +18,8 @@ public class ElementalCraftRegistries {
 
     public static final class Keys {
 
-        public static final ResourceKey<@NotNull Registry<@NotNull SourceTraitValueProviderType<?>>> SOURCE_TRAIT_VALUE_PROVIDER_TYPE = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.SOURCE_TRAIT_VALUE_PROVIDER_TYPE));
-        public static final ResourceKey<@NotNull Registry<@NotNull ToolInfusionEffectType<?>>> TOOL_INFUSION_EFFECT_TYPE = ResourceKey.createRegistryKey(ElementalCraftApi.createRL(ECNames.TOOL_INFUSION_TYPE));
+        public static final ResourceKey<@NotNull Registry<@NotNull SourceTraitValueProviderType<?>>> SOURCE_TRAIT_VALUE_PROVIDER_TYPE = ResourceKey.createRegistryKey(ElementalCraftApi.identifier(ECNames.SOURCE_TRAIT_VALUE_PROVIDER_TYPE));
+        public static final ResourceKey<@NotNull Registry<@NotNull ToolInfusionEffectType<?>>> TOOL_INFUSION_EFFECT_TYPE = ResourceKey.createRegistryKey(ElementalCraftApi.identifier(ECNames.TOOL_INFUSION_TYPE));
         private Keys() {}
     }
 }

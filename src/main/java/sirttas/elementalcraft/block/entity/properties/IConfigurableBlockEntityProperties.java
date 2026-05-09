@@ -14,7 +14,7 @@ public interface IConfigurableBlockEntityProperties {
 
     @Nonnull
     static ResourceKey<IConfigurableBlockEntityProperties> createKey(@Nonnull String name) {
-        return IDataManager.createKey(ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY, ElementalCraftApi.createRL(name));
+        return IDataManager.createKey(ElementalCraft.CONFIGURABLE_BLOCK_ENTITY_PROPERTIES_MANAGER_KEY, ElementalCraftApi.identifier(name));
     }
 
     ConfigurableBlockEntityPropertiesType<?> getType();

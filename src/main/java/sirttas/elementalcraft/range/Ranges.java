@@ -21,6 +21,6 @@ public class Ranges {
     private Ranges() {}
 
     private static ResourceKey<Range> createKey(String name) {
-        return IDataManager.createKey(ElementalCraftApi.RANGE_MANAGER_KEY, ElementalCraftApi.createRL(name));
+        return IDataManager.createKey(ElementalCraftApi.RANGE_MANAGER_KEY, ElementalCraftApi.identifier(name));
     }
 }

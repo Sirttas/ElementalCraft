@@ -24,7 +24,7 @@ public record CheckPageBuilder(
     ).apply(builder, (a1, a2, a3, a4) -> {
         throw new UnsupportedOperationException("Builder deserialization is not supported.");
     }));
-    private static final PageBuilderType TYPE = PageBuilderType.register(ElementalCraftApi.createRL("check"), CODEC);
+    private static final PageBuilderType TYPE = PageBuilderType.register(ElementalCraftApi.identifier("check"), CODEC);
 
     @Override
     public PageBuilderType getType() {

@@ -177,16 +177,16 @@ public class ECItemModelGenerator extends ItemModelGenerators implements ECModel
 
     public void generateScroll(Item item) {
         this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), new TextureMapping()
-                        .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.createRL("item/scroll_ribbon")))
-                        .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.createRL("item/scroll"))), this.modelOutput), ScrollRibbonTint.get()));
+                        .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.identifier("item/scroll_ribbon")))
+                        .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.identifier("item/scroll"))), this.modelOutput), ScrollRibbonTint.get()));
     }
 
     public void generatePureOre(Item item) {
         this.itemModelOutput.accept(item, ItemModelUtils.tintedModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), new TextureMapping()
-                .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.createRL("item/pure_ore_0")))
-                .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.createRL("item/pure_ore_1")))
-                .putForced(TextureSlot.LAYER2, new Material(ElementalCraftApi.createRL("item/pure_ore_2")))
-                .putForced(ECTextureSlots.LAYER3, new Material(ElementalCraftApi.createRL("item/pure_ore_3"))), this.modelOutput),
+                .put(TextureSlot.LAYER0, new Material(ElementalCraftApi.identifier("item/pure_ore_0")))
+                .putForced(TextureSlot.LAYER1, new Material(ElementalCraftApi.identifier("item/pure_ore_1")))
+                .putForced(TextureSlot.LAYER2, new Material(ElementalCraftApi.identifier("item/pure_ore_2")))
+                .putForced(ECTextureSlots.LAYER3, new Material(ElementalCraftApi.identifier("item/pure_ore_3"))), this.modelOutput),
                 new PureOreTint(0),
                 new PureOreTint(1),
                 new PureOreTint(2)));

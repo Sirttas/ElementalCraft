@@ -30,7 +30,7 @@ public class SolarSynthesisRecipeCategory extends AbstractECRecipeCategory<Ingre
 
 	public SolarSynthesisRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.solar_fire_synthesis", createDrawableStack(guiHelper, SOLAR_SYNTHESIZER), 84, 66);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/solar_fire_synthesis.png"), 0, 0, 49, 54), 8, 4);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/solar_fire_synthesis.png"), 0, 0, 49, 54), 8, 4);
 	}
 
 	@Nonnull

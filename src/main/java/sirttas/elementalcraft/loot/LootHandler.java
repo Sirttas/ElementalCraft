@@ -17,7 +17,7 @@ import java.util.List;
 @EventBusSubscriber(modid = ElementalCraftApi.MODID)
 public final class LootHandler {
 
-	private static final ResourceKey<LootTable> CHEST_INJECT_KEY = ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.createRL("chests/inject"));
+	private static final ResourceKey<LootTable> CHEST_INJECT_KEY = ResourceKey.create(Registries.LOOT_TABLE, ElementalCraftApi.identifier("chests/inject"));
 	private static final LootPool CHEST_INJECT = LootPool.lootPool()
 			.add(NestedLootTable.lootTableReference(CHEST_INJECT_KEY).setWeight(1))
 			.setBonusRolls(UniformGenerator.between(0, 1))

@@ -1527,17 +1527,17 @@ public class ECRecipeProvider extends RecipeProvider {
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.LOOTING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.FIRE_ASPECT).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, Enchantments.SHARPNESS).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, ElementalCraftApi.createRL("attack_speed")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SWORDS, ElementalCraftApi.identifier("attack_speed")).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.FORTUNE).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, ElementalCraftApi.identifier(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PICKAXES, Enchantments.EFFICIENCY).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.FORTUNE).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, ElementalCraftApi.identifier(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_SHOVELS, Enchantments.EFFICIENCY).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.FORTUNE).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, ElementalCraftApi.identifier(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_HOES, Enchantments.EFFICIENCY).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.LOOTING).save(this.output);
@@ -1545,19 +1545,19 @@ public class ECRecipeProvider extends RecipeProvider {
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.SHARPNESS /* TODO cleaving ? */).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_AXES, Enchantments.EFFICIENCY).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.FORTUNE).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, ElementalCraftApi.identifier(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_PAXELS, Enchantments.EFFICIENCY).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.PUNCH).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.FLAME).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, Enchantments.UNBREAKING).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraftApi.createRL(FastDrawToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOWS, ElementalCraftApi.identifier(FastDrawToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.MULTISHOT).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.PIERCING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CROSSBOWS, Enchantments.QUICK_CHARGE).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LUCK_OF_THE_SEA).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, ElementalCraftApi.createRL(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, ElementalCraftApi.identifier(AutoSmeltToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.UNBREAKING).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_FISHING_RODS, Enchantments.LURE).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_TRIDENTS, Enchantments.LOYALTY).save(this.output);
@@ -1580,24 +1580,24 @@ public class ECRecipeProvider extends RecipeProvider {
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.BLAST_PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.FIRE_PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, Enchantments.PROTECTION).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, ElementalCraftApi.createRL(DodgeToolInfusionEffect.NAME)).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_CHESTPLATES, ElementalCraftApi.identifier(DodgeToolInfusionEffect.NAME)).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.BLAST_PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.FIRE_PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, Enchantments.PROTECTION).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, ElementalCraftApi.createRL("movement_speed")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_LEGGINGS, ElementalCraftApi.identifier("movement_speed")).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.DEPTH_STRIDER).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FIRE_PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.PROTECTION).save(this.output);
 		toolInfusionRecipe(ECTags.Items.INFUSABLE_BOOTS, Enchantments.FEATHER_FALLING).save(this.output);
 
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("fire_reduction")).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("water_reduction")).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("earth_reduction")).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.createRL("air_reduction")).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("fire_staff")).withElementAmount(5000).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("water_staff")).withElementAmount(5000).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("earth_staff")).withElementAmount(5000).save(this.output);
-		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.createRL("air_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.identifier("fire_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.identifier("water_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.identifier("earth_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_FOCUS, ElementalCraftApi.identifier("air_reduction")).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.identifier("fire_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.identifier("water_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.identifier("earth_staff")).withElementAmount(5000).save(this.output);
+		toolInfusionRecipe(ECTags.Items.INFUSABLE_STAVES, ElementalCraftApi.identifier("air_staff")).withElementAmount(5000).save(this.output);
 	}
 
 	public ToolInfusionRecipeBuilder toolInfusionRecipe(TagKey<Item> ingredient, Identifier infusion) {
@@ -1703,7 +1703,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withCount(2)
 				.withIngredient(tag(from))
 				.withLuckRatio(2)
-				.save(this.output.withConditions(new NotCondition(new TagEmptyCondition<>(from))), ElementalCraftApi.createRL(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
+				.save(this.output.withConditions(new NotCondition(new TagEmptyCondition<>(from))), ElementalCraftApi.identifier(GrindingRecipe.NAME + '/' + BuiltInRegistries.ITEM.getKey(dye.asItem()).getPath() + FROM + tagName.getNamespace() + '_' + StringUtils.replaceChars(tagName.getPath(), '/', '_')));
 	}
 
 	private void generateSawing() {
@@ -2224,7 +2224,7 @@ public class ECRecipeProvider extends RecipeProvider {
 	}
 
 	private static ResourceKey<Recipe<?>> createRecipeKey(String name) {
-		return ResourceKey.create(Registries.RECIPE, ElementalCraftApi.createRL(name));
+		return ResourceKey.create(Registries.RECIPE, ElementalCraftApi.identifier(name));
 	}
 
 	public static class Runner extends RecipeProvider.Runner {

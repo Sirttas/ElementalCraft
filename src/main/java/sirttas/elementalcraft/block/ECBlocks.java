@@ -248,7 +248,7 @@ public class ECBlocks {
 	public static final DeferredHolder<Block, ElementalEmberBlock> ELEMENTAL_EMBER = register(ElementalEmberBlock.NAME, ElementalEmberBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH));
 
 	private static <T extends Block> DeferredHolder<Block, T> register(String name, Function<BlockBehaviour.Properties, T> factory, BlockBehaviour.Properties properties) {
-		var id = ResourceKey.create(Registries.BLOCK, ElementalCraftApi.createRL(name));
+		var id = ResourceKey.create(Registries.BLOCK, ElementalCraftApi.identifier(name));
 		return DEFERRED_REGISTER.register(name, () -> factory.apply(properties.setId(id)));
 	}
 
@@ -297,12 +297,12 @@ public class ECBlocks {
 	}
 
 	public static void registerAliases(DeferredRegister<?> register) {
-		register.addAlias(ElementalCraftApi.createRL("extractor"), ElementalCraftApi.createRL(RudimentaryElementExtractorBlock.NAME));
-		register.addAlias(ElementalCraftApi.createRL("extractor_improved"), ElementalCraftApi.createRL(ImprovedElementExtractorBlock.NAME));
-		register.addAlias(ElementalCraftApi.createRL("elementpipe_impaired"), ElementalCraftApi.createRL(ElementPipeBlock.NAME_RUDIMENTARY));
-		register.addAlias(ElementalCraftApi.createRL("solar_synthesizer"), ElementalCraftApi.createRL(SolarSynthesizerBlock.NAME));
-		register.addAlias(ElementalCraftApi.createRL("pureinfuser"), ElementalCraftApi.createRL(PureInfuserBlock.NAME));
-		register.addAlias(ElementalCraftApi.createRL("lavashrine"), ElementalCraftApi.createRL(MeltingShrineBlock.NAME));
-		register.addAlias(ElementalCraftApi.createRL("sorter"), ElementalCraftApi.createRL(OrderedSorterBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("extractor"), ElementalCraftApi.identifier(RudimentaryElementExtractorBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("extractor_improved"), ElementalCraftApi.identifier(ImprovedElementExtractorBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("elementpipe_impaired"), ElementalCraftApi.identifier(ElementPipeBlock.NAME_RUDIMENTARY));
+		register.addAlias(ElementalCraftApi.identifier("solar_synthesizer"), ElementalCraftApi.identifier(SolarSynthesizerBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("pureinfuser"), ElementalCraftApi.identifier(PureInfuserBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("lavashrine"), ElementalCraftApi.identifier(MeltingShrineBlock.NAME));
+		register.addAlias(ElementalCraftApi.identifier("sorter"), ElementalCraftApi.identifier(OrderedSorterBlock.NAME));
 	}
 }

@@ -22,7 +22,7 @@ public class PureInfusionRecipeCategory extends AbstractECRecipeCategory<PureInf
 
 	public PureInfusionRecipeCategory(IGuiHelper guiHelper) {
 		super("elementalcraft.jei.pureinfusion", createDrawableStack(guiHelper, new ItemStack(ECBlocks.PURE_INFUSER.get())), 177, 134);
-		addOverlay(guiHelper.createDrawable(ElementalCraftApi.createRL("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
+		addOverlay(guiHelper.createDrawable(ElementalCraftApi.identifier("textures/gui/overlay/pureinfusion.png"), 0, 0, 142, 83), 27, 27);
 	}
 
 	@Nonnull
