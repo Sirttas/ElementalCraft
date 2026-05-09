@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.ElementalCraftInteraction;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -20,15 +19,14 @@ import sirttas.elementalcraft.pureore.PureOreManager;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ECCreativeModeTabs {
 
-    private static final DeferredRegister<@NotNull CreativeModeTab> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ElementalCraftApi.MODID);
+    private static final DeferredRegister<CreativeModeTab> DEFERRED_REGISTER = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ElementalCraftApi.MODID);
 
-    public static final DeferredHolder<@NotNull CreativeModeTab, @NotNull CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ELEMENTAL_CRAFT_CREATIVE_TAB = DEFERRED_REGISTER.register("elemental_craft", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.elementalcraft"))
             .icon(() -> new ItemStack(ECItems.FOCUS))
             .displayItems((p, o) -> {
@@ -259,7 +257,7 @@ public class ECCreativeModeTabs {
                 o.accept(ECItems.PIGLIN_JEWEL.get());
             }).build());
 
-    private static void generateElementContainer(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends AbstractElementContainerBlock> supplier) {
+    private static void generateElementContainer(CreativeModeTab.Output output, Supplier<? extends AbstractElementContainerBlock> supplier) {
         var block = supplier.get();
         var item = block.asItem();
 
@@ -273,7 +271,7 @@ public class ECCreativeModeTabs {
         }
     }
 
-    private static void generateElementHolder(@Nonnull CreativeModeTab.Output output, @Nonnull Supplier<? extends ElementHolderItem> supplier) {
+    private static void generateElementHolder(CreativeModeTab.Output output, Supplier<? extends ElementHolderItem> supplier) {
         var item = supplier.get();
         var full = new ItemStack(item);
         var storage = item.getElementStorage(full);
@@ -283,7 +281,7 @@ public class ECCreativeModeTabs {
         output.accept(full);
     }
 
-    private static void generatePureElementHolder(@Nonnull CreativeModeTab.Output output) {
+    private static void generatePureElementHolder(CreativeModeTab.Output output) {
         var item = ECItems.PURE_HOLDER.get();
         var full = new ItemStack(item);
         var storage = item.getElementStorage(full);
@@ -293,7 +291,7 @@ public class ECCreativeModeTabs {
         output.accept(full);
     }
 
-    private static void generateSpells(@Nonnull CreativeModeTab.Output output) {
+    private static void generateSpells(CreativeModeTab.Output output) {
         Spells.REGISTRY.listElements()
                 .filter(SpellHelper::isVisible)
                 .map(s -> {
@@ -304,10 +302,10 @@ public class ECCreativeModeTabs {
                 }).forEach(output::accept);
     }
 
-    private static void generatePureOres(@Nonnull CreativeModeTab.Output output) {
+    private static void generatePureOres(CreativeModeTab.Output output) {
         PureOreManager.getInstance().getOres().forEach(id -> output.accept(PureOreManager.getInstance().createPureOre(id)));
     }
-    private static void generateRunes(@Nonnull CreativeModeTab.Output output) {
+    private static void generateRunes(CreativeModeTab.Output output) {
         var item = ECItems.RUNE.get();
 
         ElementalCraftApi.RUNE_MANAGER.holders().forEach(h -> output.accept(item.getRuneStack(h)));

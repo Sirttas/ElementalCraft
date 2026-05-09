@@ -21,6 +21,8 @@ public @interface RegistrySource {
 
     Exclude[] exclude() default {};
 
+    Class<?> ofType() default Object.class;
+
     @interface Exclude {
         String value();
 

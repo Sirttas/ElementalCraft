@@ -19,6 +19,7 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
 
     private ResourceKey<Registry<Object>> key;
     private List<ResourceKey<Object>> excludeKeys;
+    private Class<?> ofType;
 
     @Override
     public void accept(RegistrySource registrySource) {
@@ -26,12 +27,14 @@ public class RegistryArgumentsProvider implements ArgumentsProvider, AnnotationC
         excludeKeys = Arrays.stream(registrySource.exclude())
                 .map(exclude -> ResourceKey.create(key, ArgumentProviderHelper.getIdentifier(exclude)))
                 .toList();
+        ofType = registrySource.ofType();
     }
 
     @Override
     public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
         return EphemeralTestServerProvider.grabServer().registryAccess().lookup(key).stream()
                 .flatMap(registry -> registry.entrySet().stream())
+                .filter(entry -> ofType.isInstance(entry.getValue()))
                 .filter(entry -> excludeKeys.stream().noneMatch(excludeKeys -> excludeKeys.equals(entry.getKey())))
                 .map(entry -> Arguments.of(Named.of(entry.getKey().identifier().toString(), entry.getValue())));
     }

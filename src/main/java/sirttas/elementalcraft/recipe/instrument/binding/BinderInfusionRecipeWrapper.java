@@ -2,10 +2,13 @@ package sirttas.elementalcraft.recipe.instrument.binding;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.level.Level;
 import sirttas.elementalcraft.recipe.RuntimeRecipe;
 import sirttas.elementalcraft.recipe.input.MultipleItemsSingleElementRecipeInput;
 import sirttas.elementalcraft.recipe.instrument.infusion.InfusionRecipe;
+
+import java.util.List;
 
 public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe implements RuntimeRecipe<MultipleItemsSingleElementRecipeInput> {
 
@@ -33,4 +36,9 @@ public class BinderInfusionRecipeWrapper extends AbstractBindingRecipe implement
     public PlacementInfo placementInfo() {
         return recipe.placementInfo();
     }
+
+	@Override
+	public List<RecipeDisplay> display() {
+		return recipe.display();
+	}
 }

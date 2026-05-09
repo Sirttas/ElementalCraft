@@ -3,10 +3,9 @@ package sirttas.elementalcraft.item.chisel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
-import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.rune.handler.IRuneHandler;
 import sirttas.elementalcraft.block.entity.BlockEntityHelper;
@@ -17,32 +16,27 @@ import sirttas.elementalcraft.item.ECItemAbilities;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.item.pipe.IPipeInteractingItem;
 
-import javax.annotation.Nonnull;
-
 public class ChiselItem extends Item implements IPipeInteractingItem, DamageableCraftingItem {
 	
 	public static final String NAME_DRENCHED_IRON = "drenched_iron_chisel";
 	public static final String NAME_SWIFT_ALLOY = "swift_alloy_chisel";
 	public static final String NAME_FIREITE = "fireite_chisel";
 
-	public ChiselItem(ToolMaterial toolMaterial, Item.Properties properties) {
+	public ChiselItem(Item.Properties properties) {
 		super(properties);
 	}
 
-	@Nonnull
-    @Override
-	public InteractionResult useOn(@NotNull UseOnContext context) {
+	@Override
+	public InteractionResult useOn(UseOnContext context) {
 		return doUse(BlockEntityHelper.getRuneHandlerAt(context.getLevel(), context.getClickedPos(), context.getClickedFace()), context);
 	}
 
-	@Nonnull
 	@Override
-	public InteractionResult useOnPipe(@Nonnull ElementPipeBlockEntity pipe, @Nonnull UseOnContext context) {
+	public InteractionResult useOnPipe(ElementPipeBlockEntity pipe, UseOnContext context) {
 		return doUse(BlockEntityHelper.getCapability(ElementalCraftCapabilities.RuneHandlers.BLOCK, pipe, context.getClickedFace()), context);
 	}
 
-	@Nonnull
-	private InteractionResult doUse(IRuneHandler handler, UseOnContext context) {
+	private InteractionResult doUse(@Nullable IRuneHandler handler, UseOnContext context) {
 		if (handler == null) {
 			return InteractionResult.PASS;
 		}
@@ -68,7 +62,7 @@ public class ChiselItem extends Item implements IPipeInteractingItem, Damageable
 	}
 
     @Override
-    public boolean canPerformAction(@NotNull ItemInstance stack, @NotNull ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance stack, ItemAbility itemAbility) {
         return itemAbility == ECItemAbilities.CHISEL_INSCRIBE_RUNE;
     }
 }

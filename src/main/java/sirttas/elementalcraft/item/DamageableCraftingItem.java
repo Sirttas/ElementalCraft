@@ -4,13 +4,12 @@ import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.neoforge.common.extensions.IItemExtension;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 public interface DamageableCraftingItem extends IItemExtension {
 
     @Override
-    default @Nullable ItemStackTemplate getCraftingRemainder(@NotNull ItemInstance itemInstance) {
+    default @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance itemInstance) {
         if (!ECItemStackHelper.canBeDamaged(itemInstance)) {
             return null;
         }

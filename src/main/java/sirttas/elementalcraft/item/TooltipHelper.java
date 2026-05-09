@@ -6,16 +6,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class TooltipHelper {
 
     private TooltipHelper() {}
 
-    public static void addAttributeMultiMapToTooltip(Consumer<Component> builder, Multimap<Holder<@NotNull Attribute>, AttributeModifier> multiMap, @Nullable Component title) {
+    public static void addAttributeMultiMapToTooltip(Consumer<Component> builder, Multimap<Holder<Attribute>, AttributeModifier> multiMap, @Nullable Component title) {
         if (!multiMap.isEmpty()) {
             builder.accept(Component.empty());
             if (title != null) {
@@ -27,7 +26,7 @@ public class TooltipHelper {
         }
     }
 
-    public static void addAttributeTooltip(Consumer<Component> builder, Holder<@NotNull Attribute> attribute, AttributeModifier attributemodifier) {
+    public static void addAttributeTooltip(Consumer<Component> builder, Holder<Attribute> attribute, AttributeModifier attributemodifier) {
         ItemAttributeModifiers.Display.attributeModifiers().apply(builder, null, attribute, attributemodifier);
     }
 }
