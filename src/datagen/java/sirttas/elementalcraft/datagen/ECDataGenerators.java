@@ -8,8 +8,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import sirttas.elementalcraft.ElementalCraft;
 import sirttas.elementalcraft.api.ElementalCraftApi;
-import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.datagen.advancement.ECAdvancementGenerator;
 import sirttas.elementalcraft.datagen.advancement.ECPickupAdvancementGenerator;
 import sirttas.elementalcraft.datagen.interaction.DatagenInteraction;
@@ -46,7 +46,6 @@ import sirttas.elementalcraft.datagen.tag.ECBlockTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECDamageTypeTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECGameEventTagsProvider;
 import sirttas.elementalcraft.datagen.tag.ECItemTagsProvider;
-import sirttas.elementalcraft.jewel.Jewels;
 
 import java.util.List;
 import java.util.Set;
@@ -58,8 +57,7 @@ public class ECDataGenerators {
 	
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
-		PipeUpgradeTypes.setup();
-		Jewels.setup();
+		ElementalCraft.setup();
 
 		var generator = event.getGenerator();
 		var output = generator.getPackOutput();

@@ -41,6 +41,7 @@ import sirttas.elementalcraft.jewel.Jewels;
 import sirttas.elementalcraft.loot.ECLootModifiers;
 import sirttas.elementalcraft.loot.entry.ECLootPoolEntries;
 import sirttas.elementalcraft.loot.function.ECLootFunctions;
+import sirttas.elementalcraft.loot.parameter.ECLootContextParamSets;
 import sirttas.elementalcraft.particle.ECParticles;
 import sirttas.elementalcraft.pureore.factory.PureOreRecipeFactoryTypes;
 import sirttas.elementalcraft.pureore.loader.IPureOreLoader;
@@ -116,7 +117,7 @@ public class ElementalCraft {
 		ConfigurableBlockEntityPropertiesType.register(modBus);
         ECGameEvents.register(modBus);
 
-		modBus.addListener(this::setup);
+		modBus.addListener(this::onSetupEvent);
 		modBus.addListener(this::enqueueIMC);
 		modBus.addListener(this::processIMC);
 
@@ -143,9 +144,14 @@ public class ElementalCraft {
 		return ElementalCraftApi.MODID.equals(location.getNamespace());
 	}
 
-    private void setup(FMLCommonSetupEvent event) {
+    private void onSetupEvent(FMLCommonSetupEvent event) {
+		setup();
+	}
+
+	public static void setup() {
 		PipeUpgradeTypes.setup();
 		Jewels.setup();
+		ECLootContextParamSets.setup();
 	}
 	
 	private void enqueueIMC(InterModEnqueueEvent event) {

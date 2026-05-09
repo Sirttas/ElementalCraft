@@ -16,4 +16,8 @@ public class ECLootContextParamSets {
 
     private ECLootContextParamSets() {}
 
+    public static void setup() {
+        // Nothing to do
+    }
+
 }
