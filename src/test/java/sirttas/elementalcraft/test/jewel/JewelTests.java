@@ -21,7 +21,7 @@ import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 public class JewelTests {
 
     @ParameterizedTest
-    @DisplayName("Check that jewels cn be placed on gear.")
+    @DisplayName("Check that jewels can be placed on gear.")
     @RegistrySource(namespace = ElementalCraftApi.MODID, value = "jewel")
     public void should_bePlaceableOnGear(Jewel jewel) {
         // Given
