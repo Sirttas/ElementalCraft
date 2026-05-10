@@ -46,6 +46,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
         standard("clumps", ECTags.Items.PURE_ORES_SOURCES_CLUMPS)
                 .patterns(DEEPSLATE_PATTERN, "_?clump$");
         storageBlock("resin_blocks", ECTags.Items.PURE_ORES_SOURCES_RESIN_BLOCKS, "");
+
         standard("geore_shards", ECTags.Items.PURE_ORES_SOURCES_GEORE_SHARDS)
                 .patterns(DEEPSLATE_PATTERN, "_?shard$")
                 .consumption(5000)
@@ -94,7 +95,7 @@ public class PureOreLoaderProvider extends AbstractManagedDataBuilderProvider<IP
 
     protected PatternPureOreLoaderBuilder rawMaterialsBlocks(String name, TagKey<Item> tag) {
         return (PatternPureOreLoaderBuilder) storageBlock(name, tag, "raw_?(?!_?materials)")
-                .patterns(DEEPSLATE_PATTERN, "^raw_?", "_?block$")
+                .patterns("^raw_?")
                 .consumption(15000)
                 .outputSize(12)
                 .luckRatio(18);

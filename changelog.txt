@@ -8,6 +8,7 @@
 - add grinding recipe for eyebloom, wildflowers, cactus flower, golden dandelion
 - made mace infusable
 - made spears infusable
+- fix a handful of recipes
 
 
 7.1.3:

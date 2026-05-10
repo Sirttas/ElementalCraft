@@ -10,69 +10,69 @@
 	},
 	"elements": [
 		{
-			"from": [9, 11, 8],
-			"to": [14, 27, 9],
+			"from": [9, 0, 8],
+			"to": [14, 16, 9],
 			"faces": {
 				"south": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [2, 11, 7],
-			"to": [7, 27, 8],
+			"from": [2, 0, 7],
+			"to": [7, 16, 8],
 			"faces": {
 				"north": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [7, 11, 9],
-			"to": [8, 27, 14],
+			"from": [7, 0, 9],
+			"to": [8, 16, 14],
 			"faces": {
 				"west": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [8, 11, 2],
-			"to": [9, 27, 7],
+			"from": [8, 0, 2],
+			"to": [9, 16, 7],
 			"faces": {
 				"east": {"uv": [0, 0, 5, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [9, 11, 9],
-			"to": [14, 27, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"from": [9, 0, 9],
+			"to": [14, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -7, 8]},
 			"faces": {
 				"north": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [2, 11, 6],
-			"to": [7, 27, 7],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"from": [2, 0, 6],
+			"to": [7, 16, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -7, 8]},
 			"faces": {
 				"south": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [6, 11, 9],
-			"to": [7, 27, 14],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"from": [6, 0, 9],
+			"to": [7, 16, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -7, 8]},
 			"faces": {
 				"east": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [9, 11, 2],
-			"to": [10, 27, 7],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"from": [9, 0, 2],
+			"to": [10, 16, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -7, 8]},
 			"faces": {
 				"west": {"uv": [11, 0, 16, 16], "texture": "#2"}
 			}
 		},
 		{
-			"from": [7, 0, 7],
-			"to": [9, 16, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"from": [7, -11, 7],
+			"to": [9, 5, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -19, 15]},
 			"faces": {
 				"north": {"uv": [5, 0, 7, 16], "texture": "#1"},
 				"east": {"uv": [7, 0, 9, 16], "texture": "#1"},
@@ -83,9 +83,9 @@
 			}
 		},
 		{
-			"from": [7, 16, 7],
-			"to": [9, 28, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [15, -8, 15]},
+			"from": [7, 5, 7],
+			"to": [9, 17, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, -19, 15]},
 			"faces": {
 				"north": {"uv": [5, 4, 7, 16], "texture": "#1"},
 				"east": {"uv": [7, 4, 9, 16], "texture": "#1"},
@@ -100,19 +100,19 @@
 		0,
 		{
 			"name": "blades",
-			"origin": [15, 38, 14],
+			"origin": [15, 27, 14],
 			"color": 0,
 			"children": [1, 2, 3, 4]
 		},
 		{
 			"name": "blades_revers",
-			"origin": [15, 38, 14],
+			"origin": [15, 27, 14],
 			"color": 0,
 			"children": [5, 6, 7, 8]
 		},
 		{
 			"name": "shaft",
-			"origin": [15, -8, 15],
+			"origin": [15, -19, 15],
 			"color": 0,
 			"children": [9, 10]
 		}

@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.SpellHelper;
 
 import java.util.function.Consumer;
@@ -25,7 +24,7 @@ public class FocusItem extends AbstractSpellHolderItem {
 
     @Override
     @Deprecated
-    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
 		var spell = SpellHelper.getSpell(itemStack);
 
 		SpellHelper.getSpellList(itemStack).forEachSpell((s, i) -> {

@@ -19,10 +19,8 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class StaffItem extends FocusItem {
@@ -43,7 +41,7 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
+	public float getDestroySpeed(ItemStack stack, BlockState state) {
 		if (state.is(Blocks.COBWEB)) {
 			return 15.0F;
 		}
@@ -51,20 +49,19 @@ public class StaffItem extends FocusItem {
 	}
 
 	@Override
-	public void hurtEnemy(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+	public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, target, EquipmentSlot.MAINHAND);
 	}
 
     @Override
     @Deprecated
-    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
 		super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
         builder.accept(Component.translatable("tooltip.elementalcraft.staff.range").withStyle(ChatFormatting.BLUE));
 	}
 
-	@Nonnull
 	@Override
-	public AABB getSweepHitBox(@Nonnull ItemStack stack, @Nonnull Player player, @Nonnull Entity target) {
+	public AABB getSweepHitBox(ItemStack stack, Player player, Entity target) {
 		var playerAABB = player.getBoundingBox().inflate(2, 0.25, 2);
 		var targetAABB = super.getSweepHitBox(stack, player, target);
 

@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
@@ -46,7 +45,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     @Override
-    public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cache) {
+    public CompletableFuture<?> run(CachedOutput cache) {
         return registries.thenCompose(r -> CompletableFuture.allOf(generate().stream()
                 .map(book -> save(cache, r, book))
                 .toArray(CompletableFuture[]::new)));
@@ -730,7 +729,7 @@ public class BookDataProvider implements DataProvider {
     }
 
 
-    private static void shrine(CategoryBuilder category, DeferredHolder<@NotNull Block, ? extends @NotNull AbstractShrineBlock<?>> shrine) {
+    private static void shrine(CategoryBuilder category, DeferredHolder<Block, ? extends AbstractShrineBlock<?>> shrine) {
         var name = shrine.getId().getPath();
 
         category.entry(shrine.get())
@@ -739,7 +738,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
-    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<@NotNull Block, ? extends @NotNull ShrineUpgradeBlock> shrineUpgrade) {
+    private static EntryBuilder shrineUpgrade(CategoryBuilder category, DeferredHolder<Block, ? extends ShrineUpgradeBlock> shrineUpgrade) {
         var name = shrineUpgrade.getId().getPath();
 
         return category.entry(shrineUpgrade.get())
@@ -749,7 +748,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.crafting(shrineUpgrade.get()));
     }
 
-    private static void spell(CategoryBuilder category, DeferredHolder<@NotNull Spell, ? extends @NotNull Spell> spell) {
+    private static void spell(CategoryBuilder category, DeferredHolder<Spell, ? extends Spell> spell) {
         var name = spell.getId().getPath();
 
         category.entry(name)
@@ -760,7 +759,7 @@ public class BookDataProvider implements DataProvider {
                 .page(PageBuilder.text("elementalcraft.page." + name + "0"));
     }
 
-    private static void jewel(CategoryBuilder category, DeferredHolder<@NotNull Jewel, ? extends @NotNull Jewel> jewel) {
+    private static void jewel(CategoryBuilder category, DeferredHolder<Jewel, ? extends Jewel> jewel) {
         var name = jewel.getId().getPath();
 
         category.entry(jewel.get())
@@ -789,7 +788,7 @@ public class BookDataProvider implements DataProvider {
     }
 
     @Override
-    public @NotNull String getName() {
+    public String getName() {
         return "Elemental Craft Patchouli Book";
     }
 }

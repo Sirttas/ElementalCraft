@@ -23,7 +23,6 @@ import sirttas.elementalcraft.block.shrine.ShrineElementStorage;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.entity.player.PlayerElementStorage;
-import sirttas.elementalcraft.item.spell.ISpellHolder;
 import sirttas.elementalcraft.jewel.Jewel;
 import sirttas.elementalcraft.jewel.handler.IJewelHandler;
 import sirttas.elementalcraft.spell.Spell;
@@ -124,7 +123,7 @@ public class ElementGaugeGui {
 
         var holder = EntityHelper.handStream(player)
                 .map(stack -> {
-                    if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
+                    if (!stack.isEmpty()) {
                         return SpellHelper.getSpell(stack);
                     }
                     return Spells.NONE;

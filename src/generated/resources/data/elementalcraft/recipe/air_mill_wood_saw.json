@@ -5,7 +5,7 @@
     "a": "elementalcraft:air_mill",
     "c": "elementalcraft:aircrystal",
     "i": "#c:ingots/swift_alloy",
-    "s": "minecraft:grindstone",
+    "s": "elementalcraft:drenched_saw_blade",
     "w": "elementalcraft:whiterock"
   },
   "pattern": [

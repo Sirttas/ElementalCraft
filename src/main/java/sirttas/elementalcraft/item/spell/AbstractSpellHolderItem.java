@@ -16,7 +16,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.attributes.AttributesHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.entity.EntityHelper;
@@ -27,10 +26,9 @@ import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
-public abstract class AbstractSpellHolderItem extends Item implements ISpellHolder {
+public abstract class AbstractSpellHolderItem extends Item {
 
 	protected AbstractSpellHolderItem(Properties properties) {
 		super(properties);
@@ -45,43 +43,40 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 	}
 
 	@Override
-	public int getUseDuration(@Nonnull ItemStack stack, @NotNull LivingEntity entity) {
+	public int getUseDuration(ItemStack stack, LivingEntity entity) {
 		return SpellHelper.getSpell(stack).value().getUseDuration();
 	}
 
-	@Nonnull
-    @Override
-	public ItemUseAnimation getUseAnimation(@Nonnull ItemStack stack) {
+	@Override
+	public ItemUseAnimation getUseAnimation(ItemStack stack) {
 		return SpellHelper.getSpell(stack).value().getUseAnimation();
 	}
 
 	/**
      * Called when the equipped item is right clicked.
      */
-	@Nonnull
-    @Override
-	public InteractionResult use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
+	@Override
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		return tick(level, player, hand, stack, true);
 	}
 
 	@Override
-	public void onUseTick(@Nonnull Level level, @Nonnull LivingEntity entity, @Nonnull ItemStack stack, int count) {
+	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int count) {
 		if (!(entity instanceof Player player) || tick(entity.level(), player, entity.getUsedItemHand(), stack, false) != InteractionResult.CONSUME) {
 			entity.releaseUsingItem();
 		}
 	}
 
 	@Override
-	public boolean releaseUsing(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull LivingEntity entityLiving, int timeLeft) {
+	public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entityLiving, int timeLeft) {
 		finishUsingItem(stack, level, entityLiving);
         return super.releaseUsing(stack, level, entityLiving, timeLeft);
 	}
 
-	@Nonnull
-    @Override
-	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
+	@Override
+	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
 		if (!level.isClientSide() && !(entityLiving instanceof Player player && player.getAbilities().instabuild)) {
 			SpellTickHelper.startCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}
@@ -150,7 +145,7 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 	protected abstract void consume(ItemStack stack);
 
 	@Override
-	public boolean canPerformAction(@NotNull ItemInstance stack, @NotNull ItemAbility itemAbility) {
+	public boolean canPerformAction(ItemInstance stack, ItemAbility itemAbility) {
 		return SpellHelper.getSpell(stack).value() instanceof ItemAbilitySpell toolActionSpell && toolActionSpell.getItemAbilities().contains(itemAbility);
 	}
 }

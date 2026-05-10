@@ -8,14 +8,11 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Util;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jspecify.annotations.Nullable;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.elementalcraft.ElementalCraft;
-import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -55,7 +52,7 @@ public record SpellProperties(
 	).apply(builder, SpellProperties::new));
 
 	public SpellProperties() {
-		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, Util.makeDescriptionId("elementalcraft_spell", ElementalCraftApi.identifier("none")), null);
+		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, "", null);
 	}
 
 	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, @Nullable String descriptionId, @Nullable Multimap<Holder<Attribute>, AttributeModifier> attributes) {
@@ -69,7 +66,7 @@ public record SpellProperties(
 		this.strength = strength;
 		this.color = color;
 		this.hidden = hidden;
-		this.descriptionId = descriptionId != null && !descriptionId.isBlank() ? descriptionId : Util.makeDescriptionId("elementalcraft_spell", ElementalCraft.SPELL_PROPERTIES_MANAGER.getId(this));
+		this.descriptionId = descriptionId != null && !descriptionId.isBlank() ? descriptionId : "";
 		this.attributes = attributes != null && !attributes.isEmpty() ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Map.of());
 	}
 

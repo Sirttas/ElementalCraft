@@ -8,6 +8,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,6 +39,7 @@ import java.util.function.Consumer;
 
 public class Spell implements IElementTypeProvider {
 
+	private String descriptionId = "";
 	protected final Holder<SpellProperties> properties;
 
 	protected Spell(Holder<SpellProperties> properties) {
@@ -45,7 +47,13 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	public String getDescriptionId() {
-		return properties.value().descriptionId();
+		if (descriptionId.isBlank()) {
+			descriptionId = properties.value().descriptionId();
+		}
+		if (descriptionId.isBlank()) {
+			descriptionId = Util.makeDescriptionId("elementalcraft_spell", Spells.REGISTRY.getKey(this));
+		}
+		return descriptionId;
 	}
 
 	public Component getDisplayName() {

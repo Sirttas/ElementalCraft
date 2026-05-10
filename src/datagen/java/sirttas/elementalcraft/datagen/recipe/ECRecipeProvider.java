@@ -180,7 +180,7 @@ public class ECRecipeProvider extends RecipeProvider {
 				.define('C', ECItems.SHRINE_UPGRADE_CORE.get())
 				.define('c', ECItems.PURE_CRYSTAL.get())
 				.define('i', Tags.Items.INGOTS_GOLD)
-				.define('s', ECItems.SOLAR_PRISM.get())
+				.define('s', ECItems.STRONGLY_CONTAINED_CRYSTAL.get())
 				.define('n', ECTags.Items.NUGGETS_FIREITE)
 				.pattern("nsn")
 				.pattern("iCi")
@@ -522,7 +522,7 @@ public class ECRecipeProvider extends RecipeProvider {
 		prepareWhiterockInstrumentRecipe(ECBlocks.AIR_MILL_WOOD_SAW.get(), ECItems.AIR_CRYSTAL.get())
 				.define('i', ECTags.Items.INGOTS_SWIFT_ALLOY)
 				.define('a', ECItems.AIR_MILL.get())
-				.define('s', Items.GRINDSTONE)
+				.define('s', ECItems.DRENCHED_SAW_BLADE.get())
 				.pattern(" a ")
 				.pattern("isi")
 				.pattern("wcw")
@@ -1626,6 +1626,11 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withIngredient(tag(Tags.Items.RODS_BLAZE))
 				.withLuckRatio(3)
 				.save(this.output);
+		GrindingRecipeBuilder.grindingRecipe(Items.WIND_CHARGE)
+				.withCount(6)
+				.withIngredient(tag(Tags.Items.RODS_BREEZE))
+				.withLuckRatio(3)
+				.save(this.output);
 		GrindingRecipeBuilder.grindingRecipe(Items.NETHERITE_SCRAP)
 				.withCount(2)
 				.withIngredient(tag(Tags.Items.ORES_NETHERITE_SCRAP))
@@ -1657,9 +1662,16 @@ public class ECRecipeProvider extends RecipeProvider {
 				.withIngredient(tag(Tags.Items.BONES))
 				.withLuckRatio(3)
 				.save(this.output);
+		GrindingRecipeBuilder.grindingRecipe(Items.BONE_MEAL)
+				.withCount(36)
+				.withIngredient(Blocks.BONE_BLOCK)
+				.withElementAmount(9000)
+				.withLuckRatio(3)
+				.save(this.output,"bone_meal_from_bone_block");
 		GrindingRecipeBuilder.grindingRecipe(Items.STRING)
 				.withCount(4)
 				.withIngredient(tag(ItemTags.WOOL))
+				.withElementAmount(500)
 				.save(this.output);
 
 		grindToDye(Items.GREEN_DYE, Items.CACTUS);

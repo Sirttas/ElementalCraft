@@ -6,10 +6,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class ScrollItem extends AbstractSpellHolderItem {
@@ -27,7 +25,7 @@ public class ScrollItem extends AbstractSpellHolderItem {
 
     @Override
     @Deprecated
-    public void appendHoverText(@NotNull ItemStack itemStack, @NotNull TooltipContext context, @NotNull TooltipDisplay display, @NotNull Consumer<Component> builder, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
 		var spell = SpellHelper.getSpell(itemStack);
 
 		if (SpellHelper.isValid(spell)) {
@@ -36,9 +34,8 @@ public class ScrollItem extends AbstractSpellHolderItem {
 		}
 	}
 
-	@Nonnull
-    @Override
-	public Component getName(@Nonnull ItemStack stack) {
+	@Override
+	public Component getName(ItemStack stack) {
 		var spell = SpellHelper.getSpell(stack);
 
 		if (SpellHelper.isValid(spell)) {

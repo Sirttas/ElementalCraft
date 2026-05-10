@@ -8,9 +8,7 @@
   "patterns": [
     "^deepslate_",
     "_?block$",
-    "^deepslate_",
-    "^raw_?",
-    "_?block$"
+    "^raw_?"
   ],
   "source": {
     "type": "neoforge:and",

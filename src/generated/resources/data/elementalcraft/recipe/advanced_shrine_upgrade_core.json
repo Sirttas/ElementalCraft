@@ -6,7 +6,7 @@
     "c": "elementalcraft:purecrystal",
     "i": "#c:ingots/gold",
     "n": "#c:nuggets/fireite",
-    "s": "elementalcraft:solar_prism"
+    "s": "elementalcraft:strongly_contained_crystal"
   },
   "pattern": [
     "nsn",

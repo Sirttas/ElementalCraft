@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 1000,
+  "input": "#c:rods/breeze",
+  "luck_ratio": 3.0,
+  "result": {
+    "count": 6,
+    "id": "minecraft:wind_charge"
+  },
+  "show_notification": false
+}

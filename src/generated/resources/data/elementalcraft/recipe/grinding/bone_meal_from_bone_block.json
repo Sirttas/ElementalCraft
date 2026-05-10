@@ -1,0 +1,11 @@
+{
+  "type": "elementalcraft:grinding",
+  "element_amount": 9000,
+  "input": "minecraft:bone_block",
+  "luck_ratio": 3.0,
+  "result": {
+    "count": 36,
+    "id": "minecraft:bone_meal"
+  },
+  "show_notification": false
+}

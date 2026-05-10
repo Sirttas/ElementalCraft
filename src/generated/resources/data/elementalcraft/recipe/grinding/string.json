@@ -1,6 +1,6 @@
 {
   "type": "elementalcraft:grinding",
-  "element_amount": 1000,
+  "element_amount": 500,
   "input": "#minecraft:wool",
   "result": {
     "count": 4,

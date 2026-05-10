@@ -32,8 +32,8 @@ public abstract class AbstractECLanguageProvider extends LanguageProvider {
         add(key.get(), name);
     }
 
-    public void add(Spell key, String name) {
-        add(key.getDescriptionId(), name);
+    public void add(Spell spell, String name) {
+        add(spell.getDescriptionId(), name);
     }
 
     public void addRune(ResourceKey<Rune> key, String name) {
