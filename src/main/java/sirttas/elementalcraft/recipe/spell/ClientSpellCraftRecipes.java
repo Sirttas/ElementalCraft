@@ -2,7 +2,6 @@ package sirttas.elementalcraft.recipe.spell;
 
 
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,7 +25,7 @@ public class ClientSpellCraftRecipes {
         RECIPES.addAll(event.getRecipeMap().byType(ECRecipeTypes.SPELL_CRAFT.get()));
     }
 
-    public static Stream<RecipeHolder<SpellCraftRecipe>> getRecipesFor(RecipeInput container, Level level) {
-        return container.isEmpty() ? Stream.empty() : RECIPES.stream().filter(r -> r.value().matches(container, level));
+    public static Stream<RecipeHolder<SpellCraftRecipe>> getRecipesFor(SpellDeskRecipeInput input, Level level) {
+        return input.isEmpty() ? Stream.empty() : RECIPES.stream().filter(r -> r.value().matches(input, level));
     }
 }

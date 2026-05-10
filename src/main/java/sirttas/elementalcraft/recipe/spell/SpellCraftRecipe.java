@@ -10,13 +10,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.item.ECItems;
@@ -24,10 +22,9 @@ import sirttas.elementalcraft.recipe.ECRecipeBookCategories;
 import sirttas.elementalcraft.recipe.ECRecipeSerializers;
 import sirttas.elementalcraft.recipe.ECRecipeTypes;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
+public class SpellCraftRecipe implements Recipe<SpellDeskRecipeInput> {
 
 	public static final String NAME = "spell_craft";
     public static final MapCodec<SpellCraftRecipe> CODEC =  RecordCodecBuilder.mapCodec(builder -> builder.group(
@@ -36,7 +33,7 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
             Ingredient.CODEC.fieldOf(ECNames.CRYSTAL).forGetter(r -> r.crystal),
             ItemStackTemplate.MAP_CODEC.fieldOf(ECNames.RESULT).forGetter(r -> r.result)
     ).apply(builder, SpellCraftRecipe::new));
-    public static final StreamCodec<@NotNull RegistryFriendlyByteBuf, @NotNull SpellCraftRecipe> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, SpellCraftRecipe> STREAM_CODEC = StreamCodec.composite(
             CommonInfo.STREAM_CODEC, r -> r.commonInfo,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.gem,
             Ingredient.CONTENTS_STREAM_CODEC, r -> r.crystal,
@@ -58,12 +55,12 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
 	}
 	
 	@Override
-	public boolean matches(RecipeInput inv, @Nonnull Level level) {
-		return scrollPaper.test(inv.getItem(0)) && gem.test(inv.getItem(1)) && crystal.test(inv.getItem(2));
+	public boolean matches(SpellDeskRecipeInput inv, Level level) {
+		return scrollPaper.test(inv.scrollPaper()) && gem.test(inv.gem()) && crystal.test(inv.crystal());
 	}
 
     @Override
-    public @NotNull ItemStack assemble(RecipeInput input) {
+    public ItemStack assemble(SpellDeskRecipeInput input) {
         return result.create();
     }
 
@@ -73,34 +70,32 @@ public class SpellCraftRecipe implements Recipe<@NotNull RecipeInput> {
     }
 
     @Override
-    public @NotNull String group() {
+    public String group() {
         return NAME;
     }
 
-	@Nonnull
 	@Override
-	public RecipeSerializer<@NotNull SpellCraftRecipe> getSerializer() {
+	public RecipeSerializer<SpellCraftRecipe> getSerializer() {
 		return ECRecipeSerializers.SPELL_CRAFT.get();
 	}
 
-	@Nonnull
 	@Override
-	public RecipeType<@NotNull SpellCraftRecipe> getType() {
+	public RecipeType<SpellCraftRecipe> getType() {
 		return ECRecipeTypes.SPELL_CRAFT.get();
 	}
 
     @Override
-    public @NotNull PlacementInfo placementInfo() {
+    public PlacementInfo placementInfo() {
         return PlacementInfo.create(List.of(scrollPaper, gem, crystal));
     }
 
     @Override
-    public @NotNull RecipeBookCategory recipeBookCategory() {
+    public RecipeBookCategory recipeBookCategory() {
         return ECRecipeBookCategories.SPELL_CRAFT.get();
     }
 
     @Override
-    public @NotNull List<RecipeDisplay> display() {
+    public List<RecipeDisplay> display() {
         return List.of(new SpellCraftRecipeDisplay(
                 gem.display(),
                 crystal.display(),

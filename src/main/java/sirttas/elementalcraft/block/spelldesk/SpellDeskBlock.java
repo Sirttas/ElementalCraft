@@ -24,9 +24,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
 
 public class SpellDeskBlock extends HorizontalDirectionalBlock {
 
@@ -60,7 +57,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	private static final VoxelShape WEST_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_WEST_1, PLATE_WEST_2, PLATE_WEST_3);
 	private static final VoxelShape EAST_SHAPE = Shapes.or(MAIN_SHAPE, PLATE_EAST_1, PLATE_EAST_2, PLATE_EAST_3);
 
-	public static final EnumProperty<@NotNull Direction> FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
 	public SpellDeskBlock(BlockBehaviour.Properties properties) {
 		super(properties);
@@ -69,7 +66,7 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	protected @NotNull MapCodec<SpellDeskBlock> codec() {
+	protected MapCodec<SpellDeskBlock> codec() {
 		return CODEC;
 	}
 
@@ -79,13 +76,12 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<@NotNull Block, @NotNull BlockState> container) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
 		container.add(FACING);
 	}
 
-	@Nonnull
-    @Override
-	public VoxelShape getShape(BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return switch (state.getValue(FACING)) {
 			case NORTH -> NORTH_SHAPE;
 			case SOUTH -> SOUTH_SHAPE;
@@ -95,9 +91,8 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 		};
 	}
 
-	@Nonnull
-    @Override
-	protected InteractionResult useItemOn(@Nonnull ItemStack stack, @Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult hit) {
+	@Override
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;
 		}
@@ -108,12 +103,11 @@ public class SpellDeskBlock extends HorizontalDirectionalBlock {
 	private class ContainerProvider implements MenuProvider {
 
 		@Override
-		public AbstractContainerMenu createMenu(int id, @Nonnull Inventory inventory, @Nonnull Player player) {
+		public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
 			return new SpellDeskMenu(id, inventory);
 		}
 
-		@Nonnull
-        @Override
+		@Override
 		public Component getDisplayName() {
 			return Component.translatable(getDescriptionId());
 		}

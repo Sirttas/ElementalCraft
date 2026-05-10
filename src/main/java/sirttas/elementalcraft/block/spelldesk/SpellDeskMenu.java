@@ -9,16 +9,14 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.container.menu.ECMenus;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.recipe.spell.ClientSpellCraftRecipes;
+import sirttas.elementalcraft.recipe.spell.SpellDeskRecipeInput;
 import sirttas.elementalcraft.tag.ECTags;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -55,9 +53,8 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 		this.addDataSlot(this.pageCount);
 	}
 
-	@Nonnull
-    @Override
-	public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
 		Slot slot = this.slots.get(index);
 
 		if (slot.hasItem()) {
@@ -89,18 +86,7 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 	}
 	
 	private void updateRecipeList(Level level) {
-		var recipeInput = new RecipeInput() { // TODO extract as independent class
-
-			@Override
-			public @NotNull ItemStack getItem(int slot) {
-				return input.getItem(slot);
-			}
-
-			@Override
-			public int size() {
-				return input.getContainerSize();
-			}
-		};
+		var recipeInput = new SpellDeskRecipeInput(input.getItem(0), input.getItem(1), input.getItem(2));
 		stacks = ClientSpellCraftRecipes.getRecipesFor(recipeInput, level)
 				.map(h -> h.value().assemble(recipeInput))
 				.toList();
@@ -122,17 +108,17 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 	}
 
 	@Override
-	public void slotsChanged(@Nonnull Container container) {
+	public void slotsChanged(Container container) {
 		updateRecipeList(level);
 	}
 
     @Override
-    public boolean stillValid(@NotNull Player player) {
+    public boolean stillValid(Player player) {
         return true;
     }
 
     @Override
-	public void removed(@Nonnull Player player) {
+	public void removed(Player player) {
 		super.removed(player);
 		clearContainer(player, input);
 	}
@@ -162,12 +148,12 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 		}
 		
 		@Override
-		public boolean mayPlace(@Nonnull ItemStack stack) {
+		public boolean mayPlace(ItemStack stack) {
 			return false;
 		}
 		
 		@Override
-		public void onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
+		public void onTake(Player player, ItemStack stack) {
 			checkTakeAchievements(stack);
 			for (int i = 0; i < input.getContainerSize(); i++) {
 				input.removeItem(i, 1);
@@ -187,7 +173,7 @@ public class SpellDeskMenu extends AbstractContainerMenu {
 		
 		
 		@Override
-		public boolean mayPlace(@Nonnull ItemStack stack) {
+		public boolean mayPlace(ItemStack stack) {
 			return predicate.test(stack);
 		}
 	}
