@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
@@ -18,7 +19,7 @@ import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.itemList;
 import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.withValue;
 
@@ -55,11 +56,10 @@ public class AirShieldSpellGameTests {
     public static void should_blockArrow(DynamicTest test) {
         test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(11, 3, 3)
                 .fill(0, 0, 0, 10, 0, 2, Blocks.STONE)
+                .placeFloorLever(9, 2, 1, false)
                 .set(9, 1, 1, Blocks.DISPENSER.defaultBlockState()
                         .setValue(DispenserBlock.FACING, Direction.WEST),
-                        withValue(itemList(new ItemStack(Items.ARROW, 16))))
-                .placeFloorLever(9, 2, 1, false)
-                .set(9, 1, 1, Blocks.REDSTONE_LAMP.defaultBlockState()));
+                        withValue(itemList(new ItemStack(Items.ARROW, 16)))));
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.AIR_SHIELD);
@@ -69,6 +69,12 @@ public class AirShieldSpellGameTests {
                     .thenExecute(() -> helper.useItem(player))
                     .thenExecuteAfter(25, () -> helper.pullLever(9, 2, 1))
                     .thenExecuteAfter(10, () -> {
+                        var itemHandler = helper.getCapability(Capabilities.Item.BLOCK, new BlockPos(9, 1, 1), null);
+
+                        assertThat(itemHandler).satisfies(0, rs -> assertThat(rs).isItem()
+                                .is(Items.ARROW)
+                                .as("Arrow hasn't been fired")
+                                .hasCount(15));
                         helper.assertEntityAlive(player);
                         assertThat(player.getHealth()).isEqualTo(player.getMaxHealth());
                         helper.assertElementUsed(player, ElementType.AIR);
