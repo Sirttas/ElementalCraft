@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.spell.tick;
 
+import net.minecraft.core.Holder;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
@@ -25,17 +26,17 @@ public interface ISpellTickManager {
 
     void addSpellInstance(AbstractSpellInstance instance);
 
-    void startCooldown(Spell spell);
+    void startCooldown(Holder<Spell> spell);
 
-    default boolean hasCooldown(Spell spell) {
+    default boolean hasCooldown(Holder<Spell> spell) {
         return getCooldown(spell) > 0;
     }
 
-    default float getCooldown(Spell spell) {
+    default float getCooldown(Holder<Spell> spell) {
         return getCooldown(spell, 0);
     }
 
-    float getCooldown(Spell spell, float partialTick);
+    float getCooldown(Holder<Spell> spell, float partialTick);
 
     void tick();
 

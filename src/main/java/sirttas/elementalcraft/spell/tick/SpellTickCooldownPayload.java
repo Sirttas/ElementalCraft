@@ -1,29 +1,29 @@
 package sirttas.elementalcraft.spell.tick;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 
-public record SpellTickCooldownPayload(Spell spell) implements CustomPacketPayload {
+public record SpellTickCooldownPayload(Holder<Spell> spell) implements CustomPacketPayload {
 
-	public static final CustomPacketPayload.Type<@NotNull SpellTickCooldownPayload> TYPE = PayloadHelper.createType("spell_tick_cooldown");
-	public static final StreamCodec<@NotNull FriendlyByteBuf, @NotNull SpellTickCooldownPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SpellTickCooldownPayload::new);
+	public static final CustomPacketPayload.Type<SpellTickCooldownPayload> TYPE = PayloadHelper.createType("spell_tick_cooldown");
+	public static final StreamCodec<FriendlyByteBuf, SpellTickCooldownPayload> STREAM_CODEC = StreamCodec.of((b, p) -> p.write(b), SpellTickCooldownPayload::new);
 
 	public SpellTickCooldownPayload(FriendlyByteBuf buf) {
-		this(Spells.REGISTRY.getValue(buf.readIdentifier()));
+		this(Spells.REGISTRY.get(buf.readIdentifier()).orElseThrow());
 	}
 
 	public void write(FriendlyByteBuf buf) {
-		buf.writeIdentifier(spell.getKey());
+		buf.writeIdentifier(spell.getKey().identifier());
 	}
 
 	@Override
-	public @NotNull Type<@NotNull SpellTickCooldownPayload> type() {
+	public Type<SpellTickCooldownPayload> type() {
 		return TYPE;
 	}
 

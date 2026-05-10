@@ -1,16 +1,16 @@
 package sirttas.elementalcraft.spell;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.resources.ResourceKey;
-import org.jetbrains.annotations.NotNull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 @Deprecated
 public class DataComponentSpell extends Spell {
 
     private final DataComponentMap dataComponents;
 
-    protected DataComponentSpell(ResourceKey<@NotNull Spell> key, DataComponentMap dataComponents) {
-        super(key);
+    protected DataComponentSpell(Holder<SpellProperties> properties, DataComponentMap dataComponents) {
+        super(properties);
         this.dataComponents = dataComponents;
     }
 

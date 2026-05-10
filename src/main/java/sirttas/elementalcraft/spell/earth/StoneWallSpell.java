@@ -4,16 +4,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -21,8 +20,8 @@ public class StoneWallSpell extends Spell {
 
 	public static final String NAME = "stonewall";
 
-	public StoneWallSpell(ResourceKey<Spell> key) {
-		super(key);
+	public StoneWallSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	private void checkAndPlace(Level level, BlockPos pos) {
@@ -31,7 +30,7 @@ public class StoneWallSpell extends Spell {
 		}
 	}
 
-	public SpellCastResult cast(@Nonnull Level level, Entity sender, BlockPos pos, Direction direction) {
+	public SpellCastResult cast(Level level, Entity sender, BlockPos pos, Direction direction) {
 		checkAndPlace(level, pos);
 		checkAndPlace(level, pos.relative(direction.getClockWise()));
 		checkAndPlace(level, pos.relative(direction.getCounterClockWise()));
@@ -45,14 +44,13 @@ public class StoneWallSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
-		Optional<Direction> opt = Stream.of(Direction.orderedByNearest(caster)).filter(d -> d.getAxis() != Axis.Y).findFirst();
-		
-		if (opt.isEmpty()) {
-			return SpellCastResult.PASS;
-		}
-		return cast(level, caster, BlockPos.containing(caster.position()).relative(opt.get(), 3), opt.get());
-	}
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
+		return Stream.of(Direction.orderedByNearest(caster))
+				.filter(d -> d.getAxis() != Axis.Y)
+				.findFirst()
+				.map(direction -> cast(level, caster, BlockPos.containing(caster.position()).relative(direction, 3), direction))
+				.orElse(SpellCastResult.PASS);
+    }
 
 	@Override
 	public boolean consume(Entity sender, boolean simulate) {

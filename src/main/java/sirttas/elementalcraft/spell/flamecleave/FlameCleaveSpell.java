@@ -1,26 +1,24 @@
 package sirttas.elementalcraft.spell.flamecleave;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import sirttas.elementalcraft.spell.AoeSpell;
-import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class FlameCleaveSpell extends AoeSpell {
 
 	public static final String NAME = "flame_cleave";
 
-	public FlameCleaveSpell(ResourceKey<Spell> key) {
-		super(key);
+	public FlameCleaveSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		if (caster instanceof LivingEntity) {
 			this.delay(caster, 10, () -> {
 				var value = super.castOnSelf(level, caster);

@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.fire;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -11,19 +11,18 @@ import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class InfernoSpell extends Spell {
 
 	public static final String NAME = "inferno";
 
-	public InfernoSpell(ResourceKey<Spell> key) {
-		super(key);
+	public InfernoSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		float range = getRange(caster);
 		Vec3 look = caster.getLookAngle().normalize();
 

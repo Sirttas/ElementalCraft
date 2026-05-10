@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,7 +31,7 @@ public class FlameCleaveSpellRenderer implements SpellRenderer<FlameCleaveSpellR
     }
 
     @Override
-    public void extractRenderState(FlameCleaveSpellRenderState state, Spell spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    public void extractRenderState(FlameCleaveSpellRenderState state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderer.super.extractRenderState(state, spell, instance, caster, hand, partialTicks, lightCoords);
         state.weapon.clear();
         if (instance == null || !(caster instanceof LivingEntity livingEntity)) {

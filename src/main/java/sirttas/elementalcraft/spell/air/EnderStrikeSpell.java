@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -14,24 +14,22 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.Comparator;
 
 public class EnderStrikeSpell extends Spell {
 
 	public static final String NAME = "ender_strike";
 
-	public EnderStrikeSpell(ResourceKey<@NotNull Spell> key) {
-		super(key);
+	public EnderStrikeSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(Level level, Entity caster, Entity target) {
         if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
             return SpellCastResult.PASS;
         }
@@ -59,7 +57,7 @@ public class EnderStrikeSpell extends Spell {
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		Vec3 pos = caster.position();
 
 		return level.getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos.add(1, 1, 1)).inflate(getRange(caster))).stream()

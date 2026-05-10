@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -49,7 +50,7 @@ public class RepairSpellRenderer implements SpellRenderer<RepairSpellRenderState
     }
 
     @Override
-    public void extractRenderState(RepairSpellRenderState state, Spell spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    public void extractRenderState(RepairSpellRenderState state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderer.super.extractRenderState(state, spell, instance, caster, hand, partialTicks, lightCoords);
         state.partialTicks = partialTicks;
         state.anvil.clear();
@@ -75,7 +76,7 @@ public class RepairSpellRenderer implements SpellRenderer<RepairSpellRenderState
         var useTicks = 40F - ((player.getUseItemRemainingTicks() - partialTicks + 1.0F) % 40F);
         state.firstPersonSwing = useTicks < HAMMER_INTERVAL * 3 ? (useTicks % HAMMER_INTERVAL) / HAMMER_INTERVAL : 0;
 
-        var itemToRepair = spell.getItemInOtherHand(player);
+        var itemToRepair = spell.value().getItemInOtherHand(player);
 
         state.isStaff = itemToRepair.is(ECItems.STAFF.get());
         itemModelResolver.updateForLiving(state.item, itemToRepair, ItemDisplayContext.GROUND, player);

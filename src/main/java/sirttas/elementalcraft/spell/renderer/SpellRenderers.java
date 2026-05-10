@@ -1,8 +1,8 @@
 package sirttas.elementalcraft.spell.renderer;
 
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 import sirttas.elementalcraft.spell.airshield.AirShieldSpellRenderer;
@@ -25,11 +25,11 @@ public class SpellRenderers {
     private SpellRenderers() {}
 
     @SuppressWarnings("unchecked")
-    public static <S extends SpellRenderState> SpellRenderer<S> get(Spell spell) {
+    public static <S extends SpellRenderState> SpellRenderer<S> get(Holder<Spell> spell) {
         return (SpellRenderer<S>) SPELL_RENDERERS.get(spell.getKey());
     }
 
-    public static void register(DeferredHolder<@NotNull Spell, ? extends @NotNull Spell> spell, SpellRenderer<?> renderer) {
+    public static void register(DeferredHolder<Spell, ? extends Spell> spell, SpellRenderer<?> renderer) {
         SPELL_RENDERERS.put(spell.getId(), renderer);
     }
 }

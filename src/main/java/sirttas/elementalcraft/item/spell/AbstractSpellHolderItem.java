@@ -1,6 +1,7 @@
 package sirttas.elementalcraft.item.spell;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -82,19 +83,20 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
     @Override
 	public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, @Nonnull LivingEntity entityLiving) {
 		if (!level.isClientSide() && !(entityLiving instanceof Player player && player.getAbilities().instabuild)) {
-			SpellTickHelper.startCooldown(entityLiving, SpellHelper.getSpell(stack).value());
+			SpellTickHelper.startCooldown(entityLiving, SpellHelper.getSpell(stack));
 		}
 		return stack;
 	}
 
 	private InteractionResult tick(Level level, Player player, InteractionHand hand, ItemStack stack, boolean doChannel) {
-		var spell = SpellHelper.getSpell(stack).value();
+		var holder = SpellHelper.getSpell(stack);
+		var spell = holder.value();
 		var attributes = spell.getOnUseAttributeModifiers();
 		var attributeMap = player.getAttributes();
 
 		AttributesHelper.addAttributes(attributeMap, attributes);
 
-        SpellCastResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(level, player, spell) : SpellCastResult.PASS;
+        SpellCastResult result = ECConfig.SERVER.spellConsumeOnFail.get() || spell.consume(player, true) ? castSpell(level, player, holder) : SpellCastResult.PASS;
 
 		if (result.success()) {
 			if (result.consume()) {
@@ -102,7 +104,7 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 			}
 			if (result.startCooldown() && !player.getAbilities().instabuild) {
 				if (!level.isClientSide()) {
-					SpellTickHelper.startCooldown(player, spell);
+					SpellTickHelper.startCooldown(player, holder);
 				}
 				player.releaseUsingItem();
 			} else if (doChannel && spell.isChannelable()) {
@@ -115,10 +117,12 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 		return result.interactionResult();
 	}
 
-	private SpellCastResult castSpell(Level level, Player player, Spell spell) {
-		if (SpellTickHelper.hasCooldown(player, spell)) {
+	private SpellCastResult castSpell(Level level, Player player, Holder<Spell> holder) {
+		if (SpellTickHelper.hasCooldown(player, holder)) {
 			return SpellCastResult.PASS;
 		}
+
+		var spell = holder.value();
 
         SpellCastResult result = SpellCastResult.PASS;
 		HitResult ray = EntityHelper.rayTrace(player);
@@ -147,6 +151,6 @@ public abstract class AbstractSpellHolderItem extends Item implements ISpellHold
 
 	@Override
 	public boolean canPerformAction(@NotNull ItemInstance stack, @NotNull ItemAbility itemAbility) {
-		return SpellHelper.getSpell(stack) instanceof ItemAbilitySpell toolActionSpell && toolActionSpell.getItemAbilities().contains(itemAbility);
+		return SpellHelper.getSpell(stack).value() instanceof ItemAbilitySpell toolActionSpell && toolActionSpell.getItemAbilities().contains(itemAbility);
 	}
 }

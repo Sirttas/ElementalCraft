@@ -6,7 +6,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.Entity;
@@ -14,10 +13,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.item.TooltipHelper;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -25,8 +23,8 @@ public class EffectSpell extends Spell {
 
 	private final List<MobEffectInstance> effects;
 
-	public EffectSpell(ResourceKey<@NotNull Spell> key, MobEffectInstance... effects) {
-		super(key);
+	public EffectSpell(Holder<SpellProperties> properties, MobEffectInstance... effects) {
+		super(properties);
 		this.effects = ImmutableList.copyOf(effects);
 	}
 
@@ -38,20 +36,19 @@ public class EffectSpell extends Spell {
 		return SpellCastResult.PASS;
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(Level level, Entity caster, Entity target) {
 		return applyEffect(target);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		return applyEffect(caster);
 	}
 
     @Override
     public void addInformation(Consumer<Component> builder) {
-		Multimap<Holder<@NotNull Attribute>, AttributeModifier> multiMap = HashMultimap.create();
+		Multimap<Holder<Attribute>, AttributeModifier> multiMap = HashMultimap.create();
 
 		if (!effects.isEmpty()) {
 			for (MobEffectInstance effectInstance : effects) {

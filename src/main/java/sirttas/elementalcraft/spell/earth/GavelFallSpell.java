@@ -2,26 +2,25 @@ package sirttas.elementalcraft.spell.earth;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class GavelFallSpell extends Spell {
 
 	public static final String NAME = "gravelfall";
 
-	public GavelFallSpell(ResourceKey<@NotNull Spell> key) {
-		super(key);
+	public GavelFallSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	private void spawn(Level level, BlockPos pos) {
@@ -38,22 +37,20 @@ public class GavelFallSpell extends Spell {
 		}
 	}
 
-    private SpellCastResult spawnGravel(@Nonnull Level level, BlockPos pos) {
+    private SpellCastResult spawnGravel(Level level, BlockPos pos) {
         checkAndSpawn(level, pos.above(4));
         checkAndSpawn(level, pos.above(5));
         checkAndSpawn(level, pos.above(6));
         return SpellCastResult.SUCCESS;
     }
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(Level level, Entity sender, BlockPos target, BlockHitResult hitResult) {
 		return spawnGravel(level, target);
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(Level level, Entity caster, Entity target) {
 		return spawnGravel(level, BlockPos.containing(target.position()));
 	}
 

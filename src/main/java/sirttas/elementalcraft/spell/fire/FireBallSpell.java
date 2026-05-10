@@ -1,27 +1,25 @@
 package sirttas.elementalcraft.spell.fire;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class FireBallSpell extends Spell {
 
 	public static final String NAME = "fireball";
 
-	public FireBallSpell(ResourceKey<@NotNull Spell> key) {
-		super(key);
+	public FireBallSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		if (!(caster instanceof LivingEntity livingEntity)) {
 			return SpellCastResult.PASS;
 		}

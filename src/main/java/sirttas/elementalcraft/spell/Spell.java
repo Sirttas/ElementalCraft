@@ -7,10 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,9 +21,7 @@ import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
-import sirttas.elementalcraft.ElementalCraft;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
@@ -39,40 +34,25 @@ import sirttas.elementalcraft.spell.properties.SpellProperties;
 import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class Spell implements IElementTypeProvider {
 
-	private String descriptionId;
-	protected final Holder<@NotNull SpellProperties> properties;
-    @Deprecated
-	private final ResourceKey<@NotNull Spell> key;
+	protected final Holder<SpellProperties> properties;
 
-	protected Spell(ResourceKey<@NotNull Spell> key) {
-		properties = ElementalCraft.SPELL_PROPERTIES_MANAGER.getOrCreateHolder(SpellProperties.getKey(key));
-		this.key = key;
+	protected Spell(Holder<SpellProperties> properties) {
+		this.properties = properties;
 	}
 
 	public String getDescriptionId() {
-		if (this.descriptionId == null) {
-			this.descriptionId = Util.makeDescriptionId("elementalcraft_spell", getKey());
-		}
-
-		return this.descriptionId;
-	}
-
-    @Deprecated
-	public Identifier getKey() {
-		return key.identifier();
+		return properties.value().descriptionId();
 	}
 
 	public Component getDisplayName() {
 		return Component.translatable(getDescriptionId());
 	}
 
-	public @NonNull ItemStackTemplate createItemStackTemplate() {
+	public ItemStackTemplate createItemStackTemplate() {
 		var patchBuilder = DataComponentPatch.builder();
 
 		patchBuilder.set(ECDataComponents.SPELL.get(), Spells.REGISTRY.wrapAsHolder(this));
@@ -85,10 +65,6 @@ public class Spell implements IElementTypeProvider {
 		return DataComponentMap.EMPTY;
 	}
 
-    public boolean is(@NotNull Holder<@NotNull Spell> spell) {
-        return this.key == spell.getKey();
-    }
-
     public InteractionHand getHand(Entity entity) {
         if (!(entity instanceof LivingEntity livingEntity)) {
             return InteractionHand.MAIN_HAND;
@@ -97,9 +73,9 @@ public class Spell implements IElementTypeProvider {
         var mainHand = livingEntity.getMainHandItem();
         var offHand = livingEntity.getOffhandItem();
 
-        if (this.is(SpellHelper.getSpell(mainHand))) {
+        if (this == SpellHelper.getSpell(mainHand).value()) {
             return InteractionHand.MAIN_HAND;
-        } else if (this.is(SpellHelper.getSpell(offHand))) {
+        } else if (this == SpellHelper.getSpell(offHand).value()) {
             return InteractionHand.OFF_HAND;
         }
         return InteractionHand.MAIN_HAND;
@@ -111,22 +87,19 @@ public class Spell implements IElementTypeProvider {
         return hand == InteractionHand.MAIN_HAND ? entity.getOffhandItem() : entity.getMainHandItem();
     }
 
-	public Multimap<Holder<@NotNull Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
+	public Multimap<Holder<Attribute>, AttributeModifier> getOnUseAttributeModifiers() {
 		return getProperties().getAttributes();
 	}
 
-	@Nonnull
-	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(Level level, Entity caster, Entity target) {
 		return SpellCastResult.PASS;
 	}
 
-	@Nonnull
-	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity caster, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(Level level, Entity caster, BlockPos target, BlockHitResult hitResult) {
 		return SpellCastResult.PASS;
 	}
 
-	@Nonnull
-	public SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		return SpellCastResult.PASS;
 	}
 
@@ -193,7 +166,7 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	@Override
-	public @NotNull ElementType getElementType() {
+	public ElementType getElementType() {
 		return getProperties().getElementType();
 	}
 
@@ -247,7 +220,7 @@ public class Spell implements IElementTypeProvider {
 
 	@Override
 	public String toString() {
-		return this.key.toString();
+		return Spells.REGISTRY.wrapAsHolder(this).getRegisteredName();
 	}
 
 	public boolean isVisible() {
@@ -272,7 +245,6 @@ public class Spell implements IElementTypeProvider {
 			this.name = name;
 		}
 
-		@Nonnull
 		@Override
 		public String getSerializedName() {
 			return this.name;

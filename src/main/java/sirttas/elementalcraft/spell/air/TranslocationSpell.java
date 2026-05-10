@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.air;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -13,22 +13,23 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.anchor.TranslocationAnchors;
 import sirttas.elementalcraft.particle.ParticleHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.Spells;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public class TranslocationSpell extends Spell {
 
 	public static final String NAME = "translocation";
 
-	public TranslocationSpell(ResourceKey<Spell> key) {
-		super(key);
+	public TranslocationSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
     public static boolean isTranslocation(ItemStack stack) {
@@ -39,6 +40,7 @@ public class TranslocationSpell extends Spell {
 		return isTranslocation(player.getMainHandItem()) || isTranslocation(player.getOffhandItem());
 	}
 
+	@Nullable
 	public static BlockPos getTargetAnchor(Entity caster, Collection<BlockPos> anchors) {
 		var playerPos = caster.getEyePosition();
 		var playerLook = caster.getLookAngle().normalize();
@@ -67,7 +69,7 @@ public class TranslocationSpell extends Spell {
 	}
 	
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		Vec3 look = caster.getLookAngle();
 		Vec3 newPos = getNewPos(caster, level, look);
 
@@ -98,7 +100,8 @@ public class TranslocationSpell extends Spell {
 		return SpellCastResult.SUCCESS;
 	}
 
-	private Vec3 getNewPos(@Nonnull Entity caster, Level level, Vec3 look) {
+	@Nullable
+	private Vec3 getNewPos(Entity caster, Level level, Vec3 look) {
 		var anchors = TranslocationAnchors.get(level);
 
 		if (anchors != null) {

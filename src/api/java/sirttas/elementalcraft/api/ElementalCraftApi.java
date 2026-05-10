@@ -1,6 +1,5 @@
 package sirttas.elementalcraft.api;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import sirttas.dpanvil.api.data.preprocessor.NeoForgeConditionsPreprocessor;
 import sirttas.elementalcraft.api.block.shrine.budding.BuddingShrineBudType;
 import sirttas.elementalcraft.api.block.shrine.upgrade.ShrineUpgrade;
 import sirttas.elementalcraft.api.infusion.tool.ToolInfusion;
-import sirttas.elementalcraft.api.infusion.tool.effect.ToolInfusionEffectType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.api.range.Range;
 import sirttas.elementalcraft.api.rune.Rune;
@@ -23,8 +21,6 @@ public class ElementalCraftApi {
 
 	public static final String MODID = "elementalcraft";
 	public static final Logger LOGGER = LogManager.getLogger(ElementalCraftApi.MODID);
-
-	public static final ResourceKey<Registry<ToolInfusionEffectType<?>>> TOOL_INFUSION_EFFECT_TYPE_REGISTRY_KEY = ResourceKey.createRegistryKey(identifier(ECNames.TOOL_INFUSION_TYPE));
 
 	public static final ResourceKey<IDataManager<Range>> RANGE_MANAGER_KEY = IDataManager.createManagerKey(identifier(ECNames.RANGE));
 	public static final IDataManager<Range> RANGE_MANAGER = IDataManager.builder(Range.class, RANGE_MANAGER_KEY)

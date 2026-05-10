@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.spell;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -14,18 +14,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.EventHooks;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class AoeSpell extends Spell {
 
-	protected AoeSpell(ResourceKey<@NotNull Spell> key) {
-		super(key);
+	protected AoeSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		float range = getRange(caster);
 
 		if (caster instanceof LivingEntity livingSender) {
@@ -67,7 +65,7 @@ public class AoeSpell extends Spell {
 		}
 	}
 
-	private float getEnchantedDamage(@Nonnull Level level, LivingEntity sender, Entity target, float damage, DamageSource damageSource) {
+	private float getEnchantedDamage(Level level, LivingEntity sender, Entity target, float damage, DamageSource damageSource) {
 		if (level instanceof ServerLevel serverLevel) {
 			return EnchantmentHelper.modifyDamage(serverLevel, sender.getWeaponItem(), target, damageSource, damage);
 		}

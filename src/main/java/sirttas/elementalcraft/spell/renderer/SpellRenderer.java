@@ -3,6 +3,7 @@ package sirttas.elementalcraft.spell.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import org.jspecify.annotations.Nullable;
@@ -13,7 +14,7 @@ public interface SpellRenderer<S extends SpellRenderState> {
 
     S createRenderState();
 
-    default void extractRenderState(S state, Spell spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    default void extractRenderState(S state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderState.extractBase(state, spell, hand, lightCoords);
     }
 

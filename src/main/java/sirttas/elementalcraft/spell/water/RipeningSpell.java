@@ -1,7 +1,7 @@
 package sirttas.elementalcraft.spell.water;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -10,20 +10,18 @@ import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class RipeningSpell extends Spell {
 
 	public static final String NAME = "ripening";
 
-	public RipeningSpell(ResourceKey<Spell> key) {
-		super(key);
+	public RipeningSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(Level level, Entity sender, BlockPos target, BlockHitResult hitResult) {
 		var state = level.getBlockState(target);
 		var block = state.getBlock();
 

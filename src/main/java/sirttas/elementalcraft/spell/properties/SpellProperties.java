@@ -7,15 +7,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.jspecify.annotations.Nullable;
 import sirttas.dpanvil.api.codec.CodecHelper;
 import sirttas.dpanvil.api.codec.Codecs;
-import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.ElementalCraft;
+import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.IElementTypeProvider;
 import sirttas.elementalcraft.api.name.ECNames;
@@ -35,6 +35,7 @@ public record SpellProperties(
 		float strength,
 		int color,
 		boolean hidden,
+		String descriptionId,
 		Multimap<Holder<Attribute>, AttributeModifier> attributes
 ) implements IElementTypeProvider {
 	public static final SpellProperties NONE = new SpellProperties();
@@ -49,14 +50,15 @@ public record SpellProperties(
 			Codec.FLOAT.optionalFieldOf(ECNames.STRENGTH, 0F).forGetter(SpellProperties::strength),
 			Codecs.COLOR.optionalFieldOf(ECNames.COLOR, -1).forGetter(SpellProperties::color),
 			Codec.BOOL.optionalFieldOf("hidden", false).forGetter(SpellProperties::hidden),
+			Codec.STRING.optionalFieldOf("descriptionId", "").forGetter(SpellProperties::descriptionId),
 			Codecs.ATTRIBUTE_MULTIMAP.optionalFieldOf(ECNames.ATTRIBUTES, Multimaps.forMap(Collections.emptyMap())).forGetter(SpellProperties::getAttributes)
 	).apply(builder, SpellProperties::new));
 
 	public SpellProperties() {
-		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, null);
+		this(Spell.Type.NONE, ElementType.NONE, 0, 0, 0, 0, 0, 0, -1, true, Util.makeDescriptionId("elementalcraft_spell", ElementalCraftApi.identifier("none")), null);
 	}
 
-	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, @Nullable Multimap<Holder<Attribute>, AttributeModifier> attributes) {
+	public SpellProperties(Spell.Type spellType, ElementType elementType, int weight, int useDuration, int consumeAmount, int cooldown, float range, float strength, int color, boolean hidden, @Nullable String descriptionId, @Nullable Multimap<Holder<Attribute>, AttributeModifier> attributes) {
 		this.spellType = spellType;
 		this.elementType = elementType;
 		this.weight = weight;
@@ -67,12 +69,9 @@ public record SpellProperties(
 		this.strength = strength;
 		this.color = color;
 		this.hidden = hidden;
+		this.descriptionId = descriptionId != null && !descriptionId.isBlank() ? descriptionId : Util.makeDescriptionId("elementalcraft_spell", ElementalCraft.SPELL_PROPERTIES_MANAGER.getId(this));
 		this.attributes = attributes != null && !attributes.isEmpty() ? Multimaps.unmodifiableMultimap(attributes) : Multimaps.forMap(Map.of());
 	}
-
-    public static ResourceKey<SpellProperties> getKey(ResourceKey<Spell> key) {
-		return IDataManager.createKey(ElementalCraft.SPELL_PROPERTIES_MANAGER_KEY, key.identifier());
-    }
 
     @Override
 	public ElementType getElementType() {
@@ -86,7 +85,19 @@ public record SpellProperties(
 	public static final class Builder {
 
 		public static final Encoder<Builder> ENCODER = CodecHelper.remapField(SpellProperties.CODEC, Codecs.HEX_COLOR.fieldOf(ECNames.COLOR), p -> p.color)
-				.comap(builder -> new SpellProperties(builder.type, builder.elementType, builder.weight, builder.useDuration, builder.consumeAmount, builder.cooldown, (float) builder.range, (float) builder.strength, builder.color, builder.hidden, builder.attributes));
+				.comap(builder -> new SpellProperties(
+						builder.type,
+						builder.elementType,
+						builder.weight,
+						builder.useDuration,
+						builder.consumeAmount,
+						builder.cooldown,
+						(float) builder.range,
+						(float) builder.strength,
+						builder.color,
+						builder.hidden,
+						builder.descriptionId,
+						builder.attributes));
 
 		private int cooldown;
 		private int consumeAmount;
@@ -98,6 +109,7 @@ public record SpellProperties(
 		private boolean hidden;
 		private ElementType elementType;
 		private final Spell.Type type;
+		private String descriptionId;
 		private final Multimap<Holder<Attribute>, AttributeModifier> attributes;
 
 		private Builder(Spell.Type type) {
@@ -108,6 +120,7 @@ public record SpellProperties(
 			useDuration = 0;
 			weight = 0;
 			hidden = false;
+			descriptionId = "";
 			attributes = HashMultimap.create();
 		}
 
@@ -158,6 +171,11 @@ public record SpellProperties(
 
 		public Builder hidden() {
 			this.hidden = true;
+			return this;
+		}
+
+		public Builder descriptionId(String descriptionId) {
+			this.descriptionId = descriptionId;
 			return this;
 		}
 

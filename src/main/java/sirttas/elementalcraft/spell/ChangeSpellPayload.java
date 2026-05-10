@@ -4,7 +4,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.network.payload.PayloadHelper;
 import sirttas.elementalcraft.tag.ECTags;
@@ -23,7 +22,7 @@ public record ChangeSpellPayload(int i) implements CustomPacketPayload {
     }
 
     @Override
-    public @NotNull Type<ChangeSpellPayload> type() {
+    public Type<ChangeSpellPayload> type() {
         return TYPE;
     }
 

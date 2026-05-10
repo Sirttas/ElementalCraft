@@ -122,17 +122,17 @@ public class ElementGaugeGui {
             return List.of();
         }
 
-        var spell = EntityHelper.handStream(player)
+        var holder = EntityHelper.handStream(player)
                 .map(stack -> {
                     if (!stack.isEmpty() && stack.getItem() instanceof ISpellHolder) {
                         return SpellHelper.getSpell(stack);
                     }
                     return Spells.NONE;
                 })
-                .map(Holder::value)
-                .filter(Spell::isValid)
+                .filter(h -> h.value().isValid())
                 .findFirst()
-                .orElseGet(Spells.NONE::value);
+                .orElse(Spells.NONE);
+        var spell = holder.value();
 
         var spellElementType = spell.getElementType();
         var list = new ArrayList<ElementType>(4);
@@ -150,16 +150,18 @@ public class ElementGaugeGui {
                     .forEach(list::add);
         }
         return splitStorage(playerStorage, list).stream()
-                .map(s -> GaugeRenderState.from(s, getSpellCheck(player, s, spell), ItemStack.EMPTY))
+                .map(s -> GaugeRenderState.from(s, getSpellCheck(player, s, holder), ItemStack.EMPTY))
                 .toList();
     }
 
-    private static Check getSpellCheck(Player player, ISingleElementStorage storage, Spell spell) {
+    private static Check getSpellCheck(Player player, ISingleElementStorage storage, Holder<Spell> holder) {
+        var spell = holder.value();
+
         if (!spell.isValid() || spell.getElementType() != storage.getElementType() || !isPlayerOwned(player, storage)) {
             return Check.NONE;
         }
         var canCast = spell.consume(player, true);
-        var isInCooldown = SpellTickHelper.hasCooldown(player, spell);
+        var isInCooldown = SpellTickHelper.hasCooldown(player, holder);
 
         if (canCast && !isInCooldown) {
             return Check.VALID;

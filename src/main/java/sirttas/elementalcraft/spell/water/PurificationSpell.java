@@ -1,27 +1,26 @@
 package sirttas.elementalcraft.spell.water;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
 
 public class PurificationSpell extends Spell {
 
 	public static final String NAME = "purification";
 
-	public PurificationSpell(ResourceKey<@NotNull Spell> key) {
-		super(key);
+	public PurificationSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
-	private SpellCastResult cureEffects(@Nonnull Level level, Entity target) {
+	private SpellCastResult cureEffects(Level level, Entity target) {
 		if (!(target instanceof LivingEntity livingTarget) || level.isClientSide()) {
             return SpellCastResult.PASS;
         }
@@ -42,14 +41,13 @@ public class PurificationSpell extends Spell {
         return SpellCastResult.SUCCESS;
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnEntity(@Nonnull Level level, @Nonnull Entity caster, @Nonnull Entity target) {
+	public SpellCastResult castOnEntity(Level level, Entity caster, Entity target) {
 		return cureEffects(level, target);
 	}
 
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		return cureEffects(level, caster);
 	}
 }

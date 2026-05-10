@@ -1,6 +1,6 @@
 package sirttas.elementalcraft.spell.air;
 
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.FlyingAnimal;
@@ -8,20 +8,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
-
-import javax.annotation.Nonnull;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
 public class DashSpell extends Spell {
 
 	public static final String NAME = "dash";
 
-	public DashSpell(ResourceKey<Spell> key) {
-		super(key);
+	public DashSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
-
 	@Override
-	public @Nonnull SpellCastResult castOnSelf(@Nonnull Level level, @Nonnull Entity caster) {
+	public SpellCastResult castOnSelf(Level level, Entity caster) {
 		var range = getRange(caster);
 
 		if (caster.isPassenger()) {

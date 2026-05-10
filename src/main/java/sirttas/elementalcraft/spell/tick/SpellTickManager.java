@@ -1,14 +1,13 @@
 package sirttas.elementalcraft.spell.tick;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.Spells;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,7 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
 
     private long tick;
     private final List<AbstractSpellInstance> spellInstances;
-    private final Map<Spell, SpellCooldown> spellCooldowns;
+    private final Map<Holder<Spell>, SpellCooldown> spellCooldowns;
 
     public SpellTickManager() {
         spellInstances = new ArrayList<>();
@@ -26,7 +25,6 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
     }
 
     @Override
-    @Nonnull
     public List<AbstractSpellInstance> getSpellInstances() {
         return List.copyOf(spellInstances);
     }
@@ -37,13 +35,13 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
     }
 
     @Override
-    public void startCooldown(Spell spell) {
-        spellCooldowns.put(spell, new SpellCooldown(tick, tick + spell.getCooldown()));
+    public void startCooldown(Holder<Spell> spell) {
+        spellCooldowns.put(spell, new SpellCooldown(tick, tick + spell.value().getCooldown()));
     }
 
     @Override
-    public float getCooldown(Spell spell, float partialTick) {
-        if (spell.isValid() && spellCooldowns.containsKey(spell)) {
+    public float getCooldown(Holder<Spell> spell, float partialTick) {
+        if (spell.value().isValid() && spellCooldowns.containsKey(spell)) {
             var cooldown = spellCooldowns.get(spell);
             var current = cooldown.expireTicks() - (tick + partialTick);
             var total = cooldown.expireTicks() - cooldown.createTicks();
@@ -69,12 +67,12 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
     }
 
     @Override
-    public void serialize(@NotNull ValueOutput output) {
+    public void serialize(ValueOutput output) {
         spellCooldowns.forEach((spell, cooldown) -> output.putLong(spell.getKey().toString(), cooldown.expireTicks() - tick));
     }
 
     @Override
-    public void deserialize(@NotNull ValueInput input) {
-        input.keySet().forEach(key -> Spells.REGISTRY.get(ElementalCraftApi.identifier(key)).ifPresent(spell -> spellCooldowns.put(spell.value(), new SpellCooldown(tick, tick + input.getLongOr(key, 0)))));
+    public void deserialize(ValueInput input) {
+        input.keySet().forEach(key -> Spells.REGISTRY.get(ElementalCraftApi.identifier(key)).ifPresent(spell -> spellCooldowns.put(spell, new SpellCooldown(tick, tick + input.getLongOr(key, 0)))));
     }
 }

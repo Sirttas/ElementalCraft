@@ -2,7 +2,7 @@ package sirttas.elementalcraft.spell.earth;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -13,8 +13,8 @@ import net.neoforged.neoforge.common.Tags;
 import sirttas.elementalcraft.loot.LootHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
+import sirttas.elementalcraft.spell.properties.SpellProperties;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.stream.Stream;
@@ -23,8 +23,8 @@ public class SilkVeinSpell extends Spell {
 
 	public static final String NAME = "silk_vein";
 
-	public SilkVeinSpell(ResourceKey<Spell> key) {
-		super(key);
+	public SilkVeinSpell(Holder<SpellProperties> properties) {
+		super(properties);
 	}
 
 	private boolean isValidBlock(BlockState state) {
@@ -51,9 +51,8 @@ public class SilkVeinSpell extends Spell {
 		}
 	}
 
-	@Nonnull
 	@Override
-	public SpellCastResult castOnBlock(@Nonnull Level level, @Nonnull Entity sender, @Nonnull BlockPos target, @Nonnull BlockHitResult hitResult) {
+	public SpellCastResult castOnBlock(Level level, Entity sender, BlockPos target, BlockHitResult hitResult) {
 		if (!level.isClientSide() && isValidBlock(level.getBlockState(target))) {
 			mineVein(sender, level, target);
 			return SpellCastResult.SUCCESS;

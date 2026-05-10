@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -25,7 +26,7 @@ public class AirShieldSpellRenderer implements SpellRenderer<AirShieldSpellRende
     }
 
     @Override
-    public void extractRenderState(AirShieldSpellRenderState state, Spell spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    public void extractRenderState(AirShieldSpellRenderState state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderer.super.extractRenderState(state, spell, instance, caster, hand, partialTicks, lightCoords);
         state.angle = ECRendererHelper.getClientTicks(partialTicks) * 10;
     }

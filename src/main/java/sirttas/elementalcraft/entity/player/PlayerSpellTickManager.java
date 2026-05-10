@@ -1,5 +1,6 @@
 package sirttas.elementalcraft.entity.player;
 
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -32,13 +33,13 @@ public class PlayerSpellTickManager implements ISpellTickManager {
     }
 
     @Override
-    public void startCooldown(Spell spell) {
+    public void startCooldown(Holder<Spell> spell) {
         delegate.startCooldown(spell);
         PacketDistributor.sendToPlayer(player, new SpellTickCooldownPayload(spell));
     }
 
     @Override
-    public float getCooldown(Spell spell, float partialTick) {
+    public float getCooldown(Holder<Spell> spell, float partialTick) {
         return delegate.getCooldown(spell, partialTick);
     }
 
