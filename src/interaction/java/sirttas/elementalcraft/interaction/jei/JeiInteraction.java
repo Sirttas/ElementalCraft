@@ -6,6 +6,7 @@ import net.neoforged.fml.ModList;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.ElementalCraftInteraction;
 
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class JeiInteraction implements ElementalCraftInteraction {
         return ModList.get().isLoaded("jei");
     }
 
+    @Nullable
     @Override
     public int[] lookupColors(ItemStack stack) {
         try {

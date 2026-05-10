@@ -1,4 +1,4 @@
-package sirttas.elementalcraft.test.recipe.instrument.io.sawing;
+package sirttas.elementalcraft.test.recipe;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RandomSource;
