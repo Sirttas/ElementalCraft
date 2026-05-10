@@ -3,7 +3,7 @@ package sirttas.elementalcraft.block.shrine.vacuum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
@@ -27,11 +27,11 @@ public class VacuumShrineGameTests {
                 .thenExecuteFor(10, storage::fill)
                 .thenExecute(() -> {
                     var pos = helper.absolutePos(new BlockPos(2, 0, 2));
-                    var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos));
+                    var itemHandler = ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos);
 
                     helper.assertItemEntityCountIs(Items.COBBLESTONE, new BlockPos(0, 2, 0), 3, 0);
                     assertThat(itemHandler).isNotEmpty()
-                            .contains(0, Items.COBBLESTONE);
+                            .contains(0, ItemResource.of(Items.COBBLESTONE));
                 })
                 .thenSucceed();
     }

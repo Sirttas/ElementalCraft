@@ -2,7 +2,7 @@ package sirttas.elementalcraft.item.holder;
 
 import net.minecraft.core.BlockPos;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.testframework.Test;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -117,7 +117,7 @@ public class ElementHolderGameTests {
                 .thenExecuteAfter(1, () -> helper.useBlock(BlockPos.ZERO, player))
                 .thenExecuteAfter(10, () -> {
                     helper.assertBlockNotPresent(SourceBlock.findSourceBlock(holder.type()), BlockPos.ZERO);
-                    assertThat(IItemHandler.of(player.getCapability(Capabilities.Item.ENTITY))).contains(ECItems.SOURCE_STABILIZER);
+                    assertThat(player.getCapability(Capabilities.Item.ENTITY)).contains(ItemResource.of(ECItems.SOURCE_STABILIZER));
                     assertThat(playerStorage.getElementAmount(holder.type())).isGreaterThanOrEqualTo(10);
                 })
                 .thenExecute(player::discard)

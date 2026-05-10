@@ -1,12 +1,11 @@
 package sirttas.elementalcraft.block.pureinfuser;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
@@ -65,12 +64,12 @@ public class PureInfuserGameTests {
         assertThat(earthPedestal).isNotNull();
         assertThat(airPedestal).isNotNull();
 
-        var pureInfuserItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pureInfuser, null));
+        var pureInfuserItemHandler = ECContainerHelper.getItemResourceHandler(pureInfuser, null);
 
-        var firePedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(firePedestal, null));
-        var waterPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(waterPedestal, null));
-        var earthPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(earthPedestal, null));
-        var airPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(airPedestal, null));
+        var firePedestalItemHandler = ECContainerHelper.getItemResourceHandler(firePedestal, null);
+        var waterPedestalItemHandler = ECContainerHelper.getItemResourceHandler(waterPedestal, null);
+        var earthPedestalItemHandler = ECContainerHelper.getItemResourceHandler(earthPedestal, null);
+        var airPedestalItemHandler = ECContainerHelper.getItemResourceHandler(airPedestal, null);
 
         var firePedestalElementStorage = ElementStorageGameTestHelper.get(firePedestal);
         var waterPedestalElementStorage = ElementStorageGameTestHelper.get(waterPedestal);
@@ -87,13 +86,13 @@ public class PureInfuserGameTests {
         assertThat(earthPedestalElementStorage).isNotNull();
         assertThat(airPedestalElementStorage).isNotNull();
 
-        helper.startSequence().thenExecute(() -> {
-            pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL), false);
-
+        helper.startSequence().thenExecute(transaction -> {
+            pureInfuserItemHandler.insert(0, ItemResource.of(Items.DIAMOND), 1, transaction);
+            firePedestalItemHandler.insert(0, ItemResource.of(ECItems.FIRE_CRYSTAL), 1, transaction);
+            waterPedestalItemHandler.insert(0, ItemResource.of(ECItems.WATER_CRYSTAL), 1, transaction);
+            earthPedestalItemHandler.insert(0, ItemResource.of(ECItems.EARTH_CRYSTAL), 1, transaction);
+            airPedestalItemHandler.insert(0, ItemResource.of(ECItems.AIR_CRYSTAL), 1, transaction);
+        }).thenExecute(() -> {
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
             earthPedestalElementStorage.fill();
@@ -101,7 +100,7 @@ public class PureInfuserGameTests {
 
             assertThat(pureInfuser.isRecipeAvailable()).isTrue();
         }).thenExecuteAfter(2, () -> {
-            assertThat(pureInfuserItemHandler).contains(0, ECItems.PURE_CRYSTAL);
+            assertThat(pureInfuserItemHandler).contains(0, ItemResource.of(ECItems.PURE_CRYSTAL));
             assertThat(firePedestalItemHandler).isEmpty();
             assertThat(waterPedestalItemHandler).isEmpty();
             assertThat(earthPedestalItemHandler).isEmpty();
@@ -140,7 +139,7 @@ public class PureInfuserGameTests {
         );
     }
 
-    public static void shouldNot_craftWhenAPedestalIsBroken(GameTestHelper helper, BlockPos pos) {
+    public static void shouldNot_craftWhenAPedestalIsBroken(ECGameTestHelper helper, BlockPos pos) {
         var pureInfuser = helper.getBlockEntity(new BlockPos(3, 0, 3), PureInfuserBlockEntity.class);
 
         assertThat(pureInfuser).isNotNull();
@@ -157,12 +156,12 @@ public class PureInfuserGameTests {
         assertThat(earthPedestal).isNotNull();
         assertThat(airPedestal).isNotNull();
 
-        var pureInfuserItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pureInfuser, null));
+        var pureInfuserItemHandler = ECContainerHelper.getItemResourceHandler(pureInfuser, null);
 
-        var firePedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(firePedestal, null));
-        var waterPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(waterPedestal, null));
-        var earthPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(earthPedestal, null));
-        var airPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(airPedestal, null));
+        var firePedestalItemHandler = ECContainerHelper.getItemResourceHandler(firePedestal, null);
+        var waterPedestalItemHandler = ECContainerHelper.getItemResourceHandler(waterPedestal, null);
+        var earthPedestalItemHandler = ECContainerHelper.getItemResourceHandler(earthPedestal, null);
+        var airPedestalItemHandler = ECContainerHelper.getItemResourceHandler(airPedestal, null);
 
         var firePedestalElementStorage = ElementStorageGameTestHelper.get(firePedestal);
         var waterPedestalElementStorage = ElementStorageGameTestHelper.get(waterPedestal);
@@ -179,13 +178,13 @@ public class PureInfuserGameTests {
         assertThat(earthPedestalElementStorage).isNotNull();
         assertThat(airPedestalElementStorage).isNotNull();
 
-        helper.startSequence().thenExecute(() -> {
-            pureInfuserItemHandler.insertItem(0, new ItemStack(Items.DIAMOND), false);
-            firePedestalItemHandler.insertItem(0, new ItemStack(ECItems.FIRE_CRYSTAL), false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_CRYSTAL), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_CRYSTAL), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_CRYSTAL), false);
-
+        helper.startSequence().thenExecute(transaction -> {
+            pureInfuserItemHandler.insert(0, ItemResource.of(Items.DIAMOND), 1, transaction);
+            firePedestalItemHandler.insert(0, ItemResource.of(ECItems.FIRE_CRYSTAL), 1, transaction);
+            waterPedestalItemHandler.insert(0, ItemResource.of(ECItems.WATER_CRYSTAL), 1, transaction);
+            earthPedestalItemHandler.insert(0, ItemResource.of(ECItems.EARTH_CRYSTAL), 1, transaction);
+            airPedestalItemHandler.insert(0, ItemResource.of(ECItems.AIR_CRYSTAL), 1, transaction);
+        }).thenExecute(() -> {
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
             earthPedestalElementStorage.fill();
@@ -197,7 +196,7 @@ public class PureInfuserGameTests {
 
             assertThat(pureInfuser.isRecipeAvailable()).isFalse();
         }).thenExecuteAfter(2, () -> {
-            assertThat(pureInfuserItemHandler).contains(0, Items.DIAMOND);
+            assertThat(pureInfuserItemHandler).contains(0, ItemResource.of(Items.DIAMOND));
         }).thenSucceed();
     }
 
@@ -220,12 +219,12 @@ public class PureInfuserGameTests {
         assertThat(earthPedestal).isNotNull();
         assertThat(airPedestal).isNotNull();
 
-        var pureInfuserItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pureInfuser, null));
+        var pureInfuserItemHandler = ECContainerHelper.getItemResourceHandler(pureInfuser, null);
 
-        var firePedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(firePedestal, null));
-        var waterPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(waterPedestal, null));
-        var earthPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(earthPedestal, null));
-        var airPedestalItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(airPedestal, null));
+        var firePedestalItemHandler = ECContainerHelper.getItemResourceHandler(firePedestal, null);
+        var waterPedestalItemHandler = ECContainerHelper.getItemResourceHandler(waterPedestal, null);
+        var earthPedestalItemHandler = ECContainerHelper.getItemResourceHandler(earthPedestal, null);
+        var airPedestalItemHandler = ECContainerHelper.getItemResourceHandler(airPedestal, null);
 
         var firePedestalElementStorage = ElementStorageGameTestHelper.get(firePedestal);
         var waterPedestalElementStorage = ElementStorageGameTestHelper.get(waterPedestal);
@@ -242,17 +241,17 @@ public class PureInfuserGameTests {
         assertThat(earthPedestalElementStorage).isNotNull();
         assertThat(airPedestalElementStorage).isNotNull();
 
-        helper.startSequence().thenExecute(() -> {
+        helper.startSequence().thenExecute(transaction -> {
             var fireHolder = new ItemStack(ECItems.FIRE_HOLDER);
 
             fireHolder.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM).fill();
 
-            pureInfuserItemHandler.insertItem(0, new ItemStack(ECItems.PURE_HOLDER_CORE), false);
-            firePedestalItemHandler.insertItem(0, fireHolder, false);
-            waterPedestalItemHandler.insertItem(0, new ItemStack(ECItems.WATER_HOLDER), false);
-            earthPedestalItemHandler.insertItem(0, new ItemStack(ECItems.EARTH_HOLDER), false);
-            airPedestalItemHandler.insertItem(0, new ItemStack(ECItems.AIR_HOLDER), false);
-
+            pureInfuserItemHandler.insert(0, ItemResource.of(ECItems.PURE_HOLDER_CORE), 1, transaction);
+            firePedestalItemHandler.insert(0, ItemResource.of(fireHolder), 1, transaction);
+            waterPedestalItemHandler.insert(0, ItemResource.of(ECItems.WATER_HOLDER), 1, transaction);
+            earthPedestalItemHandler.insert(0, ItemResource.of(ECItems.EARTH_HOLDER), 1, transaction);
+            airPedestalItemHandler.insert(0, ItemResource.of(ECItems.AIR_HOLDER), 1, transaction);
+        }).thenExecute(() -> {
             firePedestalElementStorage.fill();
             waterPedestalElementStorage.fill();
             earthPedestalElementStorage.fill();
@@ -260,17 +259,16 @@ public class PureInfuserGameTests {
 
             assertThat(pureInfuser.isRecipeAvailable()).isTrue();
         }).thenExecuteAfter(2, () -> {
-            assertThat(pureInfuserItemHandler).satisfies(0, s -> {
-                assertThat(s)
-                        .is(ECItems.PURE_HOLDER);
-                assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM)).satisfies(es -> {
-                    assertThat(es).isNotNull();
-                    assertThat(es.getElementAmount(ElementType.FIRE)).isEqualTo(10000);
-                    assertThat(es.getElementAmount(ElementType.WATER)).isEqualTo(0);
-                    assertThat(es.getElementAmount(ElementType.EARTH)).isEqualTo(0);
-                    assertThat(es.getElementAmount(ElementType.AIR)).isEqualTo(0);
-                });
-            });
+            assertThat(pureInfuserItemHandler).satisfies(0, rs -> assertThat(rs)
+                    .isItem()
+                    .is(ECItems.PURE_HOLDER)
+                    .hasCapabilitySatisfying(ElementalCraftCapabilities.ElementStorages.ITEM, es -> {
+                        assertThat(es).isNotNull();
+                        assertThat(es.getElementAmount(ElementType.FIRE)).isEqualTo(10000);
+                        assertThat(es.getElementAmount(ElementType.WATER)).isEqualTo(0);
+                        assertThat(es.getElementAmount(ElementType.EARTH)).isEqualTo(0);
+                        assertThat(es.getElementAmount(ElementType.AIR)).isEqualTo(0);
+                }));
             assertThat(firePedestalItemHandler).isEmpty();
             assertThat(waterPedestalItemHandler).isEmpty();
             assertThat(earthPedestalItemHandler).isEmpty();

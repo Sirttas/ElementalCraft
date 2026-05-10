@@ -1,11 +1,11 @@
 package sirttas.elementalcraft.block.source.breeder;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
@@ -52,23 +52,24 @@ public class SourceBreederGameTests {
         var breeder = helper.getBlockEntity(new BlockPos(0, 0, 2), SourceBreederBlockEntity.class);
 
         var type = ElementType.AIR;
-        var breederItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(breeder, null));
+        var breederItemHandler = ECContainerHelper.getItemResourceHandler(breeder, null);
         var pedestal1 = helper.getBlockEntity(new BlockPos(0, 0, 0), SourceBreederPedestalBlockEntity.class);
         var pedestal2 = helper.getBlockEntity(new BlockPos(0, 0, 4), SourceBreederPedestalBlockEntity.class);
-        var pedestal1ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal1, null));
-        var pedestal2ItemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandler(pedestal2, null));
+        var pedestal1ItemHandler = ECContainerHelper.getItemResourceHandler(pedestal1, null);
+        var pedestal2ItemHandler = ECContainerHelper.getItemResourceHandler(pedestal2, null);
         var pedestal1ElementStorage = ElementStorageGameTestHelper.get(pedestal1);
         var pedestal2ElementStorage = ElementStorageGameTestHelper.get(pedestal2);
 
-        helper.startSequence().thenExecute(() -> {
-                    breederItemHandler.insertItem(0, new ItemStack(ECItems.AIR_SOURCE_SEED), false);
-                }).thenExecuteAfter(1, () -> {
+        helper.startSequence()
+                .thenExecute(transaction -> {
+                    breederItemHandler.insert(0, ItemResource.of(ECItems.AIR_SOURCE_SEED), 1, transaction);
+                }).thenExecuteAfter(1, transaction -> {
                     assertThat(breeder).isNotNull().satisfies(b -> {
                         assertThat(b.getElementType()).isEqualTo(type);
                         assertThat(b.getPedestalsDirections()).hasSize(2);
                     });
-                    pedestal1ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
-                    pedestal2ItemHandler.insertItem(0, ReceptacleGameTestHelper.createSimpleReceptacle(type), false);
+                    pedestal1ItemHandler.insert(0, ItemResource.of(ReceptacleGameTestHelper.createSimpleReceptacle(type)), 1, transaction);
+                    pedestal2ItemHandler.insert(0, ItemResource.of(ReceptacleGameTestHelper.createSimpleReceptacle(type)), 1, transaction);
                     pedestal1ElementStorage.fill();
                     pedestal2ElementStorage.fill();
                 }).thenExecuteFor(10, () -> {
@@ -83,23 +84,20 @@ public class SourceBreederGameTests {
                 .thenSucceed();
     }
 
-    private static void assertHasValidReceptacle(IItemHandler itemHandler, ElementType type) {
+    private static void assertHasValidReceptacle(ResourceHandler<ItemResource> itemHandler, ElementType type) {
         assertThat(itemHandler)
                 .isNotEmpty()
-                .satisfies(0, s -> {
-                    assertThat(s).isNotEmpty().is(ECTags.Items.RECEPTACLES);
-                    assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type);
-                    assertThat(s.getCapability(ElementalCraftCapabilities.SourceTraits.ITEM))
-                            .isNotNull()
-                            .satisfies(h -> assertThat(h.getTraits())
-                                    .hasSizeGreaterThanOrEqualTo(1)
-                                    .containsKeys(sirttas.elementalcraft.block.source.trait.SourceTraits.ELEMENT_CAPACITY));
-                    assertThat(s.getCapability(ElementalCraftCapabilities.ElementStorages.ITEM))
-                            .isNotNull()
-                            .satisfies(storage -> {
-                                assertThat(storage.getElementCapacity(type)).isPositive();
-                                assertThat(storage.getElementAmount(type)).isPositive();
-                            });
-                });
+                .satisfies(0, rs -> assertThat(rs)
+                        .isItem()
+                        .isNotEmpty()
+                        .is(ECTags.Items.RECEPTACLES)
+                        .hasCapabilitySatisfying(ElementalCraftCapabilities.SourceTraits.ITEM, sourceTraitHolder -> assertThat(sourceTraitHolder.getTraits())
+                                .hasSizeGreaterThanOrEqualTo(1)
+                                .containsKeys(sirttas.elementalcraft.block.source.trait.SourceTraits.ELEMENT_CAPACITY))
+                        .hasCapabilitySatisfying(ElementalCraftCapabilities.ElementStorages.ITEM, storage -> {
+                            assertThat(storage.getElementCapacity(type)).isPositive();
+                            assertThat(storage.getElementAmount(type)).isPositive();
+                        })
+                        .satisfies(s -> assertThat(ReceptacleHelper.getElementType(s)).isEqualTo(type)));
     }
 }

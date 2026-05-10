@@ -2,7 +2,6 @@ package sirttas.elementalcraft;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.PositionalRandomFactory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,12 +44,12 @@ public class MockRandomSource implements RandomSource {
     }
 
     @Override
-    public @NotNull RandomSource fork() {
+    public RandomSource fork() {
         return new MockRandomSource(fallback.fork());
     }
 
     @Override
-    public @NotNull PositionalRandomFactory forkPositional() {
+    public PositionalRandomFactory forkPositional() {
         return new MockPositionalRandomFactory(fallback.forkPositional());
     }
 
@@ -152,22 +151,22 @@ public class MockRandomSource implements RandomSource {
     private record MockPositionalRandomFactory(PositionalRandomFactory fallback) implements PositionalRandomFactory {
 
         @Override
-            public @NotNull RandomSource fromHashOf(@NotNull String name) {
+            public RandomSource fromHashOf(String name) {
                 return new MockRandomSource(fallback.fromHashOf(name));
             }
 
             @Override
-            public @NotNull RandomSource fromSeed(long seed) {
+            public RandomSource fromSeed(long seed) {
                 return new MockRandomSource(fallback.fromSeed(seed));
             }
 
             @Override
-            public @NotNull RandomSource at(int x, int y, int z) {
+            public RandomSource at(int x, int y, int z) {
                 return new MockRandomSource(fallback.at(x, y, z));
             }
 
             @Override
-            public void parityConfigString(@NotNull StringBuilder builder) {
+            public void parityConfigString(StringBuilder builder) {
                 builder.append("MockPositionalRandomFactory{");
                 fallback.parityConfigString(builder);
                 builder.append("}");

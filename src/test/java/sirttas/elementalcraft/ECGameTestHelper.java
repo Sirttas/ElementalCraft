@@ -24,9 +24,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.testframework.gametest.ExtendedGameTestHelper;
 import net.neoforged.testframework.gametest.ExtendedSequence;
-import org.jspecify.annotations.NonNull;
 import sirttas.dpanvil.api.data.IDataManager;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -46,7 +46,6 @@ import sirttas.elementalcraft.jewel.JewelHelper;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellHelper;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -91,7 +90,6 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         getLevel().getEntities(EntityType.ITEM, new AABB(absolutePos(pos)).inflate(expansionAmount), Entity::isAlive).forEach(e -> e.remove(Entity.RemovalReason.DISCARDED));
     }
 
-    @Nonnull
     public Player mockPlayerWithItem(Vec3 pos, ItemStack itemStack) {
         var player = makeMockPlayer();
 
@@ -100,12 +98,10 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return player;
     }
 
-    @Nonnull
     public Player mockChiselPlayer(Vec3 pos) {
         return mockPlayerWithItem(pos, new ItemStack(ECItems.SWIFT_ALLOY_CHISEL));
     }
 
-    @Nonnull
     public Player mockChiselPlayer(BlockPos pos) {
         return mockChiselPlayer(Vec3.atLowerCornerOf(pos));
     }
@@ -138,17 +134,14 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return player;
     }
 
-    @Nonnull
     public Player mockReceptaclePlayer() {
         return mockReceptaclePlayer(ElementType.NONE);
     }
 
-    @Nonnull
     public Player mockReceptaclePlayer(ElementType type) {
         return mockReceptaclePlayer(type, -1);
     }
 
-    @Nonnull
     public Player mockReceptaclePlayer(ElementType type, int elementAmount) {
         var player = makeMockPlayer();
         var receptacle = ReceptacleGameTestHelper.createSimpleReceptacle(type);
@@ -162,7 +155,6 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
         return player;
     }
 
-    @Nonnull
     public Player mockCoverFramePlayer() {
         var player = makeMockPlayer();
 
@@ -315,7 +307,7 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
     }
 
     @Override
-    public @NonNull ECGameTestSequence startSequence() {
+    public ECGameTestSequence startSequence() {
         var seq = new ECGameTestSequence();
 
         testInfo.sequences.add(seq);
@@ -357,34 +349,55 @@ public class ECGameTestHelper extends ExtendedGameTestHelper {
             };
         }
 
+        private Runnable openTransaction(Consumer<Transaction> function) {
+            return fixAssertions(() -> {
+                try (Transaction transaction = Transaction.openRoot()) {
+                    function.accept(transaction);
+                    transaction.commit();
+                }
+            });
+        }
+
         @Override
-        public @NonNull ECGameTestSequence thenWaitUntil(@NonNull Runnable assertion) {
+        public ECGameTestSequence thenWaitUntil(Runnable assertion) {
             return (ECGameTestSequence) super.thenWaitUntil(fixAssertions(assertion));
         }
 
         @Override
-        public @NonNull ECGameTestSequence thenWaitUntil(long expectedDelay, @NonNull Runnable assertion) {
+        public ECGameTestSequence thenWaitUntil(long expectedDelay, Runnable assertion) {
             return (ECGameTestSequence) super.thenWaitUntil(expectedDelay, fixAssertions(assertion));
         }
 
         @Override
-        public @NonNull ECGameTestSequence thenIdle(int delta) {
+        public ECGameTestSequence thenIdle(int delta) {
             return (ECGameTestSequence) super.thenIdle(delta);
         }
 
         @Override
-        public @NonNull ECGameTestSequence thenExecute(@NonNull Runnable assertion) {
+        public ECGameTestSequence thenExecute(Runnable assertion) {
             return (ECGameTestSequence) super.thenExecute(fixAssertions(assertion));
         }
 
         @Override
-        public @NonNull ECGameTestSequence thenExecuteAfter(int delta, @NonNull Runnable after) {
+        public ECGameTestSequence thenExecuteAfter(int delta, Runnable after) {
             return (ECGameTestSequence) super.thenExecuteAfter(delta, fixAssertions(after));
         }
 
         @Override
-        public @NonNull ECGameTestSequence thenExecuteFor(int delta, @NonNull Runnable check) {
+        public ECGameTestSequence thenExecuteFor(int delta, Runnable check) {
             return (ECGameTestSequence) super.thenExecuteFor(delta, fixAssertions(check));
+        }
+
+        public ECGameTestSequence thenExecute(Consumer<Transaction> assertion) {
+            return (ECGameTestSequence) super.thenExecute(openTransaction(assertion));
+        }
+
+        public ECGameTestSequence thenExecuteAfter(int delta, Consumer<Transaction> after) {
+            return (ECGameTestSequence) super.thenExecuteAfter(delta, openTransaction(after));
+        }
+
+        public ECGameTestSequence thenExecuteFor(int delta, Consumer<Transaction> check) {
+            return (ECGameTestSequence) super.thenExecuteFor(delta, openTransaction(check));
         }
     }
 }

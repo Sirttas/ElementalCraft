@@ -3,11 +3,11 @@ package sirttas.elementalcraft.item.chisel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
@@ -52,21 +52,24 @@ public class ChiselGameTests {
     @GameTest(template = InstrumentTestTemplates.INSCRIBER_TEMPLATE_NAME)
     public static void should_craftRune(ECGameTestHelper helper) {
         var pos = helper.absolutePos(new BlockPos(0, 1, 0));
-        var itemHandler = IItemHandler.of(ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos));
+        var itemHandler = ECContainerHelper.getItemResourceHandlerAt(helper.getLevel(), pos);
         var container = ElementPipeGameTests.getElementStorage(helper, 0, 0, 0);
         var player = helper.mockChiselPlayer(new Vec3(0, 1, 0));
 
-        itemHandler.insertItem(0, new ItemStack(ECItems.MINOR_RUNE_SLATE), false);
-        itemHandler.insertItem(1, new ItemStack(Items.COAL), false);
-        itemHandler.insertItem(2, new ItemStack(Items.COAL), false);
-        itemHandler.insertItem(3, new ItemStack(ECItems.CRUDE_FIRE_GEM), false);
-        container.fill(ElementType.FIRE);
+        try (Transaction transaction = Transaction.openRoot()) {
+            itemHandler.insert(0, ItemResource.of(ECItems.MINOR_RUNE_SLATE), 1, transaction);
+            itemHandler.insert(1, ItemResource.of(Items.COAL), 1, transaction);
+            itemHandler.insert(2, ItemResource.of(Items.COAL), 1, transaction);
+            itemHandler.insert(3, ItemResource.of(ECItems.CRUDE_FIRE_GEM), 1, transaction);
+            container.fill(ElementType.FIRE);
+            transaction.commit();
+        }
 
         for (int i = 0; i < 3; i++) {
             helper.useBlock(new BlockPos(0, 1, 0), player);
         }
 
-        var stack = itemHandler.getStackInSlot(0);
+        var stack = itemHandler.getResource(0).toStack(itemHandler.getAmountAsInt(0));
 
         assertThat(stack).is(ECItems.RUNE);
         helper.assertRuneIs(stack, Runes.MANX);

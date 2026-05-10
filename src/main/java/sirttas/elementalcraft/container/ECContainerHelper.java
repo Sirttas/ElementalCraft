@@ -39,6 +39,7 @@ public class ECContainerHelper {
 				.orElseGet(EmptyResourceHandler::instance);
 	}
 
+
 	public static ResourceHandler<ItemResource> getItemResourceHandler(BlockEntity entity, @Nullable Direction side) {
 		var handler = BlockEntityHelper.getCapability(Capabilities.Item.BLOCK, entity, side);
 

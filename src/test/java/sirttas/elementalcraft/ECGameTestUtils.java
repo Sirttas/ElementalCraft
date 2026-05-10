@@ -11,7 +11,6 @@ import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import net.neoforged.testframework.impl.TestFrameworkImpl;
 import net.neoforged.testframework.impl.test.AbstractTest;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 
 import java.util.Collections;
@@ -84,7 +83,7 @@ public class ECGameTestUtils {
         }
 
         @Override
-        public void init(@NotNull TestFramework framework) {
+        public void init(TestFramework framework) {
                 super.init(framework);
             var templateName = template.map(Function.identity(), builder -> createModId() + ":gametest_template");
 

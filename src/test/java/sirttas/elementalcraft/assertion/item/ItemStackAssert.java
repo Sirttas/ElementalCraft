@@ -1,10 +1,11 @@
-package sirttas.elementalcraft.item;
+package sirttas.elementalcraft.assertion.item;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
@@ -125,5 +126,57 @@ public class ItemStackAssert extends AbstractAssert<ItemStackAssert, ItemStack> 
 
     public <T> ItemStackAssert doesNotHaveDataComponent(Supplier<DataComponentType<T>> componentType) {
         return doesNotHaveDataComponent(componentType.get());
+    }
+
+    public <T, C> ItemStackAssert hasCapability(ItemCapability<T, C> capability, C context) {
+        isNotEmpty();
+        if (actual.getCapability(capability, context) == null) {
+            failWithMessage("Expected item stack to have component %s with context %s", capability, context);
+        }
+        return this;
+    }
+    public <T> ItemStackAssert hasCapability(ItemCapability<T, Void> capability) {
+        isNotEmpty();
+        if (actual.getCapability(capability) == null) {
+            failWithMessage("Expected item stack to have component %s", capability);
+        }
+        return this;
+    }
+
+    public <T, C> ItemStackAssert hasCapabilitySatisfying(ItemCapability<T, C> capability, C context, Consumer<T> consumer) {
+        hasCapability(capability, context);
+        consumer.accept(actual.getCapability(capability, context));
+        return this;
+    }
+
+    public <T> ItemStackAssert hasCapabilitySatisfying(ItemCapability<T, Void> capability, Consumer<T> consumer) {
+        hasCapability(capability);
+        consumer.accept(actual.getCapability(capability));
+        return this;
+    }
+
+    public <T, C> ItemStackAssert hasCapabilityWithValue(ItemCapability<T, C> capability, C context, T value) {
+        return hasCapabilitySatisfying(capability, context, v -> Assertions.assertThat(v).isEqualTo(value));
+    }
+
+
+    public <T> ItemStackAssert hasCapabilityWithValue(ItemCapability<T, Void> capability, T value) {
+        return hasCapabilitySatisfying(capability, v -> Assertions.assertThat(v).isEqualTo(value));
+    }
+
+    public <T, C> ItemStackAssert doesNotHaveCapability(ItemCapability<T, C> capability, C context) {
+        isNotEmpty();
+        if (actual.getCapability(capability, context) != null) {
+            failWithMessage("Expected item stack to not have component %s with context %s", capability, context);
+        }
+        return this;
+    }
+
+    public <T> ItemStackAssert doesNotHaveCapability(ItemCapability<T, Void> capability) {
+        isNotEmpty();
+        if (actual.getCapability(capability) != null) {
+            failWithMessage("Expected item stack to not have component %s", capability);
+        }
+        return this;
     }
 }
