@@ -13,7 +13,6 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -25,6 +24,7 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.RuneTestCaseHolder;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,7 +42,7 @@ public class ChiselGameTests {
     public static final String SORTER_WITH_RUNE_TEMPLATE_NAME = "elementalcraft:sorter_with_rune";
 
     @RegisterStructureTemplate(SORTER_WITH_RUNE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> SORTER_WITH_RUNE_TEMPLATE = StructureTemplateBuilder.lazy(1, 1, 1, builder ->
+    public static final Supplier<StructureTemplate> SORTER_WITH_RUNE_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 1, 1, builder ->
             builder.set(0, 0, 0, ECBlocks.ORDERED_SORTER.get().defaultBlockState()
                     .setValue(ISorterBlock.SOURCE, Direction.DOWN)
                     .setValue(ISorterBlock.TARGET, Direction.UP),

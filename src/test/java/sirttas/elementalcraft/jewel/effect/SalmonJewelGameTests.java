@@ -8,11 +8,11 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.jewel.Jewels;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 
@@ -24,9 +24,10 @@ public class SalmonJewelGameTests {
     @GameTest
     @TestHolder(description = "Checks that a player is given water breathing by the jewel of the salmon while under water.")
     public static void should_givePlayerWaterBreathing(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 8, 5)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(5, 8, 5)
                 .fill(0, 0, 0, 4, 5, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
-                .fill(1, 1, 1, 3, 5, 3, Blocks.WATER));
+                .fill(1, 1, 1, 3, 5, 3, Blocks.WATER)
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 6, 2), Jewels.SALMON);

@@ -12,10 +12,10 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -26,13 +26,13 @@ public class MeltingShrineGameTests {
     public static final String MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME = "elementalcraft:melting_shrine_with_filling";
 
     @RegisterStructureTemplate(MELTING_SHRINE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> MELTING_SHRINE_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, builder -> builder
+    public static final Supplier<StructureTemplate> MELTING_SHRINE_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, builder -> builder
             .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(1, 0, 1, ECBlocks.MELTING_SHRINE.get().defaultBlockState())
             .set(1, 1, 1, Blocks.AIR.defaultBlockState()));
 
     @RegisterStructureTemplate(MELTING_SHRINE_WITH_FILLING_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> MELTING_SHRINE_WITH_FILLING_TEMPLATE = StructureTemplateBuilder.lazy(4, 3, 3, builder -> builder
+    public static final Supplier<StructureTemplate> MELTING_SHRINE_WITH_FILLING_TEMPLATE = ECStructureTemplateBuilder.lazy(4, 3, 3, builder -> builder
             .fill(0, 0, 0, 2, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(1, 0, 1, ECBlocks.MELTING_SHRINE.get().defaultBlockState())
             .set(2, 0, 1, ECBlocks.FILLING_SHRINE_UPGRADE.get().defaultBlockState()

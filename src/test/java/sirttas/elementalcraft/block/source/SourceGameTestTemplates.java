@@ -3,12 +3,11 @@ package sirttas.elementalcraft.block.source;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.name.ECNames;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.source.trait.SourceTraitTestHelper;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -41,7 +40,7 @@ public class SourceGameTestTemplates {
     @RegisterStructureTemplate(AIR_SOURCE_WITH_STABILIZER_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> AIR_SOURCE_WITH_STABILIZER_TEMPLATE = createSourceWithStabilizerTemplate(ElementType.AIR);
     @RegisterStructureTemplate(EMPTY_FOR_SOURCE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> EMPTY_FOR_SOURCE_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, builder -> builder.set(0, 0, 0, ECBlocks.WHITE_ROCK.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> EMPTY_FOR_SOURCE_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 1, builder -> builder.set(0, 0, 0, ECBlocks.WHITE_ROCK.get().defaultBlockState()));
 
     private SourceGameTestTemplates() {}
 
@@ -65,8 +64,8 @@ public class SourceGameTestTemplates {
         };
     }
 
-    private static @NotNull Supplier<StructureTemplate> createSourceTemplate(ElementType type) {
-        return StructureTemplateBuilder.lazy(1, 1, 1, builder -> {
+    private static Supplier<StructureTemplate> createSourceTemplate(ElementType type) {
+        return ECStructureTemplateBuilder.lazy(1, 1, 1, builder -> {
             var sourceTag = new CompoundTag();
 
             sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());
@@ -74,8 +73,8 @@ public class SourceGameTestTemplates {
         });
     }
 
-    private static @NotNull Supplier<StructureTemplate> createSourceWithStabilizerTemplate(ElementType type) {
-        return StructureTemplateBuilder.lazy(1, 1, 1, builder -> {
+    private static Supplier<StructureTemplate> createSourceWithStabilizerTemplate(ElementType type) {
+        return ECStructureTemplateBuilder.lazy(1, 1, 1, builder -> {
             var sourceTag = new CompoundTag();
 
             sourceTag.put(ECNames.SOURCE_TRAITS_HOLDER, SourceTraitTestHelper.createDefaultTraits());

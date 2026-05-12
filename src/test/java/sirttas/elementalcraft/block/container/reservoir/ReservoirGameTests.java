@@ -6,13 +6,12 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ContainerGameTests;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,8 +36,8 @@ public class ReservoirGameTests {
     @RegisterStructureTemplate(AIR_RESERVOIR_TEMPLATE_NAME)
     public static final Supplier<StructureTemplate> AIR_RESERVOIR_TEMPLATE = createReservoirTemplate(ECBlocks.AIR_RESERVOIR);
 
-    private static @NotNull Supplier<StructureTemplate> createReservoirTemplate(Supplier<ReservoirBlock> reservoirSupplier) {
-        return StructureTemplateBuilder.lazy(1, 3, 1, builder -> { // taller so we can add instruments on top
+    private static Supplier<StructureTemplate> createReservoirTemplate(Supplier<ReservoirBlock> reservoirSupplier) {
+        return ECStructureTemplateBuilder.lazy(1, 3, 1, builder -> { // taller so we can add instruments on top
             var defaultState = reservoirSupplier.get().defaultBlockState();
 
             return builder.set(0, 0, 0, defaultState.setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))

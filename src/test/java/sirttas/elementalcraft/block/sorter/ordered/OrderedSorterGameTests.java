@@ -6,18 +6,17 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.rune.Rune;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class OrderedSorterGameTests {
         test.registerGameTestTemplate(() -> createTemplate(
                 List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get(), 64), new ItemStack(Blocks.COAL_BLOCK, 64), new ItemStack(Blocks.DIAMOND_BLOCK, 64)),
                 List.of(),
-                List.of(new ItemStack(Blocks.COAL_BLOCK))));
+                List.of(new ItemStack(Blocks.COAL_BLOCK))).unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var sourceChest = helper.getCapability(Capabilities.Item.BLOCK, new BlockPos(1, 1, 0), null);
@@ -65,7 +64,7 @@ public class OrderedSorterGameTests {
         test.registerGameTestTemplate(() -> createTemplate(
                 List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get(), 64), new ItemStack(Blocks.COAL_BLOCK, 64), new ItemStack(Blocks.DIAMOND_BLOCK, 64)),
                 List.of(),
-                List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get()), new ItemStack(Blocks.COAL_BLOCK))));
+                List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get()), new ItemStack(Blocks.COAL_BLOCK))).unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var sourceChest = helper.getCapability(Capabilities.Item.BLOCK, new BlockPos(1, 1, 0), null);
@@ -99,7 +98,7 @@ public class OrderedSorterGameTests {
                 List.of(new ItemStack(ECItems.PRISTINE_FIRE_GEM.get(), 64), new ItemStack(Blocks.COAL_BLOCK, 64), new ItemStack(Blocks.DIAMOND_BLOCK, 64)),
                 List.of(),
                 List.of(),
-                List.of(Runes.CREATIVE)));
+                List.of(Runes.CREATIVE)).unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var sourceChest = helper.getCapability(Capabilities.Item.BLOCK, new BlockPos(1, 1, 0), null);
@@ -120,15 +119,14 @@ public class OrderedSorterGameTests {
         });
     }
 
-    private static StructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks) {
+    private static ECStructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks) {
         return createTemplate(sourceStacks, targetStacks, sorterStacks, List.of());
     }
 
-    private static StructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks, List<ResourceKey<Rune>> runes) {
-        return StructureTemplateBuilder.withSize(2, 2, 3)
+    private static ECStructureTemplateBuilder createTemplate(List<ItemStack> sourceStacks, List<ItemStack> targetStacks, List<ItemStack> sorterStacks, List<ResourceKey<Rune>> runes) {
+        return ECStructureTemplateBuilder.withSize(2, 2, 3)
                 .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICKS.get())
                 .placeFloorLever(0, 1, 1, true)
-                .set(0, 0, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
                 .set(1, 1, 0, Blocks.CHEST.defaultBlockState(), withValue(itemList(sourceStacks)))
                 .set(1, 1, 2, Blocks.CHEST.defaultBlockState(), withValue(itemList(targetStacks)))
                 .set(1, 1, 1, ECBlocks.ORDERED_SORTER.get().defaultBlockState().setValue(ISorterBlock.SOURCE, Direction.NORTH).setValue(ISorterBlock.TARGET, Direction.SOUTH), withValue(

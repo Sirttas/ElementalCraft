@@ -7,11 +7,11 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.reservoir.ReservoirGameTests;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -28,11 +28,11 @@ public class ContainerGameTests {
     public static final String EMPTY_CREATIVE_CONTAINER_TEMPLATE_NAME = "elementalcraft:empty_creative_container";
 
     @RegisterStructureTemplate(EMPTY_SMALL_CONTAINER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> EMPTY_SMALL_CONTAINER_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.SMALL_CONTAINER.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> EMPTY_SMALL_CONTAINER_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.SMALL_CONTAINER.get().defaultBlockState()));
     @RegisterStructureTemplate(EMPTY_CONTAINER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> EMPTY_CONTAINER_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> EMPTY_CONTAINER_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState()));
     @RegisterStructureTemplate(EMPTY_CREATIVE_CONTAINER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> EMPTY_CREATIVE_CONTAINER_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.CREATIVE_CONTAINER.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> EMPTY_CREATIVE_CONTAINER_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 1, b -> b.set(0, 0, 0, ECBlocks.CREATIVE_CONTAINER.get().defaultBlockState()));
 
     public static List<Test> should_supportARudimentaryExtractor() {
         var i = 0;

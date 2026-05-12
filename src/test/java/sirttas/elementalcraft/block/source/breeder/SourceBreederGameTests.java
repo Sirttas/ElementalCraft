@@ -10,7 +10,6 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
@@ -23,6 +22,7 @@ import sirttas.elementalcraft.item.source.receptacle.ReceptacleGameTestHelper;
 import sirttas.elementalcraft.item.source.receptacle.ReceptacleHelper;
 import sirttas.elementalcraft.rune.Runes;
 import sirttas.elementalcraft.tag.ECTags;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -37,7 +37,7 @@ public class SourceBreederGameTests {
     public static final String TEMPLATE_NAME = "elementalcraft:source_breeder";
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 5, builder -> builder
+    public static final Supplier<StructureTemplate> TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 5, builder -> builder
             .set(0, 0, 0, ECBlocks.SOURCE_BREEDER_PEDESTAL.get().defaultBlockState())
             .set(0, 0, 2, ECBlocks.SOURCE_BREEDER.get().defaultBlockState()
                     .setValue(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER), withValue(runeHandler(Runes.CREATIVE)))

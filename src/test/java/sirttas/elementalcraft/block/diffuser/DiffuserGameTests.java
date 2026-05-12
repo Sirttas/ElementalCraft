@@ -5,12 +5,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.container.ElementContainerBlockEntity;
 import sirttas.elementalcraft.item.holder.ElementHolderTestCaseHolder;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,7 @@ public class DiffuserGameTests {
     public static final String TEMPLATE_23x23_NAME = "elementalcraft:diffuser_23x23";
 
     @RegisterStructureTemplate(TEMPLATE_23x23_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE_23x23 = StructureTemplateBuilder.lazy(23, 4, 23, b -> b
+    public static final Supplier<StructureTemplate> TEMPLATE_23x23 = ECStructureTemplateBuilder.lazy(23, 4, 23, b -> b
             .fill(0, 0, 0, 22, 0, 22, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
             .set(11, 1, 11, ECBlocks.CONTAINER.get().defaultBlockState())
             .set(11, 2, 11, ECBlocks.DIFFUSER.get().defaultBlockState()));

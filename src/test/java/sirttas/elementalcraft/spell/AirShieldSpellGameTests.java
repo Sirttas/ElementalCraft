@@ -15,9 +15,9 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.EmptyTemplate;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import static sirttas.elementalcraft.assertion.Assertions.assertThat;
 import static sirttas.elementalcraft.template.StructureTemplateNbtHelper.itemList;
@@ -54,12 +54,13 @@ public class AirShieldSpellGameTests {
     @GameTest
     @TestHolder(description = "Checks that the air shield spell blocks an arrow fired from a dispenser.")
     public static void should_blockArrow(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(11, 3, 3)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(11, 3, 3)
                 .fill(0, 0, 0, 10, 0, 2, Blocks.STONE)
                 .placeFloorLever(9, 2, 1, false)
                 .set(9, 1, 1, Blocks.DISPENSER.defaultBlockState()
                         .setValue(DispenserBlock.FACING, Direction.WEST),
-                        withValue(itemList(new ItemStack(Items.ARROW, 16)))));
+                        withValue(itemList(new ItemStack(Items.ARROW, 16))))
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.AIR_SHIELD);

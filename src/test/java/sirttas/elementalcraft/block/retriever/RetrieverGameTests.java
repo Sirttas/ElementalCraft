@@ -7,14 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -23,6 +21,7 @@ import sirttas.elementalcraft.block.instrument.infuser.InfuserBlockEntity;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -45,10 +44,9 @@ public class RetrieverGameTests {
     public static final Supplier<StructureTemplate> BINDER_TEMPLATE = createTemplate(ECBlocks.BINDER);
 
     private static Supplier<StructureTemplate> createTemplate(Holder<Block> instrumentBlock) {
-        return StructureTemplateBuilder.lazy(2, 3, 2, builder -> builder
+        return ECStructureTemplateBuilder.lazy(2, 3, 2, builder -> builder
                 .fill(0, 0, 0, 1, 0, 1, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                 .placeFloorLever(1, 2, 1, true)
-                .set(1, 1, 1, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
                 .set(0, 1, 0, ECBlocks.CONTAINER.get().defaultBlockState())
                 .set(0, 1, 1, Blocks.CHEST.defaultBlockState()
                         .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH))

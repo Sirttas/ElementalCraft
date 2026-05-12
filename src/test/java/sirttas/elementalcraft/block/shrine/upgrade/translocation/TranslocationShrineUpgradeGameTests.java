@@ -10,7 +10,6 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
@@ -18,6 +17,7 @@ import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
 import sirttas.elementalcraft.component.ECDataComponents;
 import sirttas.elementalcraft.item.ECItems;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 
@@ -71,9 +71,10 @@ public class TranslocationShrineUpgradeGameTests {
     @TestHolder(description = "Checks that right-clicking a translocation anchor with the upgrade item stores the anchor position on the item")
     @GameTest(template = TEMPLATE)
     public static void should_registerPosWhenRightClickingAnchor(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(1, 2, 1)
                 .set(0, 0, 0, ECBlocks.WHITE_ROCK.get().defaultBlockState())
-                .set(0, 1, 0, ECBlocks.TRANSLOCATION_ANCHOR.get().defaultBlockState()));
+                .set(0, 1, 0, ECBlocks.TRANSLOCATION_ANCHOR.get().defaultBlockState())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> helper.withTranslocationAnchorAt(new BlockPos(0, 1, 0), anchorPos -> {
             var player = helper.mockPlayerWithItem(Vec3.ZERO, new ItemStack(ECItems.TRANSLOCATION_SHRINE_UPGRADE.get()));

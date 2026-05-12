@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.testframework.Test;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.diffuser.DiffuserBlockEntity;
@@ -22,6 +21,7 @@ import sirttas.elementalcraft.block.synthesizer.cracking.sculk.SculkCrackingSynt
 import sirttas.elementalcraft.block.synthesizer.cracking.sculk.SculkCrackingSynthesizerGameTests;
 import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerBlockEntity;
 import sirttas.elementalcraft.block.synthesizer.vibration.VibrationSynthesizerGameTests;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.Collection;
 import java.util.List;
@@ -106,7 +106,7 @@ public class RangeGameTests {
         return createTest(index, template, Rotation.NONE, function);
     }
 
-    public static Test createTest(int index, Supplier<StructureTemplateBuilder> template, Consumer<ECGameTestHelper> function) {
+    public static Test createTest(int index, Supplier<ECStructureTemplateBuilder> template, Consumer<ECGameTestHelper> function) {
         return createTest(index, template, Rotation.NONE, function);
     }
 
@@ -120,7 +120,7 @@ public class RangeGameTests {
                 function);
     }
 
-    public static Test createTest(int index, Supplier<StructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
+    public static Test createTest(int index, Supplier<ECStructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
         return ECGameTestUtils.createTest(
                 GROUP,
                 "should_haveRange_" + index,

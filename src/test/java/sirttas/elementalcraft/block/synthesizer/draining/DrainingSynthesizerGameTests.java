@@ -6,10 +6,10 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,9 +23,10 @@ public class DrainingSynthesizerGameTests {
     @TestHolder(description = "Checks that the draining synthesizer generates water from the player hunger.")
     @GameTest
     public static void should_generateWaterFromPlayerHunger(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(1, 2, 1)
                 .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                .set(0, 1, 0, ECBlocks.DRAINING_SYNTHESIZER.get().defaultBlockState()));
+                .set(0, 1, 0, ECBlocks.DRAINING_SYNTHESIZER.get().defaultBlockState())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.makeMockPlayer(GameType.SURVIVAL);

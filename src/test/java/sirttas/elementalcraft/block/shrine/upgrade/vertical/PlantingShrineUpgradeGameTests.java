@@ -12,7 +12,6 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -20,6 +19,7 @@ import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.harvest.HarvestShrineGameTests;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
 import sirttas.elementalcraft.block.shrine.upgrade.VerticalShrineUpgradeBlock;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 @ForEachTest(groups = ShrineGameUpgradeTests.GROUP)
 public class PlantingShrineUpgradeGameTests {
@@ -40,13 +40,14 @@ public class PlantingShrineUpgradeGameTests {
     @TestHolder(description = "Checks that the planting shrine upgrade plants saplings when used with a lumber shrine.")
     @GameTest
     public static void should_plantSaplings(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(11, 5, 11)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(11, 5, 11)
                 .fill(0, 0, 0, 10, 0, 10, ECBlocks.WHITE_ROCK_BRICKS.get())
                 .fill(1, 0, 1, 9, 0, 9, Blocks.DIRT)
                 .fill(1, 1, 1, 9, 1, 9, Blocks.OAK_LOG)
                 .fill(1, 2, 1, 9, 4, 9, Blocks.OAK_LEAVES)
                 .set(5, 1, 5, ECBlocks.LUMBER_SHRINE.get().defaultBlockState())
-                .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, Direction.DOWN)));
+                .set(5, 2, 5, ECBlocks.PLANTING_SHRINE_UPGRADE.get().defaultBlockState().setValue(VerticalShrineUpgradeBlock.FACING, Direction.DOWN))
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> helper.startSequence().thenExecute(() -> {
             verifyUpgradeIsPresent(helper, new BlockPos(5, 2, 5), Direction.DOWN);

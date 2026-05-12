@@ -10,10 +10,10 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineUpgrades;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -27,11 +27,11 @@ public class BuddingShrineGameTests {
 
 
     @RegisterStructureTemplate(BUDDING_SHRINE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> BUDDING_SHRINE_TEMPLATE = StructureTemplateBuilder.lazy(1, 2, 1, builder -> builder
+    public static final Supplier<StructureTemplate> BUDDING_SHRINE_TEMPLATE = ECStructureTemplateBuilder.lazy(1, 2, 1, builder -> builder
             .set(0, 0, 0, ECBlocks.BUDDING_SHRINE.get().defaultBlockState()));
 
     @RegisterStructureTemplate(BUDDING_SHRINE_WITH_SPRINGALINE_UPGRADE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> BUDDING_SHRINE_WITH_SPRINGALINE_UPGRADE_TEMPLATE = StructureTemplateBuilder.lazy(2, 2, 1, builder -> builder
+    public static final Supplier<StructureTemplate> BUDDING_SHRINE_WITH_SPRINGALINE_UPGRADE_TEMPLATE = ECStructureTemplateBuilder.lazy(2, 2, 1, builder -> builder
             .set(0, 0, 0, ECBlocks.BUDDING_SHRINE.get().defaultBlockState())
             .set(1, 0, 0, ECBlocks.SPRINGALINE_SHRINE_UPGRADE.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)));
 

@@ -7,11 +7,10 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
-import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 @ForEachTest(groups = LightSpellGameTests.GROUP)
 public class LightSpellGameTests {
@@ -21,8 +20,9 @@ public class LightSpellGameTests {
     @GameTest
     @TestHolder(description = "Checks that the light spell spawn an elemental ember.")
     public static void should_placeElementalEmber(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(10, 3, 3)
-                .fill(9, 0, 0, 9, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get()));
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(10, 3, 3)
+                .fill(9, 0, 0, 9, 2, 2, ECBlocks.WHITE_ROCK_BRICKS.get())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithSpell(new Vec3(1, 1, 1), Spells.LIGHT);

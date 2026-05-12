@@ -7,11 +7,11 @@ import net.minecraft.world.level.block.Rotation;
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.TestFramework;
 import net.neoforged.testframework.gametest.GameTestData;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import net.neoforged.testframework.impl.TestFrameworkImpl;
 import net.neoforged.testframework.impl.test.AbstractTest;
 import org.apache.commons.lang3.StringUtils;
 import sirttas.elementalcraft.api.ElementalCraftApi;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class ECGameTestUtils {
         return new ECTest(id, group, description, Either.left(template), rotation, function);
     }
 
-    public static Test createTest(String group, String id, String description, Supplier<StructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
+    public static Test createTest(String group, String id, String description, Supplier<ECStructureTemplateBuilder> template, Rotation rotation, Consumer<ECGameTestHelper> function) {
         return new ECTest(id, group, description, Either.right(template), rotation, function);
     }
 
@@ -55,7 +55,7 @@ public class ECGameTestUtils {
 
     private static class ECTest extends AbstractTest.Dynamic {
         private final String group;
-        private final Either<String, Supplier<StructureTemplateBuilder>> template;
+        private final Either<String, Supplier<ECStructureTemplateBuilder>> template;
         private final Rotation rotation;
         private final Consumer<ECGameTestHelper> function;
 
@@ -64,7 +64,7 @@ public class ECGameTestUtils {
                 String id,
                 String group,
                 String description,
-                Either<String, Supplier<StructureTemplateBuilder>> template,
+                Either<String, Supplier<ECStructureTemplateBuilder>> template,
                 Rotation rotation,
                 Consumer<ECGameTestHelper> function) {
             this.id = id;
@@ -109,7 +109,7 @@ public class ECGameTestUtils {
                     helper.fail(e.getMessage());
                 }
             });
-            template.right().ifPresent(this::registerGameTestTemplate);
+            template.right().ifPresent(t -> registerGameTestTemplate(t.get().unpack()));
         }
     }
 }

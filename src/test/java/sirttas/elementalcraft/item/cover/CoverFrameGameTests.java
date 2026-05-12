@@ -5,12 +5,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.testframework.Test;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.cover.Coverable;
 import sirttas.elementalcraft.item.chisel.ChiselGameTests;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -29,15 +29,15 @@ public class CoverFrameGameTests {
     public static final String ORDERED_SORTER_TEMPLATE_NAME = "elementalcraft:ordered_sorter_cover";
 
     @RegisterStructureTemplate(RUDIMENTARY_PIPE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> RUDIMENTARY_PIPE_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE_RUDIMENTARY.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> RUDIMENTARY_PIPE_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE_RUDIMENTARY.get().defaultBlockState()));
     @RegisterStructureTemplate(PIPE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> PIPE_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> PIPE_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE.get().defaultBlockState()));
     @RegisterStructureTemplate(IMPROVED_PIPE_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> IMPROVED_PIPE_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE_IMPROVED.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> IMPROVED_PIPE_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.PIPE_IMPROVED.get().defaultBlockState()));
     @RegisterStructureTemplate(RETRIEVER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> RETRIEVER_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.RETRIEVER.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> RETRIEVER_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.RETRIEVER.get().defaultBlockState()));
     @RegisterStructureTemplate(ORDERED_SORTER_TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> ORDERED_SORTER_TEMPLATE = StructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.ORDERED_SORTER.get().defaultBlockState()));
+    public static final Supplier<StructureTemplate> ORDERED_SORTER_TEMPLATE = ECStructureTemplateBuilder.lazy(3, 3, 3, b -> b.set(0, 0, 2, ECBlocks.ORDERED_SORTER.get().defaultBlockState()));
 
     public static List<Test> collectTests() {
         var i = 0;

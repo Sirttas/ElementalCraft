@@ -11,7 +11,6 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.ECGameTestUtils;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
@@ -21,6 +20,7 @@ import sirttas.elementalcraft.container.ECContainerHelper;
 import sirttas.elementalcraft.element.storage.ElementStorageGameTestHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +38,7 @@ public class PureInfuserGameTests {
     public static final String TEMPLATE_NAME = "elementalcraft:pure_infuser";
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(7, 1, 7, builder -> builder
+    public static final Supplier<StructureTemplate> TEMPLATE = ECStructureTemplateBuilder.lazy(7, 1, 7, builder -> builder
             .set(3, 0, 3, ECBlocks.PURE_INFUSER.get().defaultBlockState(), withValue(runeHandler(Runes.CREATIVE)))
             .set(0, 0, 3, ECBlocks.FIRE_PEDESTAL.get().defaultBlockState())
             .set(6, 0, 3, ECBlocks.AIR_PEDESTAL.get().defaultBlockState())

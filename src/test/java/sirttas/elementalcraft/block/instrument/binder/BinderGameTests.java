@@ -5,12 +5,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
@@ -18,6 +16,7 @@ import sirttas.elementalcraft.block.instrument.InstrumentTestTemplates;
 import sirttas.elementalcraft.block.sorter.ISorterBlock;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.rune.Runes;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.List;
 
@@ -78,10 +77,9 @@ public class BinderGameTests {
     @TestHolder(description = "Checks that the binder can automatically craft multiple swift alloys with a sorter/retriever setup.")
     @GameTest
     public static void should_autoCraftSwiftAlloys(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(2, 3, 3)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(2, 3, 3)
                 .fill(0, 0, 0, 1, 0, 2, ECBlocks.WHITE_ROCK_BRICKS.get().defaultBlockState())
                 .placeFloorLever(0, 2, 0, true)
-                .set(0, 1, 0, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true))
                 .set(1, 1, 0, Blocks.CHEST.defaultBlockState(),
                         withValue(itemList(
                                 new ItemStack(Items.GOLD_INGOT, 64),
@@ -107,7 +105,8 @@ public class BinderGameTests {
                         withValue(runeHandler(Runes.CREATIVE)))
                 .set(1, 2, 2, ECBlocks.RETRIEVER.get().defaultBlockState()
                         .setValue(ISorterBlock.SOURCE, Direction.NORTH)
-                        .setValue(ISorterBlock.TARGET, Direction.DOWN)));
+                        .setValue(ISorterBlock.TARGET, Direction.DOWN))
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> helper.startSequence()
                 .thenExecute(() -> helper.pullLever(0, 2, 0))

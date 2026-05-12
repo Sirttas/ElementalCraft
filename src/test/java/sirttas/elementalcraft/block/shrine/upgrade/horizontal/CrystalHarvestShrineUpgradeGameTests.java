@@ -10,11 +10,11 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.block.ECBlocks;
 import sirttas.elementalcraft.block.shrine.ShrineGameTestHelper;
 import sirttas.elementalcraft.block.shrine.upgrade.ShrineGameUpgradeTests;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -24,7 +24,7 @@ public class CrystalHarvestShrineUpgradeGameTests {
     public static final String TEMPLATE_NAME = "elementalcraft:crystalharvest";
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(23, 4, 23, b -> b
+    public static final Supplier<StructureTemplate> TEMPLATE = ECStructureTemplateBuilder.lazy(23, 4, 23, b -> b
             .fill(0, 0, 0, 22, 0, 22, Blocks.AMETHYST_BLOCK.defaultBlockState())
             .set(13, 1, 11, Blocks.AMETHYST_CLUSTER.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP))
             .set(11, 1, 11, ECBlocks.ORE_SHRINE.get().defaultBlockState())

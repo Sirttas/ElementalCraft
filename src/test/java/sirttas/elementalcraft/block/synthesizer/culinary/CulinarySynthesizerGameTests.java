@@ -7,10 +7,10 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,9 +24,10 @@ public class CulinarySynthesizerGameTests {
     @TestHolder(description = "Checks that the culinary synthesizer generates water from cooked beef.")
     @GameTest
     public static void should_generateWaterFromBeef(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 2, 1)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(1, 2, 1)
                 .set(0, 0, 0, ECBlocks.CONTAINER.get().defaultBlockState())
-                .set(0, 1, 0, ECBlocks.CULINARY_SYNTHESIZER.get().defaultBlockState()));
+                .set(0, 1, 0, ECBlocks.CULINARY_SYNTHESIZER.get().defaultBlockState())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var ticks = new AtomicInteger(0);

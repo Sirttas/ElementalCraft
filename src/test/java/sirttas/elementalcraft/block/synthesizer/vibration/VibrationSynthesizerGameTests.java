@@ -14,10 +14,10 @@ import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.RegisterStructureTemplate;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import java.util.function.Supplier;
 
@@ -31,7 +31,7 @@ public class VibrationSynthesizerGameTests {
     public static final String TEMPLATE_NAME = "elementalcraft:vibration_synthesizer";
 
     @RegisterStructureTemplate(TEMPLATE_NAME)
-    public static final Supplier<StructureTemplate> TEMPLATE = StructureTemplateBuilder.lazy(21, 3, 21,
+    public static final Supplier<StructureTemplate> TEMPLATE = ECStructureTemplateBuilder.lazy(21, 3, 21,
             builder -> builder.fill(0, 0, 0, 20, 0, 20, ECBlocks.WHITE_ROCK_BRICKS.get())
                     .set(10, 1, 10, ECBlocks.CONTAINER.get().defaultBlockState())
                     .set(10, 2, 10, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
@@ -60,10 +60,11 @@ public class VibrationSynthesizerGameTests {
     @TestHolder(description = "Checks that vibration air synthesizer catch a vibration and changes state.")
     @GameTest(timeoutTicks =  200)
     public static void should_catchVibrationAndChangeState(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 2, 3)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(3, 2, 3)
                 .fill(0, 0, 0, 2, 1, 2, Blocks.WHITE_WOOL)
                 .set(1, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
-                .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
+                .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var storage = helper.requireElementContainer(new BlockPos(1, 0, 1));
@@ -91,12 +92,13 @@ public class VibrationSynthesizerGameTests {
     @TestHolder(description = "Checks that vibration air synthesizer prevent multiple synthesizers from synthesizing air from the same vibration.")
     @GameTest(timeoutTicks =  200)
     public static void should_preventMultipleSynthesizersFromSynthesizing(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(4, 2, 3)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(4, 2, 3)
                 .fill(0, 0, 0, 3, 1, 2, Blocks.WHITE_WOOL)
                 .set(1, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
                 .set(2, 0, 1, ECBlocks.CONTAINER.get().defaultBlockState())
                 .set(1, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState())
-                .set(2, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState()));
+                .set(2, 1, 1, ECBlocks.VIBRATION_SYNTHESIZER.get().defaultBlockState())
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var storage1 = helper.requireElementContainer(new BlockPos(1, 0, 1));

@@ -7,10 +7,10 @@ import net.neoforged.testframework.DynamicTest;
 import net.neoforged.testframework.annotation.ForEachTest;
 import net.neoforged.testframework.annotation.TestHolder;
 import net.neoforged.testframework.gametest.GameTest;
-import net.neoforged.testframework.gametest.StructureTemplateBuilder;
 import sirttas.elementalcraft.ECGameTestHelper;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.block.ECBlocks;
+import sirttas.elementalcraft.template.ECStructureTemplateBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,9 +22,10 @@ public class StriderJewelGameTests {
     @GameTest
     @TestHolder(description = "Checks that a player can walk on water with a water strider jewel.")
     public static void should_allowPlayerToWalkOnWater(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 10, 5)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(5, 10, 5)
                 .fill(0, 0, 0, 4, 4, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
-                .fill(1, 1, 1, 3, 4, 3, Blocks.WATER));
+                .fill(1, 1, 1, 3, 4, 3, Blocks.WATER)
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 8, 2), Jewels.WATER_STRIDER);
@@ -43,9 +44,10 @@ public class StriderJewelGameTests {
     @GameTest
     @TestHolder(description = "Checks that a player can walk on lava with a strider jewel.")
     public static void should_allowPlayerToWalkOnLava(DynamicTest test) {
-        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 10, 5)
+        test.registerGameTestTemplate(() -> ECStructureTemplateBuilder.withSize(5, 10, 5)
                 .fill(0, 0, 0, 4, 4, 4, ECBlocks.WHITE_ROCK_BRICKS.get())
-                .fill(1, 1, 1, 3, 4, 3, Blocks.LAVA));
+                .fill(1, 1, 1, 3, 4, 3, Blocks.LAVA)
+                .unpack());
 
         test.onGameTest(ECGameTestHelper.class, helper -> {
             var player = helper.mockPlayerWithJewel(new Vec3(2, 8, 2), Jewels.STRIDER);
