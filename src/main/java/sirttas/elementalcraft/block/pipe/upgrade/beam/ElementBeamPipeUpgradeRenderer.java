@@ -12,7 +12,6 @@ import sirttas.elementalcraft.client.model.SimpleStandaloneModelSupplier;
 import sirttas.elementalcraft.client.renderer.ECRendererHelper;
 import sirttas.elementalcraft.rune.RuneModelResolver;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ElementBeamPipeUpgradeRenderer implements PipeUpgradeRenderer<ElementBeamPipeUpgrade, ElementBeamPipeUpgradeRenderState> {
@@ -71,7 +70,7 @@ public class ElementBeamPipeUpgradeRenderer implements PipeUpgradeRenderer<Eleme
         state.runes.submit(poseStack, submitNodeCollector, state.lightCoords);
     }
 
-    private static void translateRing(float tick, int from, int to, int from2, int to2, @Nonnull PoseStack poseStack) {
+    private static void translateRing(float tick, int from, int to, int from2, int to2, PoseStack poseStack) {
         if (tick < to && tick >= from) {
             poseStack.translate(0, (from - tick) / 100F, 0);
         } else if (tick >= to && tick < from2) {

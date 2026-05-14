@@ -2,6 +2,8 @@ package sirttas.elementalcraft.block.pipe.upgrade;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.TypedInstance;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -34,20 +36,25 @@ import sirttas.elementalcraft.loot.parameter.ECLootContextParams;
 import java.util.Collections;
 import java.util.List;
 
-public class PipeUpgrade extends AttachmentHolder implements ItemLike {
+public class PipeUpgrade extends AttachmentHolder implements ItemLike, TypedInstance<PipeUpgradeType<?>> {
 
     public static final String FOLDER = "elementalcraft/pipe_upgrades";
 
-    private final PipeUpgradeType<?> type;
+    private final Holder<PipeUpgradeType<?>> type;
 
     private final ElementPipeBlockEntity pipe;
     private final Direction direction;
     @Nullable private Item item;
 
-    protected PipeUpgrade(PipeUpgradeType<?> type, ElementPipeBlockEntity pipe, Direction direction) {
+    protected PipeUpgrade(Holder<PipeUpgradeType<?>> type, ElementPipeBlockEntity pipe, Direction direction) {
         this.type = type;
         this.pipe = pipe;
         this.direction = direction;
+    }
+
+    @Override
+    public Holder<PipeUpgradeType<?>> typeHolder() {
+        return type;
     }
 
     @Nullable
@@ -63,7 +70,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
     }
 
     public Identifier getKey() {
-        return type.getKey();
+        return type.getKey().identifier();
     }
 
     public final void load(ValueInput input) {
@@ -88,10 +95,6 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
 
     protected void saveAdditional(ValueOutput output) {
         // for subclasses
-    }
-
-    public PipeUpgradeType<?> getType() {
-        return type;
     }
 
     public Direction getDirection() {
@@ -147,7 +150,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
             return;
         }
 
-        var tableKey = this.type.getLootTable();
+        var tableKey = this.type.value().getLootTable();
         var lootParams = new LootParams.Builder(serverLevel)
                 .withParameter(LootContextParams.BLOCK_STATE, pipe.getBlockState())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pipe.getBlockPos()))
@@ -162,7 +165,7 @@ public class PipeUpgrade extends AttachmentHolder implements ItemLike {
     @Override
     public Item asItem() {
         if (item == null) {
-            item = this.type.asItem();
+            item = this.type.value().asItem();
         }
         return item;
     }

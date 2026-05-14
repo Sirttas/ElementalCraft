@@ -6,11 +6,11 @@ import net.neoforged.neoforge.capabilities.BaseCapability;
 import net.neoforged.neoforge.capabilities.CapabilityRegistry;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.block.pipe.ElementPipeBlockEntity;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeType;
 
-import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +56,8 @@ public class PipeUpgradeCapability<T, C> extends BaseCapability<T, C> {
 
     @ApiStatus.Internal
     @Nullable
-    public T getCapability(PipeUpgrade pipeUpgrade, C context) {
-        for (var provider : providers.getOrDefault(pipeUpgrade.getType(), List.of())) {
+    public T getCapability(PipeUpgrade pipeUpgrade, @Nullable C context) {
+        for (var provider : providers.getOrDefault(pipeUpgrade.typeHolder().value(), List.of())) {
             var ret = provider.getCapability(pipeUpgrade, context);
             if (ret != null)
                 return ret;

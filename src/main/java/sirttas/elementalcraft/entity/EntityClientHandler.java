@@ -34,7 +34,7 @@ import sirttas.elementalcraft.spell.SpellHelper;
 import sirttas.elementalcraft.spell.renderer.SpellRenderState;
 import sirttas.elementalcraft.spell.renderer.SpellRenderer;
 import sirttas.elementalcraft.spell.renderer.SpellRenderers;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 import sirttas.elementalcraft.tag.ECTags;
 
@@ -73,7 +73,7 @@ public class EntityClientHandler {
         state.setRenderData(SPELL_RENDER_STATES, states);
     }
 
-    private static <S extends SpellRenderState> S extractSingleSpellRenderState(Holder<Spell> holder, @Nullable AbstractSpellInstance instance, Entity caster, EntityRenderState entityRenderState) {
+    private static <S extends SpellRenderState> S extractSingleSpellRenderState(Holder<Spell> holder, @Nullable SpellInstance instance, Entity caster, EntityRenderState entityRenderState) {
         var spell = holder.value();
 
         if (!spell.isValid()) {
@@ -151,7 +151,7 @@ public class EntityClientHandler {
         }
 	}
 
-	private static void submitSingleSpellFirstPerson(Holder<Spell> holder, @Nullable AbstractSpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, int packedLight) {
+	private static void submitSingleSpellFirstPerson(Holder<Spell> holder, @Nullable SpellInstance instance, LocalPlayer localPlayer, InteractionHand hand, float partialTicks, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, int packedLight) {
 		var spell = holder.value();
 
         if (!spell.isValid()) {

@@ -16,7 +16,7 @@ public class SpellTickHelper {
         return entity != null ? entity.getCapability(ISpellTickManager.CAPABILITY) : null;
     }
 
-    public static List<AbstractSpellInstance> getSpellInstances(@Nullable Entity entity) {
+    public static List<SpellInstance> getSpellInstances(@Nullable Entity entity) {
         var manager = get(entity);
 
         if (manager == null) {
@@ -48,7 +48,7 @@ public class SpellTickHelper {
     }
 
     @Nullable
-    public static AbstractSpellInstance getSpellInstance(@Nullable Entity entity, Spell spell) {
+    public static SpellInstance getSpellInstance(@Nullable Entity entity, Spell spell) {
         var manager = get(entity);
 
         return manager != null ? manager.getSpellInstance(spell) : null;

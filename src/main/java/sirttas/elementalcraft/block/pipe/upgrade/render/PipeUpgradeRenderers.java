@@ -2,7 +2,6 @@ package sirttas.elementalcraft.block.pipe.upgrade.render;
 
 import com.google.common.collect.ImmutableMap;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.beam.ElementBeamPipeUpgradeRenderer;
 import sirttas.elementalcraft.block.pipe.upgrade.pump.ElementPumpPipeUpgradeRenderer;
@@ -27,7 +26,7 @@ public class PipeUpgradeRenderers {
     private PipeUpgradeRenderers() {}
 
     public static Map<PipeUpgradeType<?>, PipeUpgradeRenderer<?, ?>> createRenderers(PipeUpgradeRendererProvider.Context context) {
-        ImmutableMap.Builder<@NotNull PipeUpgradeType<?>, @NotNull PipeUpgradeRenderer<?, ?>> result = ImmutableMap.builder();
+        ImmutableMap.Builder<PipeUpgradeType<?>, PipeUpgradeRenderer<?, ?>> result = ImmutableMap.builder();
         PROVIDERS.forEach((type, provider) -> {
             try {
                 result.put(type, provider.create(context));
@@ -38,11 +37,11 @@ public class PipeUpgradeRenderers {
         return result.build();
     }
 
-    public static <T extends PipeUpgrade, S extends PipeUpgradeRenderState> void register(DeferredHolder<@NotNull PipeUpgradeType<?>, ? extends @NotNull PipeUpgradeType<T>> type, Supplier<PipeUpgradeRenderer<T, S>> supplier) {
+    public static <T extends PipeUpgrade, S extends PipeUpgradeRenderState> void register(DeferredHolder<PipeUpgradeType<?>, ? extends PipeUpgradeType<T>> type, Supplier<PipeUpgradeRenderer<T, S>> supplier) {
         register(type, c -> supplier.get());
     }
 
-    public static <T extends PipeUpgrade, S extends PipeUpgradeRenderState> void register(DeferredHolder<@NotNull PipeUpgradeType<?>, ? extends @NotNull PipeUpgradeType<T>> type, PipeUpgradeRendererProvider<T, S> provider) {
+    public static <T extends PipeUpgrade, S extends PipeUpgradeRenderState> void register(DeferredHolder<PipeUpgradeType<?>, ? extends PipeUpgradeType<T>> type, PipeUpgradeRendererProvider<T, S> provider) {
         PROVIDERS.put(type.get(), provider);
     }
 }

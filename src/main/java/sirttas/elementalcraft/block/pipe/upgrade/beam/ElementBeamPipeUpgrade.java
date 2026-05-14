@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.capability.ElementalCraftCapabilities;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPathNode;
@@ -22,8 +23,6 @@ import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 import sirttas.elementalcraft.particle.ParticleHelper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +36,13 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
 
     private final RuneHandler runeHandler;
 
+    @Nullable
     private ElementBeamPipeUpgrade other;
 
     private int transfered;
 
     public ElementBeamPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
-        super(PipeUpgradeTypes.ELEMENT_BEAM.get(), pipe, direction);
+        super(PipeUpgradeTypes.ELEMENT_BEAM, pipe, direction);
         runeHandler = new RuneHandler(ECConfig.SERVER.elementBeamMaxRunes.get(), pipe::setChanged);
         transfered = 0;
     }
@@ -157,6 +157,7 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
         return Optional.empty();
     }
 
+    @Nullable
     private ElementBeamPipeUpgrade getOther() {
         if (this.other == null || !this.other.getPipe().isRemoved()) {
             this.other = null;
@@ -170,13 +171,13 @@ public class ElementBeamPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void loadAdditional(@Nonnull ValueInput input) {
+    public void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         input.readChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }
 
     @Override
-    public void saveAdditional(@Nonnull ValueOutput output) {
+    public void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.putChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }

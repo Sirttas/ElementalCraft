@@ -8,7 +8,7 @@ import sirttas.elementalcraft.entity.projectile.FeatherSpike;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.SpellCastResult;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 
 public class FeatherSpikesSpell extends Spell {
 
@@ -30,7 +30,7 @@ public class FeatherSpikesSpell extends Spell {
         return SpellCastResult.PASS;
     }
 
-    private class Instance extends AbstractSpellInstance {
+    private class Instance extends SpellInstance {
 
         private static final int INTERVAL = 10;
 

@@ -27,7 +27,7 @@ import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.SpellRenderer;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 
 import javax.annotation.Nullable;
 
@@ -50,7 +50,7 @@ public class RepairSpellRenderer implements SpellRenderer<RepairSpellRenderState
     }
 
     @Override
-    public void extractRenderState(RepairSpellRenderState state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    public void extractRenderState(RepairSpellRenderState state, Holder<Spell> spell, @Nullable SpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderer.super.extractRenderState(state, spell, instance, caster, hand, partialTicks, lightCoords);
         state.partialTicks = partialTicks;
         state.anvil.clear();

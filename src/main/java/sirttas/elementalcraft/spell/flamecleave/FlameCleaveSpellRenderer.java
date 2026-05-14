@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.spell.Spell;
 import sirttas.elementalcraft.spell.renderer.SpellRenderer;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 
 public class FlameCleaveSpellRenderer implements SpellRenderer<FlameCleaveSpellRenderState> {
 
@@ -31,7 +31,7 @@ public class FlameCleaveSpellRenderer implements SpellRenderer<FlameCleaveSpellR
     }
 
     @Override
-    public void extractRenderState(FlameCleaveSpellRenderState state, Holder<Spell> spell, @Nullable AbstractSpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
+    public void extractRenderState(FlameCleaveSpellRenderState state, Holder<Spell> spell, @Nullable SpellInstance instance, Entity caster, InteractionHand hand, float partialTicks, int lightCoords) {
         SpellRenderer.super.extractRenderState(state, spell, instance, caster, hand, partialTicks, lightCoords);
         state.weapon.clear();
         if (instance == null || !(caster instanceof LivingEntity livingEntity)) {

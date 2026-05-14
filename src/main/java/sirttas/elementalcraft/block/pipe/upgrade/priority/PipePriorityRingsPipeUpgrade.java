@@ -21,7 +21,7 @@ public class PipePriorityRingsPipeUpgrade extends PipeUpgrade {
     ));
 
     public PipePriorityRingsPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
-        super(PipeUpgradeTypes.PIPE_PRIORITY_RINGS.get(), pipe, direction);
+        super(PipeUpgradeTypes.PIPE_PRIORITY_RINGS, pipe, direction);
     }
 
     @Override

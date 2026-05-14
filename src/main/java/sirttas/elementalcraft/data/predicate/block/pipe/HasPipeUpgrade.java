@@ -34,7 +34,7 @@ public record HasPipeUpgrade(PipeUpgradeType<?> type) implements IPipePredicate 
     }
 
     private boolean test(PipeUpgrade upgrade) {
-        return upgrade != null && upgrade.getType() == type;
+        return upgrade != null && upgrade.is(type);
     }
 
     @Override

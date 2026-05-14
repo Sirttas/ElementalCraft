@@ -6,7 +6,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.api.element.ElementType;
 import sirttas.elementalcraft.api.element.transfer.IElementTransferer;
 import sirttas.elementalcraft.api.element.transfer.path.IElementTransferPath;
@@ -22,7 +21,6 @@ import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 import sirttas.elementalcraft.config.ECConfig;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,12 +41,12 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
     private final RuneHandler runeHandler;
 
     public ElementPumpPipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
-        super(PipeUpgradeTypes.ELEMENT_PUMP.get(), pipe, direction);
+        super(PipeUpgradeTypes.ELEMENT_PUMP, pipe, direction);
         runeHandler = new RuneHandler(ECConfig.SERVER.elementPumpMaxRunes.get(), pipe::setChanged);
     }
 
     @Override
-    public IElementTransferPath alterPath(@Nonnull IElementTransferPath path) {
+    public IElementTransferPath alterPath(IElementTransferPath path) {
         return new Path(path);
     }
 
@@ -77,13 +75,13 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void loadAdditional(@Nonnull ValueInput input) {
+    public void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         input.readChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }
 
     @Override
-    public void saveAdditional(@Nonnull ValueOutput output) {
+    public void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.putChild(ECNames.RUNE_HANDLER, getRuneHandler());
     }
@@ -138,7 +136,7 @@ public class ElementPumpPipeUpgrade extends PipeUpgrade {
         }
 
         @Override
-        public @NotNull ElementType getElementType() {
+        public ElementType getElementType() {
             return parent.getElementType();
         }
     }

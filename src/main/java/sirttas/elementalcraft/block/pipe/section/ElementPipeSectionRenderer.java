@@ -45,7 +45,7 @@ public class ElementPipeSectionRenderer {
 
     @SuppressWarnings("unchecked")
     public <T extends PipeUpgrade, S extends PipeUpgradeRenderState> @Nullable PipeUpgradeRenderer<T, S> getRenderer(T pipeUpgrade) {
-        return (PipeUpgradeRenderer<T, S>) this.pipeUpgradeRenderers.get(pipeUpgrade.getType());
+        return (PipeUpgradeRenderer<T, S>) this.pipeUpgradeRenderers.get(pipeUpgrade.typeHolder().value());
     }
 
     @SuppressWarnings("unchecked")

@@ -16,7 +16,7 @@ import java.util.Map;
 public class SpellTickManager implements ISpellTickManager, ValueIOSerializable {
 
     private long tick;
-    private final List<AbstractSpellInstance> spellInstances;
+    private final List<SpellInstance> spellInstances;
     private final Map<Holder<Spell>, SpellCooldown> spellCooldowns;
 
     public SpellTickManager() {
@@ -25,12 +25,12 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
     }
 
     @Override
-    public List<AbstractSpellInstance> getSpellInstances() {
+    public List<SpellInstance> getSpellInstances() {
         return List.copyOf(spellInstances);
     }
 
     @Override
-    public void addSpellInstance(AbstractSpellInstance instance) {
+    public void addSpellInstance(SpellInstance instance) {
         spellInstances.add(instance);
     }
 
@@ -58,12 +58,12 @@ public class SpellTickManager implements ISpellTickManager, ValueIOSerializable 
         if (spellCooldowns.isEmpty()) {
             tick = 0;
         }
-        spellInstances.removeIf(AbstractSpellInstance::isFinished);
+        spellInstances.removeIf(SpellInstance::isFinished);
         spellInstances.forEach(i -> {
             i.tick();
             i.decTick();
         });
-        spellInstances.removeIf(AbstractSpellInstance::isFinished);
+        spellInstances.removeIf(SpellInstance::isFinished);
     }
 
     @Override

@@ -5,8 +5,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import sirttas.elementalcraft.spell.Spell;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
 import sirttas.elementalcraft.spell.tick.ISpellTickManager;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickCooldownPayload;
 
 import java.util.List;
@@ -23,12 +23,12 @@ public class PlayerSpellTickManager implements ISpellTickManager {
 
     @NotNull
     @Override
-    public List<AbstractSpellInstance> getSpellInstances() {
+    public List<SpellInstance> getSpellInstances() {
         return delegate.getSpellInstances();
     }
 
     @Override
-    public void addSpellInstance(AbstractSpellInstance instance) {
+    public void addSpellInstance(SpellInstance instance) {
         delegate.addSpellInstance(instance);
     }
 

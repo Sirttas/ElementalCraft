@@ -2,11 +2,10 @@ package sirttas.elementalcraft.spell.tick;
 
 import net.minecraft.core.Holder;
 import net.neoforged.neoforge.capabilities.EntityCapability;
+import org.jspecify.annotations.Nullable;
 import sirttas.elementalcraft.api.ElementalCraftApi;
 import sirttas.elementalcraft.spell.Spell;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public interface ISpellTickManager {
@@ -14,17 +13,16 @@ public interface ISpellTickManager {
     EntityCapability<ISpellTickManager, Void> CAPABILITY = EntityCapability.createVoid(ElementalCraftApi.identifier("spell_tick_manager"), ISpellTickManager.class);
 
     @Nullable
-    default AbstractSpellInstance getSpellInstance(Spell spell) {
+    default SpellInstance getSpellInstance(Spell spell) {
         return getSpellInstances().stream()
                 .filter(spellInstance -> spellInstance.getSpell().equals(spell))
                 .findFirst()
                 .orElse(null);
     }
 
-    @Nonnull
-    List<AbstractSpellInstance> getSpellInstances();
+    List<SpellInstance> getSpellInstances();
 
-    void addSpellInstance(AbstractSpellInstance instance);
+    void addSpellInstance(SpellInstance instance);
 
     void startCooldown(Holder<Spell> spell);
 

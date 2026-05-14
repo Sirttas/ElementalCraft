@@ -16,7 +16,6 @@ import sirttas.elementalcraft.block.pipe.upgrade.PipeUpgrade;
 import sirttas.elementalcraft.block.pipe.upgrade.type.PipeUpgradeTypes;
 import sirttas.elementalcraft.block.shape.ShapeHelper;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class ElementValvePipeUpgrade extends PipeUpgrade {
@@ -42,7 +41,7 @@ public class ElementValvePipeUpgrade extends PipeUpgrade {
     ));
 
     public ElementValvePipeUpgrade(ElementPipeBlockEntity pipe, Direction direction) {
-        super(PipeUpgradeTypes.ELEMENT_VALVE.get(), pipe, direction);
+        super(PipeUpgradeTypes.ELEMENT_VALVE, pipe, direction);
     }
 
     public boolean isOpen() {
@@ -70,7 +69,7 @@ public class ElementValvePipeUpgrade extends PipeUpgrade {
     }
 
     @Override
-    public void animateTick(@Nonnull Level level, @Nonnull BlockPos pos, @Nonnull RandomSource random) {
+    public void animateTick(Level level, BlockPos pos, RandomSource random) {
         if (!isOpen() && random.nextFloat() < 0.25F) {
             return;
         }

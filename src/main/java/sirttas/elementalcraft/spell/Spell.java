@@ -32,7 +32,7 @@ import sirttas.elementalcraft.entity.EntityHelper;
 import sirttas.elementalcraft.infusion.tool.ToolInfusionHelper;
 import sirttas.elementalcraft.item.ECItems;
 import sirttas.elementalcraft.spell.properties.SpellProperties;
-import sirttas.elementalcraft.spell.tick.AbstractSpellInstance;
+import sirttas.elementalcraft.spell.tick.SpellInstance;
 import sirttas.elementalcraft.spell.tick.SpellTickHelper;
 
 import java.util.function.Consumer;
@@ -111,7 +111,7 @@ public class Spell implements IElementTypeProvider {
 		return SpellCastResult.PASS;
 	}
 
-	public void addSpellInstance(AbstractSpellInstance instance) {
+	public void addSpellInstance(SpellInstance instance) {
 		var manager = SpellTickHelper.get(instance.getCaster());
 
 		if (manager != null) {
@@ -120,11 +120,11 @@ public class Spell implements IElementTypeProvider {
 	}
 
 	public void delay(Entity caster, int delay, Runnable cast) {
-		addSpellInstance(AbstractSpellInstance.delay(caster, this, delay, cast));
+		addSpellInstance(SpellInstance.delay(caster, this, delay, cast));
 	}
 
-	public void effect(Entity caster, int duration, Consumer<AbstractSpellInstance> tick) {
-		addSpellInstance(AbstractSpellInstance.effect(caster, this, duration, tick));
+	public void effect(Entity caster, int duration, Consumer<SpellInstance> tick) {
+		addSpellInstance(SpellInstance.effect(caster, this, duration, tick));
 	}
 
 	public boolean consume(Entity caster, boolean simulate) {
